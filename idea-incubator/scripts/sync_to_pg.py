@@ -1,94 +1,71 @@
 import os
 import sys
 import re
-import json
 import yaml
-import datetime
 import argparse
-import psycopg2
-from psycopg2.extras import Json
+from datetime import datetime
+from sqlalchemy import create_engine, Column, String, Text, DateTime, ARRAY, JSON
+from sqlalchemy.orm import declarative_base, sessionmaker
+from sqlalchemy.dialects.postgresql import JSONB
 
 # --- Configuration ---
-DB_CONFIG = {
-    "dbname": "idea_depot",
-    "user": "root",
-    "password": "15671040800q",
-    "host": "localhost",
-    "port": "5433"
-}
+# 使用 SQLAlchemy 格式的连接串
+# 格式: postgresql://user:password@host:port/dbname
+DB_URL = "postgresql://root:15671040800q@localhost:5433/idea_depot"
 
-def get_db_connection():
-    try:
-        conn = psycopg2.connect(**DB_CONFIG)
-        return conn
-    except Exception as e:
-        print(f"❌ Error connecting to database: {e}")
-        print("💡 Hint: Did you create the database? Try: CREATE DATABASE idea_depot;")
-        sys.exit(1)
+Base = declarative_base()
 
-def init_db():
-    """Create the ideas table if it doesn't exist."""
-    conn = get_db_connection()
-    cur = conn.cursor()
-    
-    # Enable UUID extension if needed, but we use text ID from frontmatter for now
-    
-    create_table_query = """
-    CREATE TABLE IF NOT EXISTS ideas (
-        id TEXT PRIMARY KEY,
-        title TEXT NOT NULL,
-        status TEXT,
-        created_at TIMESTAMP,
-        tags TEXT[], -- Array of text
-        role TEXT,
-        trigger_context TEXT,
-        original_hypothesis TEXT,
-        mvp_scope TEXT,
-        content_raw TEXT,         -- Full Markdown content
-        structured_data JSONB,    -- Parsed sections for RAG/Analysis
-        last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );
-    """
-    
+class Idea(Base):
+    __tablename__ = 'ideas'
+
+    id = Column(String, primary_key=True)
+    title = Column(String, nullable=False)
+    status = Column(String)
+    created_at = Column(DateTime)
+    tags = Column(ARRAY(String))  # 需要数据库支持数组类型，PG支持
+    role = Column(String)
+    trigger_context = Column(Text)
+    original_hypothesis = Column(Text)
+    mvp_scope = Column(Text)
+    content_raw = Column(Text)
+    structured_data = Column(JSONB) # 使用 JSONB 存储结构化数据
+    last_updated = Column(DateTime, default=datetime.now, onupdate=datetime.now)
+
+def init_db(engine):
+    """Create tables if they don't exist."""
     try:
-        cur.execute(create_table_query)
-        conn.commit()
+        Base.metadata.create_all(engine)
         # print("✅ Database schema initialized.")
     except Exception as e:
         print(f"❌ Error initializing schema: {e}")
-        conn.rollback()
-    finally:
-        cur.close()
-        conn.close()
+        sys.exit(1)
 
 def parse_markdown(file_path):
     """
-    Parse the Idea Markdown file to extract Frontmatter and Sections.
+    使用 PyYAML 解析 Frontmatter，使用正则提取正文段落
     """
     with open(file_path, 'r', encoding='utf-8') as f:
         content = f.read()
 
-    # 1. Extract Frontmatter
+    # 1. Extract Frontmatter (PyYAML 的用武之地)
     frontmatter_match = re.match(r'^---\n(.*?)\n---', content, re.DOTALL)
     if not frontmatter_match:
         print(f"⚠️ No frontmatter found in {file_path}")
         return None
     
     fm_text = frontmatter_match.group(1)
-    metadata = yaml.safe_load(fm_text)
+    metadata = yaml.safe_load(fm_text) # PyYAML 在这里把 YAML 字符串转成 Python 字典
     
     # 2. Extract Title
     title_match = re.search(r'^# 💡 Idea: (.+)$', content, re.MULTILINE)
     title = title_match.group(1).strip() if title_match else "Untitled"
 
-    # 3. Extract Sections (Simple Regex for Core fields)
-    # Using regex to capture content between headers
+    # 3. Helper to extract sections
     def extract_section(header):
         pattern = re.compile(rf'## {header}.*?\n(.*?)(?=\n## |\Z)', re.DOTALL)
         match = pattern.search(content)
         return match.group(1).strip() if match else None
 
-    # Specific parsers for key fields to put into columns
     def extract_field(key_pattern, text_block):
         if not text_block: return None
         match = re.search(key_pattern, text_block)
@@ -96,6 +73,8 @@ def parse_markdown(file_path):
 
     core_section = extract_section(r'1\. 核心定义')
     spec_section = extract_section(r'3\. 执行规约')
+    debate_section = extract_section(r'2\. 方案博弈')
+    closing_section = extract_section(r'4\. 落地复盘')
 
     role = extract_field(r'\*\*Role.*?\*\*: (.*)', core_section)
     trigger = extract_field(r'\*\*Trigger.*?\*\*: (.*)', core_section)
@@ -115,66 +94,53 @@ def parse_markdown(file_path):
         "content_raw": content,
         "structured_data": {
             "core": core_section,
-            "debate": extract_section(r'2\. 方案博弈'),
+            "debate": debate_section,
             "spec": spec_section,
-            "closing": extract_section(r'4\. 落地复盘')
+            "closing": closing_section
         }
     }
 
 def sync_file_to_db(file_path):
-    data = parse_markdown(file_path)
-    if not data:
+    # 1. Parse File
+    idea_data = parse_markdown(file_path)
+    if not idea_data:
         return
 
-    conn = get_db_connection()
-    cur = conn.cursor()
-
-    upsert_query = """
-    INSERT INTO ideas (
-        id, title, status, created_at, tags, 
-        role, trigger_context, original_hypothesis, 
-        mvp_scope, content_raw, structured_data, last_updated
-    )
-    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW())
-    ON CONFLICT (id) DO UPDATE SET
-        title = EXCLUDED.title,
-        status = EXCLUDED.status,
-        created_at = EXCLUDED.created_at,
-        tags = EXCLUDED.tags,
-        role = EXCLUDED.role,
-        trigger_context = EXCLUDED.trigger_context,
-        original_hypothesis = EXCLUDED.original_hypothesis,
-        mvp_scope = EXCLUDED.mvp_scope,
-        content_raw = EXCLUDED.content_raw,
-        structured_data = EXCLUDED.structured_data,
-        last_updated = NOW();
-    """
+    # 2. Connect DB
+    engine = create_engine(DB_URL)
+    init_db(engine)
+    Session = sessionmaker(bind=engine)
+    session = Session()
 
     try:
-        cur.execute(upsert_query, (
-            data['id'],
-            data['title'],
-            data['status'],
-            data['created_at'],
-            data['tags'],
-            data['role'],
-            data['trigger'],
-            data['hypothesis'],
-            data['mvp'],
-            data['content_raw'],
-            Json(data['structured_data'])
-        ))
-        conn.commit()
-        print(f"✅ Automatically synced to Database: {data['title']} ({data['id']})")
+        # 3. Upsert Logic (Merge in SQLAlchemy automatically handles PK conflicts)
+        idea = Idea(
+            id=idea_data['id'],
+            title=idea_data['title'],
+            status=idea_data['status'],
+            created_at=idea_data['created_at'],
+            tags=idea_data['tags'],
+            role=idea_data['role'],
+            trigger_context=idea_data['trigger'],
+            original_hypothesis=idea_data['hypothesis'],
+            mvp_scope=idea_data['mvp'],
+            content_raw=idea_data['content_raw'],
+            structured_data=idea_data['structured_data']
+        )
+        
+        # Merge: 如果主键存在则更新，不存在则插入
+        session.merge(idea)
+        session.commit()
+        print(f"✅ Automatically synced to Database: {idea_data['title']} ({idea_data['id']})")
+        
     except Exception as e:
         print(f"❌ Error syncing to DB: {e}")
-        conn.rollback()
+        session.rollback()
     finally:
-        cur.close()
-        conn.close()
+        session.close()
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Sync Idea Markdown to Postgres")
+    parser = argparse.ArgumentParser(description="Sync Idea Markdown to Database (SQLAlchemy)")
     parser.add_argument("file", help="Path to the .md file")
     args = parser.parse_args()
 
@@ -182,5 +148,4 @@ if __name__ == "__main__":
         print(f"❌ File not found: {args.file}")
         sys.exit(1)
 
-    init_db()  # Ensure table exists
     sync_file_to_db(args.file)
