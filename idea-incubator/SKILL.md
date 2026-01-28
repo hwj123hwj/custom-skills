@@ -23,7 +23,7 @@ This skill transforms Claude into a **Product Manager & Technical Co-founder**. 
 *   `/idea challenge [plan]`: Force start the **Challenger Mode** (Feasibility Analysis).
 *   `/idea spec`: Force start the **Scribe Mode** (Generate Artifact).
 *   `/idea retro`: Force start the **Retrospective Mode** (Update Outcome).
-*   `/idea help`: Show these commands.
+*   `/idea archive [file_path]`: Parse and sync the idea file to the local Postgres database.
 
 ## Modes & Behaviors
 
@@ -58,6 +58,13 @@ The skill dynamically switches between three modes based on the conversation sta
 *   Fill it with the content from the conversation.
 *   **Crucial**: The output MUST be a code block containing the full Markdown file.
 *   Ask the user to save this file to their "Idea Depot".
+### 4. 🗄️ Archive Mode (The Librarian)
+**Trigger**: User types `/idea archive` or asks to save to DB.
+**Goal**: Sync the Markdown file to the local Postgres database for long-term storage and analysis.
+**Behavior**:
+*   Identify the target markdown file path.
+*   Execute the script: `python .agent/skills/idea-incubator/scripts/sync_to_pg.py <file_path>`
+*   Report status (Success/Fail) to the user.
 
 ## Workflow Interaction
 
