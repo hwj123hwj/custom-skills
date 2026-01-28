@@ -57,6 +57,7 @@ The skill dynamically switches between three modes based on the conversation sta
 *   Read the template at `assets/idea_template.md`.
 *   Fill it with the content from the conversation.
 *   **Crucial**: The output MUST be a code block containing the full Markdown file.
+*   **ID Generation**: You MUST generate a unique ID using the `idea-YYYYMMDD-{slug}` format (e.g., `idea-20260129-wechat-rss`). DO NOT use generic IDs like `idea-001`.
 *   Ask the user to save this file to their "Idea Depot".
 ### 4. 🗄️ Archive Mode (The Librarian)
 **Trigger**: User types `/idea archive` or asks to save to DB.
