@@ -1,0 +1,527 @@
+"""
+B站视频知识库构建工具
+功能: 将数据库中的视频文稿转换为向量索引,支持语义搜索
+"""
+
+import os
+import sys
+import asyncio
+import psycopg2
+import httpx
+import argparse
+from datetime import datetime, timedelta
+from typing import List, Optional, Set
+from dotenv import load_dotenv
+import nest_asyncio
+
+# 修复 Windows 控制台编码问题
+if sys.platform == "win32":
+    import io
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
+
+nest_asyncio.apply()
+from llama_index.core import Document, StorageContext, VectorStoreIndex, Settings, load_index_from_storage
+from llama_index.core.embeddings import BaseEmbedding
+from llama_index.core.node_parser import SentenceSplitter
+from llama_index.vector_stores.postgres import PGVectorStore
+from llama_index.llms.openai_like import OpenAILike
+from sqlalchemy import make_url
+
+load_dotenv()
+
+# ================= 自定义 OpenAI 兼容 Embedding 类 =================
+class SiliconFlowEmbedding(BaseEmbedding):
+    """适配硅基流动等 OpenAI 兼容接口的通用 Embedding 类"""
+    model_name: str
+    api_key: str
+    api_base: str
+
+    def __init__(self, model_name: str, api_key: str, api_base: str, **kwargs):
+        super().__init__(model_name=model_name, api_key=api_key, api_base=api_base, **kwargs)
+
+    @classmethod
+    def class_name(cls) -> str:
+        return "SiliconFlowEmbedding"
+
+    def _get_query_embedding(self, query: str) -> List[float]:
+        return asyncio.run(self._aget_query_embedding(query))
+
+    def _get_text_embedding(self, text: str) -> List[float]:
+        return asyncio.run(self._aget_text_embedding(text))
+
+    def _get_text_embeddings(self, texts: List[str]) -> List[List[float]]:
+        return asyncio.run(self._aget_text_embeddings(texts))
+
+    async def _aget_query_embedding(self, query: str) -> List[float]:
+        embeddings = await self._aget_text_embeddings([query])
+        return embeddings[0]
+
+    async def _aget_text_embedding(self, text: str) -> List[float]:
+        embeddings = await self._aget_text_embeddings([text])
+        return embeddings[0]
+
+    async def _aget_text_embeddings(self, texts: List[str]) -> List[List[float]]:
+        # 手动限制每批大小,防止 API 报 413 错误
+        max_batch = 4
+        all_embeddings = []
+
+        url = f"{self.api_base}/embeddings"
+        headers = {"Authorization": f"Bearer {self.api_key}"}
+
+        async with httpx.AsyncClient() as client:
+            for i in range(0, len(texts), max_batch):
+                batch_text = texts[i:i+max_batch]
+                payload = {"model": self.model_name, "input": batch_text}
+
+                response = await client.post(url, json=payload, headers=headers, timeout=60)
+                if response.status_code == 413:
+                    print(f"⚠️ 批次仍过大 ({len(batch_text)}),尝试单条发送...")
+                    # 进一步拆分到 1 条
+                    for single_text in batch_text:
+                        r = await client.post(url, json={"model": self.model_name, "input": [single_text]}, headers=headers)
+                        r.raise_for_status()
+                        all_embeddings.append(r.json()["data"][0]["embedding"])
+                else:
+                    response.raise_for_status()
+                    data = response.json()
+                    all_embeddings.extend([item["embedding"] for item in data["data"]])
+
+        return all_embeddings
+
+# ================= 配置区 =================
+DB_NAME = "media_knowledge_base"
+DB_USER = "root"
+DB_PASS = "15671040800q"
+DB_HOST = "127.0.0.1"
+DB_PORT = "5433"
+
+SILICONFLOW_API_KEY = os.getenv("SILICONFLOW_API_KEY")
+SILICONFLOW_BASE_URL = "https://api.siliconflow.cn/v1"
+EMBED_MODEL_NAME = "BAAI/bge-m3"
+
+LONGMAO_API_KEY = os.getenv("LONGMAO_API_KEY")
+LONGMAO_BASE_URL = os.getenv("LONGMAO_BASE_URL")
+LLM_MODEL_NAME = os.getenv("LONGMAO_MODEL") or "LongCat-Flash-Chat"
+
+# 设置全局 LlamaIndex 配置
+Settings.embed_model = SiliconFlowEmbedding(
+    model_name=EMBED_MODEL_NAME,
+    api_key=SILICONFLOW_API_KEY,
+    api_base=SILICONFLOW_BASE_URL,
+)
+Settings.embed_batch_size = 10  # 提高批处理大小以提升性能
+Settings.llm = OpenAILike(
+    model=LLM_MODEL_NAME,
+    api_key=LONGMAO_API_KEY,
+    api_base=LONGMAO_BASE_URL,
+    is_chat_model=True,
+)
+# 配置文本分块器：将长文本切分为适当大小的块
+Settings.node_parser = SentenceSplitter(
+    chunk_size=512,  # 每块512字符
+    chunk_overlap=50,  # 块之间50字符重叠，保持上下文连贯性
+    paragraph_separator="\n\n",
+)
+
+# ================= 数据库操作函数 =================
+
+def get_db_connection():
+    """获取数据库连接"""
+    return psycopg2.connect(
+        dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST, port=DB_PORT
+    )
+
+def get_indexed_bvids() -> Set[str]:
+    """获取已索引的 BVID 集合"""
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        # 查询 metadata 中的 bvid 字段
+        cur.execute("SELECT DISTINCT metadata_->>'bvid' FROM data_llama_collection WHERE metadata_->>'bvid' IS NOT NULL")
+        rows = cur.fetchall()
+        cur.close()
+        conn.close()
+        return {row[0] for row in rows if row[0]}
+    except Exception as e:
+        print(f"⚠️ 获取已索引列表失败: {e}")
+        return set()
+
+def get_videos_from_db(up_mid: Optional[int] = None, days: Optional[int] = None,
+                      bvids: Optional[List[str]] = None) -> List[tuple]:
+    """
+    从数据库获取视频列表
+
+    Args:
+        up_mid: UP主ID,只获取该UP主的视频
+        days: 天数,只获取最近N天的视频
+        bvids: BVID列表,只获取指定的视频
+
+    Returns:
+        List of (bvid, title, content_text) tuples
+    """
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    # 构建查询条件
+    conditions = ["content_text IS NOT NULL"]
+    params = []
+
+    if up_mid:
+        conditions.append("up_mid = %s")
+        params.append(up_mid)
+
+    if days:
+        date_threshold = datetime.now() - timedelta(days=days)
+        conditions.append("pub_time >= %s")
+        params.append(date_threshold)
+
+    if bvids:
+        placeholders = ",".join(["%s"] * len(bvids))
+        conditions.append(f"bvid IN ({placeholders})")
+        params.extend(bvids)
+
+    sql = f"""
+        SELECT bvid, title, content_text, up_mid
+        FROM bili_video_contents
+        WHERE {' AND '.join(conditions)}
+        ORDER BY pub_time DESC
+    """
+
+    cur.execute(sql, params)
+    rows = cur.fetchall()
+    cur.close()
+    conn.close()
+
+    return rows
+
+def get_index_stats() -> dict:
+    """获取索引统计信息"""
+    stats = {
+        "total_videos": 0,
+        "indexed_videos": 0,
+        "total_docs": 0,
+        "index_size_mb": 0,
+    }
+
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+
+        # 获取数据库中有文稿的视频总数
+        cur.execute("SELECT COUNT(*) FROM bili_video_contents WHERE content_text IS NOT NULL")
+        stats["total_videos"] = cur.fetchone()[0]
+
+        # 获取已索引的视频数（通过 metadata 中的 bvid 统计）
+        cur.execute("SELECT COUNT(DISTINCT metadata_->>'bvid') FROM data_llama_collection WHERE metadata_->>'bvid' IS NOT NULL")
+        stats["indexed_videos"] = cur.fetchone()[0]
+
+        # 获取总文档数(可能一个视频被拆分)
+        cur.execute("SELECT COUNT(*) FROM data_llama_collection")
+        stats["total_docs"] = cur.fetchone()[0]
+
+        # 获取表大小(MB)
+        cur.execute("""
+            SELECT pg_size_pretty(pg_total_relation_size('data_llama_collection')) as size
+        """)
+        size_str = cur.fetchone()[0]
+        # 解析 size 字符串 (如 "1234 MB")
+        try:
+            stats["index_size_mb"] = float(size_str.split()[0])
+        except:
+            pass
+
+        cur.close()
+        conn.close()
+    except Exception as e:
+        print(f"⚠️ 获取统计信息失败: {e}")
+
+    return stats
+
+def clear_index():
+    """清空向量索引"""
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute("DELETE FROM data_llama_collection")
+        deleted = cur.rowcount
+        conn.commit()
+        cur.close()
+        conn.close()
+        print(f"✅ 已清空索引,删除 {deleted} 条记录")
+        return True
+    except Exception as e:
+        print(f"❌ 清空索引失败: {e}")
+        return False
+
+def delete_from_index(bvids: List[str]):
+    """从索引中删除指定视频"""
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        # 使用 metadata 中的 bvid 删除
+        placeholders = ",".join(["%s"] * len(bvids))
+        cur.execute(f"DELETE FROM data_llama_collection WHERE metadata_->>'bvid' IN ({placeholders})", bvids)
+        deleted = cur.rowcount
+        conn.commit()
+        cur.close()
+        conn.close()
+        print(f"✅ 已从索引中删除 {deleted} 条记录")
+        return True
+    except Exception as e:
+        print(f"❌ 删除索引失败: {e}")
+        return False
+
+# ================= 索引构建函数 =================
+
+async def build_index(up_mid: Optional[int] = None, days: Optional[int] = None,
+                    bvids: Optional[List[str]] = None, force_rebuild: bool = False):
+    """构建向量索引
+
+    Args:
+        up_mid: 只索引指定UP主的视频
+        days: 只索引最近N天的视频
+        bvids: 只索引指定的视频列表
+        force_rebuild: 是否强制重建(忽略已存在)
+    """
+
+    # 1. 获取要索引的视频列表
+    print("📥 正在从数据库读取视频列表...")
+    rows = get_videos_from_db(up_mid, days, bvids)
+
+    if not rows:
+        print("❌ 没有找到符合条件的视频")
+        return
+
+    print(f"📊 找到 {len(rows)} 个视频")
+
+    # 2. 获取已索引的 BVID (增量更新)
+    indexed_bvids = set()
+    if not force_rebuild:
+        indexed_bvids = get_indexed_bvids()
+        print(f"✅ 已存在 {len(indexed_bvids)} 个视频的索引")
+
+    # 3. 过滤出需要索引的视频
+    videos_to_index = []
+    skipped = 0
+
+    for bvid, title, content, up_mid in rows:
+        if not force_rebuild and bvid in indexed_bvids:
+            skipped += 1
+        else:
+            videos_to_index.append((bvid, title, content, up_mid))
+
+    if not videos_to_index:
+        print(f"✅ 所有视频已索引,跳过 {skipped} 个")
+        return
+
+    print(f"🔧 准备索引 {len(videos_to_index)} 个新视频 (跳过 {skipped} 个已存在)")
+
+    # 4. 初始化 PGVectorStore
+    vector_store = PGVectorStore.from_params(
+        host=DB_HOST,
+        port=DB_PORT,
+        database=DB_NAME,
+        user=DB_USER,
+        password=DB_PASS,
+        table_name="llama_collection",  # PGVectorStore 会自动加 data_ 前缀
+        embed_dim=1024,
+        perform_setup=False,  # 表已存在，不需要创建
+        hybrid_search=True,  # 启用混合检索（关键词+向量）
+    )
+
+    storage_context = StorageContext.from_defaults(vector_store=vector_store)
+
+    # 5. 批量构建文档
+    print("📝 准备文档...")
+    documents = []
+    for bvid, title, content, up_mid in videos_to_index:
+        doc = Document(
+            text=content,
+            id_=bvid,
+            metadata={
+                "bvid": bvid,
+                "title": title,
+                "up_mid": up_mid or 0,
+                "source": "bilibili"
+            }
+        )
+        documents.append(doc)
+
+    # 6. 批量索引（自动分块）
+    success_count = 0
+    fail_count = 0
+    start_time = datetime.now()
+
+    try:
+        print(f"🚀 开始批量索引 {len(documents)} 个文档（将自动分块）...")
+        index = VectorStoreIndex.from_documents(
+            documents,
+            storage_context=storage_context,
+            show_progress=True  # 显示进度条
+        )
+        success_count = len(documents)
+        print("✅ 批量索引完成")
+    except Exception as e:
+        print(f"❌ 批量索引失败: {e}")
+        print("⚠️ 尝试逐个索引...")
+        # 如果批量失败，降级为逐个索引
+        for i, doc in enumerate(documents, 1):
+            try:
+                title = doc.metadata.get('title', 'Unknown')
+                print(f"[{i}/{len(documents)}] 索引: {title}")
+                temp_index = VectorStoreIndex.from_documents(
+                    [doc],
+                    storage_context=storage_context,
+                    show_progress=False
+                )
+                success_count += 1
+            except Exception as e:
+                print(f"❌ 索引失败 {doc.id_}: {e}")
+                fail_count += 1
+
+    # 7. 显示统计信息
+    elapsed = (datetime.now() - start_time).total_seconds()
+    print("\n" + "=" * 60)
+    print("📈 索引构建完成!")
+    print(f"  ✅ 成功: {success_count}")
+    print(f"  ❌ 失败: {fail_count}")
+    print(f"  ⏭️  跳过: {skipped}")
+    print(f"  ⏱️  耗时: {elapsed:.1f}秒")
+    if success_count > 0:
+        print(f"  📊 平均: {elapsed/success_count:.1f}秒/视频")
+    print("=" * 60)
+
+    # 8. 显示更新后的索引状态
+    print("\n📊 当前索引状态:")
+    show_stats()
+
+def show_stats():
+    """显示索引统计信息"""
+    stats = get_index_stats()
+
+    print(f"  📹 数据库视频总数: {stats['total_videos']}")
+    print(f"  ✅ 已索引视频数: {stats['indexed_videos']}")
+    print(f"  📄 总文档数: {stats['total_docs']}")
+    if stats['index_size_mb'] > 0:
+        print(f"  💾 索引大小: {stats['index_size_mb']:.1f} MB")
+
+    # 计算覆盖率
+    if stats['total_videos'] > 0:
+        coverage = (stats['indexed_videos'] / stats['total_videos']) * 100
+        print(f"  📊 覆盖率: {coverage:.1f}%")
+
+def validate_index():
+    """验证索引是否正常工作"""
+    try:
+        print("\n🔍 验证索引...")
+
+        # 初始化向量存储
+        vector_store = PGVectorStore.from_params(
+            host=DB_HOST,
+            port=DB_PORT,
+            database=DB_NAME,
+            user=DB_USER,
+            password=DB_PASS,
+            table_name="data_llama_collection",
+            embed_dim=1024,
+        )
+
+        storage_context = StorageContext.from_defaults(vector_store=vector_store)
+        index = VectorStoreIndex.from_vector_store(vector_store, storage_context=storage_context)
+
+        # 测试查询
+        query_engine = index.as_query_engine(similarity_top_k=1)
+        response = query_engine.query("测试")
+        print(f"✅ 索引验证成功")
+
+        return True
+    except Exception as e:
+        print(f"❌ 索引验证失败: {e}")
+        return False
+
+# ================= 命令行接口 =================
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="B站视频知识库构建工具",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+使用示例:
+  # 全量构建(增量模式)
+  %(prog)s
+
+  # 查看索引状态
+  %(prog)s --stats
+
+  # 强制重建所有索引
+  %(prog)s --rebuild
+
+  # 只索引指定UP主的视频
+  %(prog)s --up 3546830417693175
+
+  # 只索引最近30天的视频
+  %(prog)s --days 30
+
+  # 只索引指定的视频
+  %(prog)s --bvids BV1xx411c7mD BV1yy411c7mE
+
+  # 组合条件
+  %(prog)s --up 3546830417693175 --days 7
+
+  # 删除指定视频的索引
+  %(prog)s --delete BV1xx411c7mD
+        """
+    )
+
+    parser.add_argument("--stats", action="store_true", help="显示索引统计信息")
+    parser.add_argument("--rebuild", action="store_true", help="清空并重建索引")
+    parser.add_argument("--up", type=int, metavar="UID", help="只索引指定UP主的视频")
+    parser.add_argument("--days", type=int, metavar="N", help="只索引最近N天的视频")
+    parser.add_argument("--bvids", nargs="+", metavar="BVID", help="只索引指定的视频列表")
+    parser.add_argument("--delete", nargs="+", metavar="BVID", help="从索引中删除指定视频")
+    parser.add_argument("--validate", action="store_true", help="验证索引是否正常")
+    parser.add_argument("--force", action="store_true", help="强制重建(忽略已存在的索引)")
+
+    args = parser.parse_args()
+
+    # 显示帮助信息
+    if len(sys.argv) == 1:
+        parser.print_help()
+        return
+
+    # 处理删除操作
+    if args.delete:
+        print(f"🗑️  删除索引: {', '.join(args.delete)}")
+        delete_from_index(args.delete)
+        return
+
+    # 处理统计信息
+    if args.stats:
+        print("📊 索引统计信息:")
+        show_stats()
+        return
+
+    # 处理验证
+    if args.validate:
+        show_stats()
+        validate_index()
+        return
+
+    # 处理重建
+    if args.rebuild:
+        print("🔄 清空并重建索引...")
+        if clear_index():
+            asyncio.run(build_index(force_rebuild=True))
+        return
+
+    # 构建索引(增量或指定范围)
+    asyncio.run(build_index(
+        up_mid=args.up,
+        days=args.days,
+        bvids=args.bvids,
+        force_rebuild=args.force
+    ))
+
+if __name__ == "__main__":
+    main()
