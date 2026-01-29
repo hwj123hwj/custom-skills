@@ -1,17 +1,19 @@
 # /// script
 # requires-python = ">=3.11"
 # dependencies = [
-#     "psycopg2-binary",
+#     "SQLAlchemy",
+#     "psycopg[binary]",
 #     "httpx",
 # ]
 # ///
 
 import os
-import psycopg2
 import httpx
 from typing import List
 import sys
 import io
+from sqlalchemy import create_engine, text
+from sqlalchemy.engine import URL
 
 # 强制 UTF-8 输出
 if sys.platform == "win32":
@@ -46,6 +48,34 @@ DB_CONFIG = {
     "port": "5433"
 }
 
+_ENGINE = None
+
+def get_engine():
+    global _ENGINE
+    if _ENGINE is not None:
+        return _ENGINE
+
+    port = DB_CONFIG.get("port")
+    try:
+        port = int(port) if port is not None else None
+    except (TypeError, ValueError):
+        port = None
+
+    dbname = DB_CONFIG.get("dbname") or DB_CONFIG.get("database")
+
+    _ENGINE = create_engine(
+        URL.create(
+            "postgresql+psycopg",
+            username=DB_CONFIG.get("user"),
+            password=DB_CONFIG.get("password"),
+            host=DB_CONFIG.get("host"),
+            port=port,
+            database=dbname,
+        ),
+        pool_pre_ping=True,
+    )
+    return _ENGINE
+
 # ================= 环境变量增强加载 =================
 def get_env_flexible(key_name, default=None):
     """优先从 os.getenv 获取，如果为空则 Windows 注册表读取，最后 secrets.json"""
@@ -75,22 +105,16 @@ def get_up_hot_content(up_mid: int, top_n: int = 5):
     从数据库中筛选指定 UP 主权值最高的 N 个视频文稿
     权值公式: 点赞*5 + 投币*10 + 播放量
     """
-    conn = psycopg2.connect(**DB_CONFIG)
-    cur = conn.cursor()
-    
-    query = """
+    query = text("""
     SELECT bvid, title, content_text, view_count, like_count, coin_count
     FROM bili_video_contents
-    WHERE up_mid = %s AND content_text IS NOT NULL
+    WHERE up_mid = :up_mid AND content_text IS NOT NULL
     ORDER BY (like_count * 5 + coin_count * 10 + view_count) DESC
-    LIMIT %s;
-    """
-    
-    cur.execute(query, (up_mid, top_n))
-    rows = cur.fetchall()
-    cur.close()
-    conn.close()
-    return rows
+    LIMIT :top_n;
+    """)
+
+    with get_engine().connect() as conn:
+        return conn.execute(query, {"up_mid": up_mid, "top_n": top_n}).fetchall()
 
 def summarize_views(up_name: str, video_contents: List[dict]):
     """调用 LLM 进行核心观点提炼"""
@@ -144,11 +168,13 @@ def main(up_mid_input: str):
     # 从第一条数据尝试获取 UP 名
     up_name = "该UP主"
     try:
-        with psycopg2.connect(**DB_CONFIG) as conn:
-            with conn.cursor() as cur:
-                cur.execute("SELECT up_name FROM bili_video_contents WHERE up_mid = %s LIMIT 1", (up_mid,))
-                res = cur.fetchone()
-                if res: up_name = res[0]
+        with get_engine().connect() as conn:
+            res = conn.execute(
+                text("SELECT up_name FROM bili_video_contents WHERE up_mid = :up_mid LIMIT 1"),
+                {"up_mid": up_mid},
+            ).fetchone()
+            if res:
+                up_name = res[0]
     except Exception:
         pass
 

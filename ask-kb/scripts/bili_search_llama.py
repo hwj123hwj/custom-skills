@@ -6,7 +6,8 @@
 #     "llama-index-llms-openai-like",
 #     "llama-index-embeddings-openai",
 #     "python-dotenv",
-#     "psycopg2-binary",
+#     "SQLAlchemy",
+#     "psycopg[binary]",
 #     "httpx",
 #     "nest_asyncio",
 # ]

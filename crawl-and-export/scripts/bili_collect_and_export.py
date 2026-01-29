@@ -2,7 +2,8 @@
 # requires-python = ">=3.11"
 # dependencies = [
 #     "bilibili-api-python",
-#     "psycopg2-binary",
+#     "SQLAlchemy",
+#     "psycopg[binary]",
 #     "python-dotenv",
 #     "httpx",
 # ]
@@ -16,10 +17,9 @@ import io
 import json
 import httpx
 from dotenv import load_dotenv
-import psycopg2
-from psycopg2 import sql
-from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 import sys
+from sqlalchemy import create_engine, text
+from sqlalchemy.engine import URL
 
 # Bilibili-api 相关导入
 from bilibili_api import user, video, Credential, sync, HEADERS
@@ -37,6 +37,34 @@ DB_CONFIG = {
 }
 # 初始连接库名
 POSTGRES_DB = "postgres"
+
+_ENGINE = None
+
+def _make_db_url(database: str):
+    port = DB_CONFIG.get("port")
+    try:
+        port = int(port) if port is not None else None
+    except (TypeError, ValueError):
+        port = None
+
+    return URL.create(
+        "postgresql+psycopg",
+        username=DB_CONFIG.get("user"),
+        password=DB_CONFIG.get("password"),
+        host=DB_CONFIG.get("host"),
+        port=port,
+        database=database,
+    )
+
+def get_engine():
+    global _ENGINE
+    if _ENGINE is not None:
+        return _ENGINE
+    _ENGINE = create_engine(_make_db_url(DB_CONFIG["database"]), pool_pre_ping=True)
+    return _ENGINE
+
+def _quote_ident(ident: str) -> str:
+    return '\"' + ident.replace('\"', '\"\"') + '\"'
 # ================= 配置加载 =================
 def load_secrets():
     """递归向上查找 secrets.json"""
@@ -111,64 +139,58 @@ credential = Credential(sessdata=SESSDATA, bili_jct=BILI_JCT, buvid3=BUVID3)
 def init_database():
     """初始化数据库和表"""
     # 尝试连接默认库检查目标库是否存在
-    tmp_config = DB_CONFIG.copy()
-    tmp_config["database"] = POSTGRES_DB
-    conn = psycopg2.connect(**tmp_config)
-    conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-    cur = conn.cursor()
-
-    cur.execute("SELECT 1 FROM pg_catalog.pg_database WHERE datname = %s", (DB_CONFIG["database"],))
-    if not cur.fetchone():
-        print(f"创建数据库: {DB_CONFIG['database']}...")
-        cur.execute(sql.SQL("CREATE DATABASE {}").format(sql.Identifier(DB_CONFIG["database"])))
-
-    cur.close()
-    conn.close()
+    admin_engine = create_engine(_make_db_url(POSTGRES_DB), isolation_level="AUTOCOMMIT", pool_pre_ping=True)
+    try:
+        with admin_engine.connect() as conn:
+            exists = conn.execute(
+                text("SELECT 1 FROM pg_catalog.pg_database WHERE datname = :dbname"),
+                {"dbname": DB_CONFIG["database"]},
+            ).first()
+            if not exists:
+                print(f"创建数据库: {DB_CONFIG['database']}...")
+                conn.execute(text(f"CREATE DATABASE {_quote_ident(DB_CONFIG['database'])}"))
+    finally:
+        admin_engine.dispose()
 
     # 创建表
-    conn = psycopg2.connect(**DB_CONFIG)
-    cur = conn.cursor()
-    cur.execute("""
-    CREATE TABLE IF NOT EXISTS bili_video_contents (
-        id SERIAL PRIMARY KEY,
-        bvid VARCHAR(50) UNIQUE NOT NULL,
-        title TEXT,
-        up_name VARCHAR(255),
-        up_mid BIGINT,
-        up_sign TEXT,
-        tid INTEGER,
-        pub_time TIMESTAMP,
-        tags TEXT[],
-        content_text TEXT,
-        organized_content TEXT,
-        summary TEXT,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );
-    """)
-    conn.commit()
-    cur.close()
-    conn.close()
+    with get_engine().begin() as conn:
+        conn.execute(text("""
+        CREATE TABLE IF NOT EXISTS bili_video_contents (
+            id SERIAL PRIMARY KEY,
+            bvid VARCHAR(50) UNIQUE NOT NULL,
+            title TEXT,
+            up_name VARCHAR(255),
+            up_mid BIGINT,
+            up_sign TEXT,
+            tid INTEGER,
+            pub_time TIMESTAMP,
+            tags TEXT[],
+            content_text TEXT,
+            organized_content TEXT,
+            summary TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+        """))
 
 async def check_exists(bvid):
     """检查数据库是否已存在且内容完整"""
     try:
-        conn = psycopg2.connect(**DB_CONFIG)
-        cur = conn.cursor()
-        cur.execute("SELECT 1 FROM bili_video_contents WHERE bvid = %s AND content_text IS NOT NULL", (bvid,))
-        exists = cur.fetchone() is not None
-        cur.close()
-        conn.close()
-        return exists
+        with get_engine().connect() as conn:
+            return (
+                conn.execute(
+                    text("SELECT 1 FROM bili_video_contents WHERE bvid = :bvid AND content_text IS NOT NULL"),
+                    {"bvid": bvid},
+                ).first()
+                is not None
+            )
     except:
         return False
 
 def save_up_to_db(up_data):
     """保存或更新 UP 主信息"""
-    conn = psycopg2.connect(**DB_CONFIG)
-    cur = conn.cursor()
-    query = """
+    query = text("""
     INSERT INTO up_users (mid, name, sign, fans, level, face, last_updated)
-    VALUES (%s, %s, %s, %s, %s, %s, CURRENT_TIMESTAMP)
+    VALUES (:mid, :name, :sign, :fans, :level, :face, CURRENT_TIMESTAMP)
     ON CONFLICT (mid) DO UPDATE SET
         name = EXCLUDED.name,
         sign = EXCLUDED.sign,
@@ -176,23 +198,26 @@ def save_up_to_db(up_data):
         level = EXCLUDED.level,
         face = EXCLUDED.face,
         last_updated = CURRENT_TIMESTAMP;
-    """
-    cur.execute(query, (
-        up_data['mid'], up_data['name'], up_data['sign'],
-        up_data.get('fans', 0), up_data.get('level', 0), up_data.get('face', '')
-    ))
-    conn.commit()
-    cur.close()
-    conn.close()
+    """)
+    with get_engine().begin() as conn:
+        conn.execute(
+            query,
+            {
+                "mid": up_data["mid"],
+                "name": up_data["name"],
+                "sign": up_data["sign"],
+                "fans": up_data.get("fans", 0),
+                "level": up_data.get("level", 0),
+                "face": up_data.get("face", ""),
+            },
+        )
     print(f"UP主 {up_data['name']} (Fans: {up_data.get('fans')}) 信息已更新。")
 
 def save_to_db(data):
     """保存记录到数据库 (视频内容表)"""
-    conn = psycopg2.connect(**DB_CONFIG)
-    cur = conn.cursor()
-    query = """
+    query = text("""
     INSERT INTO bili_video_contents (bvid, title, up_mid, tid, pub_time, tags, content_text)
-    VALUES (%s, %s, %s, %s, %s, %s, %s)
+    VALUES (:bvid, :title, :up_mid, :tid, :pub_time, :tags, :content_text)
     ON CONFLICT (bvid) DO UPDATE SET
         title = EXCLUDED.title,
         up_mid = EXCLUDED.up_mid,
@@ -201,15 +226,20 @@ def save_to_db(data):
         tags = EXCLUDED.tags,
         content_text = EXCLUDED.content_text,
         created_at = CURRENT_TIMESTAMP;
-    """
-    cur.execute(query, (
-        data['bvid'], data['title'], data['up_mid'],
-        data['tid'], data['pub_time'], data['tags'],
-        data['content_text']
-    ))
-    conn.commit()
-    cur.close()
-    conn.close()
+    """)
+    with get_engine().begin() as conn:
+        conn.execute(
+            query,
+            {
+                "bvid": data["bvid"],
+                "title": data["title"],
+                "up_mid": data["up_mid"],
+                "tid": data["tid"],
+                "pub_time": data["pub_time"],
+                "tags": data["tags"],
+                "content_text": data["content_text"],
+            },
+        )
 
 # ================= ASR 逻辑 =================
 
@@ -367,24 +397,22 @@ def export_transcript(query, export_all=False):
         print(f"创建导出目录: {output_dir}")
 
     try:
-        conn = psycopg2.connect(**DB_CONFIG)
-        cur = conn.cursor()
-
         # 判断导出模式
         if export_all or query.lower() == "all":
             # 导出所有视频
-            sql = "SELECT bvid, title, content_text FROM bili_video_contents WHERE content_text IS NOT NULL"
-            cur.execute(sql)
+            stmt = text("SELECT bvid, title, content_text FROM bili_video_contents WHERE content_text IS NOT NULL")
+            params = {}
         elif query.upper().startswith("BV"):
             # BVID 精确搜索
-            sql = "SELECT bvid, title, content_text FROM bili_video_contents WHERE bvid = %s"
-            cur.execute(sql, (query,))
+            stmt = text("SELECT bvid, title, content_text FROM bili_video_contents WHERE bvid = :bvid")
+            params = {"bvid": query}
         else:
             # 标题模糊搜索
-            sql = "SELECT bvid, title, content_text FROM bili_video_contents WHERE title ILIKE %s"
-            cur.execute(sql, (f"%{query}%",))
+            stmt = text("SELECT bvid, title, content_text FROM bili_video_contents WHERE title ILIKE :title")
+            params = {"title": f"%{query}%"}
 
-        results = cur.fetchall()
+        with get_engine().connect() as conn:
+            results = conn.execute(stmt, params).fetchall()
 
         if not results:
             print(f"[错误] 未找到匹配的视频: {query}")
@@ -410,9 +438,7 @@ def export_transcript(query, export_all=False):
 
     except Exception as e:
         print(f"数据库查询失败: {e}")
-    finally:
-        if conn:
-            conn.close()
+        return
 
 # ================= 主程序入口 =================
 

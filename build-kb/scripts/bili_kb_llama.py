@@ -11,7 +11,8 @@ B站视频知识库构建工具
 #     "llama-index-llms-openai-like",
 #     "llama-index-embeddings-openai",
 #     "python-dotenv",
-#     "psycopg2-binary",
+#     "SQLAlchemy",
+#     "psycopg[binary]",
 #     "httpx",
 #     "nest_asyncio",
 # ]
@@ -20,7 +21,6 @@ B站视频知识库构建工具
 import os
 import sys
 import asyncio
-import psycopg2
 import httpx
 import argparse
 from datetime import datetime, timedelta
@@ -28,6 +28,8 @@ from typing import List, Optional, Set
 from dotenv import load_dotenv
 import nest_asyncio
 import json
+from sqlalchemy import bindparam, create_engine, text
+from sqlalchemy.engine import URL
 
 # 修复 Windows 控制台编码问题
 if sys.platform == "win32":
@@ -41,7 +43,6 @@ from llama_index.core.embeddings import BaseEmbedding
 from llama_index.core.node_parser import SentenceSplitter
 from llama_index.vector_stores.postgres import PGVectorStore
 from llama_index.llms.openai_like import OpenAILike
-from sqlalchemy import make_url
 
 load_dotenv()
 
@@ -180,22 +181,41 @@ Settings.node_parser = SentenceSplitter(
 
 # ================= 数据库操作函数 =================
 
-def get_db_connection():
-    """获取数据库连接"""
-    return psycopg2.connect(
-        dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST, port=DB_PORT
+_ENGINE = None
+
+def get_engine():
+    global _ENGINE
+    if _ENGINE is not None:
+        return _ENGINE
+
+    port = DB_PORT
+    try:
+        port = int(port) if port is not None else None
+    except (TypeError, ValueError):
+        port = None
+
+    _ENGINE = create_engine(
+        URL.create(
+            "postgresql+psycopg",
+            username=DB_USER,
+            password=DB_PASS,
+            host=DB_HOST,
+            port=port,
+            database=DB_NAME,
+        ),
+        pool_pre_ping=True,
     )
+    return _ENGINE
 
 def get_indexed_bvids() -> Set[str]:
     """获取已索引的 BVID 集合"""
     try:
-        conn = get_db_connection()
-        cur = conn.cursor()
-        # 查询 metadata 中的 bvid 字段
-        cur.execute("SELECT DISTINCT metadata_->>'bvid' FROM data_llama_collection WHERE metadata_->>'bvid' IS NOT NULL")
-        rows = cur.fetchall()
-        cur.close()
-        conn.close()
+        with get_engine().connect() as conn:
+            rows = conn.execute(
+                text(
+                    "SELECT DISTINCT metadata_->>'bvid' FROM data_llama_collection WHERE metadata_->>'bvid' IS NOT NULL"
+                )
+            ).fetchall()
         return {row[0] for row in rows if row[0]}
     except Exception as e:
         print(f"⚠️ 获取已索引列表失败: {e}")
@@ -214,26 +234,22 @@ def get_videos_from_db(up_mid: Optional[int] = None, days: Optional[int] = None,
     Returns:
         List of (bvid, title, content_text) tuples
     """
-    conn = get_db_connection()
-    cur = conn.cursor()
-
     # 构建查询条件
     conditions = ["content_text IS NOT NULL"]
-    params = []
+    params: dict = {}
 
     if up_mid:
-        conditions.append("up_mid = %s")
-        params.append(up_mid)
+        conditions.append("up_mid = :up_mid")
+        params["up_mid"] = up_mid
 
     if days:
         date_threshold = datetime.now() - timedelta(days=days)
-        conditions.append("pub_time >= %s")
-        params.append(date_threshold)
+        conditions.append("pub_time >= :date_threshold")
+        params["date_threshold"] = date_threshold
 
     if bvids:
-        placeholders = ",".join(["%s"] * len(bvids))
-        conditions.append(f"bvid IN ({placeholders})")
-        params.extend(bvids)
+        conditions.append("bvid IN :bvids")
+        params["bvids"] = bvids
 
     sql = f"""
         SELECT bvid, title, content_text, up_mid
@@ -242,12 +258,12 @@ def get_videos_from_db(up_mid: Optional[int] = None, days: Optional[int] = None,
         ORDER BY pub_time DESC
     """
 
-    cur.execute(sql, params)
-    rows = cur.fetchall()
-    cur.close()
-    conn.close()
+    stmt = text(sql)
+    if bvids:
+        stmt = stmt.bindparams(bindparam("bvids", expanding=True))
 
-    return rows
+    with get_engine().connect() as conn:
+        return conn.execute(stmt, params).fetchall()
 
 def get_index_stats() -> dict:
     """获取索引统计信息"""
@@ -259,34 +275,32 @@ def get_index_stats() -> dict:
     }
 
     try:
-        conn = get_db_connection()
-        cur = conn.cursor()
+        with get_engine().connect() as conn:
+            # 获取数据库中有文稿的视频总数
+            stats["total_videos"] = conn.execute(
+                text("SELECT COUNT(*) FROM bili_video_contents WHERE content_text IS NOT NULL")
+            ).scalar_one()
 
-        # 获取数据库中有文稿的视频总数
-        cur.execute("SELECT COUNT(*) FROM bili_video_contents WHERE content_text IS NOT NULL")
-        stats["total_videos"] = cur.fetchone()[0]
+            # 获取已索引的视频数（通过 metadata 中的 bvid 统计）
+            stats["indexed_videos"] = conn.execute(
+                text(
+                    "SELECT COUNT(DISTINCT metadata_->>'bvid') FROM data_llama_collection WHERE metadata_->>'bvid' IS NOT NULL"
+                )
+            ).scalar_one()
 
-        # 获取已索引的视频数（通过 metadata 中的 bvid 统计）
-        cur.execute("SELECT COUNT(DISTINCT metadata_->>'bvid') FROM data_llama_collection WHERE metadata_->>'bvid' IS NOT NULL")
-        stats["indexed_videos"] = cur.fetchone()[0]
+            # 获取总文档数(可能一个视频被拆分)
+            stats["total_docs"] = conn.execute(text("SELECT COUNT(*) FROM data_llama_collection")).scalar_one()
 
-        # 获取总文档数(可能一个视频被拆分)
-        cur.execute("SELECT COUNT(*) FROM data_llama_collection")
-        stats["total_docs"] = cur.fetchone()[0]
-
-        # 获取表大小(MB)
-        cur.execute("""
-            SELECT pg_size_pretty(pg_total_relation_size('data_llama_collection')) as size
-        """)
-        size_str = cur.fetchone()[0]
+            # 获取表大小(MB)
+            size_str = conn.execute(
+                text("SELECT pg_size_pretty(pg_total_relation_size('data_llama_collection')) as size")
+            ).scalar_one_or_none()
         # 解析 size 字符串 (如 "1234 MB")
         try:
-            stats["index_size_mb"] = float(size_str.split()[0])
+            if size_str:
+                stats["index_size_mb"] = float(size_str.split()[0])
         except:
             pass
-
-        cur.close()
-        conn.close()
     except Exception as e:
         print(f"⚠️ 获取统计信息失败: {e}")
 
@@ -295,13 +309,9 @@ def get_index_stats() -> dict:
 def clear_index():
     """清空向量索引"""
     try:
-        conn = get_db_connection()
-        cur = conn.cursor()
-        cur.execute("DELETE FROM data_llama_collection")
-        deleted = cur.rowcount
-        conn.commit()
-        cur.close()
-        conn.close()
+        with get_engine().begin() as conn:
+            result = conn.execute(text("DELETE FROM data_llama_collection"))
+            deleted = result.rowcount or 0
         print(f"✅ 已清空索引,删除 {deleted} 条记录")
         return True
     except Exception as e:
@@ -311,15 +321,12 @@ def clear_index():
 def delete_from_index(bvids: List[str]):
     """从索引中删除指定视频"""
     try:
-        conn = get_db_connection()
-        cur = conn.cursor()
-        # 使用 metadata 中的 bvid 删除
-        placeholders = ",".join(["%s"] * len(bvids))
-        cur.execute(f"DELETE FROM data_llama_collection WHERE metadata_->>'bvid' IN ({placeholders})", bvids)
-        deleted = cur.rowcount
-        conn.commit()
-        cur.close()
-        conn.close()
+        stmt = text("DELETE FROM data_llama_collection WHERE metadata_->>'bvid' IN :bvids").bindparams(
+            bindparam("bvids", expanding=True)
+        )
+        with get_engine().begin() as conn:
+            result = conn.execute(stmt, {"bvids": bvids})
+            deleted = result.rowcount or 0
         print(f"✅ 已从索引中删除 {deleted} 条记录")
         return True
     except Exception as e:
