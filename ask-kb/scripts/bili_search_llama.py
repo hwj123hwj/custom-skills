@@ -148,20 +148,42 @@ class SiliconFlowRerank(BaseNodePostprocessor):
         return new_nodes
 
 # ================= 配置区 =================
+# ================= 配置加载 =================
+def load_secrets():
+    """递归向上查找 secrets.json"""
+    import json
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    while True:
+        secrets_path = os.path.join(current_dir, "secrets.json")
+        if os.path.exists(secrets_path):
+            try:
+                with open(secrets_path, "r", encoding="utf-8") as f:
+                    return json.load(f)
+            except Exception:
+                return {}
+        
+        parent_dir = os.path.dirname(current_dir)
+        if parent_dir == current_dir:  # 到达根目录
+            return {}
+        current_dir = parent_dir
+
+SECRETS = load_secrets()
+
 DB_NAME = "media_knowledge_base"
 DB_USER = "root"
 DB_PASS = "15671040800q"
 DB_HOST = "127.0.0.1"
 DB_PORT = "5433"
 
-SILICONFLOW_API_KEY = os.getenv("SILICONFLOW_API_KEY")
+# AI 配置从环境变量加载，secrets.json 作为备用
+SILICONFLOW_API_KEY = os.getenv("SILICONFLOW_API_KEY") or SECRETS.get("SILICONFLOW_API_KEY")
 SILICONFLOW_BASE_URL = "https://api.siliconflow.cn/v1"
 EMBED_MODEL_NAME = "BAAI/bge-m3"
 RERANK_MODEL_NAME = "BAAI/bge-reranker-v2-m3"
 
-LONGMAO_API_KEY = os.getenv("LONGMAO_API_KEY")
-LONGMAO_BASE_URL = os.getenv("LONGMAO_BASE_URL")
-LLM_MODEL_NAME = os.getenv("LONGMAO_MODEL") or "LongCat-Flash-Chat"
+LONGMAO_API_KEY = os.getenv("LONGMAO_API_KEY") or SECRETS.get("LONGMAO_API_KEY")
+LONGMAO_BASE_URL = os.getenv("LONGMAO_BASE_URL") or SECRETS.get("LONGMAO_BASE_URL")
+LONGMAO_MODEL = os.getenv("LONGMAO_MODEL") or SECRETS.get("LONGMAO_MODEL") or "LongCat-Flash-Chat"
 
 # 设置全局 LlamaIndex 配置
 Settings.embed_model = SiliconFlowEmbedding(
@@ -171,7 +193,7 @@ Settings.embed_model = SiliconFlowEmbedding(
 )
 Settings.embed_batch_size = 20
 Settings.llm = OpenAILike(
-    model=LLM_MODEL_NAME,
+    model=LONGMAO_MODEL,
     api_key=LONGMAO_API_KEY,
     api_base=LONGMAO_BASE_URL,
     temperature=0.1,

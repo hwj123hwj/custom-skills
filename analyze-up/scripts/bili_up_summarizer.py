@@ -1,6 +1,13 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "psycopg2-binary",
+#     "httpx",
+# ]
+# ///
+
 import os
 import psycopg2
-from dotenv import load_dotenv
 import httpx
 from typing import List
 import sys
@@ -10,9 +17,27 @@ import io
 if sys.platform == "win32":
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
-load_dotenv()
+# ================= 配置加载 =================
+def load_secrets():
+    """递归向上查找 secrets.json"""
+    import json
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    while True:
+        secrets_path = os.path.join(current_dir, "secrets.json")
+        if os.path.exists(secrets_path):
+            try:
+                with open(secrets_path, "r", encoding="utf-8") as f:
+                    return json.load(f)
+            except Exception:
+                return {}
+        
+        parent_dir = os.path.dirname(current_dir)
+        if parent_dir == current_dir:  # 到达根目录
+            return {}
+        current_dir = parent_dir
 
-# ================= 配置区 =================
+SECRETS = load_secrets()
+
 DB_CONFIG = {
     "dbname": "media_knowledge_base",
     "user": "root",
@@ -21,9 +46,10 @@ DB_CONFIG = {
     "port": "5433"
 }
 
-LONGMAO_API_KEY = os.getenv("LONGMAO_API_KEY")
-LONGMAO_BASE_URL = os.getenv("LONGMAO_BASE_URL")
-LLM_MODEL_NAME = os.getenv("LONGMAO_MODEL") or "LongCat-Flash-Chat"
+# 优先从环境变量加载，secrets.json 作为备用
+LONGMAO_API_KEY = os.getenv("LONGMAO_API_KEY") or SECRETS.get("LONGMAO_API_KEY")
+LONGMAO_BASE_URL = os.getenv("LONGMAO_BASE_URL") or SECRETS.get("LONGMAO_BASE_URL")
+LONGMAO_MODEL = os.getenv("LONGMAO_MODEL") or SECRETS.get("LONGMAO_MODEL") or "LongCat-Flash-Chat"
 
 def get_up_hot_content(up_mid: int, top_n: int = 5):
     """
@@ -71,7 +97,7 @@ def summarize_views(up_name: str, video_contents: List[dict]):
 
     headers = {"Authorization": f"Bearer {LONGMAO_API_KEY}"}
     payload = {
-        "model": LLM_MODEL_NAME,
+        "model": LONGMAO_MODEL,
         "messages": [{"role": "user", "content": prompt}],
         "temperature": 0.7
     }

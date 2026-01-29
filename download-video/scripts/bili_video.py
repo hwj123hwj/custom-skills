@@ -1,17 +1,47 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "requests",
+#     "beautifulsoup4",
+# ]
+# ///
+
 import json
 import os
 import re
 import subprocess
 
-from dotenv import load_dotenv
-
-load_dotenv()
 
 import requests
 from bs4 import BeautifulSoup
 
 # video_bvid 是一个从外部得到的单个视频ID
+# video_bvid 是一个从外部得到的单个视频ID
 video_bvid = os.getenv("BVID")
+
+def load_secrets_bilibili_cookie():
+    """向上查找 secrets.json 并提取 Cookie 字符串"""
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    while True:
+        secrets_path = os.path.join(current_dir, "secrets.json")
+        if os.path.exists(secrets_path):
+            try:
+                with open(secrets_path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    # 优先返回拼接好的完整 Cookie 字符串
+                    if data.get("BILIBILI_COOKIE"):
+                        return data["BILIBILI_COOKIE"]
+                    # 否则尝试拼接 SESSDATA
+                    if data.get("SESSDATA"):
+                        return f"SESSDATA={data['SESSDATA']}; bili_jct={data.get('BILI_JCT','')}"
+            except:
+                pass
+        parent = os.path.dirname(current_dir)
+        if parent == current_dir: break
+        current_dir = parent
+    return os.getenv("BILIBILI_COOKIE")
+
+BILIBILI_COOKIE = load_secrets_bilibili_cookie()
 
 # =========================   从B站下载视频和音频，然后进行合并  ================================
 class BilibiliVideoAudio:
@@ -22,7 +52,7 @@ class BilibiliVideoAudio:
             "origin": "https://search.bilibili.com",
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0',
             'Accept-Encoding': 'gzip, deflate, br',
-            'Cookie': os.getenv("BILIBILI_COOKIE")
+            'Cookie': BILIBILI_COOKIE
         }
 
     def get_video_audio(self):

@@ -27,22 +27,48 @@ DB_CONFIG = {
 }
 # 初始连接库名
 POSTGRES_DB = "postgres"
+# ================= 配置加载 =================
+def load_secrets():
+    """递归向上查找 secrets.json"""
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    while True:
+        secrets_path = os.path.join(current_dir, "secrets.json")
+        if os.path.exists(secrets_path):
+            try:
+                with open(secrets_path, "r", encoding="utf-8") as f:
+                    return json.load(f)
+            except Exception:
+                return {}
+        
+        parent_dir = os.path.dirname(current_dir)
+        if parent_dir == current_dir:  # 到达根目录
+            return {}
+        current_dir = parent_dir
 
-SILICONFLOW_API_KEY = os.getenv("SILICONFLOW_API_KEY")
-# bilibili-api 建议使用 SESSDATA, BILI_JCT, BUVID3
-SESSDATA = os.getenv("SESSDATA") or os.getenv("BILIBILI_COOKIE_SESSDATA")
-BILI_JCT = os.getenv("BILI_JCT")
-BUVID3 = os.getenv("BUVID3")
+SECRETS = load_secrets()
 
-# 如果用户只提供了一个 BILIBILI_COOKIE 字符串，尝试解析 (辅助逻辑)
-if not SESSDATA and os.getenv("BILIBILI_COOKIE"):
-    cookie_str = os.getenv("BILIBILI_COOKIE")
-    sess_match = re.search(r'SESSDATA=([^;]+)', cookie_str)
-    jct_match = re.search(r'bili_jct=([^;]+)', cookie_str)
-    buv_match = re.search(r'buvid3=([^;]+)', cookie_str)
+# 优先从 secrets.json 获取完整 Cookie 字符串
+BILIBILI_COOKIE = SECRETS.get("BILIBILI_COOKIE") or os.getenv("BILIBILI_COOKIE")
+
+# 从完整 Cookie 中解析 SESSDATA, BILI_JCT, BUVID3
+SESSDATA = ""
+BILI_JCT = ""
+BUVID3 = ""
+
+if BILIBILI_COOKIE:
+    sess_match = re.search(r'SESSDATA=([^;]+)', BILIBILI_COOKIE)
+    jct_match = re.search(r'bili_jct=([^;]+)', BILIBILI_COOKIE)
+    buv_match = re.search(r'buvid3=([^;]+)', BILIBILI_COOKIE)
     if sess_match: SESSDATA = sess_match.group(1)
     if jct_match: BILI_JCT = jct_match.group(1)
     if buv_match: BUVID3 = buv_match.group(1)
+
+# AI API Key 依然从环境变量加载 (用户偏好)
+SILICONFLOW_API_KEY = os.getenv("SILICONFLOW_API_KEY")
+
+# 检查必要的 Cookie 是否存在
+if not SESSDATA or not BILI_JCT:
+    print("⚠️ 警告: 未能在 secrets.json 或 环境变量的 BILIBILI_COOKIE 中解析出 SESSDATA 或 BILI_JCT。B站相关功能可能会受限。")
 
 # 创建凭证
 credential = Credential(sessdata=SESSDATA, bili_jct=BILI_JCT, buvid3=BUVID3)
