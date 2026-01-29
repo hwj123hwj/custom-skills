@@ -1,3 +1,12 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "SQLAlchemy",
+#     "psycopg[binary]",
+#     "PyYAML",
+# ]
+# ///
+
 import os
 import sys
 import re
