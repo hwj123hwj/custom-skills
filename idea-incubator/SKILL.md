@@ -64,7 +64,7 @@ The skill dynamically switches between three modes based on the conversation sta
 **Goal**: Sync the Markdown file to the local Postgres database for long-term storage and analysis.
 **Behavior**:
 *   Identify the target markdown file path.
-*   Execute the script: `python .agent/skills/idea-incubator/scripts/sync_to_pg.py <file_path>`
+*   Execute the script: `uv run .agent/skills/idea-incubator/scripts/sync_to_pg.py <file_path>`
 *   Report status (Success/Fail) to the user.
 
 ## Workflow Interaction

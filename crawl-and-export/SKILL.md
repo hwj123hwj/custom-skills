@@ -24,27 +24,27 @@ description: 采集 B 站视频（按 UP/按 BVID）并入库，同时支持从�
 ### 采集 UP 主所有视频
 
 ```bash
-uv run python .claude/skills/crawl-and-export/scripts/bili_collect_and_export.py <UID>
+uv run .claude/skills/crawl-and-export/scripts/bili_collect_and_export.py <UID>
 ```
 
 ### 采集指定视频
 
 ```bash
-uv run python .claude/skills/crawl-and-export/scripts/bili_collect_and_export.py <BVID1> <BVID2> ...
+uv run .claude/skills/crawl-and-export/scripts/bili_collect_and_export.py <BVID1> <BVID2> ...
 ```
 
 ### 导出视频文稿
 
 ```bash
-uv run python .claude/skills/crawl-and-export/scripts/bili_collect_and_export.py export <QUERY>
+uv run .claude/skills/crawl-and-export/scripts/bili_collect_and_export.py export <QUERY>
 ```
 
 #### 导出模式示例
 
 ```bash
-uv run python .claude/skills/crawl-and-export/scripts/bili_collect_and_export.py export BV1xx411c7mD
-uv run python .claude/skills/crawl-and-export/scripts/bili_collect_and_export.py export Python教程
-uv run python .claude/skills/crawl-and-export/scripts/bili_collect_and_export.py export all
+uv run .claude/skills/crawl-and-export/scripts/bili_collect_and_export.py export BV1xx411c7mD
+uv run .claude/skills/crawl-and-export/scripts/bili_collect_and_export.py export Python教程
+uv run .claude/skills/crawl-and-export/scripts/bili_collect_and_export.py export all
 ```
 
 ## 输出结果

@@ -11,35 +11,35 @@ description: 构建/更新 B 站视频知识库向量索引（Embedding + Postgr
 
 ```bash
 # 默认：增量索引新视频
-uv run python .claude/skills/build-kb/scripts/bili_kb_llama.py
+uv run .claude/skills/build-kb/scripts/bili_kb_llama.py
 
 # 查看索引状态
-uv run python .claude/skills/build-kb/scripts/bili_kb_llama.py --stats
+uv run .claude/skills/build-kb/scripts/bili_kb_llama.py --stats
 
 # 清空并重建所有索引
-uv run python .claude/skills/build-kb/scripts/bili_kb_llama.py --rebuild
+uv run .claude/skills/build-kb/scripts/bili_kb_llama.py --rebuild
 
 # 删除指定视频索引
-uv run python .claude/skills/build-kb/scripts/bili_kb_llama.py --delete BV1xx411c7mD
+uv run .claude/skills/build-kb/scripts/bili_kb_llama.py --delete BV1xx411c7mD
 
 # 验证索引
-uv run python .claude/skills/build-kb/scripts/bili_kb_llama.py --validate
+uv run .claude/skills/build-kb/scripts/bili_kb_llama.py --validate
 ```
 
 ## 可选过滤参数
 
 ```bash
 # 只索引特定 UP 主
-uv run python .claude/skills/build-kb/scripts/bili_kb_llama.py --up 123456789
+uv run .claude/skills/build-kb/scripts/bili_kb_llama.py --up 123456789
 
 # 只索引最近 N 天的视频
-uv run python .claude/skills/build-kb/scripts/bili_kb_llama.py --days 30
+uv run .claude/skills/build-kb/scripts/bili_kb_llama.py --days 30
 
 # 只索引指定视频
-uv run python .claude/skills/build-kb/scripts/bili_kb_llama.py --bvids BV1xx411c7mD BV1yy411c7mE
+uv run .claude/skills/build-kb/scripts/bili_kb_llama.py --bvids BV1xx411c7mD BV1yy411c7mE
 
 # 强制重建（忽略已存在）
-uv run python .claude/skills/build-kb/scripts/bili_kb_llama.py --force
+uv run .claude/skills/build-kb/scripts/bili_kb_llama.py --force
 ```
 
 ## 执行流程（概要）

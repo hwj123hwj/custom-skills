@@ -14,7 +14,7 @@ description: 分析指定 B 站 UP 主的核心观点和思维逻辑，基于已
 1. 确认用户提供的目标 UP 主 UID
 2. 执行分析脚本（在项目根目录运行）：
    ```bash
-   uv run python .claude/skills/analyze-up/scripts/bili_up_summarizer.py "<UID>"
+   uv run .claude/skills/analyze-up/scripts/bili_up_summarizer.py "<UID>"
    ```
 3. 脚本将从数据库中调取该 UP 主的所有热门视频文稿
 4. 通过 composite score（权值排序）选出代表作进行深度分析

@@ -16,7 +16,7 @@ description: 下载指定 BVID 的 B 站视频并用 FFmpeg 合并音视频为 M
 1. 确认用户提供的 BVID 列表
 2. 执行下载脚本（在项目根目录运行）：
    ```bash
-   uv run python .claude/skills/download-video/scripts/bili_video.py <BVID_LIST>
+   uv run .claude/skills/download-video/scripts/bili_video.py <BVID_LIST>
    ```
 3. 脚本将自动下载视频流与音频流，并用 FFmpeg 合并为完整 MP4 文件
 

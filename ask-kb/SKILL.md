@@ -14,7 +14,7 @@ description: 对已采集的 B 站视频知识库进行语义检索和问答（�
 1. 确认用户的查询问题或关键词
 2. 执行检索脚本（在项目根目录运行）：
    ```bash
-   uv run python .claude/skills/ask-kb/scripts/bili_search_llama.py "<QUERY>"
+   uv run .claude/skills/ask-kb/scripts/bili_search_llama.py "<QUERY>"
    ```
 3. 脚本将使用向量搜索找到相关的视频片段
 4. 检索结果保存到 `search_context.tmp` 文件
