@@ -3,6 +3,20 @@ B站视频知识库构建工具
 功能: 将数据库中的视频文稿转换为向量索引,支持语义搜索
 """
 
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "llama-index",
+#     "llama-index-vector-stores-postgres",
+#     "llama-index-llms-openai-like",
+#     "llama-index-embeddings-openai",
+#     "python-dotenv",
+#     "psycopg2-binary",
+#     "httpx",
+#     "nest_asyncio",
+# ]
+# ///
+
 import os
 import sys
 import asyncio
@@ -13,6 +27,7 @@ from datetime import datetime, timedelta
 from typing import List, Optional, Set
 from dotenv import load_dotenv
 import nest_asyncio
+import json
 
 # 修复 Windows 控制台编码问题
 if sys.platform == "win32":
@@ -96,13 +111,52 @@ DB_PASS = "15671040800q"
 DB_HOST = "127.0.0.1"
 DB_PORT = "5433"
 
-SILICONFLOW_API_KEY = os.getenv("SILICONFLOW_API_KEY")
+# ================= 环境变量增强加载 =================
+def load_secrets():
+    """递归向上查找 secrets.json"""
+    import json
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    while True:
+        secrets_path = os.path.join(current_dir, "secrets.json")
+        if os.path.exists(secrets_path):
+            try:
+                with open(secrets_path, "r", encoding="utf-8") as f:
+                    return json.load(f)
+            except Exception:
+                return {}
+        
+        parent_dir = os.path.dirname(current_dir)
+        if parent_dir == current_dir:  # 到达根目录
+            return {}
+        current_dir = parent_dir
+
+SECRETS = load_secrets()
+
+def get_env_flexible(key_name, default=None):
+    """优先从 os.getenv 获取，如果为空则 Windows 注册表读取，最后 secrets.json"""
+    val = os.getenv(key_name)
+    if val: return val
+    
+    if sys.platform == "win32":
+        try:
+            import winreg
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"Environment") as key:
+                val, _ = winreg.QueryValueEx(key, key_name)
+                if val: return val
+        except Exception:
+            pass
+            
+    if SECRETS and key_name in SECRETS:
+        return SECRETS[key_name]
+    return default
+
+SILICONFLOW_API_KEY = get_env_flexible("SILICONFLOW_API_KEY")
 SILICONFLOW_BASE_URL = "https://api.siliconflow.cn/v1"
 EMBED_MODEL_NAME = "BAAI/bge-m3"
 
-LONGMAO_API_KEY = os.getenv("LONGMAO_API_KEY")
-LONGMAO_BASE_URL = os.getenv("LONGMAO_BASE_URL")
-LLM_MODEL_NAME = os.getenv("LONGMAO_MODEL") or "LongCat-Flash-Chat"
+LONGMAO_API_KEY = get_env_flexible("LONGMAO_API_KEY")
+LONGMAO_BASE_URL = get_env_flexible("LONGMAO_BASE_URL")
+LLM_MODEL_NAME = get_env_flexible("LONGMAO_MODEL", "LongCat-Flash-Chat")
 
 # 设置全局 LlamaIndex 配置
 Settings.embed_model = SiliconFlowEmbedding(
