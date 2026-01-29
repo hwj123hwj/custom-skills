@@ -1,3 +1,13 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "bilibili-api-python",
+#     "psycopg2-binary",
+#     "python-dotenv",
+#     "httpx",
+# ]
+# ///
+
 import asyncio
 import os
 import re
@@ -63,8 +73,31 @@ if BILIBILI_COOKIE:
     if jct_match: BILI_JCT = jct_match.group(1)
     if buv_match: BUVID3 = buv_match.group(1)
 
-# AI API Key 依然从环境变量加载 (用户偏好)
-SILICONFLOW_API_KEY = os.getenv("SILICONFLOW_API_KEY")
+# ================= 环境变量增强加载 =================
+def get_env_flexible(key_name, default=None):
+    """优先从 os.getenv 获取，如果为空则尝试从 Windows 用户注册表读取（解决终端未刷新问题），最后从 secrets.json 获取"""
+    # 1. 尝试当前进程环境变量
+    val = os.getenv(key_name)
+    if val: return val
+    
+    # 2. 尝试从 Windows 注册表读取 (仅限 Windows)
+    if sys.platform == "win32":
+        try:
+            import winreg
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"Environment") as key:
+                val, _ = winreg.QueryValueEx(key, key_name)
+                if val: return val
+        except Exception:
+            pass
+            
+    # 3. 尝试从 secrets.json 获取
+    if SECRETS and key_name in SECRETS:
+        return SECRETS[key_name]
+        
+    return default
+
+# AI API Key 加载
+SILICONFLOW_API_KEY = get_env_flexible("SILICONFLOW_API_KEY")
 
 # 检查必要的 Cookie 是否存在
 if not SESSDATA or not BILI_JCT:
@@ -187,7 +220,7 @@ async def async_speech_to_text(audio_data: bytes, filename: str):
 
     # 构造 multipart/form-data
     files = {"file": (filename, audio_data, "audio/mpeg")}
-    data = {"model": "FunAudioLLM/SenseVoiceSmall"}
+    data = {"model": "TeleAI/TeleSpeechASR"}
 
     async with httpx.AsyncClient() as client:
         try:

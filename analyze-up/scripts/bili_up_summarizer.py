@@ -46,10 +46,29 @@ DB_CONFIG = {
     "port": "5433"
 }
 
+# ================= 环境变量增强加载 =================
+def get_env_flexible(key_name, default=None):
+    """优先从 os.getenv 获取，如果为空则 Windows 注册表读取，最后 secrets.json"""
+    val = os.getenv(key_name)
+    if val: return val
+    
+    if sys.platform == "win32":
+        try:
+            import winreg
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"Environment") as key:
+                val, _ = winreg.QueryValueEx(key, key_name)
+                if val: return val
+        except Exception:
+            pass
+            
+    if SECRETS and key_name in SECRETS:
+        return SECRETS[key_name]
+    return default
+
 # 优先从环境变量加载，secrets.json 作为备用
-LONGMAO_API_KEY = os.getenv("LONGMAO_API_KEY") or SECRETS.get("LONGMAO_API_KEY")
-LONGMAO_BASE_URL = os.getenv("LONGMAO_BASE_URL") or SECRETS.get("LONGMAO_BASE_URL")
-LONGMAO_MODEL = os.getenv("LONGMAO_MODEL") or SECRETS.get("LONGMAO_MODEL") or "LongCat-Flash-Chat"
+LONGMAO_API_KEY = get_env_flexible("LONGMAO_API_KEY")
+LONGMAO_BASE_URL = get_env_flexible("LONGMAO_BASE_URL")
+LONGMAO_MODEL = get_env_flexible("LONGMAO_MODEL", "LongCat-Flash-Chat")
 
 def get_up_hot_content(up_mid: int, top_n: int = 5):
     """
