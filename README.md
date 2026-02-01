@@ -1,3 +1,56 @@
 # Custom Skills
 
 Collection of specialized AI agent skills.
+
+## Available Skills
+
+### 🎯 analyze-up
+分析指定 B 站 UP 主的核心观点和思维逻辑，基于已采集的视频数据进行 AI 深度分析并生成人格画像报告。
+
+**使用场景**: 总结某 UP 主观点/思维模式与生成画像分析报告
+
+### 🔍 ask-kb
+对已采集的 B 站视频知识库进行语义检索和问答（向量搜索 + 上下文抽取 + 回答）。
+
+**使用场景**: 查找相关视频片段与回答内容相关问题
+
+### 📚 build-kb
+构建/更新 B 站视频知识库向量索引（Embedding + PostgreSQL/pgvector），用于语义检索。
+
+**使用场景**: 首次构建、增量更新、重建/验证索引
+
+### 🕷️ crawl-and-export
+采集 B 站视频（按 UP/按 BVID）并入库，同时支持从数据库导出文稿到 TXT。
+
+**使用场景**: 批量采集、导出文稿与准备知识库数据
+
+### 🎥 download-video
+下载指定 BVID 的 B 站视频并用 FFmpeg 合并音视频为 MP4。
+
+**使用场景**: 离线观看、编辑素材与批量下载
+
+### 💡 idea-incubator
+A specialized CPO + Technical Partner agent that helps users incubate ideas, analyze feasibility, and document specifications.
+
+**使用场景**: 产品孵化、可行性分析、技术方案制定
+
+### 🌐 skill-browser-crawl
+Lightweight browser-based web crawling for practical use cases with JavaScript rendering and markdown extraction.
+
+**使用场景**: 爬取需要 JavaScript 渲染的网页、提取 Markdown 内容、递归爬取文档网站
+
+## Quick Start
+
+All skills can be invoked using the `uv run` command from the project root directory. Each skill has its own `SKILL.md` file with detailed usage instructions.
+
+Example:
+```bash
+uv run .claude/skills/<skill-name>/scripts/<script-name>.py [arguments]
+```
+
+## Requirements
+
+- Python 3.10+
+- [uv](https://github.com/astral-sh/uv) package manager
+- PostgreSQL database (for most skills)
+- API keys configured in `.env` file
