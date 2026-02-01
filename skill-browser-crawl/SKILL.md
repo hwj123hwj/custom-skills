@@ -9,12 +9,12 @@ Lightweight browser-based web crawling for practical use cases. Use when users n
 For crawling a single URL and extracting markdown content:
 
 ```bash
-uv run python .claude/skills/skill-browser-crawl/scripts/basic_crawl.py <url>
+uv run .claude/skills/skill-browser-crawl/scripts/basic_crawl.py <url>
 ```
 
 Example:
 ```bash
-uv run python .claude/skills/skill-browser-crawl/scripts/basic_crawl.py https://example.com
+uv run .claude/skills/skill-browser-crawl/scripts/basic_crawl.py https://example.com
 ```
 
 Output:
@@ -26,19 +26,19 @@ Output:
 For crawling entire documentation sites or multi-page websites:
 
 ```bash
-uv run python .claude/skills/skill-browser-crawl/scripts/deep_crawl.py <base_url> [output_dir]
+uv run .claude/skills/skill-browser-crawl/scripts/deep_crawl.py <base_url> [output_dir]
 ```
 
 Examples:
 ```bash
 # Crawl entire site
-uv run python .claude/skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com
+uv run .claude/skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com
 
 # Crawl with custom output directory
-uv run python .claude/skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com ./my_docs
+uv run .claude/skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com ./my_docs
 
 # Limit to 50 pages
-uv run python .claude/skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com ./docs --max-pages 50
+uv run .claude/skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com ./docs --max-pages 50
 ```
 
 ## Common Options
@@ -47,20 +47,20 @@ uv run python .claude/skills/skill-browser-crawl/scripts/deep_crawl.py https://d
 
 ```bash
 # Exclude certain patterns
-uv run python .claude/skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com --exclude '/api' --exclude '/auth'
+uv run .claude/skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com --exclude '/api' --exclude '/auth'
 
 # Include only certain patterns
-uv run python .claude/skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com --include '/docs/' --include '/guide/'
+uv run .claude/skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com --include '/docs/' --include '/guide/'
 
 # Allow cross-domain crawling
-uv run python .claude/skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com --allow-cross-domain
+uv run .claude/skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com --allow-cross-domain
 ```
 
 ### Concurrency Control
 
 ```bash
 # Set max concurrent requests (default: 5)
-uv run python .claude/skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com --max-concurrent 3
+uv run .claude/skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com --max-concurrent 3
 ```
 
 ## Encoding Issues
