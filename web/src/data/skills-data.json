@@ -1,0 +1,79 @@
+[
+  {
+    "id": "analyze-up",
+    "name": "analyze-up",
+    "description": "分析指定 B 站 UP 主的核心观点和思维逻辑，基于已采集的视频数据进行 AI 深度分析并生成人格画像报告；适用于总结某 UP 主观点/思维模式与生成画像分析报告。",
+    "emoji": "📦",
+    "tags": [
+      "Utility"
+    ],
+    "scenarios": [],
+    "lastUpdated": "2026-02-06T12:44:02.363Z"
+  },
+  {
+    "id": "ask-kb",
+    "name": "ask-kb",
+    "description": "对已采集的 B 站视频知识库进行语义检索和问答（向量搜索 + 上下文抽取 + 回答）；适用于查找相关视频片段与回答内容相关问题。",
+    "emoji": "📦",
+    "tags": [
+      "Utility"
+    ],
+    "scenarios": [],
+    "lastUpdated": "2026-02-06T12:44:02.364Z"
+  },
+  {
+    "id": "build-kb",
+    "name": "build-kb",
+    "description": "构建/更新 B 站视频知识库向量索引（Embedding + PostgreSQL/pgvector），用于语义检索；适用于首次构建、增量更新、重建/验证索引。",
+    "emoji": "📦",
+    "tags": [
+      "Utility"
+    ],
+    "scenarios": [],
+    "lastUpdated": "2026-02-06T12:44:02.366Z"
+  },
+  {
+    "id": "crawl-and-export",
+    "name": "crawl-and-export",
+    "description": "采集 B 站视频（按 UP/按 BVID）并入库，同时支持从数据库导出文稿到 TXT；适用于批量采集、导出文稿与准备知识库数据。",
+    "emoji": "📦",
+    "tags": [
+      "Utility"
+    ],
+    "scenarios": [],
+    "lastUpdated": "2026-02-06T12:44:02.369Z"
+  },
+  {
+    "id": "download-video",
+    "name": "download-video",
+    "description": "下载指定 BVID 的 B 站视频并用 FFmpeg 合并音视频为 MP4；适用于离线观看、编辑素材与批量下载。",
+    "emoji": "📦",
+    "tags": [
+      "Utility"
+    ],
+    "scenarios": [],
+    "lastUpdated": "2026-02-06T12:44:02.372Z"
+  },
+  {
+    "id": "idea-incubator",
+    "name": "idea-incubator",
+    "description": "'A specialized CPO + Technical Partner agent that helps users incubate ideas, analyze feasibility, and document specifications. Use when the user has a new product idea, technical proposal, or \"flash of inspiration\" that needs structure. Supported trigger phrases: \"I have an idea\", \"I want to build...\", or slash commands like /idea.'",
+    "emoji": "📦",
+    "tags": [
+      "Utility"
+    ],
+    "scenarios": [],
+    "lastUpdated": "2026-02-06T12:44:02.374Z"
+  },
+  {
+    "id": "skill-browser-crawl",
+    "name": "Browser-Based Web Crawler",
+    "description": "",
+    "emoji": "📦",
+    "tags": [
+      "Utility"
+    ],
+    "scenarios": [],
+    "lastUpdated": "2026-02-06T12:44:02.377Z"
+  }
+]
