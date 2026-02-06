@@ -2,7 +2,29 @@
 
 Collection of specialized AI agent skills.
 
-## Available Skills
+## 🌐 Custom Skills Hub
+
+We now have a dedicated showcase website for all custom skills!
+
+- **Website**: [Custom Skills Hub](https://custom-skills.pages.dev/) (Deployed on Tencent Cloud EdgeOne)
+- **Features**: Browse skills, search by tags, and view detailed installation guides in a modern UI.
+
+## 📚 Documentation
+
+- [Product Requirements Document (PRD)](custom-skills-hub-prd.md)
+- [Technical Architecture](custom-skills-hub-technical-architecture.md)
+
+## 🛠️ Installation
+
+You can install any skill using the **Skills CLI**:
+
+```bash
+npx skills add https://github.com/hwj123hwj/custom-skills --skill <skill-id>
+```
+
+Replace `<skill-id>` with the name of the skill (e.g., `analyze-up`).
+
+## ✨ Available Skills
 
 ### 🎯 analyze-up
 分析指定 B 站 UP 主的核心观点和思维逻辑，基于已采集的视频数据进行 AI 深度分析并生成人格画像报告。
@@ -39,7 +61,7 @@ Lightweight browser-based web crawling for practical use cases with JavaScript r
 
 **使用场景**: 爬取需要 JavaScript 渲染的网页、提取 Markdown 内容、递归爬取文档网站
 
-## Quick Start
+## 🚀 Developer Guide
 
 All skills can be invoked using the `uv run` command from the project root directory. Each skill has its own `SKILL.md` file with detailed usage instructions.
 
@@ -48,7 +70,7 @@ Example:
 uv run .claude/skills/<skill-name>/scripts/<script-name>.py [arguments]
 ```
 
-## Requirements
+## 📋 Requirements
 
 - Python 3.10+
 - [uv](https://github.com/astral-sh/uv) package manager
