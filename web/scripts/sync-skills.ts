@@ -85,20 +85,35 @@ async function main() {
         
         // Extract Usage Scenarios
         let scenarios: string[] = [];
-        const scenariosRaw = extractSection(content, 'Usage') || extractSection(content, '使用场景') || extractSection(content, 'Usage Scenarios');
+        const scenariosRaw = frontmatter?.scenarios || extractSection(content, 'Usage') || extractSection(content, '使用场景') || extractSection(content, 'Usage Scenarios');
         
-        if (scenariosRaw) {
+        if (typeof scenariosRaw === 'string') {
           scenarios = scenariosRaw
-            .split('\n')
-            .map(line => line.trim().replace(/^-\s*/, ''))
-            .filter(line => line.length > 0 && !line.startsWith('```'));
+            .split(',')
+            .map(s => s.trim().replace(/^\[|\]$/g, '').replace(/^"|"$/g, ''))
+            .filter(s => s.length > 0);
+        } else if (Array.isArray(scenariosRaw)) {
+          scenarios = scenariosRaw;
         }
 
-        // Try to guess emoji based on name or tags (simplified)
-        const emoji = '📦'; 
+        // Try to get emoji from frontmatter
+        const emoji = frontmatter?.emoji || '📦'; 
 
-        // Tags (Can be manual or extracted if format exists)
-        const tags = ['Utility']; 
+        // Tags from frontmatter
+        let tags = ['Utility'];
+        if (frontmatter?.tags) {
+          try {
+            // Handle both "tag1, tag2" and "[tag1, tag2]" formats
+            const tagsStr = frontmatter.tags.trim();
+            if (tagsStr.startsWith('[') && tagsStr.endsWith(']')) {
+              tags = JSON.parse(tagsStr.replace(/'/g, '"'));
+            } else {
+              tags = tagsStr.split(',').map(t => t.trim());
+            }
+          } catch (e) {
+            tags = frontmatter.tags.split(',').map(t => t.trim());
+          }
+        }
 
         // Last Updated (using file stats for simplicity, ideally git log)
         const stats = fs.statSync(skillMdPath);

@@ -8,7 +8,7 @@
       "Utility"
     ],
     "scenarios": [],
-    "lastUpdated": "2026-02-06T12:44:02.363Z"
+    "lastUpdated": "2026-02-07T02:02:17.045Z"
   },
   {
     "id": "ask-kb",
@@ -19,7 +19,24 @@
       "Utility"
     ],
     "scenarios": [],
-    "lastUpdated": "2026-02-06T12:44:02.364Z"
+    "lastUpdated": "2026-02-07T02:02:17.047Z"
+  },
+  {
+    "id": "bjtuo-classroom-query",
+    "name": "bjtuo-classroom-query",
+    "description": "北京交通大学（BJTU）教室课表查询自动化。支持 AI 验证码识别登录、按周次、教学楼、房号查询空闲情况。",
+    "emoji": "🏫",
+    "tags": [
+      "BJTU",
+      "Automation",
+      "Education"
+    ],
+    "scenarios": [
+      "查询自习室",
+      "查看教室课表",
+      "自动化选课参考"
+    ],
+    "lastUpdated": "2026-02-07T14:48:14.611Z"
   },
   {
     "id": "build-kb",
@@ -30,7 +47,7 @@
       "Utility"
     ],
     "scenarios": [],
-    "lastUpdated": "2026-02-06T12:44:02.366Z"
+    "lastUpdated": "2026-02-07T02:02:17.050Z"
   },
   {
     "id": "crawl-and-export",
@@ -41,7 +58,7 @@
       "Utility"
     ],
     "scenarios": [],
-    "lastUpdated": "2026-02-06T12:44:02.369Z"
+    "lastUpdated": "2026-02-07T02:02:17.053Z"
   },
   {
     "id": "download-video",
@@ -52,7 +69,7 @@
       "Utility"
     ],
     "scenarios": [],
-    "lastUpdated": "2026-02-06T12:44:02.372Z"
+    "lastUpdated": "2026-02-07T02:02:17.056Z"
   },
   {
     "id": "idea-incubator",
@@ -63,7 +80,7 @@
       "Utility"
     ],
     "scenarios": [],
-    "lastUpdated": "2026-02-06T12:44:02.374Z"
+    "lastUpdated": "2026-02-07T02:02:17.058Z"
   },
   {
     "id": "skill-browser-crawl",
@@ -74,6 +91,6 @@
       "Utility"
     ],
     "scenarios": [],
-    "lastUpdated": "2026-02-06T12:44:02.377Z"
+    "lastUpdated": "2026-02-07T02:02:17.059Z"
   }
 ]
