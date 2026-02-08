@@ -1,9 +1,6 @@
 ---
 name: idea-incubator
 description: 专业的 CPO + 技术合伙人助手，帮助用户孵化想法、分析可行性并编写技术文档。适用于当你有新产品想法、技术方案或“灵光一现”需要结构化整理时。
-emoji: 💡
-tags: ["Product", "CPO", "Design"]
-scenarios: ["产品孵化", "可行性分析", "技术方案制定", "MVP 定义"]
 ---
 
 # Idea Incubator (想法孵化器)

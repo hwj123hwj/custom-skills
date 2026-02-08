@@ -1,9 +1,6 @@
 ---
 name: bjtuo-classroom-query
-description: 北京交通大学（BJTU）教室课表查询自动化。支持 AI 验证码识别登录、按周次、教学楼、房号查询空闲情况。
-emoji: 🏫
-tags: ["BJTU", "Automation", "Education"]
-scenarios: ["查询教室占用情况"]
+description: 北京交通大学（BJTU）教室课表查询自动化。支持 AI 验证码识别登录、按周次、教学楼、房号查询占用情况。
 ---
 
 # BJTU Classroom Query

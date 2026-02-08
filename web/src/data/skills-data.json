@@ -24,17 +24,13 @@
   {
     "id": "bjtuo-classroom-query",
     "name": "bjtuo-classroom-query",
-    "description": "北京交通大学（BJTU）教室课表查询自动化。支持 AI 验证码识别登录、按周次、教学楼、房号查询空闲情况。",
-    "emoji": "🏫",
+    "description": "北京交通大学（BJTU）教室课表查询自动化。支持 AI 验证码识别登录、按周次、教学楼、房号查询占用情况。",
+    "emoji": "📦",
     "tags": [
-      "BJTU",
-      "Automation",
-      "Education"
+      "Utility"
     ],
-    "scenarios": [
-      "查询教室占用情况"
-    ],
-    "lastUpdated": "2026-02-07T14:48:20.000Z"
+    "scenarios": [],
+    "lastUpdated": "2026-02-08T04:11:56.000Z"
   },
   {
     "id": "build-kb",
@@ -73,36 +69,22 @@
     "id": "idea-incubator",
     "name": "idea-incubator",
     "description": "专业的 CPO + 技术合伙人助手，帮助用户孵化想法、分析可行性并编写技术文档。适用于当你有新产品想法、技术方案或“灵光一现”需要结构化整理时。",
-    "emoji": "💡",
+    "emoji": "📦",
     "tags": [
-      "Product",
-      "CPO",
-      "Design"
+      "Utility"
     ],
-    "scenarios": [
-      "产品孵化",
-      "可行性分析",
-      "技术方案制定",
-      "MVP 定义"
-    ],
+    "scenarios": [],
     "lastUpdated": "2026-02-08T04:02:49.000Z"
   },
   {
     "id": "skill-browser-crawl",
     "name": "skill-browser-crawl",
     "description": "基于浏览器的轻量级网页爬虫。支持 JavaScript 渲染、Markdown 提取，并能递归爬取文档类网站。",
-    "emoji": "🌐",
+    "emoji": "📦",
     "tags": [
-      "Crawler",
-      "Browser",
       "Utility"
     ],
-    "scenarios": [
-      "爬取动态网页",
-      "提取 Markdown 内容",
-      "下载文档网站",
-      "递归抓取"
-    ],
+    "scenarios": [],
     "lastUpdated": "2026-02-08T04:02:49.000Z"
   }
 ]
