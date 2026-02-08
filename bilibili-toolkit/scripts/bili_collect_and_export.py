@@ -28,40 +28,10 @@ from bilibili_api import user, video, Credential, sync, HEADERS
 load_dotenv()
 
 # ================= 配置区 =================
-DB_CONFIG = {
-    "user": "root",
-    "password": "15671040800q",
-    "host": "127.0.0.1",
-    "port": "5433",
-    "database": "media_knowledge_base"
-}
 # 初始连接库名
 POSTGRES_DB = "postgres"
 
 _ENGINE = None
-
-def _make_db_url(database: str):
-    port = DB_CONFIG.get("port")
-    try:
-        port = int(port) if port is not None else None
-    except (TypeError, ValueError):
-        port = None
-
-    return URL.create(
-        "postgresql+psycopg",
-        username=DB_CONFIG.get("user"),
-        password=DB_CONFIG.get("password"),
-        host=DB_CONFIG.get("host"),
-        port=port,
-        database=database,
-    )
-
-def get_engine():
-    global _ENGINE
-    if _ENGINE is not None:
-        return _ENGINE
-    _ENGINE = create_engine(_make_db_url(DB_CONFIG["database"]), pool_pre_ping=True)
-    return _ENGINE
 
 def _quote_ident(ident: str) -> str:
     return '\"' + ident.replace('\"', '\"\"') + '\"'
@@ -135,20 +105,55 @@ if not SESSDATA or not BILI_JCT:
 credential = Credential(sessdata=SESSDATA, bili_jct=BILI_JCT, buvid3=BUVID3)
 
 # ================= 数据库操作 =================
+def get_db_config():
+    """从环境变量或 secrets.json 获取数据库配置"""
+    return {
+        "user": get_env_flexible("DB_USER", "root"),
+        "password": get_env_flexible("DB_PASSWORD", "15671040800q"),
+        "host": get_env_flexible("DB_HOST", "127.0.0.1"),
+        "port": get_env_flexible("DB_PORT", "5433"),
+        "database": get_env_flexible("DB_NAME", "media_knowledge_base")
+    }
+
+def _make_db_url(database: str):
+    config = get_db_config()
+    port = config.get("port")
+    try:
+        port = int(port) if port is not None else None
+    except (TypeError, ValueError):
+        port = None
+
+    return URL.create(
+        "postgresql+psycopg",
+        username=config.get("user"),
+        password=config.get("password"),
+        host=config.get("host"),
+        port=port,
+        database=database,
+    )
+
+def get_engine():
+    global _ENGINE
+    if _ENGINE is not None:
+        return _ENGINE
+    config = get_db_config()
+    _ENGINE = create_engine(_make_db_url(config["database"]), pool_pre_ping=True)
+    return _ENGINE
 
 def init_database():
     """初始化数据库和表"""
+    config = get_db_config()
     # 尝试连接默认库检查目标库是否存在
     admin_engine = create_engine(_make_db_url(POSTGRES_DB), isolation_level="AUTOCOMMIT", pool_pre_ping=True)
     try:
         with admin_engine.connect() as conn:
             exists = conn.execute(
                 text("SELECT 1 FROM pg_catalog.pg_database WHERE datname = :dbname"),
-                {"dbname": DB_CONFIG["database"]},
+                {"dbname": config["database"]},
             ).first()
             if not exists:
-                print(f"创建数据库: {DB_CONFIG['database']}...")
-                conn.execute(text(f"CREATE DATABASE {_quote_ident(DB_CONFIG['database'])}"))
+                print(f"创建数据库: {config['database']}...")
+                conn.execute(text(f"CREATE DATABASE {_quote_ident(config['database'])}"))
     finally:
         admin_engine.dispose()
 

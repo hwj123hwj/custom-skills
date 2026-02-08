@@ -106,12 +106,6 @@ class SiliconFlowEmbedding(BaseEmbedding):
         return all_embeddings
 
 # ================= 配置区 =================
-DB_NAME = "media_knowledge_base"
-DB_USER = "root"
-DB_PASS = "15671040800q"
-DB_HOST = "127.0.0.1"
-DB_PORT = "5433"
-
 # ================= 环境变量增强加载 =================
 def load_secrets():
     """递归向上查找 secrets.json"""
@@ -183,12 +177,23 @@ Settings.node_parser = SentenceSplitter(
 
 _ENGINE = None
 
+def get_db_config():
+    """从环境变量或 secrets.json 获取数据库配置"""
+    return {
+        "dbname": get_env_flexible("DB_NAME", "media_knowledge_base"),
+        "user": get_env_flexible("DB_USER", "root"),
+        "password": get_env_flexible("DB_PASSWORD", "15671040800q"),
+        "host": get_env_flexible("DB_HOST", "127.0.0.1"),
+        "port": get_env_flexible("DB_PORT", "5433")
+    }
+
 def get_engine():
     global _ENGINE
     if _ENGINE is not None:
         return _ENGINE
 
-    port = DB_PORT
+    config = get_db_config()
+    port = config.get("port")
     try:
         port = int(port) if port is not None else None
     except (TypeError, ValueError):
@@ -197,11 +202,11 @@ def get_engine():
     _ENGINE = create_engine(
         URL.create(
             "postgresql+psycopg",
-            username=DB_USER,
-            password=DB_PASS,
-            host=DB_HOST,
+            username=config.get("user"),
+            password=config.get("password"),
+            host=config.get("host"),
             port=port,
-            database=DB_NAME,
+            database=config.get("dbname"),
         ),
         pool_pre_ping=True,
     )
@@ -338,13 +343,8 @@ def delete_from_index(bvids: List[str]):
 async def build_index(up_mid: Optional[int] = None, days: Optional[int] = None,
                     bvids: Optional[List[str]] = None, force_rebuild: bool = False):
     """构建向量索引
-
-    Args:
-        up_mid: 只索引指定UP主的视频
-        days: 只索引最近N天的视频
-        bvids: 只索引指定的视频列表
-        force_rebuild: 是否强制重建(忽略已存在)
     """
+    config = get_db_config()
 
     # 1. 获取要索引的视频列表
     print("📥 正在从数据库读取视频列表...")
@@ -380,11 +380,11 @@ async def build_index(up_mid: Optional[int] = None, days: Optional[int] = None,
 
     # 4. 初始化 PGVectorStore
     vector_store = PGVectorStore.from_params(
-        host=DB_HOST,
-        port=DB_PORT,
-        database=DB_NAME,
-        user=DB_USER,
-        password=DB_PASS,
+        host=config["host"],
+        port=config["port"],
+        database=config["dbname"],
+        user=config["user"],
+        password=config["password"],
         table_name="llama_collection",  # PGVectorStore 会自动加 data_ 前缀
         embed_dim=1024,
         perform_setup=False,  # 表已存在，不需要创建
@@ -476,14 +476,15 @@ def validate_index():
     """验证索引是否正常工作"""
     try:
         print("\n🔍 验证索引...")
+        config = get_db_config()
 
         # 初始化向量存储
         vector_store = PGVectorStore.from_params(
-            host=DB_HOST,
-            port=DB_PORT,
-            database=DB_NAME,
-            user=DB_USER,
-            password=DB_PASS,
+            host=config["host"],
+            port=config["port"],
+            database=config["dbname"],
+            user=config["user"],
+            password=config["password"],
             table_name="data_llama_collection",
             embed_dim=1024,
         )

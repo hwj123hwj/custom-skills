@@ -184,12 +184,6 @@ def load_secrets():
 
 SECRETS = load_secrets()
 
-DB_NAME = "media_knowledge_base"
-DB_USER = "root"
-DB_PASS = "15671040800q"
-DB_HOST = "127.0.0.1"
-DB_PORT = "5433"
-
 # ================= 环境变量增强加载 =================
 def get_env_flexible(key_name, default=None):
     """优先从 os.getenv 获取，如果为空则 Windows 注册表读取，最后 secrets.json"""
@@ -234,6 +228,17 @@ Settings.llm = OpenAILike(
     is_chat_model=True,
 )
 
+# ================= 数据库操作 =================
+def get_db_config():
+    """从环境变量或 secrets.json 获取数据库配置"""
+    return {
+        "dbname": get_env_flexible("DB_NAME", "media_knowledge_base"),
+        "user": get_env_flexible("DB_USER", "root"),
+        "password": get_env_flexible("DB_PASSWORD", "15671040800q"),
+        "host": get_env_flexible("DB_HOST", "127.0.0.1"),
+        "port": get_env_flexible("DB_PORT", "5433")
+    }
+
 async def search_kb(query_str: str, up_mid: Optional[int] = None, 
                    use_query_engine: bool = True, top_k: int = 5):
     """
@@ -245,14 +250,15 @@ async def search_kb(query_str: str, up_mid: Optional[int] = None,
         use_query_engine: 是否使用查询引擎（生成答案），否则只返回原始分片
         top_k: 返回的结果数量
     """
+    config = get_db_config()
     
     # 1. 初始化向量存储连接
     vector_store = PGVectorStore.from_params(
-        host=DB_HOST,
-        port=DB_PORT,
-        database=DB_NAME,
-        user=DB_USER,
-        password=DB_PASS,
+        host=config["host"],
+        port=config["port"],
+        database=config["dbname"],
+        user=config["user"],
+        password=config["password"],
         table_name="llama_collection",  # PGVectorStore 会自动添加 data_ 前缀，成为 data_llama_collection
         embed_dim=1024,
         perform_setup=False,  # 表已存在

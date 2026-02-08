@@ -40,35 +40,37 @@ def load_secrets():
 
 SECRETS = load_secrets()
 
-DB_CONFIG = {
-    "dbname": "media_knowledge_base",
-    "user": "root",
-    "password": "15671040800q",
-    "host": "127.0.0.1",
-    "port": "5433"
-}
-
-_ENGINE = None
+# ================= 数据库操作 =================
+def get_db_config():
+    """从环境变量或 secrets.json 获取数据库配置"""
+    return {
+        "dbname": get_env_flexible("DB_NAME", "media_knowledge_base"),
+        "user": get_env_flexible("DB_USER", "root"),
+        "password": get_env_flexible("DB_PASSWORD", "15671040800q"),
+        "host": get_env_flexible("DB_HOST", "127.0.0.1"),
+        "port": get_env_flexible("DB_PORT", "5433")
+    }
 
 def get_engine():
     global _ENGINE
     if _ENGINE is not None:
         return _ENGINE
 
-    port = DB_CONFIG.get("port")
+    config = get_db_config()
+    port = config.get("port")
     try:
         port = int(port) if port is not None else None
     except (TypeError, ValueError):
         port = None
 
-    dbname = DB_CONFIG.get("dbname") or DB_CONFIG.get("database")
+    dbname = config.get("dbname")
 
     _ENGINE = create_engine(
         URL.create(
             "postgresql+psycopg",
-            username=DB_CONFIG.get("user"),
-            password=DB_CONFIG.get("password"),
-            host=DB_CONFIG.get("host"),
+            username=config.get("user"),
+            password=config.get("password"),
+            host=config.get("host"),
             port=port,
             database=dbname,
         ),
