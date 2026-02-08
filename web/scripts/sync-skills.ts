@@ -1,6 +1,17 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { execSync } from 'child_process';
+
+// Function to get last updated time from git
+function getGitLastUpdated(filePath: string): string | null {
+  try {
+    const gitDate = execSync(`git log -1 --format=%ai -- "${filePath}"`, { encoding: 'utf-8' }).trim();
+    return gitDate ? new Date(gitDate).toISOString() : null;
+  } catch (e) {
+    return null;
+  }
+}
 
 // Get __dirname equivalent in ESM
 const __filename = fileURLToPath(import.meta.url);
@@ -115,9 +126,8 @@ async function main() {
           }
         }
 
-        // Last Updated (using file stats for simplicity, ideally git log)
-        const stats = fs.statSync(skillMdPath);
-        const lastUpdated = stats.mtime.toISOString();
+        // Last Updated (using git log for accuracy)
+        const lastUpdated = getGitLastUpdated(skillMdPath) || fs.statSync(skillMdPath).mtime.toISOString();
 
         skills.push({
           id,
