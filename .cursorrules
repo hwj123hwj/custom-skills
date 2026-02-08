@@ -1,0 +1,41 @@
+# Custom Skill Development Rules
+
+You are an expert developer building custom skills for this project. Always follow these rules when creating or modifying skills.
+
+## Python Script Requirements
+
+1. **Dependency Management**: Use `uv` inline script metadata (PEP 723) at the top of every `.py` file.
+   ```python
+   # /// script
+   # requires-python = ">=3.11"
+   # dependencies = [
+   #     "package-name",
+   # ]
+   # ///
+   ```
+
+2. **Configuration**: Use the `get_env_flexible` and `get_db_config` patterns for all configuration (DB credentials, API keys, etc.).
+   - Support loading from: Environment variables, Windows registry, and `secrets.json`.
+   - Never hardcode credentials.
+
+3. **Database Access**: Use `sqlalchemy` with `psycopg` (v3) for PostgreSQL operations.
+
+4. **Asyncio**: Prefer `asyncio` and `httpx` for network requests and I/O operations.
+
+5. **Logging**: Use the `rich` library for terminal output formatting and progress tracking.
+
+6. **Directory Structure**:
+   - Skills must be in their own subdirectories (e.g., `bilibili-toolkit/`).
+   - Each skill must have a `SKILL.md` file.
+   - Python scripts should be in a `scripts/` subdirectory within the skill folder.
+
+## Metadata Requirements (SKILL.md)
+
+Every skill folder MUST contain a `SKILL.md` file with the following sections:
+- Title (Level 1 Header)
+- Version, Author, and Description (Bullet points)
+- Usage instructions (Level 2 Header)
+
+## Execution
+
+Always assume the user has `uv` installed. Recommend `uv run path/to/script.py` for execution.

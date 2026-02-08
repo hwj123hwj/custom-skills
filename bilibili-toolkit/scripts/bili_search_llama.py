@@ -10,6 +10,7 @@
 #     "psycopg[binary]",
 #     "httpx",
 #     "nest_asyncio",
+#     "rich",
 # ]
 # ///
 
@@ -22,11 +23,17 @@ import logging
 import io
 from typing import List, Optional, Any
 from dotenv import load_dotenv
+from rich.console import Console
+from rich.panel import Panel
+from rich.table import Table
+from rich.markdown import Markdown
 
 # 1. 彻底屏蔽噪音：禁止库日志和警告
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3" # 屏蔽 TensorFlow 警告
 logging.getLogger("llama_index").setLevel(logging.ERROR)
+
+console = Console()
 
 # 2. 基础配置
 nest_asyncio.apply()
@@ -230,25 +237,19 @@ Settings.llm = OpenAILike(
 
 # ================= 数据库操作 =================
 def get_db_config():
-    """从环境变量或 secrets.json 获取数据库配置"""
+    """从环境变量、注册表或 secrets.json 获取数据库配置"""
     return {
         "dbname": get_env_flexible("DB_NAME", "media_knowledge_base"),
         "user": get_env_flexible("DB_USER", "root"),
-        "password": get_env_flexible("DB_PASSWORD", "15671040800q"),
+        "password": get_env_flexible("DB_PASSWORD", ""),
         "host": get_env_flexible("DB_HOST", "127.0.0.1"),
-        "port": get_env_flexible("DB_PORT", "5433")
+        "port": get_env_flexible("DB_PORT", "5432")
     }
 
 async def search_kb(query_str: str, up_mid: Optional[int] = None, 
                    use_query_engine: bool = True, top_k: int = 5):
     """
     在 B 站知识库中进行语义检索
-    
-    Args:
-        query_str: 查询字符串
-        up_mid: 只搜索指定 UP 主的视频
-        use_query_engine: 是否使用查询引擎（生成答案），否则只返回原始分片
-        top_k: 返回的结果数量
     """
     config = get_db_config()
     
@@ -259,10 +260,10 @@ async def search_kb(query_str: str, up_mid: Optional[int] = None,
         database=config["dbname"],
         user=config["user"],
         password=config["password"],
-        table_name="llama_collection",  # PGVectorStore 会自动添加 data_ 前缀，成为 data_llama_collection
+        table_name="llama_collection",
         embed_dim=1024,
-        perform_setup=False,  # 表已存在
-        hybrid_search=True,  # 启用混合检索（关键词 + 语义）
+        perform_setup=False,
+        hybrid_search=True,
     )
     
     # 2. 加载索引
@@ -276,44 +277,45 @@ async def search_kb(query_str: str, up_mid: Optional[int] = None,
         top_n=top_k
     )
     
-    # 4. 配置元数据过滤（如果指定了 UP 主）
+    # 4. 配置元数据过滤
     filters = None
     if up_mid:
         filters = MetadataFilters(
             filters=[ExactMatchFilter(key="up_mid", value=up_mid)]
         )
-        print(f"🔍 只搜索 UP 主 {up_mid} 的视频")
+        console.print(f"[cyan]🔍 只搜索 UP 主 {up_mid} 的视频[/cyan]")
     
     if use_query_engine:
-        # 使用查询引擎（生成答案）
         query_engine = index.as_query_engine(
-            similarity_top_k=20,  # 初始检索 20 条
+            similarity_top_k=20,
             node_postprocessors=[reranker],
-            response_mode=ResponseMode.COMPACT,  # 自动压缩上下文
+            response_mode=ResponseMode.COMPACT,
             filters=filters,
-            vector_store_query_mode=VectorStoreQueryMode.HYBRID,  # 启用混合检索
+            vector_store_query_mode=VectorStoreQueryMode.HYBRID,
         )
         
-        print(f"🔍 正在查询: {query_str}")
+        console.print(f"[bold green]🔍 正在查询:[/bold green] {query_str}")
         response = await query_engine.aquery(query_str)
         
-        # 输出结果
-        print("\n" + "=" * 60)
-        print("🤖 AI 生成的答案:")
-        print("=" * 60)
-        print(response.response)
-        print("\n" + "=" * 60)
-        print(f"📄 相关源文档 ({len(response.source_nodes)} 条):")
-        print("=" * 60)
+        # 使用 rich 输出结果
+        console.print(Panel(Markdown(response.response), title="🤖 AI 生成的答案", border_style="green"))
+        
+        table = Table(title=f"📄 相关源文档 ({len(response.source_nodes)} 条)")
+        table.add_column("Index", style="dim")
+        table.add_column("Title", style="cyan")
+        table.add_column("BVID", style="magenta")
+        table.add_column("Score", style="yellow")
         
         for i, node in enumerate(response.source_nodes, 1):
             metadata = node.metadata
-            print(f"\n[{i}] {metadata.get('title', 'Unknown')}")
-            print(f"    BVID: {metadata.get('bvid', 'N/A')}")
-            print(f"    相关度: {node.score:.4f}")
-            print(f"    内容预览: {node.get_content()[:200]}...")
+            table.add_row(
+                str(i),
+                metadata.get('title', 'Unknown'),
+                metadata.get('bvid', 'N/A'),
+                f"{node.score:.4f}"
+            )
         
-        print("\n<KNOWLEDGE_BASE_END>\n")
+        console.print(table)
         
         # 写入临时文件
         try:
@@ -331,36 +333,36 @@ async def search_kb(query_str: str, up_mid: Optional[int] = None,
                     f.write("---CHUNK_END---\n")
                 f.write("<KNOWLEDGE_BASE_END>\n")
         except Exception as e:
-            print(f"⚠️ 写入临时文件失败: {e}")
+            console.print(f"[red]⚠️ 写入临时文件失败: {e}[/red]")
             
     else:
-        # 只使用检索器（返回原始分片）
         retriever = index.as_retriever(
             similarity_top_k=20,
-            vector_store_query_mode=VectorStoreQueryMode.HYBRID,  # 启用混合检索
-            alpha=0.3,  # 调低 alpha 增加关键词匹配权重 (0为纯关键词, 1为纯语义)
+            vector_store_query_mode=VectorStoreQueryMode.HYBRID,
+            alpha=0.3,
             filters=filters,
         )
         
-        print(f"🔍 正在检索: {query_str}")
+        console.print(f"[bold green]🔍 正在检索:[/bold green] {query_str}")
         nodes = await retriever.aretrieve(query_str)
-        
-        # 执行重排
         reranked_nodes = reranker.postprocess_nodes(nodes, query_bundle=QueryBundle(query_str))
         
-        # 输出结果
-        print("\n" + "=" * 60)
-        print(f"📄 检索结果 ({len(reranked_nodes)} 条):")
-        print("=" * 60)
+        table = Table(title=f"📄 检索结果 ({len(reranked_nodes)} 条)")
+        table.add_column("Index", style="dim")
+        table.add_column("Title", style="cyan")
+        table.add_column("BVID", style="magenta")
+        table.add_column("Score", style="yellow")
         
         for i, node in enumerate(reranked_nodes, 1):
             metadata = node.node.metadata
-            print(f"\n[{i}] {metadata.get('title', 'Unknown')}")
-            print(f"    BVID: {metadata.get('bvid', 'N/A')}")
-            print(f"    相关度: {node.score:.4f}")
-            print(f"    内容预览: {node.node.get_content()[:200]}...")
+            table.add_row(
+                str(i),
+                metadata.get('title', 'Unknown'),
+                metadata.get('bvid', 'N/A'),
+                f"{node.score:.4f}"
+            )
         
-        print("\n<KNOWLEDGE_BASE_END>\n")
+        console.print(table)
         
         # 写入临时文件
         try:

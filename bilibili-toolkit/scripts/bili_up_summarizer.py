@@ -4,6 +4,7 @@
 #     "SQLAlchemy",
 #     "psycopg[binary]",
 #     "httpx",
+#     "rich",
 # ]
 # ///
 
@@ -14,6 +15,11 @@ import sys
 import io
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine import URL
+from rich.console import Console
+from rich.panel import Panel
+from rich.markdown import Markdown
+
+console = Console()
 
 # 强制 UTF-8 输出
 if sys.platform == "win32":
@@ -190,12 +196,12 @@ def main(up_mid_input: str):
     # 2. 调用总结
     summary = summarize_views(up_name, formatted_videos)
     
-    print("\n" + "="*50)
-    print(f"✨ UP主核心观点深度总结 ✨")
-    print("="*50 + "\n")
-    print(summary)
-    print("\n" + "="*50)
-
+    if not summary:
+        console.print("[red]❌ 未能生成总结内容。[/red]")
+        return
+    
+    console.print(Panel(Markdown(summary), title=f"📊 UP 主 {up_mid} 内容总结", border_style="blue"))
+    
     # 3. 写入固定临时文件，供 AI 稳定读取
     try:
         with open("up_analysis_report.tmp", "w", encoding="utf-8") as f:
@@ -205,7 +211,7 @@ def main(up_mid_input: str):
             f.write(summary)
             f.write("\n" + "="*50 + "\n")
     except Exception as e:
-        print(f"写入报告文件失败: {e}")
+        console.print(f"[yellow]⚠️ 写入报告文件失败: {e}[/yellow]")
 
 if __name__ == "__main__":
     import sys

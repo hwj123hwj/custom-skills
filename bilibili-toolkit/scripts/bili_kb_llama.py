@@ -15,6 +15,7 @@ B站视频知识库构建工具
 #     "psycopg[binary]",
 #     "httpx",
 #     "nest_asyncio",
+#     "rich",
 # ]
 # ///
 
@@ -30,6 +31,11 @@ import nest_asyncio
 import json
 from sqlalchemy import bindparam, create_engine, text
 from sqlalchemy.engine import URL
+from rich.console import Console
+from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TaskProgressColumn
+from rich.panel import Panel
+
+console = Console()
 
 # 修复 Windows 控制台编码问题
 if sys.platform == "win32":
@@ -385,16 +391,16 @@ async def build_index(up_mid: Optional[int] = None, days: Optional[int] = None,
         database=config["dbname"],
         user=config["user"],
         password=config["password"],
-        table_name="llama_collection",  # PGVectorStore 会自动加 data_ 前缀
+        table_name="llama_collection",
         embed_dim=1024,
-        perform_setup=False,  # 表已存在，不需要创建
-        hybrid_search=True,  # 启用混合检索（关键词+向量）
+        perform_setup=False,
+        hybrid_search=True,
     )
 
     storage_context = StorageContext.from_defaults(vector_store=vector_store)
 
     # 5. 批量构建文档
-    print("📝 准备文档...")
+    console.print("📝 准备文档...")
     documents = []
     for bvid, title, content, up_mid in videos_to_index:
         doc = Document(
@@ -415,14 +421,24 @@ async def build_index(up_mid: Optional[int] = None, days: Optional[int] = None,
     start_time = datetime.now()
 
     try:
-        print(f"🚀 开始批量索引 {len(documents)} 个文档（将自动分块）...")
-        index = VectorStoreIndex.from_documents(
-            documents,
-            storage_context=storage_context,
-            show_progress=True  # 显示进度条
-        )
+        with Progress(
+            SpinnerColumn(),
+            TextColumn("[progress.description]{task.description}"),
+            BarColumn(),
+            TaskProgressColumn(),
+            console=console
+        ) as progress:
+            task = progress.add_task("[cyan]正在构建索引...", total=len(documents))
+            
+            index = VectorStoreIndex.from_documents(
+                documents, 
+                storage_context=storage_context, 
+                show_progress=False
+            )
+            progress.update(task, advance=len(documents))
+            
         success_count = len(documents)
-        print("✅ 批量索引完成")
+        console.print("[bold green]✅ 批量索引完成[/bold green]")
     except Exception as e:
         print(f"❌ 批量索引失败: {e}")
         print("⚠️ 尝试逐个索引...")

@@ -1,63 +1,39 @@
-# Custom Skills
+# Custom Skills Hub
 
-Collection of specialized AI agent skills.
+本项目是一个用于管理和运行自定义技能（Skills）的中心化仓库。它包含了一系列自动化脚本，可以帮助你处理 B 站视频、分析数据、同步内容等。
 
-## 🌐 Custom Skills Hub
+## 📖 快速开始
 
-We now have a dedicated showcase website for all custom skills!
+### 环境准备
 
-- **Website**: [Custom Skills Hub](https://custom-skills.pages.dev/) (Deployed on Tencent Cloud EdgeOne)
-- **Features**: Browse skills, search by tags, and view detailed installation guides in a modern UI.
+本项目推荐使用 [uv](https://github.com/astral-sh/uv) 进行 Python 依赖管理和脚本运行。
 
-## 📚 Documentation
+1. 安装 `uv`:
+   ```bash
+   powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+   ```
 
-- [Product Requirements Document (PRD)](custom-skills-hub-prd.md)
-- [Technical Architecture](custom-skills-hub-technical-architecture.md)
+2. 运行脚本:
+   ```bash
+   uv run bilibili-toolkit/scripts/bili_video.py
+   ```
 
-## 🛠️ Installation
+## 🛠️ 现有工具集
 
-You can install any skill using the **Skills CLI**:
+### [Bilibili Toolkit](./bilibili-toolkit)
+一站式的 B 站自动化工具箱，包含以下功能：
+- **视频下载**: 自动下载视频和音频并合并。
+- **内容采集与转录**: 采集 UP 主视频列表，利用 Whisper/ASR 进行文稿转录。
+- **知识库构建**: 将视频文稿存入 PostgreSQL 并构建向量索引。
+- **语义搜索**: 基于 LlamaIndex 的混合检索，支持 AI 回答和源文档溯源。
+- **UP 主分析**: 分析 UP 主的核心观点和内容风格。
 
-```bash
-npx skills add https://github.com/hwj123hwj/custom-skills --skill <skill-id>
-```
+## � 开发规范
 
-Replace `<skill-id>` with the name of the skill (e.g., `analyze-up`).
+为了保持代码质量和一致性，所有新技能的开发请参考 [GUIDELINES.md](./GUIDELINES.md)。
 
-## ✨ Available Skills
-
-### 📺 bilibili-toolkit
-B 站综合工具箱。集成视频下载、文稿采集、向量知识库构建、语义检索问答及 UP 主人格画像分析等功能。
-
-**使用场景**: 视频处理、内容采集、知识库管理及深度分析
-
-### 🏫 bjtuo-classroom-query
-北京交通大学（BJTU）教室课表查询自动化。支持 AI 验证码识别登录、按周次、教学楼、房号查询占用情况。
-
-**使用场景**: 查询教室占用情况
-
-### 💡 idea-incubator
-专业的 CPO + 技术合伙人助手，帮助用户孵化想法、分析可行性并编写技术文档。
-
-**使用场景**: 产品孵化、可行性分析、技术方案制定、MVP 定义
-
-### 🌐 skill-browser-crawl
-基于浏览器的轻量级网页爬虫。支持 JavaScript 渲染、Markdown 提取，并能递归爬取文档类网站。
-
-**使用场景**: 爬取动态网页、提取 Markdown 内容、下载文档网站、递归抓取
-
-## 🚀 Developer Guide
-
-All skills can be invoked using the `uv run` command from the project root directory. Each skill has its own `SKILL.md` file with detailed usage instructions.
-
-Example:
-```bash
-uv run .claude/skills/<skill-name>/scripts/<script-name>.py [arguments]
-```
-
-## 📋 Requirements
-
-- Python 3.10+
-- [uv](https://github.com/astral-sh/uv) package manager
-- PostgreSQL database (for most skills)
-- API keys configured in `.env` file
+主要原则：
+- 使用 `uv` 的 PEP 723 内联元数据管理依赖。
+- 统一使用 `get_env_flexible` 加载配置。
+- 优先使用异步 I/O。
+- 使用 `rich` 提供美观的终端输出。
