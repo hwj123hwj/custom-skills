@@ -296,9 +296,6 @@ async def run(semester, week, building, classroom, headless=False):
         except Exception as e:
             print(f"结果解析失败: {e}")
         
-        screenshot_path = "classroom_result.png"
-        await page1.screenshot(path=screenshot_path)
-        print(f"结果截图已保存: {screenshot_path}")
         await browser.close()
 
 if __name__ == "__main__":
