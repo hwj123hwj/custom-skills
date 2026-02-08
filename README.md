@@ -36,6 +36,11 @@ Replace `<skill-id>` with the name of the skill (e.g., `analyze-up`).
 
 **使用场景**: 查找相关视频片段与回答内容相关问题
 
+### 🏫 bjtuo-classroom-query
+北京交通大学（BJTU）教室课表查询自动化。支持 AI 验证码识别登录、按周次、教学楼、房号查询空闲情况。
+
+**使用场景**: 查询自习室、查看教室课表、自动化选课参考
+
 ### 📚 build-kb
 构建/更新 B 站视频知识库向量索引（Embedding + PostgreSQL/pgvector），用于语义检索。
 
