@@ -74,23 +74,37 @@
   {
     "id": "idea-incubator",
     "name": "idea-incubator",
-    "description": "'A specialized CPO + Technical Partner agent that helps users incubate ideas, analyze feasibility, and document specifications. Use when the user has a new product idea, technical proposal, or \"flash of inspiration\" that needs structure. Supported trigger phrases: \"I have an idea\", \"I want to build...\", or slash commands like /idea.'",
-    "emoji": "📦",
+    "description": "专业的 CPO + 技术合伙人助手，帮助用户孵化想法、分析可行性并编写技术文档。适用于当你有新产品想法、技术方案或“灵光一现”需要结构化整理时。",
+    "emoji": "💡",
     "tags": [
-      "Utility"
+      "Product",
+      "CPO",
+      "Design"
     ],
-    "scenarios": [],
-    "lastUpdated": "2026-02-07T02:02:17.058Z"
+    "scenarios": [
+      "产品孵化",
+      "可行性分析",
+      "技术方案制定",
+      "MVP 定义"
+    ],
+    "lastUpdated": "2026-02-08T04:01:53.536Z"
   },
   {
     "id": "skill-browser-crawl",
-    "name": "Browser-Based Web Crawler",
-    "description": "",
-    "emoji": "📦",
+    "name": "skill-browser-crawl",
+    "description": "基于浏览器的轻量级网页爬虫。支持 JavaScript 渲染、Markdown 提取，并能递归爬取文档类网站。",
+    "emoji": "🌐",
     "tags": [
+      "Crawler",
+      "Browser",
       "Utility"
     ],
-    "scenarios": [],
-    "lastUpdated": "2026-02-07T02:02:17.059Z"
+    "scenarios": [
+      "爬取动态网页",
+      "提取 Markdown 内容",
+      "下载文档网站",
+      "递归抓取"
+    ],
+    "lastUpdated": "2026-02-08T04:02:06.213Z"
   }
 ]

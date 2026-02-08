@@ -1,71 +1,79 @@
-# Browser-Based Web Crawler
+---
+name: skill-browser-crawl
+description: 基于浏览器的轻量级网页爬虫。支持 JavaScript 渲染、Markdown 提取，并能递归爬取文档类网站。
+emoji: 🌐
+tags: ["Crawler", "Browser", "Utility"]
+scenarios: ["爬取动态网页", "提取 Markdown 内容", "下载文档网站", "递归抓取"]
+---
 
-Lightweight browser-based web crawling for practical use cases. Use when users need to crawl web pages with JavaScript rendering, extract content as markdown, or recursively crawl documentation sites.
+# Browser-Based Web Crawler (浏览器网页爬虫)
 
-## Quick Start
+一个基于浏览器的轻量级网页爬取工具，专为实际应用场景设计。当用户需要爬取需要 JavaScript 渲染的页面、将内容提取为 Markdown 格式或递归爬取整个文档站点时，请使用此技能。
 
-### Basic Single-Page Crawl
+## 快速开始
 
-For crawling a single URL and extracting markdown content:
+### 基础单页爬取
+
+用于爬取单个 URL 并提取其 Markdown 内容：
 
 ```bash
 uv run .claude/skills/skill-browser-crawl/scripts/basic_crawl.py <url>
 ```
 
-Example:
+示例：
 ```bash
 uv run .claude/skills/skill-browser-crawl/scripts/basic_crawl.py https://example.com
 ```
 
-Output:
-- `output.md` - Page content in markdown format
-- `screenshot.png` - Page screenshot
+输出：
+- `output.md` - Markdown 格式的页面内容
+- `screenshot.png` - 页面截图
 
-### Deep Recursive Crawl
+### 深度递归爬取
 
-For crawling entire documentation sites or multi-page websites:
+用于爬取整个文档站点或多页网站：
 
 ```bash
 uv run .claude/skills/skill-browser-crawl/scripts/deep_crawl.py <base_url> [output_dir]
 ```
 
-Examples:
+示例：
 ```bash
-# Crawl entire site
+# 爬取整个站点
 uv run .claude/skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com
 
-# Crawl with custom output directory
+# 爬取并指定输出目录
 uv run .claude/skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com ./my_docs
 
-# Limit to 50 pages
+# 限制最多爬取 50 页
 uv run .claude/skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com ./docs --max-pages 50
 ```
 
-## Common Options
+## 常用选项
 
-### Deep Crawl Filtering
+### 深度爬取过滤
 
 ```bash
-# Exclude certain patterns
+# 排除特定路径模式
 uv run .claude/skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com --exclude '/api' --exclude '/auth'
 
-# Include only certain patterns
+# 仅包含特定路径模式
 uv run .claude/skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com --include '/docs/' --include '/guide/'
 
-# Allow cross-domain crawling
+# 允许跨域爬取
 uv run .claude/skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com --allow-cross-domain
 ```
 
-### Concurrency Control
+### 并发控制
 
 ```bash
-# Set max concurrent requests (default: 5)
+# 设置最大并发请求数（默认：5）
 uv run .claude/skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com --max-concurrent 3
 ```
 
-## Encoding Issues
+## 编码问题
 
-If you encounter encoding errors on Windows, the scripts include automatic UTF-8 fixes. For manual script execution, ensure:
+如果在 Windows 上遇到编码错误，脚本已内置自动 UTF-8 修复。对于手动脚本执行，请确保：
 
 ```python
 import os
@@ -76,39 +84,27 @@ if sys.platform == 'win32':
     sys.stdout = codecs.getwriter('utf-8')(sys.stdout.buffer, 'strict')
 ```
 
-## Dependencies
+## 依赖项
 
-Required packages (auto-installed by uv):
+所需的 Python 包（由 uv 自动安装）：
 - `crawl4ai>=0.7.4`
 
-## When to Use
+## 适用场景
 
-- Crawl JavaScript-heavy websites that require browser rendering
-- Extract content as markdown from web pages
-- Download entire documentation sites for offline use
-- Crawl multi-page content with filtering options
-- Simple web scraping without complex extraction strategies
+- 爬取需要浏览器渲染的高度依赖 JavaScript 的网站
+- 从网页中提取内容并保存为 Markdown
+- 下载整个文档站点供离线使用
+- 带有过滤选项的多页内容抓取
+- 无需复杂提取策略的简单网页抓取
 
-## When NOT to Use
+## 不适用场景
 
-- For complex data extraction with CSS selectors/XPath (use original crawl4ai skill)
-- For LLM-based content extraction (use original crawl4ai skill)
-- For advanced features like proxy rotation, authentication hooks (use original crawl4ai skill)
+- 使用 CSS 选择器/XPath 进行复杂的数据提取（请使用原始 crawl4ai 技能）
+- 基于 LLM 的内容提取（请使用原始 crawl4ai 技能）
+- 代理池切换、身份验证挂钩等高级功能（请使用原始 crawl4ai 技能）
 
-## Output Format
+## 输出格式
 
-Basic crawl produces:
-- `output.md` - Markdown formatted content
-- `screenshot.png` - Page screenshot
-
-Deep crawl produces:
-- Directory structure matching URL paths
-- Each page saved as `.md` file
-- Example: `https://docs.example.com/api/reference` → `./docs/api/reference.md`
-
-## Technical Notes
-
-- Uses Playwright browser automation for JavaScript rendering
-- Automatically removes overlay elements (modals, cookies, popups)
-- Waits for page load before extracting content
-- Handles dynamic content and lazy loading
+基础爬取会生成：
+- **Markdown**: 转换后的页面正文。
+- **截图**: 页面加载完成后的视觉快照。
