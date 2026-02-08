@@ -1,440 +1,312 @@
-#!/usr/bin/env python3
-"""
-Beijing Jiaotong University Classroom Query Script
-
-This script uses Playwright to query classroom schedules at BJTU.
-It supports querying by week, building, room, and time period.
-"""
-
+# /// script
+# requires-python = ">=3.12"
+# dependencies = [
+#     "playwright",
+#     "openai",
+#     "python-dotenv",
+#     "beautifulsoup4",
+# ]
+# ///
 import asyncio
 import os
-import sys
+import base64
+import re
 import argparse
-from pathlib import Path
-from playwright.async_api import async_playwright
+import sys
+import json
+from bs4 import BeautifulSoup
+from openai import OpenAI
 from dotenv import load_dotenv
+from playwright.async_api import async_playwright, expect
 
-# ================= 环境变量增强加载 =================
-def load_secrets_from_file():
-    """递归向上查找 .env 或 secrets.json"""
-    import json
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    while True:
-        # 尝试 .env
-        dotenv_path = os.path.join(current_dir, ".env")
-        if os.path.exists(dotenv_path):
-            load_dotenv(dotenv_path=dotenv_path)
-            return True
-            
-        # 尝试 secrets.json
-        secrets_path = os.path.join(current_dir, "secrets.json")
-        if os.path.exists(secrets_path):
-            try:
-                with open(secrets_path, "r", encoding="utf-8") as f:
+# 加载配置
+load_dotenv(override=True)
+# 尝试加载项目根目录的 .env
+root_env = os.path.join(os.path.dirname(__file__), "../../.env")
+if os.path.exists(root_env):
+    load_dotenv(root_env, override=True)
+
+# 尝试加载全局 secrets.json
+secrets_path = os.path.join(os.path.dirname(__file__), "../../secrets.json")
+if os.path.exists(secrets_path):
+    try:
+        with open(secrets_path, 'r', encoding='utf-8') as f:
+            secrets = json.load(f)
+            for k, v in secrets.items():
+                if not os.getenv(k):
+                    os.environ[k] = str(v)
+    except Exception as e:
+        print(f"加载 secrets.json 失败: {e}")
+
+# 初始化 OpenAI 客户端 (智谱 AI)
+client = OpenAI(
+    api_key=os.getenv("ZHIPU_API_KEY"),
+    base_url=os.getenv("ZHIPU_BASE_URL", "https://open.bigmodel.cn/api/paas/v4/")
+)
+MODEL = os.getenv("ZHIPU_MODEL", "glm-4v-flash")
+USER = os.getenv("BJTU_USERNAME")
+PWD = os.getenv("BJTU_PASSWORD")
+STATE_FILE = os.path.join(os.path.dirname(__file__), "../auth_state.json")
+
+async def get_captcha_code(page):
+    """使用视觉模型识别验证码并计算结果"""
+    try:
+        captcha_img = page.locator("img.captcha")
+        await captcha_img.wait_for(state="visible")
+        img_b64 = base64.b64encode(await captcha_img.screenshot()).decode('utf-8')
+        
+        print("正在调用视觉模型识别验证码...")
+        response = client.chat.completions.create(
+            model=MODEL,
+            messages=[{
+                "role": "user",
+                "content": [
+                    {"type": "text", "text": "识别图中验证码，如果是数学题请直接给出计算结果数字，不要输出其他内容。"},
+                    {"type": "image_url", "image_url": {"url": f"data:image/png;base64,{img_b64}"}}
+                ]
+            }],
+            temperature=0.1
+        )
+        res = response.choices[0].message.content.strip()
+        
+        expr = "".join(re.findall(r'[\d\+\-\*\/]', res))
+        try:
+            result = str(eval(expr)) if any(op in expr for op in "+-*/") else res
+            final_code = "".join(re.findall(r'\d+', result))
+            return final_code
+        except:
+            return "".join(re.findall(r'\d+', res))
+    except Exception as e:
+        print(f"验证码识别失败: {e}")
+        return ""
+
+async def select_option_robustly(page, selector, user_value, field_name):
+    """健壮地选择下拉框选项"""
+    if not user_value:
+        return False
+        
+    try:
+        await page.wait_for_selector(selector, state="attached", timeout=10000)
+        
+        try:
+            options = await page.eval_on_selector_all(f"{selector} option", """
+                elements => elements.map(e => ({
+                    text: e.innerText.trim(),
+                    value: e.value
+                }))
+            """)
+        except Exception as e:
+            local_data_path = os.path.join(os.path.dirname(__file__), "../data/classroom_options.json")
+            if os.path.exists(local_data_path):
+                print(f"  [提示] 页面获取选项失败，尝试加载本地数据: {local_data_path}")
+                with open(local_data_path, 'r', encoding='utf-8') as f:
                     data = json.load(f)
-                    for k, v in data.items():
-                        os.environ[k] = str(v)
-                return True
+                    key = None
+                    if 'zxjxjhh' in selector: key = 'semesters'
+                    elif 'zc' in selector: key = 'weeks'
+                    elif 'jxlh' in selector: key = 'buildings'
+                    
+                    if key and key in data:
+                        options = data[key]
+                    else:
+                        options = []
+            else:
+                options = []
+        
+        matched_value = None
+        for opt in options:
+            if user_value == opt['text'] or user_value == opt['value']:
+                matched_value = opt['value']
+                break
+        
+        if not matched_value:
+            for opt in options:
+                if user_value in opt['text']:
+                    print(f"  [提示] 模糊匹配到 {field_name}: '{opt['text']}'")
+                    matched_value = opt['value']
+                    break
+
+        if not matched_value:
+            user_chars = list(user_value)
+            for opt in options:
+                opt_text = opt['text']
+                it = iter(opt_text)
+                if all(c in it for c in user_chars):
+                    print(f"  [提示] 模糊匹配(子序列)到 {field_name}: '{opt_text}'")
+                    matched_value = opt['value']
+                    break
+        
+        if matched_value:
+            try:
+                is_visible = await page.is_visible(selector)
+                if is_visible:
+                    await page.locator(selector).select_option(matched_value)
+                else:
+                    await page.locator(selector).select_option(matched_value, force=True)
+                    has_jquery = await page.evaluate("typeof jQuery !== 'undefined'")
+                    if has_jquery:
+                        await page.evaluate("""([selector, value]) => {
+                            var $select = jQuery(selector);
+                            $select.val(value);
+                            $select.trigger('chosen:updated');
+                            $select.trigger('change');
+                        }""", [selector, matched_value])
+                    else:
+                        await page.dispatch_event(selector, 'change')
+            except Exception as e:
+                await page.evaluate("""([selector, value]) => {
+                    var select = document.querySelector(selector);
+                    select.value = value;
+                    select.dispatchEvent(new Event('change', { bubbles: true }));
+                }""", [selector, matched_value])
+            return True
+        else:
+            print(f"  [错误] 未能找到匹配的 {field_name}: '{user_value}'")
+            return False
+            
+    except Exception as e:
+        print(f"  [异常] 选择 {field_name} 时出错: {e}")
+        return False
+
+async def run(semester, week, building, classroom, headless=False):
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=headless)
+        context = None
+        if os.path.exists(STATE_FILE):
+            try:
+                context = await browser.new_context(storage_state=STATE_FILE)
             except Exception:
                 pass
-        
-        parent_dir = os.path.dirname(current_dir)
-        if parent_dir == current_dir:
-            break
-        current_dir = parent_dir
-    return False
-
-def get_env_flexible(key_name, default=None):
-    """灵活获取环境变量：系统变量 -> Windows 注册表 -> 配置文件"""
-    val = os.getenv(key_name)
-    if val: return val
-    
-    if sys.platform == "win32":
-        try:
-            import winreg
-            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"Environment") as key:
-                val, _ = winreg.QueryValueEx(key, key_name)
-                if val: return val
-        except Exception:
-            pass
-    return default
-
-# 初始化加载
-load_secrets_from_file()
-
-# Configuration
-ZHIPU_API_KEY = get_env_flexible("ZHIPU_API_KEY", "")
-ZHIPU_BASE_URL = get_env_flexible("ZHIPU_BASE_URL", "https://open.bigmodel.cn/api/paas/v4/")
-ZHIPU_MODEL = get_env_flexible("ZHIPU_MODEL", "GLM-4V-Flash")
-BJTU_USERNAME = get_env_flexible("BJTU_USERNAME", "")
-BJTU_PASSWORD = get_env_flexible("BJTU_PASSWORD", "")
-
-
-def recognize_captcha_sync(captcha_url: str) -> str:
-    """
-    Recognize captcha using Zhipu AI vision model.
-    The captcha is a math calculation problem.
-    """
-    import requests
-
-    if not ZHIPU_API_KEY:
-        raise ValueError("ZHIPU_API_KEY environment variable is not set")
-
-    payload = {
-        "model": ZHIPU_MODEL,
-        "messages": [{
-            "role": "user",
-            "content": [
-                {"type": "image_url", "image_url": {"url": captcha_url}},
-                {"type": "text", "text": "只返回数字计算结果，不要任何其他文字"}
-            ]
-        }]
-    }
-
-    headers = {
-        "Authorization": f"Bearer {ZHIPU_API_KEY}",
-        "Content-Type": "application/json"
-    }
-
-    for attempt in range(3):
-        try:
-            response = requests.post(
-                f"{ZHIPU_BASE_URL}chat/completions",
-                json=payload,
-                headers=headers,
-                timeout=30
-            )
-            response.raise_for_status()
-            result = response.json()["choices"][0]["message"]["content"].strip()
-            # Extract numbers from result
-            import re
-            numbers = re.findall(r'\d+', result)
-            if numbers:
-                return numbers[0]
-            return result
-        except Exception as e:
-            if attempt < 2:
-                continue
-            raise
-
-
-async def perform_login(page):
-    """Login to BJTU CAS system with AI captcha recognition."""
-    print("🔐 Logging in to BJTU CAS...")
-
-    # Navigate to login page
-    await page.goto("https://mis.bjtu.edu.cn/home/", wait_until="networkidle")
-
-    # Wait for CAS login page or main page
-    await page.wait_for_load_state("networkidle")
-
-    # Check if we're on CAS login page
-    if "cas.bjtu.edu.cn" in page.url:
-        print("   On CAS login page")
-        # Fill in credentials
-        await page.fill("input[name='loginname']", BJTU_USERNAME)
-        await page.fill("input[name='password']", BJTU_PASSWORD)
-    else:
-        print(f"   Current URL: {page.url}")
-        # Try to find login form
-        try:
-            await page.fill("input[name='loginname']", BJTU_USERNAME, timeout=3000)
-            await page.fill("input[name='password']", BJTU_PASSWORD)
-        except:
-            # Maybe already logged in
-            print("   May already be logged in")
-            return
-
-    # Get captcha image and recognize it
-    captcha_img = await page.query_selector("img[alt='captcha']")
-    if captcha_img:
-        captcha_src = await captcha_img.get_attribute("src")
-
-        # Download captcha image
-        import base64
-        if captcha_src.startswith("data:image"):
-            # Data URL
-            captcha_url = captcha_src
-        else:
-            # Regular URL - might need to use page absolute URL
-            captcha_url = captcha_src if captcha_src.startswith("http") else f"https://cas.bjtu.edu.cn{captcha_src}"
-
-        print("🤖 Recognizing captcha...")
-        captcha_result = recognize_captcha_sync(captcha_url)
-        print(f"   Captcha result: {captcha_result}")
-
-        await page.fill("input[name='captcha_1']", captcha_result)
-
-    # Click login button
-    await page.click("button[type='submit']")
-    await page.wait_for_load_state("networkidle")
-
-    # Wait for navigation - might redirect to MIS or stay on CAS if failed
-    await page.wait_for_timeout(3000)
-
-    # Check if login successful
-    current_url = page.url
-    print(f"   After login, URL: {current_url}")
-
-    if "cas.bjtu.edu.cn" in current_url:
-        # Check for error messages
-        error_elem = await page.query_selector(".error, .alert, [class*='error'], .invalid-feedback")
-        if error_elem:
-            error_text = await error_elem.text_content()
-            print(f"   Error: {error_text}")
-
-        # Save page for debugging
-        html = await page.content()
-        with open("/tmp/login_failed.html", "w") as f:
-            f.write(html)
-        print("   Saved page to /tmp/login_failed.html")
-
-        # Check for form errors
-        form_errors = await page.query_selector_all("text=/错误|失败|无效|incorrect/i")
-        for err in form_errors:
-            print(f"   Form error: {await err.text_content()}")
-
-        raise Exception("Login failed - still on CAS page")
-
-    print("✅ Login successful!")
-
-
-async def query_classrooms(page, date=None, week=21, period=None, semester=None, building=None, room=None):
-    """
-    Query classroom schedules.
-
-    Args:
-        page: Playwright page object (must be logged into mis.bjtu.edu.cn first)
-        date: Date string (optional)
-        week: Week number (default: 21)
-        period: Time period - '上午', '下午', '晚上', '全天' (optional)
-        semester: Semester code like '2025-2026-1-2' (optional)
-        building: Building code (integer, optional)
-        room: Room number (string, optional)
-
-    Returns:
-        List of classroom availability results
-    """
-    print(f"🔍 Querying classrooms - Week: {week}, Building: {building}, Room: {room}")
-
-    # First, navigate to 32号教务系统 to establish session
-    print("   Navigating to 32号教务系统...")
-    await page.goto("https://mis.bjtu.edu.cn/module/module/10/", wait_until="networkidle")
-    await page.wait_for_timeout(2000)
-
-    # Build query parameters
-    query_params = []
-
-    # Use current semester as default
-    if semester:
-        query_params.append(f"zxjxjhh={semester}")
-
-    if week:
-        query_params.append(f"zc={week}")
-
-    if building:
-        query_params.append(f"jxlh={building}")
-
-    if room:
-        query_params.append(f"jash={room}")
-
-    # Construct URL
-    base_url = "https://aa.bjtu.edu.cn/classroomtimeholdresult/room_view/"
-    if query_params:
-        query_string = "&".join(query_params)
-        url = f"{base_url}?{query_string}&submit=+%E6%9F%A5+%E8%AF%A2+"
-    else:
-        url = base_url
-
-    print(f"   URL: {url}")
-
-    # Navigate to query page
-    await page.goto(url, wait_until="networkidle")
-    await page.wait_for_timeout(2000)
-
-    # Check if redirected to login
-    if "login" in page.url.lower():
-        raise Exception(f"Session not shared! Redirected to login page: {page.url}")
-
-    # Wait for table to load
-    await page.wait_for_selector("table", timeout=10000)
-
-    # Parse the weekly schedule table
-    results = await page.evaluate("""
-        () => {
-            const table = document.querySelector('table');
-            if (!table) return [];
-
-            const rows = Array.from(table.querySelectorAll('tr'));
-            if (rows.length < 3) return [];
-
-            const results = [];
-            const days = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'];
-
-            // Skip header rows (first 2 rows are headers)
-            for (let i = 2; i < rows.length; i++) {
-                const row = rows[i];
-                const cells = Array.from(row.querySelectorAll('td'));
-
-                if (cells.length === 0) continue;
-
-                // First cell is classroom name
-                const classroomName = cells[0].textContent?.trim() || '';
-                if (!classroomName) continue;
-
-                // Each classroom has 7 days × 7 periods = 49 cells (after the first cell)
-                // But the table structure is complex - each day has 7 period columns
-                const scheduleData = [];
-
-                for (let day = 0; day < 7; day++) {
-                    const dayPeriods = [];
-
-                    for (let period = 1; period <= 7; period++) {
-                        // Calculate cell index: 1 (classroom name) + day * 7 + period - 1
-                        const cellIndex = 1 + day * 7 + (period - 1);
-
-                        if (cellIndex < cells.length) {
-                            const cell = cells[cellIndex];
-                            const bgColor = cell.style.backgroundColor || '';
-                            const content = cell.textContent?.trim() || '';
-
-                            // Check if cell is occupied (has color or content)
-                            const hasColor = bgColor && bgColor !== 'transparent' && bgColor !== 'white' && bgColor !== '#ffffff' && bgColor !== 'rgb(255, 255, 255)';
-                            const hasContent = content && content.trim().length > 0;
-                            const isOccupied = hasColor || hasContent;
-
-                            dayPeriods.push({
-                                period: period,
-                                occupied: isOccupied,
-                                content: content,
-                                bgColor: bgColor
-                            });
-                        }
-                    }
-
-                    scheduleData.push({
-                        day: days[day],
-                        periods: dayPeriods
-                    });
-                }
-
-                results.push({
-                    room_name: classroomName,
-                    schedule: scheduleData
-                });
-            }
-
-            return results;
-        }
-    """)
-
-    # Filter results based on period if specified
-    if period and period in ['上午', '下午', '晚上']:
-        period_map = {
-            '上午': [1, 2, 3, 4],
-            '下午': [5, 6, 7],
-            '晚上': [8, 9, 10]
-        }
-
-        target_periods = period_map.get(period, [])
-
-        for result in results:
-            free_periods = []
-            for day_data in result['schedule']:
-                for period_data in day_data['periods']:
-                    if not period_data['occupied'] and period_data['period'] in target_periods:
-                        free_periods.append(period_data['period'])
-
-            result['free_periods'] = free_periods
-            result['status'] = '✅ 空闲' if free_periods else '🔴 已占用'
-    elif period == '全天':
-        for result in results:
-            free_count = 0
-            free_info = []
-            for day_data in result['schedule']:
-                day_free = [p['period'] for p in day_data['periods'] if not p['occupied']]
-                if day_free:
-                    free_count += len(day_free)
-                    free_info.append(f"{day_data['day']}: {day_free}")
+                
+        if not context:
+            context = await browser.new_context()
             
-            result['free_periods_count'] = free_count
-            result['free_info'] = free_info
-            result['status'] = f'空闲 {free_count} 个时段' if free_count > 0 else '🔴 已占用'
-    else:
-        # No period filter - just show basic info
-        for result in results:
-            free_info = []
-            for day_data in result['schedule']:
-                day_free = [p['period'] for p in day_data['periods'] if not p['occupied']]
-                if day_free:
-                    free_info.append(f"{day_data['day']}: {day_free}")
-            result['free_info'] = free_info
-            result['status'] = '查询成功'
-
-    return results
-
-
-async def main():
-    """Main entry point."""
-    parser = argparse.ArgumentParser(description="Query BJTU classroom schedules")
-    parser.add_argument("--week", type=int, default=21, help="Week number (1-31)")
-    parser.add_argument("--semester", type=str, help="Semester code (e.g., 2025-2026-1-2)")
-    parser.add_argument("--building", type=int, help="Building code")
-    parser.add_argument("--room", type=str, help="Room number")
-    parser.add_argument("--period", type=str, choices=['上午', '下午', '晚上', '全天'], default='全天', help="Time period")
-
-    args = parser.parse_args()
-
-    # Validate environment variables
-    if not BJTU_USERNAME:
-        print("❌ Error: BJTU_USERNAME environment variable is not set")
-        sys.exit(1)
-    if not BJTU_PASSWORD:
-        print("❌ Error: BJTU_PASSWORD environment variable is not set")
-        sys.exit(1)
-    if not ZHIPU_API_KEY:
-        print("❌ Error: ZHIPU_API_KEY environment variable is not set")
-        sys.exit(1)
-
-    async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True)
-        context = await browser.new_context()
         page = await context.new_page()
-
+        print("访问登录页面...")
+        await page.goto("https://mis.bjtu.edu.cn/home/")
+        
+        if "auth/login" in page.url:
+            print("执行登录流程...")
+            if not USER or not PWD:
+                print("错误: 未配置 BJTU_USERNAME 或 BJTU_PASSWORD")
+                return
+            await page.get_by_placeholder("用户名").fill(USER)
+            await page.get_by_placeholder("密码").fill(PWD)
+            code = await get_captcha_code(page)
+            print(f"识别验证码: {code}")
+            await page.locator("#id_captcha_1").fill(code)
+            await page.click("button.btn-primary")
+            try:
+                await page.wait_for_url(re.compile(r"home/"), timeout=15000)
+                await context.storage_state(path=STATE_FILE)
+            except:
+                if "auth/login" in page.url:
+                    print("登录失败，请检查验证码或凭据。")
+                    await browser.close()
+                    return
+        else:
+            print("已通过缓存状态自动登录。")
+        
+        print("正在进入教室查询...")
+        mis_link = page.get_by_role("link", name="教务系统")
+        await mis_link.wait_for(state="visible", timeout=10000)
+        async with page.expect_popup() as page1_info:
+            await mis_link.click()
+        page1 = await page1_info.value
+        await page1.wait_for_load_state("networkidle")
+        
         try:
-            # Login
-            await perform_login(page)
-
-            # Query classrooms
-            results = await query_classrooms(
-                page,
-                week=args.week,
-                semester=args.semester,
-                building=args.building,
-                room=args.room,
-                period=args.period
-            )
-
-            # Print results
-            print(f"\n📊 找到 {len(results)} 个符合条件的教室:\n")
-
-            for result in results:
-                print(f"📍 {result['room_name']}: {result['status']}")
-
-                if 'free_info' in result and result['free_info']:
-                    print(f"   📅 空闲详情:")
-                    for info in result['free_info']:
-                        print(f"      - {info}")
-                elif 'free_periods' in result and result['free_periods']:
-                    print(f"   空闲节次: {result['free_periods']}")
-                elif 'free_periods_count' in result:
-                    print(f"   空闲时段数: {result['free_periods_count']}")
-
-            print(f"\n✅ 查询完成！")
-
-        finally:
-            await browser.close()
-
+            if not await page1.get_by_text("考务成绩").is_visible():
+                toggler = page1.locator("#menu-toggler2")
+                if await toggler.is_visible():
+                    await toggler.click()
+                    await asyncio.sleep(1)
+        except:
+            pass
+            
+        await page1.get_by_text("考务成绩").click()
+        await page1.get_by_role("link", name="教室").click()
+        
+        await select_option_robustly(page1, "select[name='zxjxjhh']", semester, "学期")
+        await select_option_robustly(page1, "select[name='zc']", week, "周次")
+        await select_option_robustly(page1, "select[name='jxlh']", building, "楼栋")
+        
+        if classroom:
+            await page1.get_by_role("textbox", name="教室").fill(classroom)
+        
+        await page1.get_by_role("button", name="查 询").click()
+        print("等待结果加载...")
+        
+        try:
+            await page1.wait_for_selector("table", timeout=10000)
+            content = await page1.content()
+            soup = BeautifulSoup(content, 'html.parser')
+            tables = soup.find_all("table")
+            target_table = None
+            for tbl in tables:
+                if "星期一" in tbl.get_text():
+                    target_table = tbl
+                    break
+            
+            if target_table:
+                rows = target_table.find_all("tr")
+                header_cells = rows[1].find_all(["td", "th"])
+                slots_per_day = 7
+                if len(header_cells) > 1:
+                    total_slots = len(header_cells) - 1
+                    if total_slots % 7 == 0:
+                        slots_per_day = total_slots // 7
+                
+                data_rows = rows[2:]
+                for tr in data_rows:
+                    cols = tr.find_all("td")
+                    if not cols: continue
+                    room_name = cols[0].get_text(strip=True)
+                    print(f"\n教室: {room_name}")
+                    
+                    days = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]
+                    free_slots = []
+                    for i, cell in enumerate(cols[1:]):
+                        day_idx = i // slots_per_day
+                        period = (i % slots_per_day) + 1
+                        if day_idx >= 7: break
+                        
+                        text = cell.get_text(strip=True)
+                        style = cell.get('style', '').lower()
+                        bgcolor = cell.get('bgcolor', '').lower()
+                        
+                        is_free = False
+                        bg_color_found = None
+                        if 'background-color' in style:
+                            match = re.search(r'background-color\s*:\s*([^;]+)', style)
+                            if match: bg_color_found = match.group(1).strip()
+                        elif bgcolor:
+                            bg_color_found = bgcolor
+                        
+                        if not text:
+                            if not bg_color_found or any(c in bg_color_found for c in ['#fff', '#ffffff', 'white', 'transparent']):
+                                is_free = True
+                        if is_free:
+                            free_slots.append(f"{days[day_idx]} 第{period}节")
+                    
+                    if free_slots:
+                        print(f"  空闲时间段: {', '.join(free_slots)}")
+                    else:
+                        print("  无空闲时间段。")
+        except Exception as e:
+            print(f"结果解析失败: {e}")
+        
+        screenshot_path = "classroom_result.png"
+        await page1.screenshot(path=screenshot_path)
+        print(f"结果截图已保存: {screenshot_path}")
+        await browser.close()
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    parser = argparse.ArgumentParser(description="BJTU 教室查询")
+    parser.add_argument("--semester", help="学期 (2025-2026-1)")
+    parser.add_argument("--week", help="周次 (14)")
+    parser.add_argument("--building", help="教学楼")
+    parser.add_argument("--classroom", help="教室号")
+    parser.add_argument("--headless", action="store_true", help="无头模式")
+    args = parser.parse_args()
+    asyncio.run(run(args.semester, args.week, args.building, args.classroom, args.headless))
