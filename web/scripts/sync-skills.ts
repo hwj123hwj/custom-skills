@@ -44,11 +44,12 @@ function extractSection(content: string, sectionHeader: string): string | null {
 
 // Function to extract YAML frontmatter
 function extractFrontmatter(content: string): Record<string, string> | null {
-  const match = content.match(/^---\n([\s\S]*?)\n---/);
+  // 更加鲁棒的正则：处理 \r\n，忽略起始空格/BOM，允许分隔符后有空格
+  const match = content.trim().match(/^---\s*[\r\n]+([\s\S]*?)[\r\n]+---/);
   if (!match) return null;
   
   const frontmatter: Record<string, string> = {};
-  const lines = match[1].split('\n');
+  const lines = match[1].split(/\r?\n/);
   
   for (const line of lines) {
     const colonIndex = line.indexOf(':');

@@ -1,8 +1,8 @@
 [
   {
     "id": "bilibili-toolkit",
-    "name": "B 站综合工具箱 (Bilibili Toolkit)",
-    "description": "",
+    "name": "bilibili-toolkit",
+    "description": "B 站综合工具箱。集成视频下载、文稿采集、向量知识库构建、语义检索问答及 UP 主人格画像分析等功能。",
     "emoji": "📦",
     "tags": [
       "Utility"

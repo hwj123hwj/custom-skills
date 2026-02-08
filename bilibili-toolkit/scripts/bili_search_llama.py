@@ -241,9 +241,9 @@ def get_db_config():
     return {
         "dbname": get_env_flexible("DB_NAME", "media_knowledge_base"),
         "user": get_env_flexible("DB_USER", "root"),
-        "password": get_env_flexible("DB_PASSWORD", ""),
+        "password": get_env_flexible("DB_PASSWORD", "15671040800q"),
         "host": get_env_flexible("DB_HOST", "127.0.0.1"),
-        "port": get_env_flexible("DB_PORT", "5432")
+        "port": get_env_flexible("DB_PORT", "5433")
     }
 
 async def search_kb(query_str: str, up_mid: Optional[int] = None, 

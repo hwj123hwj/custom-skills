@@ -47,6 +47,8 @@ def load_secrets():
 SECRETS = load_secrets()
 
 # ================= 数据库操作 =================
+_ENGINE = None
+
 def get_db_config():
     """从环境变量或 secrets.json 获取数据库配置"""
     return {
