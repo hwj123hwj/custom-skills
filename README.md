@@ -37,9 +37,9 @@ Replace `<skill-id>` with the name of the skill (e.g., `analyze-up`).
 **使用场景**: 查找相关视频片段与回答内容相关问题
 
 ### 🏫 bjtuo-classroom-query
-北京交通大学（BJTU）教室课表查询自动化。支持 AI 验证码识别登录、按周次、教学楼、房号查询空闲情况。
+北京交通大学（BJTU）教室课表查询自动化。支持 AI 验证码识别登录、按周次、教学楼、房号查询占用情况。
 
-**使用场景**: 查询自习室、查看教室课表、自动化选课参考
+**使用场景**: 查询教室占用情况
 
 ### 📚 build-kb
 构建/更新 B 站视频知识库向量索引（Embedding + PostgreSQL/pgvector），用于语义检索。
@@ -57,14 +57,14 @@ Replace `<skill-id>` with the name of the skill (e.g., `analyze-up`).
 **使用场景**: 离线观看、编辑素材与批量下载
 
 ### 💡 idea-incubator
-A specialized CPO + Technical Partner agent that helps users incubate ideas, analyze feasibility, and document specifications.
+专业的 CPO + 技术合伙人助手，帮助用户孵化想法、分析可行性并编写技术文档。
 
-**使用场景**: 产品孵化、可行性分析、技术方案制定
+**使用场景**: 产品孵化、可行性分析、技术方案制定、MVP 定义
 
 ### 🌐 skill-browser-crawl
-Lightweight browser-based web crawling for practical use cases with JavaScript rendering and markdown extraction.
+基于浏览器的轻量级网页爬虫。支持 JavaScript 渲染、Markdown 提取，并能递归爬取文档类网站。
 
-**使用场景**: 爬取需要 JavaScript 渲染的网页、提取 Markdown 内容、递归爬取文档网站
+**使用场景**: 爬取动态网页、提取 Markdown 内容、下载文档网站、递归抓取
 
 ## 🚀 Developer Guide
 
