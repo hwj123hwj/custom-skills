@@ -26,6 +26,7 @@ async def robust_search(kw, limit=5):
             if results:
                 for a in results:
                     print(f\"[SUCCESS] {a.get('title')} | {a.get('account', 'N/A')}\")
+                    print(f\"DIGEST: {a.get('digest')}\")
                     print(f\"URL: {a.get('url')}\n---\")
                 return True
         except Exception:
@@ -35,6 +36,16 @@ async def robust_search(kw, limit=5):
 
 asyncio.run(robust_search('用户关键词'))
 ```
+
+## 回复格式规范 (重要)
+AI 在向用户展示结果时，**必须**严格遵守以下格式，确保信息清晰且易于点击：
+
+**[数字]. [文章标题]**
+- **公众号**：[公众号名称]
+- **核心内容**：[从摘要中提取的 1-2 句核心观点]
+- [阅读全文]([URL 链接])
+
+---
 
 ## 搜索技巧
 - **精准匹配**：遇到 302 错误或无结果时，建议将关键词优化为“关键词 + 年份”或“关键词 + 观点词”（如“教育 2026”、“AI 行业报告”）。
