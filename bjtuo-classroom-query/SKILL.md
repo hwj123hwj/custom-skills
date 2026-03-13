@@ -30,8 +30,11 @@ BJTU_PASSWORD=your_password
 ### 2. 运行查询
 
 ```bash
-# 查询 2025-2026-1 第14周 思源东楼 102 的空闲情况
+# 查询当前学期（自动推断）第14周 思源东楼 102 的空闲情况
 uv run bjtuo-classroom-query/scripts/query_classroom.py --week "14" --building "思源东楼" --classroom "102"
+
+# 指定学期
+uv run bjtuo-classroom-query/scripts/query_classroom.py --semester "2025-2026-1" --week "14" --building "思源东楼"
 ```
 
 ## 参数说明
@@ -42,7 +45,7 @@ uv run bjtuo-classroom-query/scripts/query_classroom.py --week "14" --building "
 | `--semester` | 学期代码 | `2025-2026-1` |
 | `--building` | 教学楼 (支持模糊匹配) | `思源东楼`, `九教`, `东一` |
 | `--classroom` | 教室号 (可选) | `102` |
-| `--headless` | 无头模式 | (标志位) |
+| `--show-browser` | 显示浏览器窗口（默认无头模式） | (标志位) |
 
 ## 数据参考
 

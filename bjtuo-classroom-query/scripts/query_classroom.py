@@ -54,7 +54,7 @@ async def get_captcha_code(page):
         captcha_img = page.locator("img.captcha")
         await captcha_img.wait_for(state="visible")
         img_b64 = base64.b64encode(await captcha_img.screenshot()).decode('utf-8')
-        
+
         print("正在调用视觉模型识别验证码...")
         response = client.chat.completions.create(
             model=MODEL,
@@ -68,7 +68,7 @@ async def get_captcha_code(page):
             temperature=0.1
         )
         res = response.choices[0].message.content.strip()
-        
+
         expr = "".join(re.findall(r'[\d\+\-\*\/]', res))
         try:
             result = str(eval(expr)) if any(op in expr for op in "+-*/") else res
@@ -84,10 +84,10 @@ async def select_option_robustly(page, selector, user_value, field_name):
     """健壮地选择下拉框选项"""
     if not user_value:
         return False
-        
+
     try:
         await page.wait_for_selector(selector, state="attached", timeout=10000)
-        
+
         try:
             options = await page.eval_on_selector_all(f"{selector} option", """
                 elements => elements.map(e => ({
@@ -105,20 +105,20 @@ async def select_option_robustly(page, selector, user_value, field_name):
                     if 'zxjxjhh' in selector: key = 'semesters'
                     elif 'zc' in selector: key = 'weeks'
                     elif 'jxlh' in selector: key = 'buildings'
-                    
+
                     if key and key in data:
                         options = data[key]
                     else:
                         options = []
             else:
                 options = []
-        
+
         matched_value = None
         for opt in options:
             if user_value == opt['text'] or user_value == opt['value']:
                 matched_value = opt['value']
                 break
-        
+
         if not matched_value:
             for opt in options:
                 if user_value in opt['text']:
@@ -135,7 +135,7 @@ async def select_option_robustly(page, selector, user_value, field_name):
                     print(f"  [提示] 模糊匹配(子序列)到 {field_name}: '{opt_text}'")
                     matched_value = opt['value']
                     break
-        
+
         if matched_value:
             try:
                 is_visible = await page.is_visible(selector)
@@ -163,7 +163,7 @@ async def select_option_robustly(page, selector, user_value, field_name):
         else:
             print(f"  [错误] 未能找到匹配的 {field_name}: '{user_value}'")
             return False
-            
+
     except Exception as e:
         print(f"  [异常] 选择 {field_name} 时出错: {e}")
         return False
@@ -177,14 +177,14 @@ async def run(semester, week, building, classroom, headless=False):
                 context = await browser.new_context(storage_state=STATE_FILE)
             except Exception:
                 pass
-                
+
         if not context:
             context = await browser.new_context()
-            
+
         page = await context.new_page()
         print("访问登录页面...")
         await page.goto("https://mis.bjtu.edu.cn/home/")
-        
+
         if "auth/login" in page.url:
             print("执行登录流程...")
             if not USER or not PWD:
@@ -206,7 +206,7 @@ async def run(semester, week, building, classroom, headless=False):
                     return
         else:
             print("已通过缓存状态自动登录。")
-        
+
         print("正在进入教室查询...")
         mis_link = page.get_by_role("link", name="教务系统")
         await mis_link.wait_for(state="visible", timeout=10000)
@@ -214,7 +214,7 @@ async def run(semester, week, building, classroom, headless=False):
             await mis_link.click()
         page1 = await page1_info.value
         await page1.wait_for_load_state("networkidle")
-        
+
         try:
             if not await page1.get_by_text("考务成绩").is_visible():
                 toggler = page1.locator("#menu-toggler2")
@@ -223,20 +223,20 @@ async def run(semester, week, building, classroom, headless=False):
                     await asyncio.sleep(1)
         except:
             pass
-            
+
         await page1.get_by_text("考务成绩").click()
         await page1.get_by_role("link", name="教室").click()
-        
+
         await select_option_robustly(page1, "select[name='zxjxjhh']", semester, "学期")
         await select_option_robustly(page1, "select[name='zc']", week, "周次")
         await select_option_robustly(page1, "select[name='jxlh']", building, "楼栋")
-        
+
         if classroom:
             await page1.get_by_role("textbox", name="教室").fill(classroom)
-        
+
         await page1.get_by_role("button", name="查 询").click()
         print("等待结果加载...")
-        
+
         try:
             await page1.wait_for_selector("table", timeout=10000)
             content = await page1.content()
@@ -247,7 +247,7 @@ async def run(semester, week, building, classroom, headless=False):
                 if "星期一" in tbl.get_text():
                     target_table = tbl
                     break
-            
+
             if target_table:
                 rows = target_table.find_all("tr")
                 header_cells = rows[1].find_all(["td", "th"])
@@ -256,25 +256,25 @@ async def run(semester, week, building, classroom, headless=False):
                     total_slots = len(header_cells) - 1
                     if total_slots % 7 == 0:
                         slots_per_day = total_slots // 7
-                
+
                 data_rows = rows[2:]
                 for tr in data_rows:
                     cols = tr.find_all("td")
                     if not cols: continue
                     room_name = cols[0].get_text(strip=True)
                     print(f"\n教室: {room_name}")
-                    
+
                     days = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]
                     free_slots = []
                     for i, cell in enumerate(cols[1:]):
                         day_idx = i // slots_per_day
                         period = (i % slots_per_day) + 1
                         if day_idx >= 7: break
-                        
+
                         text = cell.get_text(strip=True)
                         style = cell.get('style', '').lower()
                         bgcolor = cell.get('bgcolor', '').lower()
-                        
+
                         is_free = False
                         bg_color_found = None
                         if 'background-color' in style:
@@ -282,28 +282,42 @@ async def run(semester, week, building, classroom, headless=False):
                             if match: bg_color_found = match.group(1).strip()
                         elif bgcolor:
                             bg_color_found = bgcolor
-                        
+
                         if not text:
                             if not bg_color_found or any(c in bg_color_found for c in ['#fff', '#ffffff', 'white', 'transparent']):
                                 is_free = True
                         if is_free:
                             free_slots.append(f"{days[day_idx]} 第{period}节")
-                    
+
                     if free_slots:
                         print(f"  空闲时间段: {', '.join(free_slots)}")
                     else:
                         print("  无空闲时间段。")
         except Exception as e:
             print(f"结果解析失败: {e}")
-        
+
         await browser.close()
 
+def guess_current_semester() -> str:
+    """根据当前日期推断学期，2-8月为第2学期，9月-次年1月为第1学期"""
+    from datetime import date
+    today = date.today()
+    year = today.year
+    month = today.month
+    if 2 <= month <= 8:
+        return f"{year - 1}-{year}-2"
+    else:
+        start_year = year if month >= 9 else year - 1
+        return f"{start_year}-{start_year + 1}-1"
+
+
 if __name__ == "__main__":
+    default_semester = guess_current_semester()
     parser = argparse.ArgumentParser(description="BJTU 教室查询")
-    parser.add_argument("--semester", help="学期 (2025-2026-1)")
+    parser.add_argument("--semester", default=default_semester, help=f"学期，默认自动推断当前学期 (当前: {default_semester})")
     parser.add_argument("--week", help="周次 (14)")
     parser.add_argument("--building", help="教学楼")
     parser.add_argument("--classroom", help="教室号")
-    parser.add_argument("--headless", action="store_true", help="无头模式")
+    parser.add_argument("--show-browser", action="store_true", dest="show_browser", help="显示浏览器窗口（默认无头模式）")
     args = parser.parse_args()
-    asyncio.run(run(args.semester, args.week, args.building, args.classroom, args.headless))
+    asyncio.run(run(args.semester, args.week, args.building, args.classroom, not args.show_browser))
