@@ -25,7 +25,7 @@ async def robust_search(kw, limit=5):
             results = await get_wexin_article(kw, limit)
             if results:
                 for a in results:
-                    print(f\"[SUCCESS] {a.get('title')} | {a.get('account', 'N/A')}\")
+                    print(f\"[SUCCESS] {a.get('title')}\")
                     print(f\"DIGEST: {a.get('digest')}\")
                     print(f\"URL: {a.get('url')}\n---\")
                 return True
@@ -38,10 +38,9 @@ asyncio.run(robust_search('用户关键词'))
 ```
 
 ## 回复格式规范 (重要)
-AI 在向用户展示结果时，**必须**严格遵守以下格式，确保信息清晰且易于点击：
+AI 在向用户展示结果时，**必须**严格遵守以下格式，确保信息清晰且易于点击（注意：由于接口限制，暂不显示公众号名称）：
 
 **[数字]. [文章标题]**
-- **公众号**：[公众号名称]
 - **核心内容**：[从摘要中提取的 1-2 句核心观点]
 - [阅读全文]([URL 链接])
 
