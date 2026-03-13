@@ -1,14 +1,14 @@
 [
   {
-    "id": "bilibili-toolkit",
-    "name": "bilibili-toolkit",
-    "description": "B 站综合工具箱。集成视频下载、文稿采集、向量知识库构建、语义检索问答及 UP 主人格画像分析等功能。",
+    "id": "bilibili-video-helper",
+    "name": "bilibili-video-helper",
+    "description": "搜索、分析和提取 Bilibili 视频的综合工具。每当用户提到 B 站、bilibili、提供 B 站链接（bilibili.com, b23.tv）、要求搜索特定视频、提取视频元数据（标题、UP主、播放量、简介）、获取视频字幕、获取评论或弹幕进行分析总结时，必须触发此技能。支持处理 412 风控引导及 Cookie 注入。",
     "emoji": "📦",
     "tags": [
       "Utility"
     ],
     "scenarios": [],
-    "lastUpdated": "2026-02-08T14:15:20.000Z"
+    "lastUpdated": "2026-03-13T10:40:03.000Z"
   },
   {
     "id": "bjtuo-classroom-query",
@@ -42,5 +42,27 @@
     ],
     "scenarios": [],
     "lastUpdated": "2026-02-08T04:22:29.000Z"
+  },
+  {
+    "id": "wechat-search",
+    "name": "wechat-search",
+    "description": "用于搜索微信公众号文章的工具。每当用户要求搜索“微信公众号文章”、“微信文章”、或者通过关键词寻找特定话题（如“搜一下AI进展”）时，必须触发此技能。本技能负责搜索文章列表（标题、链接、摘要）。",
+    "emoji": "📦",
+    "tags": [
+      "Utility"
+    ],
+    "scenarios": [],
+    "lastUpdated": "2026-03-13T08:31:05.000Z"
+  },
+  {
+    "id": "weibo-skill",
+    "name": "weibo-skill",
+    "description": "微博内容搜索、热搜查看、用户动态及评论读取。使用 m.weibo.cn 移动端接口，无需账号和 API Key。触发场景：(1) 用户要求搜索微博内容或话题，(2) 查看实时微博热搜榜，(3) 获取指定用户的微博动态，(4) 查看某条微博的评论，(5) 用户粘贴了 weibo.com 或 m.weibo.cn 的链接。",
+    "emoji": "📦",
+    "tags": [
+      "Utility"
+    ],
+    "scenarios": [],
+    "lastUpdated": "2026-03-13T08:14:12.000Z"
   }
 ]

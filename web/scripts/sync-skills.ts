@@ -47,19 +47,50 @@ function extractFrontmatter(content: string): Record<string, string> | null {
   // 更加鲁棒的正则：处理 \r\n，忽略起始空格/BOM，允许分隔符后有空格
   const match = content.trim().match(/^---\s*[\r\n]+([\s\S]*?)[\r\n]+---/);
   if (!match) return null;
-  
+
   const frontmatter: Record<string, string> = {};
   const lines = match[1].split(/\r?\n/);
-  
+
+  let currentKey: string | null = null;
+  let blockLines: string[] = [];
+  let inBlock = false;
+
+  const flushBlock = () => {
+    if (currentKey && inBlock) {
+      frontmatter[currentKey] = blockLines.join(' ').trim();
+    }
+    currentKey = null;
+    blockLines = [];
+    inBlock = false;
+  };
+
   for (const line of lines) {
+    if (inBlock) {
+      // 缩进行属于块内容
+      if (/^\s+/.test(line)) {
+        blockLines.push(line.trim());
+        continue;
+      } else {
+        flushBlock();
+      }
+    }
+
     const colonIndex = line.indexOf(':');
     if (colonIndex !== -1) {
       const key = line.slice(0, colonIndex).trim();
       const value = line.slice(colonIndex + 1).trim();
-      frontmatter[key] = value;
+      if (value === '|' || value === '>') {
+        // 开始块标量
+        currentKey = key;
+        blockLines = [];
+        inBlock = true;
+      } else {
+        frontmatter[key] = value;
+      }
     }
   }
-  
+  flushBlock();
+
   return frontmatter;
 }
 
@@ -89,16 +120,16 @@ async function main() {
       try {
         const content = fs.readFileSync(skillMdPath, 'utf-8');
         const frontmatter = extractFrontmatter(content);
-        
+
         // Basic Metadata
         const id = dir;
         const name = frontmatter?.name || extractTitle(content) || dir;
         const description = frontmatter?.description || extractSection(content, 'Description') || '';
-        
+
         // Extract Usage Scenarios
         let scenarios: string[] = [];
         const scenariosRaw = frontmatter?.scenarios || extractSection(content, 'Usage') || extractSection(content, '使用场景') || extractSection(content, 'Usage Scenarios');
-        
+
         if (typeof scenariosRaw === 'string') {
           scenarios = scenariosRaw
             .split(',')
@@ -109,7 +140,7 @@ async function main() {
         }
 
         // Try to get emoji from frontmatter
-        const emoji = frontmatter?.emoji || '📦'; 
+        const emoji = frontmatter?.emoji || '📦';
 
         // Tags from frontmatter
         let tags = ['Utility'];
