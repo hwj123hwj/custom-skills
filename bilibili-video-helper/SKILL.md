@@ -1,11 +1,11 @@
 ---
 name: bilibili-video-helper
-description: 搜索、分析和提取 Bilibili 视频的综合工具。每当用户提到 B 站、bilibili、提供 B 站链接（bilibili.com, b23.tv）、要求搜索特定视频、提取视频元数据（标题、UP主、播放量、简介）或获取视频字幕进行分析总结时，必须触发此技能。支持处理 412 风控引导及 Cookie 注入。
+description: 搜索、分析和提取 Bilibili 视频的综合工具。每当用户提到 B 站、bilibili、提供 B 站链接（bilibili.com, b23.tv）、要求搜索特定视频、提取视频元数据（标题、UP主、播放量、简介）、获取视频字幕、获取评论或弹幕进行分析总结时，必须触发此技能。支持处理 412 风控引导及 Cookie 注入。
 ---
 
 # Bilibili Video Helper
 
-本技能通过 `yt-dlp` 实现 B 站视频的高效搜索、信息挖掘与字幕分析。
+本技能通过 `yt-dlp` 和 B 站 API 实现视频搜索、信息挖掘、字幕/评论/弹幕提取。
 
 ## 核心工作流
 
@@ -37,14 +37,68 @@ grep -vE '^[0-9]{2}:[0-9]{2}:[0-9]{2}' /tmp/VIDEO_ID.zh-Hans.vtt | sed '/^$/d' |
 ```
 *提示：清理后的文本可用于长视频的内容总结与关键点提取。*
 
+### 4. 获取弹幕
+使用 `yt-dlp` 下载弹幕（需要登录 Cookie）：
+```bash
+yt-dlp --add-header "Cookie:$COOKIE" --write-sub --sub-lang danmaku --skip-download -o "/tmp/%(id)s.%(ext)s" "URL"
+```
+弹幕保存为 XML 格式，提取纯文本：
+```bash
+cat /tmp/VIDEO_ID.danmaku.xml | sed 's/<d /\n<d /g' | grep -oP '>[^<]+<' | tr -d '<>' | grep -v '^$'
+```
+
+### 5. 获取评论 (通过 B 站 API)
+**注意：`yt-dlp --write-comments` 只能获取少量评论，需直接调用 B 站 API 获取完整评论。**
+
+#### 步骤 1: 获取视频 AID
+```bash
+AID=$(curl -s "https://api.bilibili.com/x/web-interface/view?bvid=BVXXXXXX" -H "Cookie: $COOKIE" | jq -r '.data.aid')
+```
+
+#### 步骤 2: 获取评论列表
+**按热度排序（sort=1）：**
+```bash
+curl -s "https://api.bilibili.com/x/v2/reply?type=1&oid=$AID&sort=1&ps=30" \
+  -H "Cookie: $COOKIE" \
+  -H "Referer: https://www.bilibili.com/video/BVXXXXXX" | jq '.data.page, (.data.replies | length)'
+```
+
+**提取热门评论（用户名、内容、点赞数）：**
+```bash
+curl -s "https://api.bilibili.com/x/v2/reply?type=1&oid=$AID&sort=1&ps=20" \
+  -H "Cookie: $COOKIE" \
+  -H "Referer: https://www.bilibili.com/video/BVXXXXXX" | \
+  jq -r '.data.replies | sort_by(-.like) | .[] | "【\(.member.uname)】\(.content.message[:100])... [👍\(.like)]"'
+```
+
+**分页获取更多评论：**
+```bash
+# 下一页使用 next 参数
+curl -s "https://api.bilibili.com/x/v2/reply?type=1&oid=$AID&sort=0&ps=30&pn=2" \
+  -H "Cookie: $COOKIE" \
+  -H "Referer: https://www.bilibili.com/video/BVXXXXXX"
+```
+
+#### 评论 API 参数说明
+- `type=1`: 视频类型
+- `oid`: 视频 AID
+- `sort=0`: 按时间排序；`sort=1`: 按热度排序；`sort=2`: 按回复数排序
+- `ps`: 每页数量（最大 49）
+- `pn`: 页码
+
 ## 访问受限处理 (412 Precondition Failed)
 如果遇到 B 站 412 错误，说明当前环境被风控。**必须**引导用户手动获取浏览器 Cookie：
 
-1. **引导话术**：“B 站目前限制了自动化访问，请登录电脑浏览器 B 站，按 `F12` 打开开发者工具，切换到 **网络 (Network)** 标签，刷新页面后点击任意请求，在右侧 **请求标头 (Request Headers)** 中复制 `cookie: ...` 整段内容发给我。”
-2. **处理方式**：收到后，将其保存到 `/tmp/bili_cookies.txt`（无需转换格式，`yt-dlp` 支持 `--cookies` 指向包含 cookie header 内容的文件，或使用 `--add-header "Cookie:内容"`）。
-3. **后续调用**：在 `yt-dlp` 命令中添加 `--add-header "Cookie:用户提供的完整内容"`。
+1. **引导话术**："B 站目前限制了自动化访问，请登录电脑浏览器 B 站，按 `F12` 打开开发者工具，切换到 **网络 (Network)** 标签，刷新页面后点击任意请求，在右侧 **请求标头 (Request Headers)** 中复制 `cookie: ...` 整段内容发给我。"
+2. **处理方式**：收到后保存为环境变量 `COOKIE`，用于后续命令：
+   ```bash
+   COOKIE='用户提供的完整cookie内容'
+   ```
+3. **后续调用**：在 `yt-dlp` 命令中添加 `--add-header "Cookie:$COOKIE"`，在 API 请求中添加 `-H "Cookie: $COOKIE"`。
 
 ## 注意事项
 - **默认不下载视频**：仅提取信息。
 - **临时文件**：统一存放在 `/tmp`，使用视频 ID 命名以防冲突。
 - **依赖检查**：确保环境已安装 `yt-dlp` 和 `jq`。
+- **Cookie 必需**：获取字幕、弹幕、评论均需要用户提供登录 Cookie。
+- **评论限制**：`yt-dlp --write-comments` 只能获取少量评论，需使用 B 站 API 获取完整评论列表。
