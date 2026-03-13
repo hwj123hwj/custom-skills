@@ -1,49 +1,45 @@
 ---
 name: wechat-search
-description: 用于搜索微信公众号文章的工具。每当用户要求搜索“微信公众号文章”、“微信文章”、或者通过关键词在微信平台上寻找特定话题、新闻、深度报道（如“公众号搜一下AI进展”）时，必须触发此技能。本技能仅负责搜索文章列表（标题、链接、摘要、账号名），不负责抓取全文（阅读全文需要 camoufox 或其他技能）。
+description: 用于搜索微信公众号文章的工具。每当用户要求搜索“微信公众号文章”、“微信文章”、或者通过关键词寻找特定话题（如“搜一下AI进展”）时，必须触发此技能。本技能负责搜索文章列表（标题、链接、摘要）。
 ---
 
 # 微信公众号搜索
 
-本技能通过 `miku_ai` 库实现微信公众号文章的快速搜索。
+本技能通过 `miku_ai` 库实现微信公众号文章的搜索。
 
-## 依赖安装
-```bash
-pip install miku_ai
-```
+## 核心工作流：鲁棒搜索模式
+微信搜索接口对高频词有严格风控（302 重定向）。**必须**使用以下带重试逻辑的 Python 一行流进行搜索，以提高成功率。
 
-## 核心工作流
-
-### 1. 搜索文章列表
-使用 Python 一行流命令调用 `miku_ai.get_wexin_article` 进行异步搜索。
+### 1. 搜索文章列表（带重试与关键词优化）
+如果初次搜索失败或返回空，AI 应自动尝试更具体的长尾关键词（如加上年份“2026”或关联词）。
 
 **执行命令：**
 ```bash
 python3 -c "
-import asyncio
+import asyncio, random
 from miku_ai import get_wexin_article
-async def search():
-    results = await get_wexin_article('搜索关键词', 5)
-    for a in results:
-        print(f\"{a['title']} | {a['account']} | {a['url']}\")
-        print(f\"摘要: {a['digest']}\n---\")
-asyncio.run(search())
-"
+
+async def robust_search(kw, limit=5):
+    for i in range(3): # 最多尝试3次
+        try:
+            results = await get_wexin_article(kw, limit)
+            if results:
+                for a in results:
+                    print(f\"[SUCCESS] {a.get('title')} | {a.get('account', 'N/A')}\")
+                    print(f\"URL: {a.get('url')}\n---\")
+                return True
+        except Exception:
+            pass
+        await asyncio.sleep(random.uniform(1, 2))
+    return False
+
+asyncio.run(robust_search('用户关键词'))
 ```
 
-## 数据说明
-搜索结果通常包含以下字段：
-- `title`: 文章标题
-- `account`: 公众号名称
-- `digest`: 文章摘要
-- `url`: 微信文章链接 (`mp.weixin.qq.com`)
+## 搜索技巧
+- **精准匹配**：遇到 302 错误或无结果时，建议将关键词优化为“关键词 + 年份”或“关键词 + 观点词”（如“教育 2026”、“AI 行业报告”）。
+- **链接时效**：返回的 `mp.weixin.qq.com` 链接通常包含临时签名，建议引导用户尽快阅读。
 
 ## 约束与限制
-- **仅限搜索**：只返回搜索结果列表和摘要。
-- **全文阅读**：获取链接后，若需阅读全文，请使用 `camoufox` 或 `browser` 技能。
-- **搜狗索引**：结果基于搜狗微信搜索，部分新发或冷门文章可能存在延迟。
-
-## 排障指引
-- **ImportError**: 请运行 `pip install miku_ai`。
-- **结果为空**: 尝试更换更通用的关键词。
-- **网络超时**: 搜狗接口偶发不稳定，重试即可。
+- **仅限搜索**：只返回列表，阅读全文需配合 `browser` 技能。
+- **环境依赖**：需确保 `pip install miku_ai --break-system-packages` 已执行。
