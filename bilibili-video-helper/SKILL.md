@@ -64,20 +64,29 @@ curl -s "https://api.bilibili.com/x/web-interface/search/type?keyword=AI&page=1&
 BVID="BV1hNFdz4EZp"
 
 curl -s "https://api.bilibili.com/x/web-interface/view?bvid=$BVID" | \
-  jq '.data | {title, bvid, aid, cid, owner: .owner.name, view: .stat.view, like: .stat.like, coin: .stat.coin, desc: .desc, duration: .duration}'
+  jq '.data | {title, bvid, aid, cid, owner: .owner.name, desc, duration, stat}'
 ```
 
 **返回字段**：
-- `title`: 标题
-- `bvid`: BV 号
-- `aid`: AV 号
-- `cid`: 视频分 P 的 CID
-- `owner.name`: UP 主
-- `stat.view`: 播放量
-- `stat.like`: 点赞数
-- `stat.coin`: 投币数
-- `desc`: 简介
-- `duration`: 时长（秒）
+
+| 字段 | 说明 |
+|:---|:---|
+| `title` | 标题 |
+| `bvid` | BV 号 |
+| `aid` | AV 号 |
+| `cid` | 视频分 P 的 CID |
+| `owner.name` | UP 主 |
+| `desc` | 简介 |
+| `duration` | 时长（秒） |
+| `stat.view` | 播放量 |
+| `stat.like` | 点赞数 |
+| `stat.coin` | 投币数 |
+| `stat.favorite` | 收藏数 |
+| `stat.share` | 分享数 |
+| `stat.danmaku` | 弹幕数 |
+| `stat.reply` | 评论数 |
+
+**注意**：以上所有元数据（播放量、点赞、投币、收藏、分享、弹幕、评论）均**无需 Cookie** 即可获取。
 
 ### 3. 获取评论（无需 Cookie）
 
