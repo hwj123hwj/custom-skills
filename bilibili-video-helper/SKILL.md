@@ -17,25 +17,67 @@ yt-dlp --dump-json "ytsearch5:关键词 site:bilibili.com" | jq -r '. | {title: 
 ```
 *提示：AI 应根据返回结果中的 `view_count`（播放量）对视频进行排序或筛选推荐。*
 
-### 2. 提取视频元数据与字幕
+### 2. 提取视频元数据
 **获取 JSON 元数据：**
 ```bash
 yt-dlp --dump-json "URL"
 ```
 
-**下载字幕到 /tmp：**
-支持自动生成字幕 (`--write-auto-sub`) 和手动上传字幕 (`--write-sub`)，优先提取简体中文 (`zh-Hans`)。
+### 3. 获取字幕 (推荐使用 B 站 API)
+**注意：`yt-dlp` 获取字幕不稳定，推荐直接调用 B 站 API。**
+
+#### 步骤 1: 获取 CID
 ```bash
-yt-dlp --write-sub --write-auto-sub --sub-lang "zh-Hans,zh,en" --convert-subs vtt --skip-download -o "/tmp/%(id)s.%(ext)s" "URL"
+BVID="BV1hNFdz4EZp"
+CID=$(curl -s "https://api.bilibili.com/x/web-interface/view?bvid=$BVID" -H "Cookie: $COOKIE" | jq -r '.data.cid')
 ```
 
-### 3. 字幕清理 (VTT 转纯文本)
-AI 在读取 `/tmp/视频ID.zh-Hans.vtt` 后，应使用正则或 CLI 工具清理时间戳。
-**一行流清理示例：**
+#### 步骤 2: 获取字幕列表
 ```bash
-grep -vE '^[0-9]{2}:[0-9]{2}:[0-9]{2}' /tmp/VIDEO_ID.zh-Hans.vtt | sed '/^$/d' | uniq
+curl -s "https://api.bilibili.com/x/player/v2?bvid=$BVID&cid=$CID" \
+  -H "Cookie: $COOKIE" \
+  -H "Referer: https://www.bilibili.com/video/$BVID" | jq '.data.subtitle'
 ```
-*提示：清理后的文本可用于长视频的内容总结与关键点提取。*
+
+返回示例：
+```json
+{
+  "subtitles": [
+    {"lan": "ai-zh", "lan_doc": "中文", "subtitle_url": "//aisubtitle.hdslb.com/..."},
+    {"lan": "ai-en", "lan_doc": "English", "subtitle_url": "//aisubtitle.hdslb.com/..."}
+  ]
+}
+```
+
+#### 步骤 3: 下载字幕内容
+字幕 URL 需要添加 `https:` 前缀：
+```bash
+SUBTITLE_URL="https://aisubtitle.hdslb.com/bfs/ai_subtitle/prod/xxx"
+curl -s "$SUBTITLE_URL" | jq '.body'
+```
+
+返回格式（JSON 数组）：
+```json
+[
+  {"from": 0.28, "to": 0.84, "content": "拍拍手"},
+  {"from": 0.84, "to": 1.88, "content": "直接说重点了"}
+]
+```
+
+#### 步骤 4: 提取纯文本
+```bash
+curl -s "$SUBTITLE_URL" | jq -r '.body[].content' | tr '\n' ' '
+```
+
+#### 字幕语言代码
+- `ai-zh`: 中文（AI 生成）
+- `ai-en`: English（AI 生成）
+- `ai-ja`: 日本語（AI 生成）
+- `ai-es`: Español（AI 生成）
+- `ai-pt`: Português（AI 生成）
+- `ai-ar`: العربية（AI 生成）
+
+**提示**：B 站会自动为视频生成 AI 字幕，即使 UP 主没有上传字幕，也可能有 AI 生成的字幕可用。
 
 ### 4. 获取弹幕
 使用 `yt-dlp` 下载弹幕（需要登录 Cookie）：
@@ -101,4 +143,5 @@ curl -s "https://api.bilibili.com/x/v2/reply?type=1&oid=$AID&sort=0&ps=30&pn=2" 
 - **临时文件**：统一存放在 `/tmp`，使用视频 ID 命名以防冲突。
 - **依赖检查**：确保环境已安装 `yt-dlp` 和 `jq`。
 - **Cookie 必需**：获取字幕、弹幕、评论均需要用户提供登录 Cookie。
+- **字幕推荐 API**：使用 B 站 player/v2 API 获取字幕比 yt-dlp 更可靠，支持 AI 生成的多语言字幕。
 - **评论限制**：`yt-dlp --write-comments` 只能获取少量评论，需使用 B 站 API 获取完整评论列表。
