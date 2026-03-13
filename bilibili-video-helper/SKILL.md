@@ -172,10 +172,109 @@ cat /tmp/${BVID}.danmaku.xml | sed 's/<d /\n<d /g' | grep -oP '>[^<]+<' | tr -d 
 
 如果遇到 B 站 412 错误，说明当前环境被风控。需要用户重新获取 Cookie。
 
+### 6. 获取 UP 主视频列表（无需 Cookie）
+
+**API**: `GET /x/space/wbi/arc/search`
+
+```bash
+UID="12345678"
+
+curl -s "https://api.bilibili.com/x/space/arc/search?mid=$UID&ps=30&pn=1&order=pubdate" \
+  -H "User-Agent: Mozilla/5.0" | \
+  jq '.data.list.vlist[] | {bvid: .bvid, title: .title, play: .play, created: .created, length: .length}'
+```
+
+**参数说明**：
+- `mid`: UP 主 UID
+- `ps`: 每页数量（最大 50）
+- `pn`: 页码（从 1 开始）
+- `order`: 排序方式，`pubdate`（最新）或 `click`（最多播放）
+
+**批量翻页示例**：
+```bash
+for pn in 1 2 3; do
+  curl -s "https://api.bilibili.com/x/space/arc/search?mid=$UID&ps=30&pn=$pn&order=pubdate" \
+    -H "User-Agent: Mozilla/5.0" | \
+    jq -r '.data.list.vlist[].bvid'
+  sleep 1.5
+done
+```
+
+### 7. 无字幕时 ASR 兜底转录（需要 Cookie + SiliconFlow API Key）
+
+当视频没有 AI 字幕时，可下载音频后调用 ASR 获取文本。
+
+#### 步骤 1: 用 yt-dlp 下载音频
+```bash
+BVID="BV1xx411c7mD"
+yt-dlp --add-header "Cookie:$COOKIE" \
+  -f bestaudio \
+  --extract-audio --audio-format mp3 \
+  -o "/tmp/%(id)s.%(ext)s" \
+  "https://www.bilibili.com/video/$BVID"
+```
+
+#### 步骤 2: 调用 SiliconFlow ASR 转录
+```bash
+AUDIO_FILE="/tmp/${BVID}.mp3"
+SILICONFLOW_API_KEY="your_api_key"
+
+curl -s "https://api.siliconflow.cn/v1/audio/transcriptions" \
+  -H "Authorization: Bearer $SILICONFLOW_API_KEY" \
+  -F "file=@${AUDIO_FILE};type=audio/mpeg" \
+  -F "model=FunAudioLLM/SenseVoiceSmall" | \
+  jq -r '.text'
+```
+
+**决策优先级**：
+1. 优先尝试获取 B 站 AI 字幕（免费、快）
+2. 字幕不存在时，才走 ASR 兜底（消耗 API 额度）
+
+### 8. 可选数据持久化
+
+提取到的内容（字幕/评论/元数据）由 AI 判断用户是否需要存储。**表结构由用户自行维护**，此处仅提供参考模板。
+
+#### 参考表结构
+```sql
+CREATE TABLE IF NOT EXISTS bili_videos (
+    bvid        VARCHAR(20) PRIMARY KEY,
+    title       TEXT,
+    up_name     VARCHAR(255),
+    up_mid      BIGINT,
+    duration    INTEGER,         -- 秒
+    view_count  INTEGER,
+    like_count  INTEGER,
+    coin_count  INTEGER,
+    pub_time    TIMESTAMP,
+    content     TEXT,            -- 字幕或 ASR 转录文本
+    source      VARCHAR(20),     -- 'subtitle' 或 'asr'
+    created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+#### 存储示例
+```bash
+psql $DATABASE_URL -c "
+INSERT INTO bili_videos (bvid, title, up_name, up_mid, pub_time, content, source)
+VALUES ('BV1xx411c7mD', '视频标题', 'UP主名', 12345678, '2024-01-01', '字幕文本...', 'subtitle')
+ON CONFLICT (bvid) DO UPDATE SET content = EXCLUDED.content;
+"
+```
+
+**存储决策原则**：
+- 用户明确说"保存"、"存库"、"记录下来"时才执行写入
+- 默认只展示内容，不自动写库
+- 数据库连接串从用户环境变量 `DATABASE_URL` 读取
+
+## 访问受限处理 (412 Precondition Failed)
+
+如果遇到 B 站 412 错误，说明当前环境被风控。需要用户重新获取 Cookie。
+
 ## 注意事项
 
 - **默认不下载视频**：仅提取信息。
-- **依赖检查**：确保环境已安装 `jq` 和 `yt-dlp`（仅弹幕需要）。
-- **Cookie 需求**：只有字幕和弹幕需要 Cookie，搜索、视频详情、评论均无需 Cookie。
-- **API 限制**：搜索 API 有频率限制，避免短时间内大量请求。
-- **字幕推荐**：B 站会自动生成 AI 字幕，优先检查是否有可用字幕。
+- **依赖检查**：确保环境已安装 `jq` 和 `yt-dlp`。
+- **Cookie 需求**：只有字幕、弹幕、ASR 音频下载需要 Cookie，搜索、视频详情、评论均无需 Cookie。
+- **API 限制**：搜索 API 有频率限制，避免短时间内大量请求；批量翻页时每页间隔 1.5s 以上。
+- **字幕优先**：B 站会自动生成 AI 字幕，优先检查是否有可用字幕，无字幕再走 ASR。
+- **存储解耦**：持久化是可选动作，不与任何固定表结构绑定，用户自己管理数据库。
