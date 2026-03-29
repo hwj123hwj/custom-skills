@@ -9,10 +9,11 @@
 ## 1. 项目背景
 
 ### 1.1 现状
-- 维护者拥有一个私有技能仓库 `hwj123hwj/custom-skills`
+- 维护者拥有一个**公开**技能仓库 `hwj123hwj/custom-skills`（公开仓库，无需认证即可访问 raw 文件）
 - 技能数据存储在 `web/src/data/skills-data.json`
 - 目前有 React 前端网站用于展示和搜索技能
 - 安装技能需要使用 `npx clawhub install <skill-name>`
+- **注意**: `npx clawhub install` 实际上是从 GitHub 仓库复制文件到本地，不是从 npm 拉包
 
 ### 1.2 痛点
 - Agent 无法直接通过命令行搜索和安装技能
@@ -69,8 +70,46 @@ npx custom-skills install <关键词或技能名>
 **执行流程:**
 1. 使用搜索功能查找匹配的技能
 2. 如果唯一匹配 → 执行 `npx clawhub install <skill-name>`
-3. 如果多个匹配 → 显示列表，提示选择
+3. 如果多个匹配 → 显示列表，提示选择（除非使用 `--yes` 自动选择第一个）
 4. 如果无匹配 → 返回错误信息
+
+**安装命令执行细节:**
+- 使用 `child_process.spawn` 或 `exec` 执行 `npx clawhub install <skill-name>`
+- **必须捕获退出码 (exit code)** 判断成功与否:
+  - exit code 0: 安装成功
+  - exit code 非 0: 安装失败
+- 将子进程的 stdout/stderr 透传给用户（或捕获后格式化输出）
+- 支持 `--json` 时，返回结构化结果而非原始输出
+
+**错误处理:**
+| 错误场景 | 退出码 | 处理方式 |
+|---------|--------|---------|
+| 网络错误（无法连接 GitHub） | 1 | 提示检查网络，建议重试 |
+| 技能不存在 | 1 | 提示技能名称错误，建议搜索 |
+| 权限不足 | 1 | 提示检查文件权限 |
+| 磁盘空间不足 | 1 | 提示清理磁盘空间 |
+| 安装成功 | 0 | 返回成功信息 |
+
+**JSON 输出示例（成功）:**
+```json
+{
+  "success": true,
+  "skill": "xiaohongshu-crawler",
+  "message": "安装成功",
+  "exitCode": 0
+}
+```
+
+**JSON 输出示例（失败）:**
+```json
+{
+  "success": false,
+  "skill": "xiaohongshu-crawler",
+  "message": "安装失败: 网络连接超时",
+  "exitCode": 1,
+  "error": "ECONNRESET"
+}
+```
 
 **输出示例（成功）:**
 ```
@@ -153,7 +192,26 @@ GitHub 地址:
 
 ## 3. 数据需求
 
-### 3.1 技能数据结构
+### 3.1 数据补充策略
+
+**现状**: 当前 `skills-data.json` 只有基础字段（id, name, description, emoji, tags, scenarios, lastUpdated）
+
+**需要补充的字段**:
+- `displayName`: 中文显示名称
+- `aliases`: 别名列表（用于模糊搜索）
+- `installCommand`: 安装命令（通常是 `npx clawhub install <name>`）
+- `githubUrl`: GitHub 地址
+
+**补充方式**:
+1. **CLI 开发阶段**: 先使用现有数据，CLI 内部做字段兼容（缺失字段使用默认值）
+2. **并行进行**: 逐步补充 `skills-data.json` 的字段
+3. **默认值策略**:
+   - `displayName`: 使用 `name`
+   - `aliases`: 空数组 []
+   - `installCommand`: 自动生成 `npx clawhub install ${name}`
+   - `githubUrl`: 自动生成 `https://github.com/hwj123hwj/custom-skills/tree/main/${name}`
+
+### 3.2 技能数据结构
 
 需要扩展 `skills-data.json` 的数据结构，增加以下字段：
 
@@ -223,10 +281,18 @@ CLI 需要获取技能数据，有以下几种方案：
 - 优点: 数据实时更新
 - 缺点: 需要网络，有延迟
 
-**方案 3: 缓存机制**
-- 首次运行时拉取数据，缓存到本地
-- 定期更新（如每天）
-- 平衡速度和实时性
+**方案 3: 缓存机制（推荐）**
+- 首次运行时从 GitHub raw URL 拉取数据: `https://raw.githubusercontent.com/hwj123hwj/custom-skills/main/web/src/data/skills-data.json`
+- 缓存到本地文件系统（如 `~/.cache/custom-skills/skills-data.json`）
+- 默认使用缓存数据，支持 `--refresh` 强制刷新
+- 缓存有效期: 24 小时
+- **注意**: 仓库是公开的，无需认证即可访问 raw 文件
+
+**数据获取优先级:**
+1. 本地缓存（如果存在且未过期）
+2. 远程拉取（缓存不存在或已过期，或使用 `--refresh`）
+3. 如果远程拉取失败，使用本地缓存（即使已过期）
+4. 如果完全无数据，返回错误
 
 **建议**: 方案 3（缓存机制），支持 `--refresh` 强制刷新
 
