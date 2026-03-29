@@ -1,0 +1,29 @@
+{
+  "name": "custom-skills",
+  "version": "1.0.0",
+  "description": "CLI tool to search and install custom AI skills",
+  "main": "dist/index.js",
+  "bin": {
+    "custom-skills": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node src/index.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "commander": "^12.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.4.0",
+    "ts-node": "^10.9.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "MIT"
+}

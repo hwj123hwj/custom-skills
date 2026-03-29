@@ -1,7 +1,7 @@
 # Custom Skills CLI 需求文档
 
-> 版本: v1.0  
-> 日期: 2026-03-29  
+> 版本: v1.0
+> 日期: 2026-03-29
 > 作者: 龙虾军团指挥部
 
 ---
@@ -83,30 +83,33 @@ npx custom-skills install <关键词或技能名>
 ```typescript
 // 伪代码
 async function installSkill(skillName: string) {
-  const sourceDir = `/tmp/custom-skills/${skillName}`;
+  const repoDir = `/tmp/custom-skills`;
+  const sourceDir = `${repoDir}/${skillName}`;
   const targetDir = `${process.env.HOME}/.openclaw/workspace/skills/${skillName}`;
-  
-  // 1. 确保仓库已克隆
-  if (!exists(sourceDir)) {
-    await exec(`git clone https://github.com/hwj123hwj/custom-skills.git /tmp/custom-skills`);
+
+  // 1. 确保仓库已克隆/更新
+  if (!exists(repoDir)) {
+    await exec(`git clone https://github.com/hwj123hwj/custom-skills.git ${repoDir}`);
+  } else {
+    await exec(`git -C ${repoDir} pull`);
   }
-  
+
   // 2. 检查技能是否存在
   if (!exists(sourceDir)) {
     throw new Error(`技能 ${skillName} 不存在`);
   }
-  
+
   // 3. 创建目标目录
   await mkdir(targetDir, { recursive: true });
-  
+
   // 4. 复制技能文件
   await cp(sourceDir, targetDir, { recursive: true });
-  
+
   // 5. 验证安装
   if (!exists(`${targetDir}/SKILL.md`)) {
     throw new Error(`技能安装失败：SKILL.md 不存在`);
   }
-  
+
   return { success: true, skill: skillName, path: targetDir };
 }
 ```
@@ -385,10 +388,10 @@ npx custom-skills search 小红书 --json
 Agent: 我去查找一下...
       （运行: npx custom-skills search 小红书）
       找到技能: xiaohongshu-crawler
-      
+
       正在安装...
       （运行: npx custom-skills install xiaohongshu-crawler）
-      
+
       ✅ 已安装小红书爬虫技能，现在可以使用了！
 ```
 
@@ -399,7 +402,7 @@ Agent: 我去查找一下...
 Agent: 找到多个相关技能:
        1. weibo-skill - 微博助手
        2. weibo-monitor - 微博监控
-       
+
        您想安装哪一个？（请回复数字或完整名称）
 
 用户: 1
@@ -413,12 +416,12 @@ Agent: 正在安装 weibo-skill...
 用户: 我有哪些技能可以用？
 
 Agent: （运行: npx custom-skills list）
-       
+
        您目前有以下技能可用:
        - 社交类: 小红书、微博、微信...
        - 视频类: B站、抖音...
        - 工具类: 爬虫、记忆整理...
-       
+
        需要安装哪个？
 ```
 
