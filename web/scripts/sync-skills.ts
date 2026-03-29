@@ -18,8 +18,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const SKILLS_DIR_CANDIDATES = [
-  path.resolve(__dirname, '../../.claude/skills'),
-  path.resolve(__dirname, '../../'),
+  path.resolve(__dirname, '../../skills'),
 ];
 const SKILLS_DIR = SKILLS_DIR_CANDIDATES.find((dir) => fs.existsSync(dir)) ?? SKILLS_DIR_CANDIDATES[0];
 const OUTPUT_FILE = path.resolve(__dirname, '../src/data/skills-data.json');

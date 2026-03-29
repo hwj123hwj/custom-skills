@@ -54,7 +54,7 @@ function copyDir(src: string, dest: string): void {
 }
 
 async function installSkill(skill: NormalizedSkill, force: boolean): Promise<void> {
-  const sourceDir = path.join(REPO_DIR, skill.id);
+  const sourceDir = path.join(REPO_DIR, 'skills', skill.id);
   const targetDir = getTargetDir(skill.id);
 
   // 确保仓库存在且最新

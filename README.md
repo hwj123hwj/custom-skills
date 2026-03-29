@@ -6,17 +6,16 @@
 
 | 技能 | 说明 |
 |------|------|
-| [bilibili-video-helper](./bilibili-video-helper) | B站视频助手，支持下载、转录、分析 |
-| [bjtuo-classroom-query](./bjtuo-classroom-query) | 北京交通大学教室课表查询 |
-| [idea-incubator](./idea-incubator) | 创意孵化器，产品想法管理 |
-| [knowledge-skill](./knowledge-skill) | 知识管理技能 |
-| [media-analyze](./media-analyze) | 媒体分析报告生成 |
-| [memory-organizer](./memory-organizer) | 长期记忆整理指南，区分静态/动态信息 |
-| [skill-browser-crawl](./skill-browser-crawl) | 浏览器爬虫，网页内容提取 |
-| [web](./web) | Web 相关工具集 |
-| [wechat-decrypt](./wechat-decrypt) | 微信数据库解密，提取聊天记录 |
-| [wechat-search](./wechat-search) | 微信搜索技能 |
-| [weibo-skill](./weibo-skill) | 微博相关技能 |
+| [bilibili-video-helper](./skills/bilibili-video-helper) | B站视频助手，支持下载、转录、分析 |
+| [bjtuo-classroom-query](./skills/bjtuo-classroom-query) | 北京交通大学教室课表查询 |
+| [idea-incubator](./skills/idea-incubator) | 创意孵化器，产品想法管理 |
+| [knowledge-skill](./skills/knowledge-skill) | 知识管理技能 |
+| [media-analyze](./skills/media-analyze) | 媒体分析报告生成 |
+| [memory-organizer](./skills/memory-organizer) | 长期记忆整理指南，区分静态/动态信息 |
+| [skill-browser-crawl](./skills/skill-browser-crawl) | 浏览器爬虫，网页内容提取 |
+| [wechat-decrypt](./skills/wechat-decrypt) | 微信数据库解密，提取聊天记录 |
+| [wechat-search](./skills/wechat-search) | 微信搜索技能 |
+| [weibo-skill](./skills/weibo-skill) | 微博相关技能 |
 
 ## 🔧 环境准备
 
@@ -49,7 +48,7 @@ npx clawhub install <skill-name>
 git clone https://github.com/hwj123hwj/custom-skills.git
 
 # 运行技能脚本
-cd custom-skills/<skill-name>
+cd custom-skills/skills/<skill-name>
 uv run scripts/<script>.py
 ```
 

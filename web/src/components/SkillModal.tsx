@@ -23,11 +23,11 @@ export function SkillModal({ skill, isOpen, onClose }: SkillModalProps) {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
-      <div 
-        className="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity" 
+      <div
+        className="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity"
         onClick={onClose}
       />
-      
+
       <div className="relative w-full max-w-2xl bg-[#0a0a0a] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
         {/* Header */}
         <div className="flex items-start justify-between p-6 border-b border-white/5 bg-white/5">
@@ -44,7 +44,7 @@ export function SkillModal({ skill, isOpen, onClose }: SkillModalProps) {
               </div>
             </div>
           </div>
-          <button 
+          <button
             onClick={onClose}
             className="p-2 hover:bg-white/10 rounded-full transition-colors text-gray-400 hover:text-white"
           >
@@ -97,11 +97,11 @@ export function SkillModal({ skill, isOpen, onClose }: SkillModalProps) {
             </div>
           )}
         </div>
-        
+
         {/* Footer */}
         <div className="p-4 border-t border-white/5 bg-white/5 flex justify-end">
-          <a 
-            href={`https://github.com/hwj123hwj/custom-skills/tree/main/${skill.id}`}
+          <a
+            href={`https://github.com/hwj123hwj/custom-skills/tree/main/skills/${skill.id}`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-sm font-medium transition-colors"
