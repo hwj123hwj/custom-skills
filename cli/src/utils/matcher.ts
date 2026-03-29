@@ -5,13 +5,16 @@ import { NormalizedSkill, SearchResult } from '../types/skill.js';
  * 匹配优先级: id 精确 > displayName 精确 > aliases 精确 > 包含匹配 > description 包含
  */
 export function scoreSkill(skill: NormalizedSkill, keyword: string): number {
+  // 同时保留原始关键词和去空格版本，以兼容"B站"匹配"B 站"
   const kw = keyword.toLowerCase().trim();
+  const kwNoSpace = kw.replace(/\s+/g, '');
   if (!kw) return 0;
 
   const id = skill.id.toLowerCase();
   const name = skill.name.toLowerCase();
   const displayName = skill.displayName.toLowerCase();
   const description = skill.description.toLowerCase();
+  const descNoSpace = description.replace(/\s+/g, '');
   const aliases = skill.aliases.map((a) => a.toLowerCase());
   const tags = skill.tags.map((t) => t.toLowerCase());
 
@@ -30,10 +33,13 @@ export function scoreSkill(skill: NormalizedSkill, keyword: string): number {
   if (displayName.includes(kw)) return 55;
   if (aliases.some((a) => a.includes(kw))) return 50;
   if (tags.some((t) => t.includes(kw))) return 40;
-  if (description.includes(kw)) return 30;
+  if (description.includes(kw) || descNoSpace.includes(kwNoSpace)) return 30;
 
   // scenarios 匹配
-  if (skill.scenarios.some((s) => s.toLowerCase().includes(kw))) return 20;
+  if (skill.scenarios.some((s) => {
+    const sl = s.toLowerCase();
+    return sl.includes(kw) || sl.replace(/\s+/g, '').includes(kwNoSpace);
+  })) return 20;
 
   return 0;
 }
