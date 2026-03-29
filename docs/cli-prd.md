@@ -12,8 +12,10 @@
 - 维护者拥有一个**公开**技能仓库 `hwj123hwj/custom-skills`（公开仓库，无需认证即可访问 raw 文件）
 - 技能数据存储在 `web/src/data/skills-data.json`
 - 目前有 React 前端网站用于展示和搜索技能
-- 安装技能需要使用 `npx clawhub install <skill-name>`
-- **注意**: `npx clawhub install` 实际上是从 GitHub 仓库复制文件到本地，不是从 npm 拉包
+- 每个技能是一个文件夹，包含 `SKILL.md` 文件
+- **安装方式**: 经过测试，`npx clawhub install` 需要从 registry 安装，无法直接从 GitHub 安装
+- **实际安装流程**: `git clone` 仓库 → 复制技能文件夹到 `~/.openclaw/workspace/skills/`
+- CLI 需要自行实现这个安装逻辑
 
 ### 1.2 痛点
 - Agent 无法直接通过命令行搜索和安装技能
@@ -69,26 +71,59 @@ npx custom-skills install <关键词或技能名>
 
 **执行流程:**
 1. 使用搜索功能查找匹配的技能
-2. 如果唯一匹配 → 执行 `npx clawhub install <skill-name>`
+2. 如果唯一匹配 → 执行安装流程（见下方）
 3. 如果多个匹配 → 显示列表，提示选择（除非使用 `--yes` 自动选择第一个）
 4. 如果无匹配 → 返回错误信息
 
-**安装命令执行细节:**
-- 使用 `child_process.spawn` 或 `exec` 执行 `npx clawhub install <skill-name>`
-- **必须捕获退出码 (exit code)** 判断成功与否:
-  - exit code 0: 安装成功
-  - exit code 非 0: 安装失败
-- 将子进程的 stdout/stderr 透传给用户（或捕获后格式化输出）
-- 支持 `--json` 时，返回结构化结果而非原始输出
+**安装实现方式（重要更新）:**
+
+经过测试，`npx clawhub install` 需要从 registry 安装，无法直接从 GitHub 安装。
+因此 CLI 的 `install` 命令需要**自行实现**安装逻辑：
+
+```typescript
+// 伪代码
+async function installSkill(skillName: string) {
+  const sourceDir = `/tmp/custom-skills/${skillName}`;
+  const targetDir = `${process.env.HOME}/.openclaw/workspace/skills/${skillName}`;
+  
+  // 1. 确保仓库已克隆
+  if (!exists(sourceDir)) {
+    await exec(`git clone https://github.com/hwj123hwj/custom-skills.git /tmp/custom-skills`);
+  }
+  
+  // 2. 检查技能是否存在
+  if (!exists(sourceDir)) {
+    throw new Error(`技能 ${skillName} 不存在`);
+  }
+  
+  // 3. 创建目标目录
+  await mkdir(targetDir, { recursive: true });
+  
+  // 4. 复制技能文件
+  await cp(sourceDir, targetDir, { recursive: true });
+  
+  // 5. 验证安装
+  if (!exists(`${targetDir}/SKILL.md`)) {
+    throw new Error(`技能安装失败：SKILL.md 不存在`);
+  }
+  
+  return { success: true, skill: skillName, path: targetDir };
+}
+```
+
+**安装路径:**
+- 默认: `~/.openclaw/workspace/skills/<skill-name>/`
+- 可配置: 通过 `--target-dir` 或环境变量 `CUSTOM_SKILLS_TARGET`
 
 **错误处理:**
-| 错误场景 | 退出码 | 处理方式 |
-|---------|--------|---------|
-| 网络错误（无法连接 GitHub） | 1 | 提示检查网络，建议重试 |
-| 技能不存在 | 1 | 提示技能名称错误，建议搜索 |
-| 权限不足 | 1 | 提示检查文件权限 |
-| 磁盘空间不足 | 1 | 提示清理磁盘空间 |
-| 安装成功 | 0 | 返回成功信息 |
+| 错误场景 | 处理方式 |
+|---------|---------|
+| 网络错误（无法连接 GitHub） | 提示检查网络，建议重试 |
+| 技能不存在于仓库 | 提示技能名称错误，建议搜索 |
+| 目标目录已存在 | 提示使用 `--force` 覆盖或先卸载 |
+| 权限不足 | 提示检查文件权限 |
+| 磁盘空间不足 | 提示清理磁盘空间 |
+| 安装成功 | 返回成功信息，显示安装路径 |
 
 **JSON 输出示例（成功）:**
 ```json
