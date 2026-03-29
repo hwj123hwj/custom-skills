@@ -31,14 +31,20 @@ powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
 
 ## 🚀 快速使用
 
-### 通过 ClawHub 安装
+### 通过 CLI 安装（推荐）
 
 ```bash
 # 搜索技能
-npx clawhub search <skill-name>
+npx custom-skills search <关键词>
+
+# 查看所有技能
+npx custom-skills list
 
 # 安装技能
-npx clawhub install <skill-name>
+npx custom-skills install <关键词或技能名>
+
+# 查看技能详情
+npx custom-skills info <技能名>
 ```
 
 ### 本地使用
