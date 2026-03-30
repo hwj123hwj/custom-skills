@@ -50,10 +50,28 @@ npx custom-skills install weibo-skill
 npx custom-skills install 微博
 ```
 
+**选项**：
+```bash
+--target-dir <dir>   # 自定义安装目录
+--force              # 强制覆盖已安装的技能
+--yes                # 多个匹配时自动选择得分最高的
+```
+
+**自定义安装路径示例**：
+```bash
+# 安装到 OpenClaw 全局 skills 目录（所有 agent 共享）
+npx custom-skills install bilibili-video-helper --target-dir ~/.openclaw/skills
+
+# 默认安装路径
+npx custom-skills install weibo-skill
+# → ~/.openclaw/workspace/skills/<技能名>/
+```
+
 **说明**：
 - 如果提供关键词且匹配唯一，自动安装
 - 如果匹配多个，列出选项供选择
-- 安装路径：`~/.openclaw/workspace/skills/<技能名>/`
+- 默认安装路径：`~/.openclaw/workspace/skills/<技能名>/`
+- 使用 `--target-dir` 可自定义安装目录
 
 ---
 
@@ -145,4 +163,4 @@ npx custom-skills list --json
 
 ---
 
-*更新日期：2026-03-29*
+*更新日期：2026-03-30*
