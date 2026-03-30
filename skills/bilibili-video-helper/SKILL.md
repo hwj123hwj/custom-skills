@@ -266,6 +266,104 @@ ON CONFLICT (bvid) DO UPDATE SET content = EXCLUDED.content;
 - 默认只展示内容，不自动写库
 - 数据库连接串从用户环境变量 `DATABASE_URL` 读取
 
+### 9. 获取观看历史（需要 Cookie）
+
+**API**: `GET /x/v2/history`
+
+```bash
+curl -s "https://api.bilibili.com/x/v2/history?pn=1&ps=20" \
+  -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/125.0.0.0 Safari/537.36" \
+  -H "Cookie: $COOKIE" \
+  -H "Referer: https://www.bilibili.com" | \
+  jq '[.data[]? | {title: .title, bvid: .bvid, author: .author, view_at: (.view_at | todate), duration: .duration, progress: .progress}]'
+```
+
+**参数说明**：
+- `pn`: 页码（从 1 开始）
+- `ps`: 每页数量（最大 50）
+
+**返回字段**：
+- `title`: 视频标题
+- `bvid`: BV 号
+- `view_at`: 观看时间（Unix 时间戳）
+- `duration`: 视频总时长（秒）
+- `progress`: 观看进度（秒），-1 表示已看完
+
+### 10. 获取关注列表（需要 Cookie）
+
+**API**: `GET /x/relation/followings`
+
+```bash
+UID="1512253857"
+
+curl -s "https://api.bilibili.com/x/relation/followings?vmid=$UID&pn=1&ps=20&order=attention" \
+  -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/125.0.0.0 Safari/537.36" \
+  -H "Cookie: $COOKIE" \
+  -H "Referer: https://space.bilibili.com/$UID" | \
+  jq '{total: .data.total, list: [.data.list[]? | {uname: .uname, sign: .sign, mid: .mid}]}'
+```
+
+**参数说明**：
+- `vmid`: 当前用户 UID
+- `pn`: 页码（从 1 开始）
+- `ps`: 每页数量（最大 50）
+- `order`: 排序方式，`attention`（关注时间倒序）
+
+### 11. 取关 UP 主（需要 Cookie + CSRF）
+
+**API**: `POST /x/relation/modify`
+
+```bash
+TARGET_MID="12345678"
+CSRF=$(echo "$COOKIE" | grep -oP 'bili_jct=\K[^;]+')
+
+curl -s "https://api.bilibili.com/x/relation/modify" \
+  -X POST \
+  -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/125.0.0.0 Safari/537.36" \
+  -H "Cookie: $COOKIE" \
+  -H "Referer: https://space.bilibili.com/$UID" \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "fid=$TARGET_MID&act=2&re_src=11&csrf=$CSRF" | jq .
+```
+
+**参数说明**：
+- `fid`: 目标 UP 主的 UID（mid）
+- `act`: 操作类型，`1` = 关注，`2` = 取关
+- `csrf`: 从 Cookie 中的 `bili_jct` 字段提取
+
+**批量取关示例**（每条间隔 1s，避免风控）：
+```bash
+for mid in 12345678 23456789 34567890; do
+  curl -s "https://api.bilibili.com/x/relation/modify" \
+    -X POST \
+    -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/125.0.0.0 Safari/537.36" \
+    -H "Cookie: $COOKIE" \
+    -H "Referer: https://space.bilibili.com/$UID" \
+    -H "Content-Type: application/x-www-form-urlencoded" \
+    -d "fid=$mid&act=2&re_src=11&csrf=$CSRF" | jq '{mid: $mid, code: .code}'
+  sleep 1
+done
+```
+
+**⚠️ 安全提示**：取关操作不可逆，执行前必须列出目标让用户确认。
+
+### 12. 关注 UP 主（需要 Cookie + CSRF）
+
+**API**: `POST /x/relation/modify`（同上，`act=1`）
+
+```bash
+TARGET_MID="12345678"
+CSRF=$(echo "$COOKIE" | grep -oP 'bili_jct=\K[^;]+')
+
+curl -s "https://api.bilibili.com/x/relation/modify" \
+  -X POST \
+  -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/125.0.0.0 Safari/537.36" \
+  -H "Cookie: $COOKIE" \
+  -H "Referer: https://space.bilibili.com/$UID" \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "fid=$TARGET_MID&act=1&re_src=11&csrf=$CSRF" | jq .
+```
+
 ## 访问受限处理 (412 Precondition Failed)
 
 如果遇到 B 站 412 错误，说明当前环境被风控。需要用户重新获取 Cookie。
