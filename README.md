@@ -15,6 +15,7 @@
 | [skill-browser-crawl](./skills/skill-browser-crawl) | 浏览器爬虫，网页内容提取 |
 | [wechat-decrypt](./skills/wechat-decrypt) | 微信数据库解密，提取聊天记录 |
 | [wechat-search](./skills/wechat-search) | 微信搜索技能 |
+| [skills-sh-installer](./skills/skills-sh-installer) | 从 skills.sh 下载安装 Cursor/Windsurf 技能到本地 |
 | [weibo-skill](./skills/weibo-skill) | 微博相关技能 |
 
 ## 🔧 环境准备
