@@ -1,0 +1,6 @@
+# weijian.online
+Custom Skills Hub - AI 技能市场，管理和分享 OpenClaw 自定义技能。
+
+## 可用页面
+
+- /cli-usage.md - Custom Skills CLI 使用说明（供 AI Agent 读取，了解如何搜索、安装、管理技能）
