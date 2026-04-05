@@ -28,7 +28,7 @@ DB_CONFIG = {
 }
 
 SILICONFLOW_API_KEY = os.getenv("SILICONFLOW_API_KEY")
-EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "BAAI/bge-large-zh-v1.5")
+EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "BAAI/bge-m3")
 
 
 def get_embedding(text: str) -> list[float]:
@@ -58,18 +58,29 @@ def get_embedding(text: str) -> list[float]:
 
 
 def search_keyword(query: str, limit: int = 10, source_type: str = None) -> list[dict]:
-    """关键词搜索"""
+    """关键词搜索（分词后逐词 OR 匹配）"""
+    # 分词：按空格拆分，每词单独匹配
+    words = [w.strip() for w in query.split() if len(w.strip()) >= 2]
+    if not words:
+        words = [query]
+    
     conn = psycopg2.connect(**DB_CONFIG)
     cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     
     try:
-        sql = """
+        # 每个词生成 OR 条件
+        conditions = []
+        params = []
+        for word in words:
+            conditions.append("(title ILIKE %s OR content ILIKE %s)")
+            params.extend([f"%{word}%", f"%{word}%"])
+        
+        sql = f"""
             SELECT id, source_type, source_id, source_url, title, summary, 
                    created_at, updated_at
             FROM knowledge_items
-            WHERE (title ILIKE %s OR content ILIKE %s)
+            WHERE ({" OR ".join(conditions)})
         """
-        params = [f"%{query}%", f"%{query}%"]
         
         if source_type:
             sql += " AND source_type = %s"

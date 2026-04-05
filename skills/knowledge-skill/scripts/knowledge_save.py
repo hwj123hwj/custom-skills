@@ -30,8 +30,10 @@ DB_CONFIG = {
 
 SILICONFLOW_API_KEY = os.getenv("SILICONFLOW_API_KEY")
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "BAAI/bge-m3")
-# AI 摘要模型（使用免费的 Qwen 模型）
-AI_SUMMARY_MODEL = os.getenv("AI_SUMMARY_MODEL", "Qwen/Qwen2.5-7B-Instruct")
+# AI 摘要模型（龙猫，免费）
+AI_SUMMARY_MODEL = os.getenv("AI_SUMMARY_MODEL", "LongCat-Flash-Lite")
+LONGMAO_API_KEY = os.getenv("LONGMAO_API_KEY")
+LONGMAO_BASE_URL = os.getenv("LONGMAO_BASE_URL", "https://api.longcat.chat/openai")
 
 
 def get_embedding(text: str) -> list[float]:
@@ -74,8 +76,12 @@ def generate_summary(title: str, content: str) -> str:
 
 
 def generate_ai_summary(title: str, content: str) -> str:
-    """使用 AI 生成一句话摘要"""
-    if not SILICONFLOW_API_KEY:
+    """使用龙猫 API（免费）生成一句话摘要，无 fallback"""
+    LONGMAO_API_KEY = os.getenv("LONGMAO_API_KEY", "")
+    LONGMAO_BASE_URL = os.getenv("LONGMAO_BASE_URL", "https://api.longcat.chat/openai")
+    
+    if not LONGMAO_API_KEY:
+        print("Warning: LONGMAO_API_KEY not set, skipping AI summary", file=sys.stderr)
         return None
     
     # 截取内容（最多 2000 字符）
@@ -92,9 +98,9 @@ def generate_ai_summary(title: str, content: str) -> str:
 
     try:
         response = requests.post(
-            "https://api.siliconflow.cn/v1/chat/completions",
+            f"{LONGMAO_BASE_URL}/chat/completions",
             headers={
-                "Authorization": f"Bearer {SILICONFLOW_API_KEY}",
+                "Authorization": f"Bearer {LONGMAO_API_KEY}",
                 "Content-Type": "application/json",
             },
             json={
