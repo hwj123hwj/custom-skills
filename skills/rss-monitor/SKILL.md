@@ -1,13 +1,19 @@
 ---
 name: rss-monitor
-description: RSS 消息监控与智能摘要。定时拉取 RSS feed，识别新文章，生成结构化摘要，推送给用户，并记录反馈形成自进化偏好体系。触发场景：(1) 用户要求监控某个公众号/博客 (2) 用户要求查看今天的信息流 (3) heartbeat 定时检查 (4) 用户反馈某篇文章有用/没用。
+description: RSS 消息监控与智能摘要。定时拉取自部署 WeWe RSS 的公众号 feed，识别新文章，生成结构化摘要，推送给用户，并记录反馈形成自进化偏好体系。触发场景：(1) 用户要求监控某个公众号 (2) 用户要求查看今天的信息流 (3) heartbeat 定时检查 (4) 用户反馈某篇文章有用/没用。
 ---
 
 # RSS Monitor — 自进化信息消费系统
 
+## 服务信息
+
+- **WeWe RSS 管理界面**: http://115.190.82.67/dash/
+- **Auth Code**: `hwj`
+- **RSS 订阅地址**: http://115.190.82.67/feeds/{feed_id}.rss
+
 ## 核心功能
 
-1. **RSS 拉取**：从配置的 RSS feed 列表获取最新文章
+1. **RSS 拉取**：从自部署的 WeWe RSS 获取公众号文章
 2. **新文章识别**：对比上次检查时间戳，识别新增内容
 3. **智能摘要**：生成结构化摘要（标题、核心观点、关键词、价值判断）
 4. **推送通知**：通过 Feishu 发送摘要 + 原文链接
@@ -23,14 +29,19 @@ description: RSS 消息监控与智能摘要。定时拉取 RSS feed，识别新
 {
   "feeds": [
     {
-      "name": "新智元",
-      "url": "https://wechat2rss.xlab.app/feed/ede30346413ea70dbef5d485ea5cbb95cca446e7.xml",
+      "name": "量子位",
+      "url": "http://115.190.82.67/feeds/quantum_bit.rss",
+      "feed_id": "quantum_bit",
       "category": "AI",
       "enabled": true,
       "last_checked": null,
       "last_article_time": null
     }
-  ]
+  ],
+  "wewe_rss": {
+    "dashboard": "http://115.190.82.67/dash/",
+    "auth_code": "hwj"
+  }
 }
 ```
 
@@ -42,17 +53,30 @@ description: RSS 消息监控与智能摘要。定时拉取 RSS feed，识别新
 
 ## 工作流程
 
-### 1. 检查新文章
+### 1. 添加公众号源
+
+用户说：「帮我监控 XXX 公众号」
+
+Agent 操作：
+1. 打开 WeWe RSS 管理界面 http://115.190.82.67/dash/
+2. 输入 Auth Code: `hwj`
+3. 进入「公众号源」→「添加」
+4. 用户需要提供该公众号的一篇文章链接（格式：`https://mp.weixin.qq.com/s/xxxxx`）
+5. 添加成功后，获取 feed_id，更新 `memory/rss-feeds.json`
+
+**注意**：添加公众号源需要用户在浏览器操作，Agent 无法自动完成（需要微信读书账号登录）
+
+### 2. 检查新文章
 
 ```bash
 # 拉取 RSS feed
-curl -s "$RSS_URL" | parse rss
+curl -s "http://115.190.82.67/feeds/{feed_id}.rss"
 
 # 对比 last_article_time，识别新文章
 # 如果有新文章，进入摘要流程
 ```
 
-### 2. 生成摘要
+### 3. 生成摘要
 
 对每篇新文章生成结构化摘要：
 
@@ -66,11 +90,11 @@ curl -s "$RSS_URL" | parse rss
 **原文链接**：[点击阅读](url)
 ```
 
-### 3. 推送通知
+### 4. 推送通知
 
 通过 Feishu message 工具发送摘要。
 
-### 4. 记录反馈
+### 5. 记录反馈
 
 用户回复「有用」「没用」「收藏」等，记录到 preferences.md：
 
@@ -80,14 +104,13 @@ curl -s "$RSS_URL" | parse rss
 
 ## 命令
 
-### 添加订阅
+### 查看已订阅公众号
 
-用户说：「帮我监控 XXX 公众号」
+用户说：「看看订阅了哪些公众号」
 
 Agent 操作：
-1. 查找该公众号的 RSS 链接（wechat2rss 或其他来源）
-2. 添加到 feeds.json
-3. 立即拉取一次，确认可用
+1. 读取 `memory/rss-feeds.json`
+2. 列出所有 enabled 的 feed
 
 ### 检查更新
 
@@ -125,13 +148,15 @@ Agent 操作：
 - **Cron**：每 6 小时检查一次（`0 */6 * * *`)
 - **Heartbeat**：每次对话时顺便检查（如果距离上次检查超过 4 小时）
 
-## 初始化
+## 风控限制
 
-首次使用时：
+WeWe RSS 基于微信读书接口，有以下限制：
 
-1. 创建 `memory/rss-feeds.json`
-2. 创建 `memory/rss-preferences.md`
-3. 添加第一个订阅源
+- 每个账号约能订阅 **10 个公众号**
+- 刷新频率约 **每天 2 次**
+- 超限会触发验证码
+
+建议：准备多个微信读书账号轮换
 
 ---
 
