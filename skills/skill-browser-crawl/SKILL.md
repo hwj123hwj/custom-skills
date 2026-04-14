@@ -1,6 +1,19 @@
 ---
 name: skill-browser-crawl
 description: 基于浏览器的轻量级网页爬虫。支持 JavaScript 渲染、Markdown 提取，并能递归爬取文档类网站。
+tags:
+  - Crawler
+  - Web
+  - Playwright
+  - Extraction
+aliases:
+  - 网页爬虫
+  - 浏览器抓取
+  - 文档爬取
+scenarios:
+  - 抓取需要 JavaScript 渲染的网页
+  - 将网页提取为 Markdown
+  - 递归下载文档站点内容
 ---
 
 # Browser-Based Web Crawler (浏览器网页爬虫)

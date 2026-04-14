@@ -19,7 +19,7 @@ export function SkillCard({ skill, onClick }: SkillCardProps) {
           </span>
           <div>
             <h3 className="font-semibold text-lg text-white group-hover:text-purple-400 transition-colors">
-              {skill.name}
+              {skill.displayName}
             </h3>
             <div className="flex gap-2 mt-1">
               {skill.tags.map(tag => (

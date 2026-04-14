@@ -19,8 +19,6 @@ export function SkillModal({ skill, isOpen, onClose }: SkillModalProps) {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const skillsCliCommand = `npx skills add https://github.com/hwj123hwj/custom-skills --skill ${skill.id}`;
-
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
       <div
@@ -34,7 +32,8 @@ export function SkillModal({ skill, isOpen, onClose }: SkillModalProps) {
           <div className="flex items-center gap-4">
             <span className="text-4xl">{skill.emoji}</span>
             <div>
-              <h2 className="text-2xl font-bold text-white">{skill.name}</h2>
+              <h2 className="text-2xl font-bold text-white">{skill.displayName}</h2>
+              <p className="mt-1 text-sm text-gray-400">{skill.id}</p>
               <div className="flex gap-2 mt-2">
                 {skill.tags.map(tag => (
                   <span key={tag} className="text-xs px-2 py-0.5 rounded-full bg-white/10 text-gray-300 border border-white/10">
@@ -58,7 +57,7 @@ export function SkillModal({ skill, isOpen, onClose }: SkillModalProps) {
           <div>
             <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-3">Description</h3>
             <p className="text-gray-200 leading-relaxed">
-              {skill.description || "No description provided for this skill."}
+              {skill.detailedDescription || skill.description || "No description provided for this skill."}
             </p>
           </div>
 
@@ -69,10 +68,10 @@ export function SkillModal({ skill, isOpen, onClose }: SkillModalProps) {
               <div className="p-4">
                 <div className="group relative">
                   <div className="font-mono text-sm text-green-400 bg-black/50 p-4 rounded-lg border border-white/5 overflow-x-auto">
-                    {skillsCliCommand}
+                    {skill.installCommand}
                   </div>
                   <button
-                    onClick={() => handleCopy(skillsCliCommand)}
+                    onClick={() => handleCopy(skill.installCommand)}
                     className="absolute right-2 top-2 p-2 rounded-md bg-white/10 text-gray-400 hover:text-white hover:bg-white/20 transition-all opacity-0 group-hover:opacity-100"
                   >
                     {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
@@ -101,7 +100,7 @@ export function SkillModal({ skill, isOpen, onClose }: SkillModalProps) {
         {/* Footer */}
         <div className="p-4 border-t border-white/5 bg-white/5 flex justify-end">
           <a
-            href={`https://github.com/hwj123hwj/custom-skills/tree/main/skills/${skill.id}`}
+            href={skill.githubUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-sm font-medium transition-colors"

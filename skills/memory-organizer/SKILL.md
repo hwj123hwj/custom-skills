@@ -1,6 +1,19 @@
 ---
 name: memory-organizer
 description: 长期记忆整理指南。使用当需要清理、组织或重构 MEMORY.md 文件时，或决策哪些信息应该/不应该存储在长期记忆中。提供区分静态知识（长期价值）vs 动态信息（可自动获取）的原则。
+tags:
+  - Memory
+  - Productivity
+  - Knowledge
+  - Process
+aliases:
+  - 整理记忆
+  - MEMORY 管理
+  - 长期记忆
+scenarios:
+  - 清理或重构 MEMORY.md
+  - 判断某条信息该不该存入长期记忆
+  - 设计长期记忆的结构和归档原则
 ---
 
 # Memory Organizer
