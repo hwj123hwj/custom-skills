@@ -15,10 +15,8 @@ function getGitLastUpdated(filePath: string): string | null {
 
 function getLastUpdated(filePath: string): string {
   const gitDate = getGitLastUpdated(filePath);
-  const fileMtime = fs.statSync(filePath).mtime.toISOString();
-
-  if (!gitDate) return fileMtime;
-  return new Date(gitDate).getTime() >= new Date(fileMtime).getTime() ? gitDate : fileMtime;
+  if (gitDate) return gitDate;
+  return fs.statSync(filePath).mtime.toISOString();
 }
 
 // Get __dirname equivalent in ESM
