@@ -20,96 +20,76 @@ scenarios:
 
 多源搜索话题，自动生成结构化分析报告。
 
-## 使用方式
+## 核心原则
 
-```
-分析一下 <话题>
-/media-analyze <话题>
-```
+- 优先调用仓库自带 CLI，不要手写 `curl`
+- 只传稳定参数：`topic`、结果数量、搜索深度
+- 先拿结构化搜索结果，再写结论和报告
 
-**示例：**
-```
-分析一下 武汉大学图书馆事件
-分析一下 两会 2026
-```
-
----
-
-## 执行流程
-
-### Step 1: Tavily 搜索（优先）
+## 推荐入口
 
 ```bash
-curl -X POST https://api.tavily.com/search \
-  -H "Authorization: Bearer $TAVILY_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"query": "<话题>", "max_results": 10, "search_depth": "advanced"}'
+uv run skills/media-analyze/scripts/analyze_topic.py --topic "<话题>"
 ```
 
-**如果 Tavily 结果充足 → 直接生成报告**
+常用变体：
 
-### Step 2: 补充数据源（Tavily 结果不足时）
+```bash
+uv run skills/media-analyze/scripts/analyze_topic.py --topic "武汉大学图书馆事件"
+uv run skills/media-analyze/scripts/analyze_topic.py --topic "两会 2026" --max-results 10
+uv run skills/media-analyze/scripts/analyze_topic.py --topic "机器人创业" --search-depth advanced --format json
+```
 
-启动子 Agent 并行搜索：
+## 工作流
 
-| 数据源 | 接口 | 方式 |
-|--------|------|------|
-| 今日头条 | `https://so.toutiao.com/search?keyword=<话题>` | HTTP + 正则提取 JSON |
-| 微信公众号 | `https://wx.sogou.com/weixin?type=2&query=<话题>` | HTTP + HTML 解析 |
-| 微博 | `https://m.weibo.cn/api/container/getIndex?containerid=100103type=1&q=<话题>` | HTTP + Cookie |
-| Bing CN | `https://cn.bing.com/search?q=<话题>` | HTTP + HTML 解析 |
+### Step 1: 先跑统一搜索入口
 
-### Step 3: 生成报告
+- 默认命令已经封装好 Tavily 请求，不需要再构造 HTTP body 或 headers
+- `--format markdown` 适合直接阅读，`--format json` 适合后续加工
+
+### Step 2: 如果结果不足，再补外部信息
+
+- 先判断结果是否覆盖了主流媒体、事件时间线、核心观点
+- 不足时，再用其他技能补充
+- 微信文章：调用 `wechat-search` 的脚本入口
+- 微博热点：调用 `weibo-skill` 的脚本入口
+- 网页全文：再考虑浏览器或网页抓取技能
+
+### Step 3: 基于搜索结果写报告
 
 整合数据，按以下结构输出：
 
 ```markdown
-# 📰 XXX话题媒体分析报告
+# XXX 话题媒体分析报告
 
 > 报告生成时间：YYYY-MM-DD
 
-## 📌 事件概述
-## ⏱️ 完整时间线
-## 📊 各平台热度分析
-## 💬 舆论焦点
-## 📰 媒体报道分析
-## 🎯 结论与洞察
+## 事件概述
+## 完整时间线
+## 各平台热度分析
+## 舆论焦点
+## 媒体报道分析
+## 结论与洞察
 ```
-
----
 
 ## 配置要求
 
-### 必需
+需要在本地环境中提供 `TAVILY_API_KEY`：
 
-在 `~/.claude/settings.json` 中配置：
-
-```json
-{
-  "env": {
-    "TAVILY_API_KEY": "tvly-your-api-key-here"
-  }
-}
+```bash
+export TAVILY_API_KEY="tvly-your-api-key-here"
 ```
 
-### 获取 API Key
+## 参数说明
 
-1. 访问 https://tavily.com
-2. 注册账号（可用 Google/GitHub 登录）
-3. 在 Dashboard 获取 API Key
-
----
-
-## 数据源优先级
-
-```
-Tavily API → 今日头条 → 微信公众号 → 微博 → Bing CN
-```
-
----
+- `--topic`：必填，分析主题
+- `--max-results`：默认 `8`
+- `--search-depth`：`basic` 或 `advanced`
+- `--format`：`markdown` 或 `json`
 
 ## 注意事项
 
+- 默认先走脚本；只有脚本无法满足需求时，才考虑更底层的接口排查
 - 标注数据获取时间
 - 每个数据点标注来源
 - 呈现多方观点

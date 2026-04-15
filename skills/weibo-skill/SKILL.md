@@ -18,61 +18,46 @@ scenarios:
 
 # 微博技能
 
-直接调用 m.weibo.cn 移动端接口，只需 httpx 即可实现微博内容搜索、热搜查看、用户动态及评论读取。无需账号，无需 API Key。
+优先通过仓库里的统一 CLI 完成微博搜索、热搜、评论和用户动态读取，不要让模型手动拼移动端接口。
 
-## 环境要求
+## 推荐入口
 
 ```bash
-pip install httpx
+uv run skills/weibo-skill/scripts/weibo_cli.py <command> [args]
 ```
 
-## 初始化 Cookie
+常用命令：
 
-微博移动端接口需要访客 Cookie (SUB 和 SUBP)。通过 visitor/genvisitor2 接口自动获取：
-
-```
-https://m.weibo.cn/visitor/genvisitor2
-```
-
-脚本应优先执行初始化获取 Cookie 的逻辑。
-
-## API 接口
-
-### 热搜榜
-
-```
-GET https://m.weibo.cn/api/container/getIndex?containerid=106003type=25&t=3&disable_hot=1&filter_type=realtimehot
+```bash
+uv run skills/weibo-skill/scripts/weibo_cli.py hot
+uv run skills/weibo-skill/scripts/weibo_cli.py search --query "Manus"
+uv run skills/weibo-skill/scripts/weibo_cli.py search --query "雷军" --type user
+uv run skills/weibo-skill/scripts/weibo_cli.py comments --id "5149999999999999"
+uv run skills/weibo-skill/scripts/weibo_cli.py user-feed --uid "1195242865"
 ```
 
-### 搜索
+## 核心原则
 
-| 类型 | containerid |
-|------|-------------|
-| 内容搜索 | `100103type=1&q={keyword}` |
-| 用户搜索 | `100103type=3&q={keyword}` |
-| 话题搜索 | `100103type=38&q={keyword}` |
+- 优先调用 `weibo_cli.py`
+- 只传 `query`、`type`、`uid`、`id` 这些稳定参数
+- 初始化 Cookie、移动端 UA、接口细节都交给脚本处理
 
-### 用户动态
+## 支持动作
 
-1. 获取 containerid：
-   ```
-   GET https://m.weibo.cn/api/container/getIndex?type=uid&value={uid}
-   ```
-   找到 tabKey 为 `weibo` 的项。
+- `hot`：查看微博热搜
+- `search`：搜索内容、用户、话题
+- `comments`：读取某条微博评论
+- `user-feed`：读取指定 UID 的微博动态
 
-2. 分页获取动态：
-   ```
-   GET https://m.weibo.cn/api/container/getIndex?type=uid&value={uid}&containerid={cid}&since_id={sid}
-   ```
+## 参数说明
 
-### 微博评论
-
-```
-GET https://m.weibo.cn/api/comments/show?id={feed_id}&page={page}
-```
+- `search --query "<关键词>" --type content|user|topic`
+- `comments --id "<feed_id>" --page 1`
+- `user-feed --uid "<uid>" --since-id "<since_id>"`
+- 加上 `--json` 可以保留原始响应结构
 
 ## 注意事项
 
-- 设置 User-Agent 为移动端（如 iPhone）
-- 如果请求被重定向到登录页，说明访客 Cookie 已失效，需要重新获取
-- 搜索结果中 `card_type=9` 的通常为正文内容
+- 默认无需账号和 API Key
+- 如果接口临时异常，优先重试脚本，不要改成手写请求
+- 只有在 wrapper 明显失效时，才去排查底层接口

@@ -24,18 +24,16 @@ scenarios:
 
 | 数据源 | 能力 | 是否需要登录 |
 |--------|------|--------------|
-| 教务系统（Playwright 脚本） | 课表占用：哪些时间段有课 | ✅ 需要 |
-| 实时人数接口（第三方） | 当前教室在场人数 | ❌ 不需要 |
+| 教务系统（Playwright 脚本） | 课表占用：哪些时间段有课 | 是 |
+| 实时人数接口（第三方） | 当前教室在场人数 | 否 |
 
-两者结合可以得出综合结论：**当前有无课 + 实际人数 → 教室是否值得去**。
+两者结合可以得出综合结论：当前有无课 + 实际人数 = 教室是否值得去。
 
-## 核心功能
+## 核心原则
 
-- **AI 登录**：集成智谱 AI 视觉模型，自动识别 CAS 登录页面的数学计算验证码。
-- **状态缓存**：自动保存登录状态 (`auth_state.json`)，避免频繁登录触发验证。
-- **智能选择**：支持学期、周次、教学楼的模糊匹配和自动选择。
-- **空闲分析**：自动解析教务系统复杂的表格结构，提取每日空闲的大节信息。
-- **实时人数**：调用第三方接口，获取教室当前在场人数和容量。
+- 课表查询和实时人数查询都走现成脚本
+- 只传周次、楼名、教室号这些稳定参数
+- 先拿结构化结果，再输出“能不能去”的判断
 
 ## 快速开始
 
@@ -49,14 +47,11 @@ BJTU_USERNAME=your_username
 BJTU_PASSWORD=your_password
 ```
 
-### 2. 运行查询
+### 2. 查询课表空闲情况
 
 ```bash
-# 查询当前学期（自动推断）第14周 思源东楼 102 的空闲情况
-uv run bjtuo-classroom-query/scripts/query_classroom.py --week "14" --building "思源东楼" --classroom "102"
-
-# 指定学期
-uv run bjtuo-classroom-query/scripts/query_classroom.py --semester "2025-2026-1" --week "14" --building "思源东楼"
+uv run skills/bjtuo-classroom-query/scripts/query_classroom.py --week "14" --building "思源东楼" --classroom "102"
+uv run skills/bjtuo-classroom-query/scripts/query_classroom.py --semester "2025-2026-1" --week "14" --building "思源东楼"
 ```
 
 ## 参数说明
@@ -65,76 +60,59 @@ uv run bjtuo-classroom-query/scripts/query_classroom.py --semester "2025-2026-1"
 |------|------|------|
 | `--week` | 周次 (1-31) | `14` |
 | `--semester` | 学期代码 | `2025-2026-1` |
-| `--building` | 教学楼 (支持模糊匹配) | `思源东楼`, `九教`, `东一` |
-| `--classroom` | 教室号 (可选) | `102` |
-| `--show-browser` | 显示浏览器窗口（默认无头模式） | (标志位) |
+| `--building` | 教学楼，支持模糊匹配 | `思源东楼` |
+| `--classroom` | 教室号，可选 | `102` |
+| `--show-browser` | 显示浏览器窗口 | 标志位 |
 
-## 实时人数查询（无需登录）
+## 实时人数查询
 
-**接口**：`GET http://yaya.csoci.com:2333/api/classnum/?building={教学楼名称}`
-
-> 第三方接口，非学校官方，数据约每 10-20 秒更新一次。
+优先使用仓库里的 wrapper，不要手写 `curl` 和 URL 编码：
 
 ```bash
-# 查询思源东楼实时人数（中文参数必须 URL 编码）
-curl "http://yaya.csoci.com:2333/api/classnum/?building=%E6%80%9D%E6%BA%90%E4%B8%9C%E6%A5%BC"
+uv run skills/bjtuo-classroom-query/scripts/query_live_classroom.py --building "思源东楼"
+uv run skills/bjtuo-classroom-query/scripts/query_live_classroom.py --building "思源东楼" --classroom "102"
 ```
 
-**返回格式**：
-```json
-{
-  "time": ["2026-02-05 13:13:07", "2026-02-05 13:13:25"],
-  "data": [
-    ["SY101", 5.55, 5, 90],
-    ["SY102", 15.62, 5, 32]
-  ]
-}
-```
-
-| 字段 | 说明 |
-|------|------|
-| `time` | 数据采集时间范围 |
-| `data[i][0]` | 教室名称 |
-| `data[i][1]` | 占用率 % |
-| `data[i][2]` | 当前人数 |
-| `data[i][3]` | 总容量 |
-
-**注意**：当 `人数 >= 容量` 时，通常为传感器异常，数据不可信。
-
-**支持的教学楼**（共 11 栋，见 [数据参考](references/available_options.md)）
+这个接口是第三方服务，非学校官方，数据大约每 10-20 秒更新一次。
 
 ## 综合查询工作流
 
-当用户询问"XX教室现在能去吗"、"哪个教室空着"等问题时，按以下步骤执行：
+当用户询问“XX 教室现在能去吗”“哪个教室空着”等问题时，按以下步骤执行：
 
-### Step 1：查课表（有无上课）
+### Step 1：查课表
+
 ```bash
-uv run bjtuo-classroom-query/scripts/query_classroom.py \
+uv run skills/bjtuo-classroom-query/scripts/query_classroom.py \
   --week "<当前周次>" --building "<教学楼>" --classroom "<教室号>"
 ```
-得到：该教室今天各节课的占用情况。
+
+得到该教室今天各节课的占用情况。
 
 ### Step 2：查实时人数
+
 ```bash
-curl "http://yaya.csoci.com:2333/api/classnum/?building=<URL编码后的楼名>"
+uv run skills/bjtuo-classroom-query/scripts/query_live_classroom.py \
+  --building "<教学楼>" --classroom "<教室号>" --json
 ```
-从返回的 `data` 数组中找到对应教室，读取 `[人数, 容量]`。
+
+从返回结果中读取当前人数、容量和占用率。
 
 ### Step 3：综合给出结论
 
 | 课表状态 | 实时人数 | 结论 |
 |----------|----------|------|
-| 当前节次无课 | 人数少（< 容量30%） | ✅ 空闲，推荐 |
-| 当前节次无课 | 人数多（≥ 容量30%） | ⚠️ 虽无课但人多，可能有人自习 |
-| 当前节次有课 | 人数多 | ❌ 正在上课，不要去 |
-| 当前节次有课 | 人数少 | ⚠️ 课表显示有课但人少，可能已结束或取消 |
+| 当前节次无课 | 人数少（< 容量 30%） | 空闲，推荐 |
+| 当前节次无课 | 人数多（>= 容量 30%） | 虽无课但人多，可能有人自习 |
+| 当前节次有课 | 人数多 | 正在上课，不要去 |
+| 当前节次有课 | 人数少 | 课表显示有课但人少，可能已结束或取消 |
 
-**输出示例**：
-```
+输出示例：
+
+```text
 思源东楼 102（SY102）
-- 课表：本节（第3节）无课，下节（第4节）有课
+- 课表：本节（第 3 节）无课，下节（第 4 节）有课
 - 实时：当前 5 人 / 32 座（15.6%）
-- 结论：✅ 现在可以去，但第4节前需离开
+- 结论：现在可以去，但第 4 节前需离开
 ```
 
 ## 数据参考
