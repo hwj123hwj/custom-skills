@@ -24,7 +24,7 @@
     "installCommand": "npx custom-skills install bjtuo-classroom-query",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/bjtuo-classroom-query",
     "sourcePath": "skills/bjtuo-classroom-query",
-    "lastUpdated": "2026-04-15T02:35:01.087Z"
+    "lastUpdated": "2026-04-15T02:36:07.000Z"
   },
   {
     "id": "idea-incubator",
@@ -51,13 +51,13 @@
     "installCommand": "npx custom-skills install idea-incubator",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/idea-incubator",
     "sourcePath": "skills/idea-incubator",
-    "lastUpdated": "2026-04-15T02:35:01.087Z"
+    "lastUpdated": "2026-04-15T02:36:07.000Z"
   },
   {
     "id": "knowledge-skill",
     "name": "knowledge-skill",
     "displayName": "Knowledge Skill",
-    "description": "个人知识管理系统。支持将多来源内容（B站、微信公众号、小红书、网页）入库到 PostgreSQL， 并提供关键词搜索和向量语义搜索功能。自动生成 AI 摘要和向量嵌入。 支持B站视频ASR语音转文字，小红书/B站夜间自动收割。 Use when: 用户要求保存内容到知识库、搜索历史知识、管理知识条目。 Triggers: \"保存到知识库\", \"入库\", \"搜索知识\", \"我之前看过\", \"知识管理\"。",
+    "description": "个人知识库技能。支持将网页、B站、微信公众号、小红书等内容入库到 PostgreSQL， 并通过关键词或语义检索找回历史知识。自动生成 AI 摘要与向量嵌入， 同时支持 URL 一键入库和夜间自动收割。",
     "detailedDescription": "将碎片化信息转化为结构化知识库。",
     "emoji": "📦",
     "tags": [
@@ -73,12 +73,13 @@
     "aliases": [
       "知识库",
       "入库",
-      "搜索知识"
+      "搜索知识",
+      "历史知识"
     ],
     "installCommand": "npx custom-skills install knowledge-skill",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/knowledge-skill",
     "sourcePath": "skills/knowledge-skill",
-    "lastUpdated": "2026-04-15T02:35:01.088Z"
+    "lastUpdated": "2026-04-15T02:39:57.915Z"
   },
   {
     "id": "media-analyze",
@@ -105,7 +106,7 @@
     "installCommand": "npx custom-skills install media-analyze",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/media-analyze",
     "sourcePath": "skills/media-analyze",
-    "lastUpdated": "2026-04-15T02:35:01.088Z"
+    "lastUpdated": "2026-04-15T02:36:07.000Z"
   },
   {
     "id": "memory-organizer",
@@ -132,7 +133,7 @@
     "installCommand": "npx custom-skills install memory-organizer",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/memory-organizer",
     "sourcePath": "skills/memory-organizer",
-    "lastUpdated": "2026-04-15T02:35:01.088Z"
+    "lastUpdated": "2026-04-15T02:36:07.000Z"
   },
   {
     "id": "rss-monitor",
@@ -159,7 +160,7 @@
     "installCommand": "npx custom-skills install rss-monitor",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/rss-monitor",
     "sourcePath": "skills/rss-monitor",
-    "lastUpdated": "2026-04-15T02:35:01.088Z"
+    "lastUpdated": "2026-04-15T02:36:07.000Z"
   },
   {
     "id": "skill-browser-crawl",
@@ -186,7 +187,7 @@
     "installCommand": "npx custom-skills install skill-browser-crawl",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/skill-browser-crawl",
     "sourcePath": "skills/skill-browser-crawl",
-    "lastUpdated": "2026-04-15T02:35:01.088Z"
+    "lastUpdated": "2026-04-15T02:36:07.000Z"
   },
   {
     "id": "skills-sh-installer",
@@ -213,7 +214,7 @@
     "installCommand": "npx custom-skills install skills-sh-installer",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/skills-sh-installer",
     "sourcePath": "skills/skills-sh-installer",
-    "lastUpdated": "2026-04-15T02:35:01.089Z"
+    "lastUpdated": "2026-04-15T02:36:07.000Z"
   },
   {
     "id": "wechat-decrypt",
@@ -240,7 +241,7 @@
     "installCommand": "npx custom-skills install wechat-decrypt",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/wechat-decrypt",
     "sourcePath": "skills/wechat-decrypt",
-    "lastUpdated": "2026-04-15T02:35:01.089Z"
+    "lastUpdated": "2026-04-15T02:36:07.000Z"
   },
   {
     "id": "wechat-search",
@@ -267,7 +268,7 @@
     "installCommand": "npx custom-skills install wechat-search",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/wechat-search",
     "sourcePath": "skills/wechat-search",
-    "lastUpdated": "2026-04-15T02:35:01.089Z"
+    "lastUpdated": "2026-04-15T02:36:07.000Z"
   },
   {
     "id": "weibo-skill",
@@ -294,6 +295,6 @@
     "installCommand": "npx custom-skills install weibo-skill",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/weibo-skill",
     "sourcePath": "skills/weibo-skill",
-    "lastUpdated": "2026-04-15T02:35:01.089Z"
+    "lastUpdated": "2026-04-15T02:36:07.000Z"
   }
 ]
