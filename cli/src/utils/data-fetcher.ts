@@ -1,19 +1,22 @@
 import https from 'https';
+import fs from 'fs';
+import path from 'path';
 import { Skill, NormalizedSkill } from '../types/skill.js';
 import { readCache, isCacheValid, writeCache } from './cache.js';
 
 const SKILLS_DATA_URL =
-  'https://raw.githubusercontent.com/hwj123hwj/custom-skills/main/web/src/data/skills-data.json';
+  'https://raw.githubusercontent.com/hwj123hwj/custom-skills/main/registry/skills.json';
 
 const REPO_BASE = 'https://github.com/hwj123hwj/custom-skills/tree/main';
+const LOCAL_REGISTRY_PATH = path.resolve(__dirname, '../../../registry/skills.json');
 
 function normalizeSkill(skill: Skill): NormalizedSkill {
   return {
     ...skill,
     displayName: skill.displayName ?? skill.name,
     aliases: skill.aliases ?? [],
-    installCommand: skill.installCommand ?? `npx clawhub install ${skill.name}`,
-    githubUrl: skill.githubUrl ?? `${REPO_BASE}/${skill.name}`,
+    installCommand: skill.installCommand ?? `npx custom-skills install ${skill.id}`,
+    githubUrl: skill.githubUrl ?? `${REPO_BASE}/skills/${skill.id}`,
   };
 }
 
@@ -61,8 +64,25 @@ function fetchRemote(): Promise<Skill[]> {
   });
 }
 
+function readLocalRegistry(): Skill[] | null {
+  if (!fs.existsSync(LOCAL_REGISTRY_PATH)) return null;
+
+  try {
+    const content = fs.readFileSync(LOCAL_REGISTRY_PATH, 'utf-8');
+    return JSON.parse(content) as Skill[];
+  } catch {
+    return null;
+  }
+}
+
 export async function loadSkills(forceRefresh = false): Promise<NormalizedSkill[]> {
-  // 1. 使用缓存（未过期且不强制刷新）
+  // 1. 开发模式：如果当前仓库内存在 registry，优先使用它
+  const localRegistry = readLocalRegistry();
+  if (localRegistry) {
+    return localRegistry.map(normalizeSkill);
+  }
+
+  // 2. 使用缓存（未过期且不强制刷新）
   if (!forceRefresh && isCacheValid()) {
     const cached = readCache<Skill[]>();
     if (cached) {
@@ -70,13 +90,22 @@ export async function loadSkills(forceRefresh = false): Promise<NormalizedSkill[
     }
   }
 
-  // 2. 尝试远程拉取
+  // 3. 尝试远程拉取
   try {
     const skills = await fetchRemote();
     writeCache(skills);
     return skills.map(normalizeSkill);
   } catch (err) {
-    // 3. 降级：远程失败则使用过期缓存
+    // 4. 开发模式降级：优先使用仓库内本地 registry
+    const localRegistry = readLocalRegistry();
+    if (localRegistry) {
+      process.stderr.write(
+        `[警告] 无法拉取最新数据（${(err as Error).message}），使用本地 registry\n`
+      );
+      return localRegistry.map(normalizeSkill);
+    }
+
+    // 5. 降级：远程失败则使用过期缓存
     const cached = readCache<Skill[]>();
     if (cached) {
       process.stderr.write(

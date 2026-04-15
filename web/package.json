@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "prebuild": "tsx scripts/sync-skills.ts",
+    "generate:registry": "tsx scripts/sync-skills.ts && tsx scripts/sync-readme.ts",
+    "validate:registry": "tsx scripts/validate-registry.ts",
+    "prebuild": "npm run generate:registry",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"

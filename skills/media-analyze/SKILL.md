@@ -1,6 +1,19 @@
 ---
 name: media-analyze
+displayName: Media Analyze
 description: "媒体分析报告生成。多源搜索话题，自动生成结构化分析报告。触发场景：(1) 用户要求分析某个话题 (2) 需要生成话题调研报告 (3) 了解事件的舆论反应。关键词：分析话题、媒体报告、话题调研、舆论分析。"
+tags:
+  - Research
+  - Analysis
+  - Social
+aliases:
+  - 媒体分析
+  - 话题分析
+  - 舆情分析
+scenarios:
+  - 分析某个社会话题的舆论反应
+  - 生成结构化调研报告
+  - 汇总多平台搜索结果并给出观点
 ---
 
 # 媒体分析技能

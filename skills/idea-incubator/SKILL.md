@@ -1,6 +1,19 @@
 ---
 name: idea-incubator
+displayName: Idea Incubator
 description: 专业的 CPO + 技术合伙人助手，帮助用户孵化想法、分析可行性并编写技术文档。适用于当你有新产品想法、技术方案或“灵光一现”需要结构化整理时。
+tags:
+  - Product
+  - Planning
+  - Writing
+aliases:
+  - 想法孵化
+  - 产品想法
+  - 技术方案梳理
+scenarios:
+  - 把一个模糊想法拆成 MVP 和执行计划
+  - 挑战一个产品方案的可行性和边界
+  - 生成 PRD、技术文档或复盘材料
 ---
 
 # Idea Incubator (想法孵化器)

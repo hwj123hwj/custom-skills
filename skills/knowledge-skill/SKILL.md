@@ -1,11 +1,23 @@
 ---
 name: knowledge-skill
+displayName: Knowledge Skill
 description: >
-  个人知识管理系统。支持将多来源内容（B站、微信公众号、小红书、网页）入库到 PostgreSQL，
-  并提供关键词搜索和向量语义搜索功能。自动生成 AI 摘要和向量嵌入。
-  支持B站视频ASR语音转文字，小红书/B站夜间自动收割。
-  Use when: 用户要求保存内容到知识库、搜索历史知识、管理知识条目。
-  Triggers: "保存到知识库", "入库", "搜索知识", "我之前看过", "知识管理"。
+  个人知识库技能。支持将网页、B站、微信公众号、小红书等内容入库到 PostgreSQL，
+  并通过关键词或语义检索找回历史知识。自动生成 AI 摘要与向量嵌入，
+  同时支持 URL 一键入库和夜间自动收割。
+tags:
+  - Knowledge
+  - Search
+  - Automation
+aliases:
+  - 知识库
+  - 入库
+  - 搜索知识
+  - 历史知识
+scenarios:
+  - 保存网页、视频或文章到个人知识库
+  - 根据关键词或语义搜索历史内容
+  - 夜间自动收割 B 站或小红书内容
 ---
 
 # Knowledge Skill - 个人知识管理

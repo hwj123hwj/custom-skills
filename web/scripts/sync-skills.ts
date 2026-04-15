@@ -13,6 +13,12 @@ function getGitLastUpdated(filePath: string): string | null {
   }
 }
 
+function getLastUpdated(filePath: string): string {
+  const gitDate = getGitLastUpdated(filePath);
+  if (gitDate) return gitDate;
+  return fs.statSync(filePath).mtime.toISOString();
+}
+
 // Get __dirname equivalent in ESM
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -21,76 +27,185 @@ const SKILLS_DIR_CANDIDATES = [
   path.resolve(__dirname, '../../skills'),
 ];
 const SKILLS_DIR = SKILLS_DIR_CANDIDATES.find((dir) => fs.existsSync(dir)) ?? SKILLS_DIR_CANDIDATES[0];
-const OUTPUT_FILE = path.resolve(__dirname, '../src/data/skills-data.json');
+const REGISTRY_OUTPUT_FILE = path.resolve(__dirname, '../../registry/skills.json');
+const WEB_OUTPUT_FILE = path.resolve(__dirname, '../src/data/skills-data.json');
+const REPO_BASE = 'https://github.com/hwj123hwj/custom-skills';
 
 interface SkillData {
   id: string;
   name: string;
+  displayName: string;
   description: string;
+  detailedDescription: string;
   emoji: string;
   tags: string[];
   scenarios: string[];
+  aliases: string[];
+  installCommand: string;
+  githubUrl: string;
+  sourcePath: string;
   lastUpdated?: string;
 }
 
+function stripQuotes(value: string): string {
+  return value.replace(/^['"]|['"]$/g, '').trim();
+}
+
+function normalizeText(value: string): string {
+  return value
+    .replace(/\r\n/g, '\n')
+    .replace(/\n-{3,}\n?/g, '\n')
+    .trim();
+}
+
+function parseInlineList(value: string): string[] {
+  const trimmed = value.trim();
+  if (!trimmed) return [];
+
+  if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+    try {
+      return JSON.parse(trimmed.replace(/'/g, '"'))
+        .map((item: string) => String(item).trim())
+        .filter(Boolean);
+    } catch {
+      return trimmed
+        .slice(1, -1)
+        .split(',')
+        .map((item) => stripQuotes(item))
+        .filter(Boolean);
+    }
+  }
+
+  return trimmed
+    .split(',')
+    .map((item) => stripQuotes(item))
+    .filter(Boolean);
+}
+
 // Function to extract content from markdown
-function extractSection(content: string, sectionHeader: string): string | null {
-  // Try to match ## Header or ## Header:
-  const regex = new RegExp(`##\\s+${sectionHeader}[:]?\\s*\\n?([\\s\\S]*?)(?=##|$)`, 'i');
-  const match = content.match(regex);
-  return match ? match[1].trim() : null;
+function extractSection(content: string, sectionHeaders: string[]): string | null {
+  for (const sectionHeader of sectionHeaders) {
+    const regex = new RegExp(`##\\s+${sectionHeader}[:]?\\s*\\n?([\\s\\S]*?)(?=\\n##\\s+|$)`, 'i');
+    const match = content.match(regex);
+    if (match?.[1]) {
+      return match[1].trim();
+    }
+  }
+  return null;
+}
+
+function extractListSection(content: string, sectionHeaders: string[]): string[] {
+  const section = extractSection(content, sectionHeaders);
+  if (!section) return [];
+
+  return section
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => line.replace(/^[-*]\s+/, '').replace(/^\d+\.\s+/, '').trim())
+    .filter(Boolean);
 }
 
 // Function to extract YAML frontmatter
-function extractFrontmatter(content: string): Record<string, string> | null {
-  // 更加鲁棒的正则：处理 \r\n，忽略起始空格/BOM，允许分隔符后有空格
-  const match = content.trim().match(/^---\s*[\r\n]+([\s\S]*?)[\r\n]+---/);
-  if (!match) return null;
+function extractFrontmatter(content: string): Record<string, string | string[]> | null {
+  const normalized = content.replace(/^\uFEFF/, '');
+  const lines = normalized.split(/\r?\n/);
+  if (lines[0]?.trim() !== '---') return null;
 
-  const frontmatter: Record<string, string> = {};
-  const lines = match[1].split(/\r?\n/);
+  const frontmatterLines: string[] = [];
+  let endIndex = -1;
+  for (let i = 1; i < lines.length; i += 1) {
+    if (lines[i].trim() === '---') {
+      endIndex = i;
+      break;
+    }
+    frontmatterLines.push(lines[i]);
+  }
 
+  if (endIndex === -1) return null;
+
+  const frontmatter: Record<string, string | string[]> = {};
   let currentKey: string | null = null;
-  let blockLines: string[] = [];
-  let inBlock = false;
+  let currentMode: 'block' | 'list' | null = null;
+  let buffer: string[] = [];
 
-  const flushBlock = () => {
-    if (currentKey && inBlock) {
-      frontmatter[currentKey] = blockLines.join(' ').trim();
+  const flush = () => {
+    if (!currentKey) return;
+    if (currentMode === 'list') {
+      frontmatter[currentKey] = buffer
+        .map((line) => line.replace(/^-\s+/, '').trim())
+        .filter(Boolean);
+    } else {
+      frontmatter[currentKey] = buffer.join(' ').trim();
     }
     currentKey = null;
-    blockLines = [];
-    inBlock = false;
+    currentMode = null;
+    buffer = [];
   };
 
-  for (const line of lines) {
-    if (inBlock) {
-      // 缩进行属于块内容
+  for (const rawLine of frontmatterLines) {
+    const line = rawLine.replace(/\t/g, '  ');
+
+    if (currentKey && currentMode === 'block') {
       if (/^\s+/.test(line)) {
-        blockLines.push(line.trim());
+        buffer.push(line.trim());
         continue;
-      } else {
-        flushBlock();
       }
+      flush();
     }
 
-    const colonIndex = line.indexOf(':');
-    if (colonIndex !== -1) {
-      const key = line.slice(0, colonIndex).trim();
-      const value = line.slice(colonIndex + 1).trim();
-      if (value === '|' || value === '>') {
-        // 开始块标量
-        currentKey = key;
-        blockLines = [];
-        inBlock = true;
-      } else {
-        frontmatter[key] = value;
+    if (currentKey && currentMode === 'list') {
+      if (/^\s*-\s+/.test(line)) {
+        buffer.push(line.trim());
+        continue;
       }
+      flush();
+    }
+
+    if (!line.trim()) continue;
+
+    const match = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
+    if (!match) continue;
+
+    const [, key, rawValue] = match;
+    const value = rawValue.trim();
+
+    if (value === '|' || value === '>') {
+      currentKey = key;
+      currentMode = 'block';
+      buffer = [];
+      continue;
+    }
+
+    if (!value) {
+      currentKey = key;
+      currentMode = 'list';
+      buffer = [];
+      continue;
+    }
+
+    frontmatter[key] = stripQuotes(value);
+  }
+
+  flush();
+  return frontmatter;
+}
+
+function stripFrontmatter(content: string): string {
+  const normalized = content.replace(/^\uFEFF/, '');
+  if (!normalized.startsWith('---')) return normalized;
+
+  const lines = normalized.split(/\r?\n/);
+  let endIndex = -1;
+  for (let i = 1; i < lines.length; i += 1) {
+    if (lines[i].trim() === '---') {
+      endIndex = i;
+      break;
     }
   }
-  flushBlock();
 
-  return frontmatter;
+  if (endIndex === -1) return normalized;
+  return lines.slice(endIndex + 1).join('\n').trim();
 }
 
 // Function to extract title
@@ -99,16 +214,68 @@ function extractTitle(content: string): string | null {
   return match ? match[1].trim() : null;
 }
 
+function extractLeadParagraph(content: string): string {
+  const withoutFrontmatter = stripFrontmatter(content);
+  const lines = withoutFrontmatter.split('\n');
+  const titleIndex = lines.findIndex((line) => line.trim().startsWith('# '));
+  if (titleIndex === -1) return '';
+
+  const paragraphs: string[] = [];
+  for (let i = titleIndex + 1; i < lines.length; i += 1) {
+    const line = lines[i].trim();
+
+    if (!line) {
+      if (paragraphs.length > 0) break;
+      continue;
+    }
+    if (line.startsWith('#')) break;
+    if (/^```/.test(line)) break;
+    if (/^[-*]\s+/.test(line) || /^\d+\.\s+/.test(line)) {
+      if (paragraphs.length > 0) break;
+      return '';
+    }
+    paragraphs.push(line);
+  }
+
+  return paragraphs.join(' ').trim();
+}
+
+function getFrontmatterString(
+  frontmatter: Record<string, string | string[]> | null,
+  key: string
+): string | null {
+  const value = frontmatter?.[key];
+  if (typeof value === 'string') return value.trim();
+  return null;
+}
+
+function getFrontmatterList(
+  frontmatter: Record<string, string | string[]> | null,
+  key: string
+): string[] {
+  const value = frontmatter?.[key];
+  if (Array.isArray(value)) {
+    return value.map((item) => item.trim()).filter(Boolean);
+  }
+  if (typeof value === 'string') {
+    return parseInlineList(value);
+  }
+  return [];
+}
+
 async function main() {
   console.log('🔍 Scanning skills from:', SKILLS_DIR);
 
   if (!fs.existsSync(SKILLS_DIR)) {
     console.warn('⚠️ Skills directory not found. Using empty data.');
-    fs.writeFileSync(OUTPUT_FILE, JSON.stringify([], null, 2));
+    fs.mkdirSync(path.dirname(REGISTRY_OUTPUT_FILE), { recursive: true });
+    fs.mkdirSync(path.dirname(WEB_OUTPUT_FILE), { recursive: true });
+    fs.writeFileSync(REGISTRY_OUTPUT_FILE, JSON.stringify([], null, 2));
+    fs.writeFileSync(WEB_OUTPUT_FILE, JSON.stringify([], null, 2));
     return;
   }
 
-  const skillDirs = fs.readdirSync(SKILLS_DIR);
+  const skillDirs = fs.readdirSync(SKILLS_DIR).sort();
   const skills: SkillData[] = [];
 
   for (const dir of skillDirs) {
@@ -119,55 +286,53 @@ async function main() {
       try {
         const content = fs.readFileSync(skillMdPath, 'utf-8');
         const frontmatter = extractFrontmatter(content);
+        const title = extractTitle(content) || dir;
+        const displayName = getFrontmatterString(frontmatter, 'displayName') || title;
+        const leadParagraph = extractLeadParagraph(content);
 
         // Basic Metadata
         const id = dir;
-        const name = frontmatter?.name || extractTitle(content) || dir;
-        const description = frontmatter?.description || extractSection(content, 'Description') || '';
+        const name = getFrontmatterString(frontmatter, 'name') || dir;
+        const description =
+          getFrontmatterString(frontmatter, 'description') ||
+          extractSection(content, ['Description', '描述']) ||
+          leadParagraph ||
+          '';
+        const detailedDescription =
+          extractSection(content, ['Overview', '简介', '概述']) ||
+          (leadParagraph && leadParagraph !== description ? leadParagraph : description);
 
         // Extract Usage Scenarios
-        let scenarios: string[] = [];
-        const scenariosRaw = frontmatter?.scenarios || extractSection(content, 'Usage') || extractSection(content, '使用场景') || extractSection(content, 'Usage Scenarios');
-
-        if (typeof scenariosRaw === 'string') {
-          scenarios = scenariosRaw
-            .split(',')
-            .map(s => s.trim().replace(/^\[|\]$/g, '').replace(/^"|"$/g, ''))
-            .filter(s => s.length > 0);
-        } else if (Array.isArray(scenariosRaw)) {
-          scenarios = scenariosRaw;
-        }
+        const scenarios =
+          getFrontmatterList(frontmatter, 'scenarios').length > 0
+            ? getFrontmatterList(frontmatter, 'scenarios')
+            : extractListSection(content, ['Usage Scenarios', '使用场景', '适用场景', '触发场景']);
 
         // Try to get emoji from frontmatter
-        const emoji = frontmatter?.emoji || '📦';
+        const emoji = getFrontmatterString(frontmatter, 'emoji') || '📦';
 
         // Tags from frontmatter
-        let tags = ['Utility'];
-        if (frontmatter?.tags) {
-          try {
-            // Handle both "tag1, tag2" and "[tag1, tag2]" formats
-            const tagsStr = frontmatter.tags.trim();
-            if (tagsStr.startsWith('[') && tagsStr.endsWith(']')) {
-              tags = JSON.parse(tagsStr.replace(/'/g, '"'));
-            } else {
-              tags = tagsStr.split(',').map(t => t.trim());
-            }
-          } catch (e) {
-            tags = frontmatter.tags.split(',').map(t => t.trim());
-          }
-        }
+        const tags = getFrontmatterList(frontmatter, 'tags');
+        const aliases = getFrontmatterList(frontmatter, 'aliases');
 
         // Last Updated (using git log for accuracy)
-        const lastUpdated = getGitLastUpdated(skillMdPath) || fs.statSync(skillMdPath).mtime.toISOString();
+        const lastUpdated = getLastUpdated(skillMdPath);
+        const sourcePath = `skills/${id}`;
 
         skills.push({
           id,
           name,
-          description,
+          displayName,
+          description: normalizeText(description),
+          detailedDescription: normalizeText(detailedDescription),
           emoji,
-          tags,
+          tags: tags.length > 0 ? tags : ['Utility'],
           scenarios,
-          lastUpdated
+          aliases,
+          installCommand: `npx custom-skills install ${id}`,
+          githubUrl: `${REPO_BASE}/tree/main/${sourcePath}`,
+          sourcePath,
+          lastUpdated,
         });
         console.log(`✅ Loaded skill: ${id}`);
       } catch (e) {
@@ -176,14 +341,13 @@ async function main() {
     }
   }
 
-  // Ensure output directory exists
-  const outputDir = path.dirname(OUTPUT_FILE);
-  if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir, { recursive: true });
-  }
-
-  fs.writeFileSync(OUTPUT_FILE, JSON.stringify(skills, null, 2));
-  console.log(`🎉 Successfully generated skills data to ${OUTPUT_FILE}`);
+  const serialized = JSON.stringify(skills, null, 2);
+  fs.mkdirSync(path.dirname(REGISTRY_OUTPUT_FILE), { recursive: true });
+  fs.mkdirSync(path.dirname(WEB_OUTPUT_FILE), { recursive: true });
+  fs.writeFileSync(REGISTRY_OUTPUT_FILE, serialized);
+  fs.writeFileSync(WEB_OUTPUT_FILE, serialized);
+  console.log(`🎉 Successfully generated registry to ${REGISTRY_OUTPUT_FILE}`);
+  console.log(`🎉 Mirrored registry to ${WEB_OUTPUT_FILE}`);
 }
 
 main().catch(console.error);

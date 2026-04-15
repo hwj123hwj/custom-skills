@@ -5,6 +5,7 @@ import { SkillModal } from './components/SkillModal'
 import type { Skill } from './types/skill'
 import skillsData from './data/skills-data.json'
 import { Search } from 'lucide-react'
+import { searchSkills } from './lib/search'
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('')
@@ -12,11 +13,8 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const filteredSkills = useMemo(() => {
-    return skillsData.filter((skill) => 
-      skill.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      skill.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      skill.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
-    )
+    if (!searchQuery.trim()) return skillsData
+    return searchSkills(skillsData, searchQuery).map((result) => result.skill)
   }, [searchQuery])
 
   const handleSkillClick = (skill: Skill) => {
@@ -31,8 +29,8 @@ function App() {
           Supercharge your agents
         </h2>
         <p className="text-gray-400 text-lg">
-          A collection of specialized skills to extend the capabilities of your AI agents.
-          Open source, community-driven, and ready to use.
+          A personal skill registry for humans and AI agents.
+          Search once, browse in the web UI, and install through the CLI.
         </p>
         
         <div className="relative max-w-md mx-auto mt-8 group">
