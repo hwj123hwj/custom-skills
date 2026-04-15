@@ -1,11 +1,11 @@
 ---
 name: skills-sh-installer
+displayName: Skills.sh Installer
 description: 从 skills.sh（Cursor/Windsurf 技能市场）下载并安装技能到本地 .deepv/skills 目录。支持自动解析仓库结构、提取 .claude/skills 下的成品技能、清理构建残留。
 tags:
   - Installer
   - Marketplace
-  - Cursor
-  - Windsurf
+  - Automation
 aliases:
   - skills.sh
   - Cursor 技能安装

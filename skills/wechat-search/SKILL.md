@@ -1,11 +1,11 @@
 ---
 name: wechat-search
+displayName: WeChat Search
 description: 用于搜索微信公众号文章的工具。每当用户要求搜索“微信公众号文章”、“微信文章”、或者通过关键词寻找特定话题（如“搜一下AI进展”）时，必须触发此技能。本技能负责搜索文章列表（标题、链接、摘要）。
 tags:
-  - WeChat
   - Search
+  - WeChat
   - Content
-  - Articles
 aliases:
   - 微信文章
   - 公众号搜索

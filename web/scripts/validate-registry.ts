@@ -27,6 +27,30 @@ const SKILLS_DIR = path.resolve(ROOT_DIR, 'skills');
 const REGISTRY_PATH = path.resolve(ROOT_DIR, 'registry/skills.json');
 const WEB_MIRROR_PATH = path.resolve(ROOT_DIR, 'web/src/data/skills-data.json');
 const README_PATH = path.resolve(ROOT_DIR, 'README.md');
+const ALLOWED_TAGS = new Set([
+  'Analysis',
+  'Automation',
+  'Content',
+  'Crawler',
+  'Education',
+  'Forensics',
+  'Installer',
+  'Knowledge',
+  'LocalData',
+  'Marketplace',
+  'Monitoring',
+  'Planning',
+  'Product',
+  'Productivity',
+  'Research',
+  'Search',
+  'Social',
+  'Summary',
+  'Web',
+  'WeChat',
+  'Weibo',
+  'Writing',
+]);
 
 function fail(message: string): never {
   console.error(`❌ ${message}`);
@@ -92,6 +116,11 @@ function validateSkill(skill: SkillRegistryItem): void {
   if (tags.length === 0) fail(`${skill.id}.tags 不能为空`);
   if (aliases.length === 0) fail(`${skill.id}.aliases 不能为空`);
   if (scenarios.length === 0) fail(`${skill.id}.scenarios 不能为空`);
+  for (const tag of tags) {
+    if (!ALLOWED_TAGS.has(tag)) {
+      fail(`${skill.id}.tags 包含未注册标签: ${tag}`);
+    }
+  }
 
   const expectedSourcePath = `skills/${skill.id}`;
   if (skill.sourcePath !== expectedSourcePath) {

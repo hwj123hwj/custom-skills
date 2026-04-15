@@ -81,6 +81,31 @@ interface SkillRegistryItem {
 - `installCommand / githubUrl / sourcePath`：生成时统一补齐
 - `lastUpdated`：优先 Git 最后修改时间
 
+推荐使用受控 tag 集合，避免后续检索维度越长越散。当前建议的 tag taxonomy：
+
+- `Analysis`
+- `Automation`
+- `Content`
+- `Crawler`
+- `Education`
+- `Forensics`
+- `Installer`
+- `Knowledge`
+- `LocalData`
+- `Marketplace`
+- `Monitoring`
+- `Planning`
+- `Product`
+- `Productivity`
+- `Research`
+- `Search`
+- `Social`
+- `Summary`
+- `Web`
+- `WeChat`
+- `Weibo`
+- `Writing`
+
 ## 5. 生成策略
 
 `web/scripts/sync-skills.ts` 的职责：

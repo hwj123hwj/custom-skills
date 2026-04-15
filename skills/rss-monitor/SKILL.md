@@ -1,8 +1,8 @@
 ---
 name: rss-monitor
+displayName: RSS Monitor
 description: RSS 消息监控与智能摘要。定时拉取自部署 WeWe RSS 的公众号 feed，识别新文章，生成结构化摘要，推送给用户，并记录反馈形成自进化偏好体系。触发场景：(1) 用户要求监控某个公众号 (2) 用户要求查看今天的信息流 (3) heartbeat 定时检查 (4) 用户反馈某篇文章有用/没用。
 tags:
-  - RSS
   - Monitoring
   - Automation
   - Summary

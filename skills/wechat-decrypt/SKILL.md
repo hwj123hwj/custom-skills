@@ -1,10 +1,10 @@
 ---
 name: wechat-decrypt
+displayName: WeChat Decrypt
 description: 解密微信 macOS 数据库，提取聊天记录。用于查询和分析微信本地聊天数据。当用户提到"解密微信数据库"、"微信聊天记录"、"查看微信消息"、"导出微信数据"时使用此技能。
 tags:
-  - WeChat
   - LocalData
-  - MacOS
+  - WeChat
   - Forensics
 aliases:
   - 微信解密

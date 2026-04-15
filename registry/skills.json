@@ -8,9 +8,8 @@
     "emoji": "📦",
     "tags": [
       "Education",
-      "Campus",
-      "Automation",
-      "Playwright"
+      "Search",
+      "Automation"
     ],
     "scenarios": [
       "查询某教学楼某周的教室占用情况",
@@ -25,20 +24,19 @@
     "installCommand": "npx custom-skills install bjtuo-classroom-query",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/bjtuo-classroom-query",
     "sourcePath": "skills/bjtuo-classroom-query",
-    "lastUpdated": "2026-04-14T17:04:08.557Z"
+    "lastUpdated": "2026-04-15T02:35:01.087Z"
   },
   {
     "id": "idea-incubator",
     "name": "idea-incubator",
-    "displayName": "Idea Incubator (想法孵化器)",
+    "displayName": "Idea Incubator",
     "description": "专业的 CPO + 技术合伙人助手，帮助用户孵化想法、分析可行性并编写技术文档。适用于当你有新产品想法、技术方案或“灵光一现”需要结构化整理时。",
     "detailedDescription": "该技能将 AI 转化为你的 **产品经理 (CPO) & 技术合伙人**。它的目标是管理一个想法从模糊的念头到具体的执行计划，再到回顾学习的全生命周期。",
     "emoji": "📦",
     "tags": [
       "Product",
-      "Strategy",
-      "Writing",
-      "Planning"
+      "Planning",
+      "Writing"
     ],
     "scenarios": [
       "把一个模糊想法拆成 MVP 和执行计划",
@@ -53,19 +51,18 @@
     "installCommand": "npx custom-skills install idea-incubator",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/idea-incubator",
     "sourcePath": "skills/idea-incubator",
-    "lastUpdated": "2026-04-14T17:04:08.558Z"
+    "lastUpdated": "2026-04-15T02:35:01.087Z"
   },
   {
     "id": "knowledge-skill",
     "name": "knowledge-skill",
-    "displayName": "Knowledge Skill - 个人知识管理",
+    "displayName": "Knowledge Skill",
     "description": "个人知识管理系统。支持将多来源内容（B站、微信公众号、小红书、网页）入库到 PostgreSQL， 并提供关键词搜索和向量语义搜索功能。自动生成 AI 摘要和向量嵌入。 支持B站视频ASR语音转文字，小红书/B站夜间自动收割。 Use when: 用户要求保存内容到知识库、搜索历史知识、管理知识条目。 Triggers: \"保存到知识库\", \"入库\", \"搜索知识\", \"我之前看过\", \"知识管理\"。",
     "detailedDescription": "将碎片化信息转化为结构化知识库。",
     "emoji": "📦",
     "tags": [
       "Knowledge",
       "Search",
-      "RAG",
       "Automation"
     ],
     "scenarios": [
@@ -81,19 +78,18 @@
     "installCommand": "npx custom-skills install knowledge-skill",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/knowledge-skill",
     "sourcePath": "skills/knowledge-skill",
-    "lastUpdated": "2026-04-14T17:04:08.558Z"
+    "lastUpdated": "2026-04-15T02:35:01.088Z"
   },
   {
     "id": "media-analyze",
     "name": "media-analyze",
-    "displayName": "媒体分析技能",
+    "displayName": "Media Analyze",
     "description": "媒体分析报告生成。多源搜索话题，自动生成结构化分析报告。触发场景：(1) 用户要求分析某个话题 (2) 需要生成话题调研报告 (3) 了解事件的舆论反应。关键词：分析话题、媒体报告、话题调研、舆论分析。",
     "detailedDescription": "多源搜索话题，自动生成结构化分析报告。",
     "emoji": "📦",
     "tags": [
       "Research",
       "Analysis",
-      "Report",
       "Social"
     ],
     "scenarios": [
@@ -109,7 +105,7 @@
     "installCommand": "npx custom-skills install media-analyze",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/media-analyze",
     "sourcePath": "skills/media-analyze",
-    "lastUpdated": "2026-04-14T17:04:08.560Z"
+    "lastUpdated": "2026-04-15T02:35:01.088Z"
   },
   {
     "id": "memory-organizer",
@@ -119,10 +115,9 @@
     "detailedDescription": "长期记忆（MEMORY.md）是 Agent 的\"外部大脑\"，存储决策、配置、经验和长期上下文。但存储过多动态信息会导致记忆臃肿和频繁更新。\n\n本技能提供区分**应该存储**（静态、长期价值）vs **不应该存储**（动态、可自动获取）的原则和示例。",
     "emoji": "📦",
     "tags": [
-      "Memory",
-      "Productivity",
       "Knowledge",
-      "Process"
+      "Productivity",
+      "Planning"
     ],
     "scenarios": [
       "清理或重构 MEMORY.md",
@@ -137,17 +132,16 @@
     "installCommand": "npx custom-skills install memory-organizer",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/memory-organizer",
     "sourcePath": "skills/memory-organizer",
-    "lastUpdated": "2026-04-14T17:04:08.560Z"
+    "lastUpdated": "2026-04-15T02:35:01.088Z"
   },
   {
     "id": "rss-monitor",
     "name": "rss-monitor",
-    "displayName": "RSS Monitor — 自进化信息消费系统",
+    "displayName": "RSS Monitor",
     "description": "RSS 消息监控与智能摘要。定时拉取自部署 WeWe RSS 的公众号 feed，识别新文章，生成结构化摘要，推送给用户，并记录反馈形成自进化偏好体系。触发场景：(1) 用户要求监控某个公众号 (2) 用户要求查看今天的信息流 (3) heartbeat 定时检查 (4) 用户反馈某篇文章有用/没用。",
     "detailedDescription": "RSS 消息监控与智能摘要。定时拉取自部署 WeWe RSS 的公众号 feed，识别新文章，生成结构化摘要，推送给用户，并记录反馈形成自进化偏好体系。触发场景：(1) 用户要求监控某个公众号 (2) 用户要求查看今天的信息流 (3) heartbeat 定时检查 (4) 用户反馈某篇文章有用/没用。",
     "emoji": "📦",
     "tags": [
-      "RSS",
       "Monitoring",
       "Automation",
       "Summary"
@@ -165,20 +159,19 @@
     "installCommand": "npx custom-skills install rss-monitor",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/rss-monitor",
     "sourcePath": "skills/rss-monitor",
-    "lastUpdated": "2026-04-14T17:04:08.560Z"
+    "lastUpdated": "2026-04-15T02:35:01.088Z"
   },
   {
     "id": "skill-browser-crawl",
     "name": "skill-browser-crawl",
-    "displayName": "Browser-Based Web Crawler (浏览器网页爬虫)",
+    "displayName": "Browser-Based Web Crawler",
     "description": "基于浏览器的轻量级网页爬虫。支持 JavaScript 渲染、Markdown 提取，并能递归爬取文档类网站。",
     "detailedDescription": "一个基于浏览器的轻量级网页爬取工具，专为实际应用场景设计。当用户需要爬取需要 JavaScript 渲染的页面、将内容提取为 Markdown 格式或递归爬取整个文档站点时，请使用此技能。",
     "emoji": "📦",
     "tags": [
-      "Crawler",
       "Web",
-      "Playwright",
-      "Extraction"
+      "Crawler",
+      "Automation"
     ],
     "scenarios": [
       "抓取需要 JavaScript 渲染的网页",
@@ -193,7 +186,7 @@
     "installCommand": "npx custom-skills install skill-browser-crawl",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/skill-browser-crawl",
     "sourcePath": "skills/skill-browser-crawl",
-    "lastUpdated": "2026-04-14T17:04:08.561Z"
+    "lastUpdated": "2026-04-15T02:35:01.088Z"
   },
   {
     "id": "skills-sh-installer",
@@ -205,8 +198,7 @@
     "tags": [
       "Installer",
       "Marketplace",
-      "Cursor",
-      "Windsurf"
+      "Automation"
     ],
     "scenarios": [
       "根据 skills.sh 链接安装技能",
@@ -221,19 +213,18 @@
     "installCommand": "npx custom-skills install skills-sh-installer",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/skills-sh-installer",
     "sourcePath": "skills/skills-sh-installer",
-    "lastUpdated": "2026-04-14T17:04:08.561Z"
+    "lastUpdated": "2026-04-15T02:35:01.089Z"
   },
   {
     "id": "wechat-decrypt",
     "name": "wechat-decrypt",
-    "displayName": "微信数据库解密技能",
+    "displayName": "WeChat Decrypt",
     "description": "解密微信 macOS 数据库，提取聊天记录。用于查询和分析微信本地聊天数据。当用户提到\"解密微信数据库\"、\"微信聊天记录\"、\"查看微信消息\"、\"导出微信数据\"时使用此技能。",
     "detailedDescription": "解密微信 macOS 4.x 版本的本地数据库，获取聊天记录、联系人等信息。",
     "emoji": "📦",
     "tags": [
-      "WeChat",
       "LocalData",
-      "MacOS",
+      "WeChat",
       "Forensics"
     ],
     "scenarios": [
@@ -249,20 +240,19 @@
     "installCommand": "npx custom-skills install wechat-decrypt",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/wechat-decrypt",
     "sourcePath": "skills/wechat-decrypt",
-    "lastUpdated": "2026-04-14T17:04:08.562Z"
+    "lastUpdated": "2026-04-15T02:35:01.089Z"
   },
   {
     "id": "wechat-search",
     "name": "wechat-search",
-    "displayName": "微信公众号搜索",
+    "displayName": "WeChat Search",
     "description": "用于搜索微信公众号文章的工具。每当用户要求搜索“微信公众号文章”、“微信文章”、或者通过关键词寻找特定话题（如“搜一下AI进展”）时，必须触发此技能。本技能负责搜索文章列表（标题、链接、摘要）。",
     "detailedDescription": "本技能通过 `miku_ai` 库实现微信公众号文章的搜索。",
     "emoji": "📦",
     "tags": [
-      "WeChat",
       "Search",
-      "Content",
-      "Articles"
+      "WeChat",
+      "Content"
     ],
     "scenarios": [
       "搜索某个主题的微信公众号文章",
@@ -277,20 +267,19 @@
     "installCommand": "npx custom-skills install wechat-search",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/wechat-search",
     "sourcePath": "skills/wechat-search",
-    "lastUpdated": "2026-04-14T17:04:08.562Z"
+    "lastUpdated": "2026-04-15T02:35:01.089Z"
   },
   {
     "id": "weibo-skill",
     "name": "weibo-skill",
-    "displayName": "微博技能",
+    "displayName": "Weibo Skill",
     "description": "微博内容搜索、热搜查看、用户动态及评论读取。使用 m.weibo.cn 移动端接口，无需账号和 API Key。触发场景：(1) 用户要求搜索微博内容或话题，(2) 查看实时微博热搜榜，(3) 获取指定用户的微博动态，(4) 查看某条微博的评论，(5) 用户粘贴了 weibo.com 或 m.weibo.cn 的链接。",
     "detailedDescription": "直接调用 m.weibo.cn 移动端接口，只需 httpx 即可实现微博内容搜索、热搜查看、用户动态及评论读取。无需账号，无需 API Key。",
     "emoji": "📦",
     "tags": [
-      "Weibo",
       "Search",
-      "SocialMedia",
-      "Trends"
+      "Social",
+      "Weibo"
     ],
     "scenarios": [
       "搜索微博内容或话题",
@@ -305,6 +294,6 @@
     "installCommand": "npx custom-skills install weibo-skill",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/weibo-skill",
     "sourcePath": "skills/weibo-skill",
-    "lastUpdated": "2026-04-14T17:04:08.562Z"
+    "lastUpdated": "2026-04-15T02:35:01.089Z"
   }
 ]

@@ -1,11 +1,11 @@
 ---
 name: bjtuo-classroom-query
+displayName: BJTU Classroom Query
 description: 北京交通大学（BJTU）教室综合查询。结合教务系统课表（判断是否有课）和实时人数接口（当前在场人数），综合评估教室空闲情况。
 tags:
   - Education
-  - Campus
+  - Search
   - Automation
-  - Playwright
 aliases:
   - 北交教室
   - BJTU 教室

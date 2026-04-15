@@ -1,5 +1,6 @@
 ---
 name: knowledge-skill
+displayName: Knowledge Skill
 description: >
   个人知识管理系统。支持将多来源内容（B站、微信公众号、小红书、网页）入库到 PostgreSQL，
   并提供关键词搜索和向量语义搜索功能。自动生成 AI 摘要和向量嵌入。
@@ -9,7 +10,6 @@ description: >
 tags:
   - Knowledge
   - Search
-  - RAG
   - Automation
 aliases:
   - 知识库

@@ -1,10 +1,10 @@
 ---
 name: media-analyze
+displayName: Media Analyze
 description: "媒体分析报告生成。多源搜索话题，自动生成结构化分析报告。触发场景：(1) 用户要求分析某个话题 (2) 需要生成话题调研报告 (3) 了解事件的舆论反应。关键词：分析话题、媒体报告、话题调研、舆论分析。"
 tags:
   - Research
   - Analysis
-  - Report
   - Social
 aliases:
   - 媒体分析
