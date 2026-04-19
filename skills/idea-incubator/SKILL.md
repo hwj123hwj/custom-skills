@@ -78,7 +78,7 @@ scenarios:
 **目标**: 将 Markdown 文件同步到本地 Postgres 数据库进行长期存储和分析。
 **行为**:
 *   确定目标 markdown 文件路径。
-*   执行脚本：`python .agent/skills/idea-incubator/scripts/sync_to_pg.py <file_path>`
+*   执行脚本：`python skills/idea-incubator/scripts/sync_to_pg.py <file_path>`
 *   向用户报告状态（成功/失败）。
 
 ## 交互示例

@@ -27,12 +27,12 @@ scenarios:
 用于爬取单个 URL 并提取其 Markdown 内容：
 
 ```bash
-python .claude/skills/skill-browser-crawl/scripts/basic_crawl.py <url>
+python skills/skill-browser-crawl/scripts/basic_crawl.py <url>
 ```
 
 示例：
 ```bash
-python .claude/skills/skill-browser-crawl/scripts/basic_crawl.py https://example.com
+python skills/skill-browser-crawl/scripts/basic_crawl.py https://example.com
 ```
 
 输出：
@@ -44,19 +44,19 @@ python .claude/skills/skill-browser-crawl/scripts/basic_crawl.py https://example
 用于爬取整个文档站点或多页网站：
 
 ```bash
-python .claude/skills/skill-browser-crawl/scripts/deep_crawl.py <base_url> [output_dir]
+python skills/skill-browser-crawl/scripts/deep_crawl.py <base_url> [output_dir]
 ```
 
 示例：
 ```bash
 # 爬取整个站点
-python .claude/skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com
+python skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com
 
 # 爬取并指定输出目录
-python .claude/skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com ./my_docs
+python skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com ./my_docs
 
 # 限制最多爬取 50 页
-python .claude/skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com ./docs --max-pages 50
+python skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com ./docs --max-pages 50
 ```
 
 ## 常用选项
@@ -65,20 +65,20 @@ python .claude/skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.exa
 
 ```bash
 # 排除特定路径模式
-python .claude/skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com --exclude '/api' --exclude '/auth'
+python skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com --exclude '/api' --exclude '/auth'
 
 # 仅包含特定路径模式
-python .claude/skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com --include '/docs/' --include '/guide/'
+python skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com --include '/docs/' --include '/guide/'
 
 # 允许跨域爬取
-python .claude/skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com --allow-cross-domain
+python skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com --allow-cross-domain
 ```
 
 ### 并发控制
 
 ```bash
 # 设置最大并发请求数（默认：5）
-python .claude/skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com --max-concurrent 3
+python skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com --max-concurrent 3
 ```
 
 ## 编码问题
