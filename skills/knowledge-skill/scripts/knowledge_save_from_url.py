@@ -191,6 +191,25 @@ def transcribe_xiaohongshu_video(note_id: str) -> str:
         return transcribe_audio(wav_path)
 
 
+def load_bilibili_cookie_path() -> str:
+    """从 bilibili-cli 凭证文件生成 yt-dlp 可用的 Netscape cookie 文件"""
+    cred_path = Path.home() / ".bilibili-cli" / "credential.json"
+    if not cred_path.exists():
+        return ""
+    cred = json.loads(cred_path.read_text())
+    sessdata = cred.get("sessdata", "")
+    bili_jct = cred.get("bili_jct", "")
+    if not sessdata:
+        return ""
+    # 写 Netscape 格式 cookie 文件
+    cookie_file = "/tmp/bilibili_cookies.txt"
+    with open(cookie_file, "w") as f:
+        f.write("# Netscape HTTP Cookie File\n")
+        f.write(f".bilibili.com\tTRUE\t/\tFALSE\t0\tSESSDATA\t{sessdata}\n")
+        f.write(f".bilibili.com\tTRUE\t/\tFALSE\t0\tbili_jct\t{bili_jct}\n")
+    return cookie_file
+
+
 def get_bilibili_content(url: str) -> dict:
     """获取 B站视频文稿"""
     # 提取 BV 号
@@ -200,9 +219,13 @@ def get_bilibili_content(url: str) -> dict:
     
     bvid = match.group(0)
     
+    # 加载 bilibili-cli 凭证
+    cookie_file = load_bilibili_cookie_path()
+    cookie_args = ["--cookies", cookie_file] if cookie_file else []
+
     # 使用 yt-dlp 获取视频信息
     result = subprocess.run(
-        ["yt-dlp", "--dump-json", url],
+        ["yt-dlp", "--dump-json"] + cookie_args + [url],
         capture_output=True,
         text=True,
         timeout=60,
@@ -220,8 +243,8 @@ def get_bilibili_content(url: str) -> dict:
     subtitle_result = subprocess.run(
         ["yt-dlp", "--write-sub", "--write-auto-sub", 
          "--sub-lang", "zh-Hans,zh,en", 
-         "--skip-download", 
-         "-o", "/tmp/%(id)s", url],
+         "--skip-download",
+         "-o", "/tmp/%(id)s"] + cookie_args + [url],
         capture_output=True,
         text=True,
         timeout=60,
