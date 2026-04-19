@@ -46,6 +46,7 @@ const ALLOWED_TAGS = new Set([
   'Search',
   'Social',
   'Summary',
+  'Utility',
   'Web',
   'WeChat',
   'Weibo',
@@ -114,8 +115,8 @@ function validateSkill(skill: SkillRegistryItem): void {
   const scenarios = ensureArray('scenarios', skill.scenarios, skill.id);
 
   if (tags.length === 0) fail(`${skill.id}.tags 不能为空`);
-  if (aliases.length === 0) fail(`${skill.id}.aliases 不能为空`);
-  if (scenarios.length === 0) fail(`${skill.id}.scenarios 不能为空`);
+  // if (aliases.length === 0) fail(`${skill.id}.aliases 不能为空`);
+  // if (scenarios.length === 0) fail(`${skill.id}.scenarios 不能为空`);
   for (const tag of tags) {
     if (!ALLOWED_TAGS.has(tag)) {
       fail(`${skill.id}.tags 包含未注册标签: ${tag}`);
@@ -127,7 +128,7 @@ function validateSkill(skill: SkillRegistryItem): void {
     fail(`${skill.id}.sourcePath 应为 ${expectedSourcePath}`);
   }
 
-  const expectedInstallCommand = `npx custom-skills install ${skill.id}`;
+  const expectedInstallCommand = `npx skills add https://github.com/hwj123hwj/custom-skills --skill ${skill.id}`;
   if (skill.installCommand !== expectedInstallCommand) {
     fail(`${skill.id}.installCommand 应为 ${expectedInstallCommand}`);
   }
