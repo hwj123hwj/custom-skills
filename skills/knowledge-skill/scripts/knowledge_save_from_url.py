@@ -237,6 +237,26 @@ def get_bilibili_content(url: str) -> dict:
             subtitle_text = re.sub(r"WEBVTT.*?\n", "", subtitle_text)
             content = subtitle_text.strip() or content
     
+    # 字幕为空时自动 ASR 转录
+    if not content or len(content.strip()) < 10:
+        print("无字幕，自动下载音频进行 ASR 转录...")
+        try:
+            with tempfile.TemporaryDirectory() as tmpdir:
+                audio_path = os.path.join(tmpdir, "audio.wav")
+                # 直接下载音频
+                dl_result = subprocess.run(
+                    ["yt-dlp", "-f", "worstaudio", "--extract-audio",
+                     "--audio-format", "wav", "-o", audio_path, url],
+                    capture_output=True, text=True, timeout=120,
+                )
+                if dl_result.returncode == 0 and os.path.exists(audio_path):
+                    asr_text = transcribe_audio(audio_path)
+                    if asr_text:
+                        content = asr_text
+                        print(f"ASR 转录完成，长度: {len(content)}")
+        except Exception as e:
+            print(f"ASR 转录失败: {e}", file=sys.stderr)
+    
     return {
         "source_type": "bilibili",
         "source_id": bvid,
