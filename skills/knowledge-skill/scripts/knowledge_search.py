@@ -20,11 +20,11 @@ load_dotenv(Path(__file__).parent.parent / ".env")
 
 # 配置
 DB_CONFIG = {
-    "host": os.getenv("DB_HOST", "127.0.0.1"),
+    "host": os.getenv("DB_HOST", ""),
     "port": int(os.getenv("DB_PORT", 5433)),
-    "user": os.getenv("DB_USER", "bili"),
-    "password": os.getenv("DB_PASSWORD", "bili123456"),
-    "dbname": os.getenv("DB_NAME", "bilibili"),
+    "user": os.getenv("DB_USER", ""),
+    "password": os.getenv("DB_PASSWORD", ""),
+    "dbname": os.getenv("DB_NAME", ""),
 }
 
 SILICONFLOW_API_KEY = os.getenv("SILICONFLOW_API_KEY")
@@ -77,7 +77,7 @@ def search_keyword(query: str, limit: int = 10, source_type: str = None) -> list
         
         sql = f"""
             SELECT id, source_type, source_id, source_url, title, summary, 
-                   created_at, updated_at
+                   created_at, updated_at, status
             FROM knowledge_items
             WHERE ({" OR ".join(conditions)})
         """
@@ -86,7 +86,7 @@ def search_keyword(query: str, limit: int = 10, source_type: str = None) -> list
             sql += " AND source_type = %s"
             params.append(source_type)
         
-        sql += " ORDER BY created_at DESC LIMIT %s"
+        sql += " ORDER BY status='active' DESC, created_at DESC LIMIT %s"
         params.append(limit)
         
         cur.execute(sql, params)

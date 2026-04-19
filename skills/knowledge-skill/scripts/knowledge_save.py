@@ -21,11 +21,11 @@ load_dotenv(Path(__file__).parent.parent / ".env")
 
 # 配置
 DB_CONFIG = {
-    "host": os.getenv("DB_HOST", "127.0.0.1"),
+    "host": os.getenv("DB_HOST", ""),
     "port": int(os.getenv("DB_PORT", 5433)),
-    "user": os.getenv("DB_USER", "bili"),
-    "password": os.getenv("DB_PASSWORD", "bili123456"),
-    "dbname": os.getenv("DB_NAME", "bilibili"),
+    "user": os.getenv("DB_USER", ""),
+    "password": os.getenv("DB_PASSWORD", ""),
+    "dbname": os.getenv("DB_NAME", ""),
 }
 
 SILICONFLOW_API_KEY = os.getenv("SILICONFLOW_API_KEY")
