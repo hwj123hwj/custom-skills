@@ -51,14 +51,14 @@ scenarios:
 
 ```bash
 # 基本入库（自动生成 AI 摘要）
-uv run ~/.agents/skills/knowledge-skill/scripts/knowledge_save.py \
+python ~/.agents/skills/knowledge-skill/scripts/knowledge_save.py \
   --source-type bilibili \
   --source-id BV1xxx \
   --title "AI Agent 开发实战" \
   --content "视频文稿全文..."
 
 # 带 metadata 入库
-uv run ~/.agents/skills/knowledge-skill/scripts/knowledge_save.py \
+python ~/.agents/skills/knowledge-skill/scripts/knowledge_save.py \
   --source-type wechat \
   --source-id "article_123" \
   --title "深度学习入门" \
@@ -66,7 +66,7 @@ uv run ~/.agents/skills/knowledge-skill/scripts/knowledge_save.py \
   --metadata '{"author": "张三", "account": "AI科技评论"}'
 
 # 手动指定 AI 摘要
-uv run ~/.agents/skills/knowledge-skill/scripts/knowledge_save.py \
+python ~/.agents/skills/knowledge-skill/scripts/knowledge_save.py \
   --source-type xiaohongshu \
   --source-id "note_123" \
   --title "OpenClaw 配置指南" \
@@ -78,17 +78,17 @@ uv run ~/.agents/skills/knowledge-skill/scripts/knowledge_save.py \
 
 ```bash
 # 关键词搜索
-uv run ~/.agents/skills/knowledge-skill/scripts/knowledge_search.py \
+python ~/.agents/skills/knowledge-skill/scripts/knowledge_search.py \
   --query "AI Agent" \
   --mode keyword
 
 # 向量语义搜索
-uv run ~/.agents/skills/knowledge-skill/scripts/knowledge_search.py \
+python ~/.agents/skills/knowledge-skill/scripts/knowledge_search.py \
   --query "如何开发一个智能助手" \
   --mode vector
 
 # 混合搜索（推荐）
-uv run ~/.agents/skills/knowledge-skill/scripts/knowledge_search.py \
+python ~/.agents/skills/knowledge-skill/scripts/knowledge_search.py \
   --query "RAG 技术" \
   --mode hybrid \
   --limit 10
@@ -111,19 +111,19 @@ uv run ~/.agents/skills/knowledge-skill/scripts/knowledge_search.py \
 
 ```bash
 # B站视频（自动获取字幕或ASR转录）
-uv run ~/.agents/skills/knowledge-skill/scripts/knowledge_save_from_url.py \
+python ~/.agents/skills/knowledge-skill/scripts/knowledge_save_from_url.py \
   --url "https://www.bilibili.com/video/BV1xxx"
 
 # 小红书笔记
-uv run ~/.agents/skills/knowledge-skill/scripts/knowledge_save_from_url.py \
+python ~/.agents/skills/knowledge-skill/scripts/knowledge_save_from_url.py \
   --url "https://www.xiaohongshu.com/discovery/item/xxx"
 
 # 微信公众号（curl + 手机UA提取正文）
-uv run ~/.agents/skills/knowledge-skill/scripts/knowledge_save_from_url.py \
+python ~/.agents/skills/knowledge-skill/scripts/knowledge_save_from_url.py \
   --url "https://mp.weixin.qq.com/s/xxx"
 
 # 通用网页
-uv run ~/.agents/skills/knowledge-skill/scripts/knowledge_save_from_url.py \
+python ~/.agents/skills/knowledge-skill/scripts/knowledge_save_from_url.py \
   --url "https://example.com/article"
 ```
 

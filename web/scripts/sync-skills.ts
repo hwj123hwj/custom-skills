@@ -329,7 +329,7 @@ async function main() {
           tags: tags.length > 0 ? tags : ['Utility'],
           scenarios,
           aliases,
-          installCommand: `npx custom-skills install ${id}`,
+          installCommand: `npx skills add https://github.com/hwj123hwj/custom-skills --skill ${id}`,
           githubUrl: `${REPO_BASE}/tree/main/${sourcePath}`,
           sourcePath,
           lastUpdated,

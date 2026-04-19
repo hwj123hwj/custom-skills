@@ -53,10 +53,10 @@ BJTU_PASSWORD=your_password
 
 ```bash
 # 查询当前学期（自动推断）第14周 思源东楼 102 的空闲情况
-uv run bjtuo-classroom-query/scripts/query_classroom.py --week "14" --building "思源东楼" --classroom "102"
+python bjtuo-classroom-query/scripts/query_classroom.py --week "14" --building "思源东楼" --classroom "102"
 
 # 指定学期
-uv run bjtuo-classroom-query/scripts/query_classroom.py --semester "2025-2026-1" --week "14" --building "思源东楼"
+python bjtuo-classroom-query/scripts/query_classroom.py --semester "2025-2026-1" --week "14" --building "思源东楼"
 ```
 
 ## 参数说明
@@ -109,7 +109,7 @@ curl "http://yaya.csoci.com:2333/api/classnum/?building=%E6%80%9D%E6%BA%90%E4%B8
 
 ### Step 1：查课表（有无上课）
 ```bash
-uv run bjtuo-classroom-query/scripts/query_classroom.py \
+python bjtuo-classroom-query/scripts/query_classroom.py \
   --week "<当前周次>" --building "<教学楼>" --classroom "<教室号>"
 ```
 得到：该教室今天各节课的占用情况。
