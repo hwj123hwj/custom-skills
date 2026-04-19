@@ -24,7 +24,7 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill bjtuo-classroom-query",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/bjtuo-classroom-query",
     "sourcePath": "skills/bjtuo-classroom-query",
-    "lastUpdated": "2026-04-15T02:36:07.000Z"
+    "lastUpdated": "2026-04-19T14:34:48.000Z"
   },
   {
     "id": "idea-incubator",
@@ -51,7 +51,7 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill idea-incubator",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/idea-incubator",
     "sourcePath": "skills/idea-incubator",
-    "lastUpdated": "2026-04-15T02:36:07.000Z"
+    "lastUpdated": "2026-04-19T14:43:02.000Z"
   },
   {
     "id": "knowledge-skill",
@@ -79,7 +79,7 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill knowledge-skill",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/knowledge-skill",
     "sourcePath": "skills/knowledge-skill",
-    "lastUpdated": "2026-04-15T02:40:33.000Z"
+    "lastUpdated": "2026-04-19T14:43:02.000Z"
   },
   {
     "id": "media-analyze",
@@ -177,7 +177,7 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill skill-browser-crawl",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/skill-browser-crawl",
     "sourcePath": "skills/skill-browser-crawl",
-    "lastUpdated": "2026-04-15T02:36:07.000Z"
+    "lastUpdated": "2026-04-19T14:43:02.000Z"
   },
   {
     "id": "skills-sh-installer",
