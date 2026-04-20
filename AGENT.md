@@ -29,10 +29,24 @@ skills/*/SKILL.md -> web/scripts/sync-skills.ts -> registry/skills.json -> (被 
 - `scripts/`: 存放可执行的 Python 脚本。
 - `data/` 或 `references/` (可选): 存放静态数据或参考文档。
 
-### `SKILL.md` 规范
+### `SKILL.md` 与依赖规范
 - **必须**在文件顶部包含 Frontmatter（用于 `sync-skills.ts` 解析元数据）。
 - **必须**在 `## Usage` 部分说明如何执行脚本。
-- **依赖与执行**: 优先使用标准的 `python` 命令（而非 `uv run`），以确保在不同环境下的最大兼容性。如果脚本需要外部依赖，请在 `SKILL.md` 中说明如何使用 `pip install` 安装，或者在技能目录中提供 `requirements.txt`。
+- **最佳实践：优先使用全局环境（内联元数据）**:
+  - 为了保证最大的普适性和极简安装体验，建议使用标准的 `python` 命令（而非 `uv run` 或 `venv`）。
+  - 如果脚本需要外部依赖，**强烈推荐使用 PEP 723 的内联元数据规范 (Inline Metadata)**。即在 Python 脚本开头写注释声明依赖，例如：
+    ```python
+    # /// script
+    # requires-python = ">=3.11"
+    # dependencies = [
+    #     "requests",
+    #     "psycopg2-binary",
+    #     "python-dotenv"
+    # ]
+    # ///
+    ```
+    这样外部的现代化包管理器（如 `uv run` 或 `pipx run`）可以直接单文件运行它，而无需复杂的 `requirements.txt` 或笨重的 `.venv`。
+  - 对于过于复杂或带有编译型 C 扩展的项目，可以提供 `requirements.txt` 并建议用户 `pip install -r`。
 
 **Frontmatter 示例:**
 ```markdown
