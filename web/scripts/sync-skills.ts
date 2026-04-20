@@ -263,6 +263,104 @@ function getFrontmatterList(
   return [];
 }
 
+function generateRobotsAndSitemap(skills: SkillData[]) {
+  const publicDir = path.resolve(__dirname, '../public');
+  if (!fs.existsSync(publicDir)) {
+    fs.mkdirSync(publicDir, { recursive: true });
+  }
+
+  // 1. Generate robots.txt
+  const robotsTxt = `User-agent: *
+Allow: /
+
+Sitemap: https://weijian.online/sitemap.xml
+`;
+  fs.writeFileSync(path.join(publicDir, 'robots.txt'), robotsTxt);
+  console.log(`🎉 Generated robots.txt`);
+
+  // 2. Generate sitemap.xml
+  const currentDate = new Date().toISOString().split('T')[0];
+  let sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://weijian.online/</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+`;
+
+  for (const skill of skills) {
+    const lastModDate = skill.lastUpdated ? skill.lastUpdated.split('T')[0] : currentDate;
+    sitemapXml += `  <url>
+    <loc>https://weijian.online/skill/${skill.id}</loc>
+    <lastmod>${lastModDate}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>\n`;
+  }
+  sitemapXml += `</urlset>`;
+  fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), sitemapXml);
+  console.log(`🎉 Generated sitemap.xml`);
+
+  // 3. Inject SEO content into index.html
+  const indexHtmlPath = path.resolve(__dirname, '../index.html');
+  if (fs.existsSync(indexHtmlPath)) {
+    let indexHtml = fs.readFileSync(indexHtmlPath, 'utf-8');
+
+    // Generate JSON-LD
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Custom Skills Hub",
+      "url": "https://weijian.online/",
+      "description": "AI 技能市场，为大模型 Agent 提供一键安装的自动化技能集合。",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://weijian.online/?search={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    };
+
+    // Generate noscript HTML list
+    let noScriptList = `<ul>\n`;
+    for (const skill of skills) {
+      noScriptList += `        <li><a href="/skill/${skill.id}">${skill.displayName}</a> - ${skill.description}</li>\n`;
+    }
+    noScriptList += `      </ul>`;
+
+    // Replace noscript content
+    indexHtml = indexHtml.replace(
+      /<noscript>([\s\S]*?)<\/noscript>/,
+      `<noscript>\n      <h1>Custom Skills Hub - AI 技能市场</h1>\n      <p>为 AI Agent 提供一键安装的自动化技能仓库。浏览以下技能列表：</p>\n      ${noScriptList}\n    </noscript>`
+    );
+
+    // Update <head> meta tags and inject JSON-LD
+    const headMeta = `
+    <title>Custom Skills Hub - AI 技能市场 | 一键管理 Agent 技能</title>
+    <meta name="description" content="Custom Skills Hub 是一个为大语言模型 (LLM) 和 AI Agent 打造的自动化技能集合市场。支持一键安装各种效率工具、爬虫和数据分析脚本。" />
+    <link rel="canonical" href="https://weijian.online/" />
+    <meta property="og:title" content="Custom Skills Hub - AI 技能市场" />
+    <meta property="og:description" content="发现并一键安装专为 AI Agent 设计的自动化技能与效率脚本。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://weijian.online/" />
+    <meta property="og:image" content="https://weijian.online/vite.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">
+      ${JSON.stringify(jsonLd, null, 2).replace(/\n/g, '\n      ')}
+    </script>`;
+
+    // Replace the standard head section (simple heuristic replacement)
+    indexHtml = indexHtml.replace(
+      /<title>.*?<\/title>[\s\S]*?<meta name="description".*?\/>/m,
+      headMeta.trim()
+    );
+
+    fs.writeFileSync(indexHtmlPath, indexHtml);
+    console.log(`🎉 Injected SEO metadata into index.html`);
+  }
+}
+
 async function main() {
   console.log('🔍 Scanning skills from:', SKILLS_DIR);
 
@@ -348,6 +446,8 @@ async function main() {
   fs.writeFileSync(WEB_OUTPUT_FILE, serialized);
   console.log(`🎉 Successfully generated registry to ${REGISTRY_OUTPUT_FILE}`);
   console.log(`🎉 Mirrored registry to ${WEB_OUTPUT_FILE}`);
+
+  generateRobotsAndSitemap(skills);
 }
 
 main().catch(console.error);

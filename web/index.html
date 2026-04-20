@@ -4,16 +4,48 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Custom Skills Hub - AI 技能市场</title>
-    <meta name="description" content="Custom Skills Hub - AI 技能市场。使用 npx custom-skills 管理技能。CLI 使用说明: /cli-usage.md" />
+    <title>Custom Skills Hub - AI 技能市场 | 一键管理 Agent 技能</title>
+    <meta name="description" content="Custom Skills Hub 是一个为大语言模型 (LLM) 和 AI Agent 打造的自动化技能集合市场。支持一键安装各种效率工具、爬虫和数据分析脚本。" />
+    <link rel="canonical" href="https://weijian.online/" />
+    <meta property="og:title" content="Custom Skills Hub - AI 技能市场" />
+    <meta property="og:description" content="发现并一键安装专为 AI Agent 设计的自动化技能与效率脚本。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://weijian.online/" />
+    <meta property="og:image" content="https://weijian.online/vite.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Custom Skills Hub",
+        "url": "https://weijian.online/",
+        "description": "AI 技能市场，为大模型 Agent 提供一键安装的自动化技能集合。",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://weijian.online/?search={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
     <link rel="alternate" type="text/markdown" title="CLI Usage" href="/cli-usage.md" />
   </head>
   <body>
     <noscript>
       <h1>Custom Skills Hub - AI 技能市场</h1>
-      <p>使用 npx custom-skills 管理 AI 技能。</p>
+      <p>为 AI Agent 提供一键安装的自动化技能仓库。浏览以下技能列表：</p>
       <ul>
-        <li><a href="/cli-usage.md">CLI 使用说明</a> - 供 AI Agent 读取的 CLI 工具完整文档</li>
+        <li><a href="/skill/bjtuo-classroom-query">BJTU Classroom Query</a> - 北京交通大学（BJTU）教室综合查询。结合教务系统课表（判断是否有课）和实时人数接口（当前在场人数），综合评估教室空闲情况。</li>
+        <li><a href="/skill/idea-incubator">Idea Incubator</a> - 专业的 CPO + 技术合伙人助手，帮助用户孵化想法、分析可行性并编写技术文档。适用于当你有新产品想法、技术方案或“灵光一现”需要结构化整理时。</li>
+        <li><a href="/skill/knowledge-skill">Knowledge Skill</a> - 个人知识库技能。支持将网页、B站、微信公众号、小红书等内容入库到 PostgreSQL， 并通过关键词或语义检索找回历史知识。自动生成 AI 摘要与向量嵌入， 同时支持 URL 一键入库和夜间自动收割。</li>
+        <li><a href="/skill/llm-wiki">LLM Wiki 技能</a> - 基于 Karpathy LLM Wiki 模式的个人知识库技能。在 Agent 的 workspace 中建立结构化知识库，支持导入网页/飞书文档/PDF/文字内容，并通过自然语言查询。触发词（凡消息含「wiki」或「知识库」关键字，均激活本技能）：wiki、建立知识库、建立wiki、启动wiki功能、帮我建个知识库、我要开始用wiki、把这个存进知识库、记住这些内容、帮我学习这篇文章、把这个链接收录到wiki、用我的知识库回答、从wiki里找找、知识库里有什么、整理一下知识库、检查wiki有没有问题、查看知识库日志、wiki日志、wiki怎么用。Use when user mentions wiki or 知识库 in any context.</li>
+        <li><a href="/skill/media-analyze">媒体分析技能</a> - 媒体分析报告生成。多源搜索话题，自动生成结构化分析报告。触发场景：(1) 用户要求分析某个话题 (2) 需要生成话题调研报告 (3) 了解事件的舆论反应。关键词：分析话题、媒体报告、话题调研、舆论分析。</li>
+        <li><a href="/skill/memory-organizer">Memory Organizer</a> - 长期记忆整理指南。使用当需要清理、组织或重构 MEMORY.md 文件时，或决策哪些信息应该/不应该存储在长期记忆中。提供区分静态知识（长期价值）vs 动态信息（可自动获取）的原则。</li>
+        <li><a href="/skill/rss-monitor">RSS Monitor</a> - RSS 消息监控与智能摘要。定时拉取自部署 WeWe RSS 的公众号 feed，识别新文章，生成结构化摘要，推送给用户，并记录反馈形成自进化偏好体系。触发场景：(1) 用户要求监控某个公众号 (2) 用户要求查看今天的信息流 (3) heartbeat 定时检查 (4) 用户反馈某篇文章有用/没用。</li>
+        <li><a href="/skill/skill-browser-crawl">Browser-Based Web Crawler</a> - 基于浏览器的轻量级网页爬虫。支持 JavaScript 渲染、Markdown 提取，并能递归爬取文档类网站。</li>
+        <li><a href="/skill/skills-sh-installer">Skills.sh Installer</a> - 从 skills.sh（Cursor/Windsurf 技能市场）下载并安装技能到本地 .deepv/skills 目录。支持自动解析仓库结构、提取 .claude/skills 下的成品技能、清理构建残留。</li>
+        <li><a href="/skill/wechat-decrypt">WeChat Decrypt</a> - 解密微信 macOS 数据库，提取聊天记录。用于查询和分析微信本地聊天数据。当用户提到"解密微信数据库"、"微信聊天记录"、"查看微信消息"、"导出微信数据"时使用此技能。</li>
+        <li><a href="/skill/wechat-search">WeChat Search</a> - 用于搜索微信公众号文章的工具。每当用户要求搜索“微信公众号文章”、“微信文章”、或者通过关键词寻找特定话题（如“搜一下AI进展”）时，必须触发此技能。本技能负责搜索文章列表（标题、链接、摘要）。</li>
+        <li><a href="/skill/weibo-skill">Weibo Skill</a> - 微博内容搜索、热搜查看、用户动态及评论读取。使用 m.weibo.cn 移动端接口，无需账号和 API Key。触发场景：(1) 用户要求搜索微博内容或话题，(2) 查看实时微博热搜榜，(3) 获取指定用户的微博动态，(4) 查看某条微博的评论，(5) 用户粘贴了 weibo.com 或 m.weibo.cn 的链接。</li>
       </ul>
     </noscript>
     <div id="root"></div>

@@ -82,6 +82,23 @@
     "lastUpdated": "2026-04-19T14:43:02.000Z"
   },
   {
+    "id": "llm-wiki",
+    "name": "llm-wiki",
+    "displayName": "LLM Wiki 技能",
+    "description": "基于 Karpathy LLM Wiki 模式的个人知识库技能。在 Agent 的 workspace 中建立结构化知识库，支持导入网页/飞书文档/PDF/文字内容，并通过自然语言查询。触发词（凡消息含「wiki」或「知识库」关键字，均激活本技能）：wiki、建立知识库、建立wiki、启动wiki功能、帮我建个知识库、我要开始用wiki、把这个存进知识库、记住这些内容、帮我学习这篇文章、把这个链接收录到wiki、用我的知识库回答、从wiki里找找、知识库里有什么、整理一下知识库、检查wiki有没有问题、查看知识库日志、wiki日志、wiki怎么用。Use when user mentions wiki or 知识库 in any context.",
+    "detailedDescription": "基于 Karpathy 的 LLM Wiki 模式。知识被**预先编译**成结构化页面，而非每次提问都从零检索。",
+    "emoji": "📦",
+    "tags": [
+      "Utility"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill llm-wiki",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/llm-wiki",
+    "sourcePath": "skills/llm-wiki",
+    "lastUpdated": "2026-04-20T05:39:16.000Z"
+  },
+  {
     "id": "media-analyze",
     "name": "media-analyze",
     "displayName": "媒体分析技能",
