@@ -1,4 +1,12 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.10"
+# dependencies = [
+#     "psycopg2-binary",
+#     "python-dotenv",
+#     "requests"
+# ]
+# ///
 """
 知识入库脚本
 将内容保存到知识库，自动生成 embedding 和摘要
@@ -71,7 +79,7 @@ def generate_summary(title: str, content: str) -> str:
     """生成摘要（内容过长时截断）"""
     if len(content) <= 500:
         return content
-    
+
     return content[:500] + "..."
 
 
@@ -79,14 +87,14 @@ def generate_ai_summary(title: str, content: str) -> str:
     """使用龙猫 API（免费）生成一句话摘要，无 fallback"""
     LONGMAO_API_KEY = os.getenv("LONGMAO_API_KEY", "")
     LONGMAO_BASE_URL = os.getenv("LONGMAO_BASE_URL", "https://api.longcat.chat/openai")
-    
+
     if not LONGMAO_API_KEY:
         print("Warning: LONGMAO_API_KEY not set, skipping AI summary", file=sys.stderr)
         return None
-    
+
     # 截取内容（最多 2000 字符）
     text = content[:2000] if len(content) > 2000 else content
-    
+
     prompt = f"""请用一句话（不超过50字）总结以下内容的要点：
 
 标题：{title}
@@ -128,27 +136,27 @@ def save_knowledge(
     ai_summary: str = None,  # 可选，手动传入 AI 摘要
 ) -> dict:
     """保存知识到数据库"""
-    
+
     # 生成摘要
     summary = generate_summary(title, content)
-    
+
     # 生成 AI 摘要（如果没有手动传入）
     if ai_summary is None:
         print("正在生成 AI 摘要...", file=sys.stderr)
         ai_summary = generate_ai_summary(title, content)
-    
+
     # 生成 embedding（使用 title + ai_summary，语义更精准）
     embedding_text = f"{title}\n{ai_summary}" if ai_summary else f"{title}\n{summary}"
     embedding = get_embedding(embedding_text)
-    
+
     # 连接数据库
     conn = psycopg2.connect(**DB_CONFIG)
     cur = conn.cursor()
-    
+
     try:
         # 构建 SQL（包含 ai_summary）
         sql = """
-            INSERT INTO knowledge_items 
+            INSERT INTO knowledge_items
             (source_type, source_id, source_url, title, content, summary, ai_summary, embedding, metadata)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
             ON CONFLICT (source_type, source_id) DO UPDATE
@@ -172,10 +180,10 @@ def save_knowledge(
             str(embedding) if embedding else None,
             psycopg2.extras.Json(metadata or {}),
         ))
-        
+
         result = cur.fetchone()
         conn.commit()
-        
+
         return {
             "success": True,
             "id": str(result[0]),
@@ -204,9 +212,9 @@ def main():
     parser.add_argument("--source-url", help="原始链接")
     parser.add_argument("--metadata", help="元数据 (JSON)")
     parser.add_argument("--ai-summary", help="AI 摘要（可选，不传则自动生成）")
-    
+
     args = parser.parse_args()
-    
+
     # 解析 metadata
     metadata = None
     if args.metadata:
@@ -215,7 +223,7 @@ def main():
         except json.JSONDecodeError:
             print(f"Error: Invalid JSON in metadata", file=sys.stderr)
             sys.exit(1)
-    
+
     # 保存
     result = save_knowledge(
         source_type=args.source_type,
@@ -226,9 +234,9 @@ def main():
         metadata=metadata,
         ai_summary=args.ai_summary,
     )
-    
+
     print(json.dumps(result, ensure_ascii=False, indent=2))
-    
+
     if not result["success"]:
         sys.exit(1)
 

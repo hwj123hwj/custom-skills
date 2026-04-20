@@ -1,4 +1,12 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.10"
+# dependencies = [
+#     "psycopg2-binary",
+#     "python-dotenv",
+#     "requests"
+# ]
+# ///
 """
 Wiki 编译脚本 (Karpathy LLM-Wiki 模式)
 从知识库提取条目，利用 LLM 提取概念与实体，编译成带双向链接的结构化 wiki 页面。

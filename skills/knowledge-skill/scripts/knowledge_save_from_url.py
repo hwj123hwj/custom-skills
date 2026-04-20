@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.10"
+# dependencies = [
+#     "python-dotenv",
+#     "requests"
+# ]
+# ///
 """
 URL 一键入库脚本
 从 URL 自动获取内容并保存到知识库
@@ -40,7 +47,7 @@ def transcribe_audio(audio_path: str) -> str:
             data={"model": ASR_MODEL},
             timeout=300,
         )
-    
+
     result = response.json()
     if "text" in result:
         return result["text"]
@@ -73,12 +80,12 @@ def get_xiaohongshu_content(url: str) -> dict:
         match = re.search(r"discovery/item/([a-f0-9]+)", url)
     if not match:
         match = re.search(r"xhslink\.com/([a-zA-Z0-9]+)", url)
-    
+
     if not match:
         raise ValueError("无法从 URL 中提取笔记 ID")
-    
+
     note_id = match.group(1) if "xhslink" not in url else None
-    
+
     # 如果是短链接，先解析
     if "xhslink.com" in url:
         response = requests.head(url, allow_redirects=True, timeout=10)
@@ -86,21 +93,21 @@ def get_xiaohongshu_content(url: str) -> dict:
         match = re.search(r"item/([a-f0-9]+)", final_url)
         if match:
             note_id = match.group(1)
-    
+
     # 使用 xiaohongshu-skills 获取笔记详情
     xhs_cli = Path.home() / ".agents/skills/xiaohongshu-skills/scripts/cli.py"
-    
+
     if xhs_cli.exists():
         # 尝试获取笔记详情
         result = subprocess.run(
-            ["uv", "run", str(xhs_cli), "get-feed-detail", 
+            ["uv", "run", str(xhs_cli), "get-feed-detail",
              "--feed-id", note_id],
             capture_output=True,
             text=True,
             timeout=60,
             cwd=str(xhs_cli.parent),
         )
-        
+
         if result.returncode == 0:
             try:
                 data = json.loads(result.stdout)
@@ -108,9 +115,9 @@ def get_xiaohongshu_content(url: str) -> dict:
                 title = note.get("title", "小红书笔记")
                 desc = note.get("desc", "")
                 note_type = note.get("type", "图文")
-                
+
                 content = f"标题: {title}\n\n{desc}"
-                
+
                 # 如果是视频笔记，尝试转录
                 if note_type == "video":
                     print("检测到视频笔记，尝试下载并转录...")
@@ -120,7 +127,7 @@ def get_xiaohongshu_content(url: str) -> dict:
                             content = f"{content}\n\n=== 视频转录 ===\n\n{video_content}"
                     except Exception as e:
                         print(f"视频转录失败: {e}", file=sys.stderr)
-                
+
                 return {
                     "source_type": "xiaohongshu",
                     "source_id": note_id,
@@ -134,7 +141,7 @@ def get_xiaohongshu_content(url: str) -> dict:
                 }
             except json.JSONDecodeError:
                 pass
-    
+
     # 备用方案：使用网页抓取
     raise ValueError("请先登录小红书（运行 xiaohongshu-skills 的 login 命令）")
 
@@ -143,50 +150,50 @@ def transcribe_xiaohongshu_video(note_id: str) -> str:
     """下载小红书视频并转录"""
     import asyncio
     from playwright.async_api import async_playwright
-    
+
     async def get_video_url():
         async with async_playwright() as p:
             browser = await p.chromium.connect_over_cdp("http://127.0.0.1:9222")
             context = browser.contexts[0]
             page = context.pages[0] if context.pages else await context.new_page()
-            
+
             video_urls = []
-            
+
             def handle_response(response):
                 url = response.url
                 if '.mp4' in url and ('xhscdn' in url or 'xiaohongshu' in url):
                     video_urls.append(url)
-            
+
             page.on('response', handle_response)
-            
+
             await page.goto(f"https://www.xiaohongshu.com/explore/{note_id}")
             await page.wait_for_timeout(5000)
-            
+
             try:
                 await page.click('video')
                 await page.wait_for_timeout(3000)
             except:
                 pass
-            
+
             return video_urls[0] if video_urls else None
-    
+
     video_url = asyncio.run(get_video_url())
-    
+
     if not video_url:
         return ""
-    
+
     # 下载视频
     with tempfile.TemporaryDirectory() as tmpdir:
         video_path = os.path.join(tmpdir, "video.mp4")
         wav_path = os.path.join(tmpdir, "audio.wav")
-        
+
         response = requests.get(video_url, timeout=120)
         with open(video_path, "wb") as f:
             f.write(response.content)
-        
+
         # 转换为 WAV
         video_to_wav(video_path, wav_path)
-        
+
         # ASR 转录
         return transcribe_audio(wav_path)
 
@@ -216,9 +223,9 @@ def get_bilibili_content(url: str) -> dict:
     match = re.search(r"BV[\w]+", url)
     if not match:
         raise ValueError("无法从 URL 中提取 BV 号")
-    
+
     bvid = match.group(0)
-    
+
     # 加载 bilibili-cli 凭证
     cookie_file = load_bilibili_cookie_path()
     cookie_args = ["--cookies", cookie_file] if cookie_file else []
@@ -230,26 +237,26 @@ def get_bilibili_content(url: str) -> dict:
         text=True,
         timeout=60,
     )
-    
+
     if result.returncode != 0:
         raise ValueError(f"yt-dlp 获取失败: {result.stderr}")
-    
+
     info = json.loads(result.stdout)
-    
+
     title = info.get("title", "")
     content = info.get("description", "")
-    
+
     # 尝试获取字幕
     subtitle_result = subprocess.run(
-        ["yt-dlp", "--write-sub", "--write-auto-sub", 
-         "--sub-lang", "zh-Hans,zh,en", 
+        ["yt-dlp", "--write-sub", "--write-auto-sub",
+         "--sub-lang", "zh-Hans,zh,en",
          "--skip-download",
          "-o", "/tmp/%(id)s"] + cookie_args + [url],
         capture_output=True,
         text=True,
         timeout=60,
     )
-    
+
     # 读取字幕文件
     import glob
     subtitle_files = glob.glob(f"/tmp/{info.get('id', '')}*.vtt")
@@ -259,7 +266,7 @@ def get_bilibili_content(url: str) -> dict:
             subtitle_text = re.sub(r"<\d+:\d+:\d+\.\d+>", "", subtitle_text)
             subtitle_text = re.sub(r"WEBVTT.*?\n", "", subtitle_text)
             content = subtitle_text.strip() or content
-    
+
     # 字幕为空时自动 ASR 转录（用 mp3，无时长限制）
     if not content or len(content.strip()) < 10:
         print("无字幕，自动下载音频进行 ASR 转录...")
@@ -278,7 +285,7 @@ def get_bilibili_content(url: str) -> dict:
                         print(f"ASR 转录完成，长度: {len(content)}")
         except Exception as e:
             print(f"ASR 转录失败: {e}", file=sys.stderr)
-    
+
     return {
         "source_type": "bilibili",
         "source_id": bvid,
@@ -296,25 +303,25 @@ def get_bilibili_content(url: str) -> dict:
 def get_wechat_content(url: str) -> dict:
     """获取微信公众号文章"""
     script_path = Path.home() / ".agent-reach/tools/wechat-article-for-ai/main.py"
-    
+
     if not script_path.exists():
         raise ValueError("wechat-article-for-ai 工具未安装")
-    
+
     result = subprocess.run(
         ["python3", str(script_path), url],
         capture_output=True,
         text=True,
         timeout=120,
     )
-    
+
     if result.returncode != 0:
         raise ValueError(f"获取微信文章失败: {result.stderr}")
-    
+
     content = result.stdout
-    
+
     match = re.search(r"s/([a-zA-Z0-9]+)", url)
     article_id = match.group(1) if match else hashlib.md5(url.encode()).hexdigest()[:12]
-    
+
     return {
         "source_type": "wechat",
         "source_id": article_id,
@@ -331,13 +338,13 @@ def get_web_content(url: str) -> dict:
         f"https://r.jina.ai/{url}",
         timeout=30,
     )
-    
+
     if response.status_code != 200:
         raise ValueError(f"获取网页失败: {response.status_code}")
-    
+
     content = response.text
     url_hash = hashlib.md5(url.encode()).hexdigest()[:12]
-    
+
     return {
         "source_type": "web",
         "source_id": url_hash,
@@ -350,7 +357,7 @@ def get_web_content(url: str) -> dict:
 
 def save_from_url(url: str) -> dict:
     """从 URL 获取内容并保存到知识库"""
-    
+
     # 判断 URL 类型
     if "bilibili.com" in url:
         data = get_bilibili_content(url)
@@ -360,7 +367,7 @@ def save_from_url(url: str) -> dict:
         data = get_xiaohongshu_content(url)
     else:
         data = get_web_content(url)
-    
+
     # 保存到知识库
     return save_knowledge(**data)
 
@@ -368,12 +375,12 @@ def save_from_url(url: str) -> dict:
 def main():
     parser = argparse.ArgumentParser(description="从 URL 保存内容到知识库")
     parser.add_argument("--url", required=True, help="内容 URL")
-    
+
     args = parser.parse_args()
-    
+
     result = save_from_url(args.url)
     print(json.dumps(result, ensure_ascii=False, indent=2))
-    
+
     if not result.get("success"):
         sys.exit(1)
 
