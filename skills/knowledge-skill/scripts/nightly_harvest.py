@@ -1,4 +1,12 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.10"
+# dependencies = [
+#     "python-dotenv",
+#     "requests",
+#     "psycopg2-binary"
+# ]
+# ///
 """
 夜间知识收割脚本 v3
 - 防风控：搜索/读取随机延迟

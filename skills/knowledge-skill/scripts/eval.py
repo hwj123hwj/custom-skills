@@ -16,7 +16,7 @@ import time
 from datetime import datetime
 from pathlib import Path
 
-VENV = str(Path(__file__).parent.parent / ".venv" / "bin" / "python3")
+VENV = "uv run"
 SCRIPTS = str(Path(__file__).parent)
 RESULTS_FILE = str(Path(__file__).parent.parent / "eval_results.tsv")
 
