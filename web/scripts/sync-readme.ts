@@ -30,9 +30,14 @@ function summarizeDescription(text: string): string {
   const normalized = text.replace(/\s+/g, ' ').trim();
   if (!normalized) return '';
 
-  const sentenceMatch = normalized.match(/^(.{1,80}?[。！？.!?])/);
-  const sentence = sentenceMatch?.[1] ?? normalized;
-  return sentence.length > 48 ? `${sentence.slice(0, 48).trim()}...` : sentence;
+  // Get the first sentence, but ignore periods that are inside URLs or domain names like 'skills.sh'
+  const sentences = normalized.match(/[^。！？.!?]+(?:[.!?](?!\s|$)[^。！？.!?]*)*[。！？.!?]?/g) || [normalized];
+  let sentence = sentences[0].trim();
+
+  if (sentence.length > 100) {
+    sentence = `${sentence.slice(0, 97).trim()}...`;
+  }
+  return sentence;
 }
 
 function escapeTableCell(text: string): string {

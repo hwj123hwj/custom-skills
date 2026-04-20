@@ -53,7 +53,7 @@ npm run dev
 <!-- SKILL_TABLE:START -->
 | 技能 | 说明 |
 |------|------|
-| [bilibili-cli](./skills/bilibili-cli) | CLI skill for Bilibili (哔哩哔哩, B站) with token-eff... |
+| [bilibili-cli](./skills/bilibili-cli) | CLI skill for Bilibili (哔哩哔哩, B站) with token-efficient YAML output for AI agents to browse videos... |
 | [bjtuo-classroom-query](./skills/bjtuo-classroom-query) | 北京交通大学（BJTU）教室综合查询。 |
 | [idea-incubator](./skills/idea-incubator) | 专业的 CPO + 技术合伙人助手，帮助用户孵化想法、分析可行性并编写技术文档。 |
 | [knowledge-skill](./skills/knowledge-skill) | 个人知识库技能。 |
@@ -62,7 +62,7 @@ npm run dev
 | [memory-organizer](./skills/memory-organizer) | 长期记忆整理指南。 |
 | [rss-monitor](./skills/rss-monitor) | RSS 消息监控与智能摘要。 |
 | [skill-browser-crawl](./skills/skill-browser-crawl) | 基于浏览器的轻量级网页爬虫。 |
-| [skills-sh-installer](./skills/skills-sh-installer) | 从 skills. |
+| [skills-sh-installer](./skills/skills-sh-installer) | 从 skills.sh（Cursor/Windsurf 技能市场）下载并安装技能到本地 .deepv/skills 目录。 |
 | [wechat-decrypt](./skills/wechat-decrypt) | 解密微信 macOS 数据库，提取聊天记录。 |
 | [wechat-search](./skills/wechat-search) | 用于搜索微信公众号文章的工具。 |
 | [weibo-skill](./skills/weibo-skill) | 微博内容搜索、热搜查看、用户动态及评论读取。 |
