@@ -51,6 +51,12 @@ const ALLOWED_TAGS = new Set([
   'WeChat',
   'Weibo',
   'Writing',
+  'bilibili',
+  '哔哩哔哩',
+  'b站',
+  'video',
+  'social-media',
+  'cli'
 ]);
 
 function fail(message: string): never {
