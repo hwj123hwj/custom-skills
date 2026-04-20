@@ -6,3 +6,4 @@ secrets.json
 .env
 auth_state.json
 *.png
+.vscode/
