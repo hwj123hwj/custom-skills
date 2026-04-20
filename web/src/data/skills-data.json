@@ -1,5 +1,27 @@
 [
   {
+    "id": "bilibili-cli",
+    "name": "bilibili-cli",
+    "displayName": "bilibili-cli Skill",
+    "description": "CLI skill for Bilibili (哔哩哔哩, B站) with token-efficient YAML output for AI agents to browse videos, users, search, trending, dynamics, favorites, and interactions from the terminal",
+    "detailedDescription": "A CLI tool for interacting with Bilibili (哔哩哔哩). Use it to fetch video info, search content, browse user profiles, and perform interactions like liking or triple-clicking.",
+    "emoji": "📦",
+    "tags": [
+      "bilibili",
+      "哔哩哔哩",
+      "b站",
+      "video",
+      "social-media",
+      "cli"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill bilibili-cli",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/bilibili-cli",
+    "sourcePath": "skills/bilibili-cli",
+    "lastUpdated": "2026-04-20T11:18:16.000Z"
+  },
+  {
     "id": "bjtuo-classroom-query",
     "name": "bjtuo-classroom-query",
     "displayName": "BJTU Classroom Query",

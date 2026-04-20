@@ -53,6 +53,7 @@ npm run dev
 <!-- SKILL_TABLE:START -->
 | 技能 | 说明 |
 |------|------|
+| [bilibili-cli](./skills/bilibili-cli) | CLI skill for Bilibili (哔哩哔哩, B站) with token-eff... |
 | [bjtuo-classroom-query](./skills/bjtuo-classroom-query) | 北京交通大学（BJTU）教室综合查询。 |
 | [idea-incubator](./skills/idea-incubator) | 专业的 CPO + 技术合伙人助手，帮助用户孵化想法、分析可行性并编写技术文档。 |
 | [knowledge-skill](./skills/knowledge-skill) | 个人知识库技能。 |
