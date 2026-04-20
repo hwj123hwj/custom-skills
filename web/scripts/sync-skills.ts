@@ -338,7 +338,7 @@ Sitemap: https://weijian.online/sitemap.xml
     // Update <head> meta tags and inject JSON-LD
     const headMeta = `
     <title>Custom Skills Hub - AI 技能市场 | 一键管理 Agent 技能</title>
-    <meta name="description" content="Custom Skills Hub 是一个为大语言模型 (LLM) 和 AI Agent 打造的自动化技能集合市场。支持一键安装各种效率工具、爬虫和数据分析脚本。" />
+    <meta name="description" content="Custom Skills Hub 是一个为大语言模型和 AI Agent 打造的自动化技能集合市场。支持一键安装各种效率工具、爬虫和数据分析脚本。" />
     <link rel="canonical" href="https://weijian.online/" />
     <meta property="og:title" content="Custom Skills Hub - AI 技能市场" />
     <meta property="og:description" content="发现并一键安装专为 AI Agent 设计的自动化技能与效率脚本。" />
@@ -349,6 +349,12 @@ Sitemap: https://weijian.online/sitemap.xml
     <script type="application/ld+json">
       ${JSON.stringify(jsonLd, null, 2).replace(/\n/g, '\n      ')}
     </script>`;
+
+    // Remove existing OG and twitter tags to prevent duplicates during multiple runs
+    indexHtml = indexHtml.replace(/<meta property="og:.*?\/>\n?/g, '');
+    indexHtml = indexHtml.replace(/<meta name="twitter:.*?\/>\n?/g, '');
+    indexHtml = indexHtml.replace(/<link rel="canonical".*?\/>\n?/g, '');
+    indexHtml = indexHtml.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>\n?/g, '');
 
     // Replace the standard head section (simple heuristic replacement)
     indexHtml = indexHtml.replace(

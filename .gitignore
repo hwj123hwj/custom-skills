@@ -7,3 +7,4 @@ secrets.json
 auth_state.json
 *.png
 .vscode/
+skills/knowledge-skill/.venv
