@@ -20,16 +20,14 @@ scenarios:
 
 ## 服务信息
 
-- **WeWe RSS 管理界面**: `WEWE_RSS_DASHBOARD_URL`
+- **WeWe RSS 服务器地址**: `WEWE_RSS_SERVER_URL`
 - **Auth Code**: `WEWE_RSS_AUTH_CODE`
-- **RSS 订阅地址模板**: `WEWE_RSS_FEED_URL_TEMPLATE`
 
 建议将真实值写入本地 `.env` 或个人 secrets 文件，不要硬编码在 `SKILL.md`：
 
 ```env
-WEWE_RSS_DASHBOARD_URL=https://your-wewe-rss.example.com/dash/
+WEWE_RSS_SERVER_URL=your-server-ip-or-domain
 WEWE_RSS_AUTH_CODE=your-auth-code
-WEWE_RSS_FEED_URL_TEMPLATE=https://your-wewe-rss.example.com/feeds/{feed_id}.rss
 ```
 
 ## 核心功能
@@ -51,7 +49,6 @@ WEWE_RSS_FEED_URL_TEMPLATE=https://your-wewe-rss.example.com/feeds/{feed_id}.rss
   "feeds": [
     {
       "name": "量子位",
-      "url": "https://your-wewe-rss.example.com/feeds/quantum_bit.rss",
       "feed_id": "quantum_bit",
       "category": "AI",
       "enabled": true,
@@ -60,9 +57,8 @@ WEWE_RSS_FEED_URL_TEMPLATE=https://your-wewe-rss.example.com/feeds/{feed_id}.rss
     }
   ],
   "wewe_rss": {
-    "dashboard_env": "WEWE_RSS_DASHBOARD_URL",
-    "auth_code_env": "WEWE_RSS_AUTH_CODE",
-    "feed_url_template_env": "WEWE_RSS_FEED_URL_TEMPLATE"
+    "server_env": "WEWE_RSS_SERVER_URL",
+    "auth_code_env": "WEWE_RSS_AUTH_CODE"
   }
 }
 ```
@@ -80,7 +76,7 @@ WEWE_RSS_FEED_URL_TEMPLATE=https://your-wewe-rss.example.com/feeds/{feed_id}.rss
 用户说：「帮我监控 XXX 公众号」
 
 Agent 操作：
-1. 从本地环境变量读取 `WEWE_RSS_DASHBOARD_URL`
+1. 从本地环境变量读取 `WEWE_RSS_SERVER_URL`
 2. 从本地环境变量读取 `WEWE_RSS_AUTH_CODE`
 3. 进入「公众号源」→「添加」
 4. 用户需要提供该公众号的一篇文章链接（格式：`https://mp.weixin.qq.com/s/xxxxx`）
@@ -109,7 +105,7 @@ sleep 5
 
 ```bash
 # 拉取 RSS feed
-curl -s "${WEWE_RSS_FEED_URL_TEMPLATE/\{feed_id\}/actual_feed_id}"
+curl -s "${WEWE_RSS_SERVER_URL}/feeds/${feed_id}.rss"
 
 # 对比 last_article_time，识别新文章
 # 如果有新文章，进入摘要流程
