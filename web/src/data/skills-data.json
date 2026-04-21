@@ -169,7 +169,7 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill rss-monitor",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/rss-monitor",
     "sourcePath": "skills/rss-monitor",
-    "lastUpdated": "2026-04-21T03:23:54.000Z"
+    "lastUpdated": "2026-04-21T03:56:47.000Z"
   },
   {
     "id": "skill-browser-crawl",
