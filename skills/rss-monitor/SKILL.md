@@ -51,7 +51,7 @@ WEWE_RSS_FEED_URL_TEMPLATE=https://your-wewe-rss.example.com/feeds/{feed_id}.rss
   "feeds": [
     {
       "name": "量子位",
-      "url": "http://115.190.82.67/feeds/quantum_bit.rss",
+      "url": "https://your-wewe-rss.example.com/feeds/quantum_bit.rss",
       "feed_id": "quantum_bit",
       "category": "AI",
       "enabled": true,
