@@ -38,8 +38,15 @@ jobs:
         working-directory: web
         run: npm run validate:registry
 
+      # Check if generated files were committed.
+      # If they weren't, the build fails and provides a clear instruction.
       - name: Ensure Generated Files Are Committed
-        run: git diff --exit-code -- README.md registry/skills.json web/src/data/skills-data.json
+        run: |
+          if ! git diff --exit-code -- README.md registry/skills.json web/src/data/skills-data.json web/index.html web/public/robots.txt web/public/sitemap.xml; then
+            echo "❌ ERROR: Uncommitted changes in generated files detected."
+            echo "👉 PLEASE RUN 'cd web && npm run generate:registry' and commit the updated files to fix this CI error!"
+            exit 1
+          fi
 
       - name: Build Web
         working-directory: web

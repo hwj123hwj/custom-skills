@@ -68,13 +68,13 @@ tags: [Utility, Automation]
 
 ## 3. 生成注册表 (Generating the Registry)
 
-在添加或修改了技能（特别是修改了 `SKILL.md`）之后，你**必须**重新生成注册表，以便 Web UI 和 CLI 能够读取到最新的更改。
+在添加或修改了技能（特别是修改了 `SKILL.md`）之后，**你在执行 `git commit` 前，必须运行以下命令重新生成注册表**：
 
 ```bash
 cd web
 npm run generate:registry
 ```
-这会同时更新 `registry/skills.json` 和 `README.md` 中的技能列表。
+这会同时更新 `registry/skills.json`、`README.md` 中的技能列表以及用于 SEO 的静态文件。**如果你忘记执行此命令，GitHub CI 会因为文件变更未同步而直接报错！**
 
 ## 4. CLI 架构与生态兼容 (CLI Architecture & Ecosystem Compatibility)
 
