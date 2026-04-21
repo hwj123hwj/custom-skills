@@ -57,7 +57,6 @@ npm run dev
 | [bjtuo-classroom-query](./skills/bjtuo-classroom-query) | 北京交通大学（BJTU）教室综合查询。 |
 | [idea-incubator](./skills/idea-incubator) | 专业的 CPO + 技术合伙人助手，帮助用户孵化想法、分析可行性并编写技术文档。 |
 | [knowledge-skill](./skills/knowledge-skill) | 个人知识库技能。 |
-| [llm-wiki](./skills/llm-wiki) | 基于 Karpathy LLM Wiki 模式的个人知识库技能。 |
 | [media-analyze](./skills/media-analyze) | 媒体分析报告生成。 |
 | [memory-organizer](./skills/memory-organizer) | 长期记忆整理指南。 |
 | [rss-monitor](./skills/rss-monitor) | RSS 消息监控与智能摘要。 |
