@@ -90,6 +90,23 @@ Agent 操作：
 
 ### 2. 检查新文章
 
+**第一步：通过 API 触发刷新（避免手动打开 dash 页面）**
+
+```bash
+# 从 feeds.json 读取所有 feed_id，逐个调用刷新 API
+for id in $(cat memory/rss-feeds.json | python3 -c "import sys,json;[print(f['feed_id']) for f in json.load(sys.stdin)['feeds'] if f.get('enabled')]"); do
+  curl -s -X POST "${WEWE_RSS_SERVER_URL}/trpc/feed.refreshArticles" \
+    -H "Authorization: ${WEWE_RSS_AUTH_CODE}" \
+    -H "Content-Type: application/json" \
+    -d "{\"id\":\"$id\"}" &
+done
+wait
+# 等待 5 秒让服务端处理
+sleep 5
+```
+
+**第二步：拉取 feed 对比时间戳**
+
 ```bash
 # 拉取 RSS feed
 curl -s "${WEWE_RSS_FEED_URL_TEMPLATE/\{feed_id\}/actual_feed_id}"
@@ -185,3 +202,13 @@ WeWe RSS 基于微信读书接口，有以下限制：
 ## 当前订阅列表
 
 见 `memory/rss-feeds.json`
+
+## WeWe RSS API 参考
+
+| API | 方法 | 说明 |
+|-----|------|------|
+| `/trpc/feed.list` | GET | 列出所有 feed（需 `input={"limit":20}`） |
+| `/trpc/feed.refreshArticles` | POST | 刷新指定 feed（body: `{"id":"feed_id"}`） |
+| `/feeds/{feed_id}.atom` | GET | 获取 Atom 格式 feed |
+
+所有 API 需要 Header: `Authorization: {auth_code}`
