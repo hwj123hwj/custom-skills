@@ -9,10 +9,7 @@
     "tags": [
       "bilibili",
       "哔哩哔哩",
-      "b站",
-      "video",
-      "social-media",
-      "cli"
+      "b站"
     ],
     "scenarios": [],
     "aliases": [],
@@ -172,7 +169,7 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill rss-monitor",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/rss-monitor",
     "sourcePath": "skills/rss-monitor",
-    "lastUpdated": "2026-04-15T02:36:07.000Z"
+    "lastUpdated": "2026-04-21T03:23:54.000Z"
   },
   {
     "id": "skill-browser-crawl",

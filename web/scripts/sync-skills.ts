@@ -430,7 +430,7 @@ async function main() {
           description: normalizeText(description),
           detailedDescription: normalizeText(detailedDescription),
           emoji,
-          tags: tags.length > 0 ? tags : ['Utility'],
+          tags: tags.length > 0 ? tags.slice(0, 3) : ['Utility'],
           scenarios,
           aliases,
           installCommand: `npx skills add https://github.com/hwj123hwj/custom-skills --skill ${id}`,
