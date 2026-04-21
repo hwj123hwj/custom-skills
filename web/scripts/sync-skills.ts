@@ -362,6 +362,10 @@ Sitemap: https://weijian.online/sitemap.xml
       headMeta.trim()
     );
 
+    // Remove any trailing empty spaces added before the cli-usage.md link
+    // due to multiple replacements
+    indexHtml = indexHtml.replace(/\s+<link rel="alternate" type="text\/markdown" title="CLI Usage"/, '\n    <link rel="alternate" type="text/markdown" title="CLI Usage"');
+
     fs.writeFileSync(indexHtmlPath, indexHtml);
     console.log(`🎉 Injected SEO metadata into index.html`);
   }
