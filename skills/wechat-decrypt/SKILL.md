@@ -1,71 +1,212 @@
 ---
 name: wechat-decrypt
 displayName: WeChat Decrypt
-description: 解密微信 macOS 数据库，提取聊天记录。用于查询和分析微信本地聊天数据。当用户提到"解密微信数据库"、"微信聊天记录"、"查看微信消息"、"导出微信数据"时使用此技能。
+description: 用于解密、同步、查询和导出本机微信 macOS 聊天数据的 CLI-first 技能。每当用户提到“微信聊天记录”“微信数据库”“查微信消息”“搜聊天记录”“导出微信图片/文件”“同步最新微信数据”“查看联系人/会话”时，都应该优先使用这个技能。日常查询优先走 `wechat-api` CLI；只有首次初始化、密钥缺失或快照过旧时，才回退到 `wechat-decrypt` 的提密钥与解密步骤。
 tags:
   - LocalData
   - WeChat
   - Forensics
+  - CLI
 aliases:
   - 微信解密
-  - 聊天记录导出
+  - 微信聊天记录
   - 微信数据库
+  - 微信搜索
+  - 微信图片导出
 scenarios:
-  - 解密微信本地数据库
-  - 导出聊天记录用于分析
-  - 查看本机微信历史消息
+  - 同步最新微信数据库快照
+  - 查询联系人、会话、聊天记录
+  - 全局搜索微信聊天内容
+  - 导出微信图片和文件
+  - 排查图片是缩略图还是原图
 ---
 
-# 微信数据库解密技能
+# WeChat Decrypt / Query Skill
 
-解密微信 macOS 4.x 版本的本地数据库，获取聊天记录、联系人等信息。
+这个技能覆盖两层能力：
 
-## 前置条件
+1. `wechat-decrypt`：负责一次性初始化和数据库快照解密。
+2. `wechat-api`：负责日常同步、查询、搜索、媒体导出和本地 Web 查看。
 
-### 1. SIP 状态检查
+默认原则：
 
-解密需要禁用 SIP（系统完整性保护）。
+- 日常使用时，优先调用 `wechat-api` CLI。
+- 只有在 `all_keys.json` 缺失、重新登录微信、或快照目录不存在时，才回到 `wechat-decrypt`。
+- 对 agent 来说，优先使用 `--json`，避免解析自然语言输出。
 
-**检查 SIP 状态：**
+## Agent Defaults
+
+当你需要机器可读结果时：
+
+1. 优先用 `wechat-api ... --json`。
+2. 结果集尽量收小，优先加 `--size`、`--limit`、`--real-only`、`--msg-type`。
+3. 查询前如果用户明确要“最新数据”，先执行一次 `wechat-api sync --json`。
+4. 联系人场景优先查 `contacts` 或 `sessions`，不要直接手写 SQLite。
+5. 搜聊天记录优先用 `search`，单会话详情优先用 `messages`。
+6. 图片/文件优先走 `media image` / `media file`，不要直接猜本地 DAT 路径。
+7. 图片排查时，同时区分“原图”和“缩略图”：
+   - 默认 `media image` 拿最佳可用图
+   - `media image --thumb` 明确拿缩略图
+
+## Prerequisites
+
+### 工作目录
+
+默认相关目录：
+
 ```bash
-csrutil status
+# 解密工具
+~/.openclaw/workspace/wechat-decrypt
+
+# 查询工具
+/Users/weijian/Desktop/develop/go_develop/wechat-api
 ```
 
-**如果 SIP 启用（显示 "enabled"）：**
-1. 重启 Mac，按住 `Command + R` 进入恢复模式
-2. 打开终端，执行：`csrutil disable`
-3. 重启回到正常系统
+### 关键文件
 
-**如果 SIP 已禁用（显示 "disabled"）：**
-- 可以直接进行解密
-
-### 2. 数据位置
-
-微信数据默认存储位置：
-```
-~/Library/Containers/com.tencent.xinWeChat/Data/Documents/xwechat_files/<wxid>/db_storage/
+```bash
+~/.openclaw/workspace/wechat-decrypt/all_keys.json
+~/.openclaw/workspace/wechat-decrypt/decrypted/
+~/.openclaw/workspace/wechat-decrypt/config.json
 ```
 
-## 使用流程
+### 检查环境
 
-### 步骤 1：确保微信正在运行
+```bash
+cd /Users/weijian/Desktop/develop/go_develop/wechat-api
+./wechat-api doctor --json
+```
+
+## Daily Workflow
+
+### 1. 同步最新快照
+
+```bash
+cd /Users/weijian/Desktop/develop/go_develop/wechat-api
+./wechat-api sync --json
+```
+
+如果用户要“最新聊天记录”“刚刚的消息”“今天的数据”，默认先做这一步。
+
+### 2. 查询联系人
+
+```bash
+./wechat-api contacts --real-only --size 20 --json
+./wechat-api contacts --real-only --all --json
+./wechat-api contacts --keyword 张三 --json
+./wechat-api contacts --type 2 --size 20 --json
+```
+
+说明：
+
+- `--real-only`：只看真实好友
+- `--type 2`：群聊
+- `--all`：拉全量联系人
+
+### 3. 查询最近会话
+
+```bash
+./wechat-api sessions --real-only --size 20 --json
+./wechat-api sessions --keyword 答辩 --json
+```
+
+当用户不知道具体 `peer`，但想先看最近聊过谁时，优先用它。
+
+### 4. 查询单会话消息
+
+```bash
+./wechat-api messages --peer wxid_xxx --size 50 --json
+./wechat-api messages --peer 48367540775@chatroom --msg-type 1 --size 20 --json
+./wechat-api messages --peer wxid_xxx --keyword 通知 --size 20 --json
+```
+
+### 5. 全局搜索聊天记录
+
+```bash
+./wechat-api search --keyword 通知 --real-only --size 20 --json
+./wechat-api search --keyword 报销 --msg-type 1 --size 20 --json
+```
+
+如果用户说“帮我搜一下微信里谁提过 X”，优先用 `search`。
+
+## Media Workflow
+
+### 导出图片
+
+```bash
+./wechat-api media image --peer 48367540775@chatroom --local-id 595 --json
+./wechat-api media image --peer 48367540775@chatroom --local-id 595 --out /tmp/chat-image.jpg
+./wechat-api media image --peer 48367540775@chatroom --local-id 595 --thumb --out /tmp/chat-thumb.jpg
+```
+
+规则：
+
+- 默认拿最佳可用图（优先原图）
+- `--thumb` 明确拿缩略图
+- 如果用户怀疑“前端模糊”，优先让它直接导出到文件验证
+
+### 导出文件附件
+
+```bash
+./wechat-api media file --peer wxid_xxx --local-id 38 --json
+./wechat-api media file --peer wxid_xxx --local-id 38 --out /tmp/
+```
+
+### 预热图片缓存
+
+```bash
+./wechat-api media warm --all --json
+./wechat-api media warm --all --include-thumbs --json
+./wechat-api media warm --recent 100 --json
+```
+
+规则：
+
+- 默认只预热非缩略图
+- 想连缩略图也一起预热时，加 `--include-thumbs`
+
+## Web / Service Mode
+
+如果用户想本地打开 Web 查看：
+
+```bash
+cd /Users/weijian/Desktop/develop/go_develop/wechat-api
+./wechat-api serve --addr :8080 --sync-interval 1m --warm-images --warm-all
+```
+
+打开：
+
+```text
+http://localhost:8080/
+```
+
+说明：
+
+- `--sync-interval 1m`：自动同步快照
+- `--warm-images --warm-all`：后台预热图片缓存
+
+## One-time Initialization / Fallback
+
+只有以下情况才回退到原始解密流程：
+
+- `all_keys.json` 不存在
+- 用户重新登录过微信，旧密钥失效
+- `decrypted/` 目录缺失或不可读
+
+### 1. 确保微信运行
 
 ```bash
 pgrep -l WeChat || open -a WeChat
 ```
 
-### 步骤 2：提取密钥（首次使用或重新登录后）
-
-**如果已有密钥文件（all_keys.json）可跳过此步骤。**
+### 2. 提取密钥（首次或重新登录后）
 
 ```bash
 cd ~/.openclaw/workspace/wechat-decrypt
 sudo ./find_all_keys_macos
 ```
 
-密钥保存到 `all_keys.json`。
-
-### 步骤 3：解密数据库
+### 3. 解密数据库快照
 
 ```bash
 cd ~/.openclaw/workspace/wechat-decrypt
@@ -73,58 +214,75 @@ source venv/bin/activate
 python3 decrypt_db.py
 ```
 
-解密后的数据库保存到 `decrypted/` 目录。
+## Troubleshooting
 
-## 数据库结构
+### 图片模糊
 
-### 主要文件
+先直接导出图片验证：
 
-| 文件 | 内容 |
-|------|------|
-| `session/session.db` | 会话列表 |
-| `contact/contact.db` | 联系人信息 |
-| `message/message_0.db` | 聊天记录 |
-
-### 查询示例
-
-**查看会话列表：**
 ```bash
-sqlite3 decrypted/session/session.db "
-SELECT username, summary, datetime(last_timestamp, 'unixepoch', 'localtime') 
-FROM SessionTable ORDER BY last_timestamp DESC LIMIT 20;
-"
+./wechat-api media image --peer <peer> --local-id <id> --out /tmp/check.jpg
+./wechat-api media image --peer <peer> --local-id <id> --thumb --out /tmp/check-thumb.jpg
 ```
 
-**查看联系人：**
+判断方式：
+
+- 原图导出清晰：说明后端图片没问题，前端预览链路有问题
+- 原图导出也糊：说明本机只有缩略图或资源本身就不完整
+
+### 搜不到最新消息
+
+先同步：
+
 ```bash
-sqlite3 decrypted/contact/contact.db "
-SELECT username, nick_name, remark FROM contact WHERE local_type=1 LIMIT 20;
-"
+./wechat-api sync --json
 ```
 
-**查看聊天记录：**
+### 数据库不可用
+
 ```bash
-sqlite3 decrypted/message/message_0.db "
-SELECT datetime(create_time, 'unixepoch', 'localtime'), message_content 
-FROM Msg_<hash> ORDER BY create_time DESC LIMIT 50;
-"
+./wechat-api doctor --json
 ```
 
-## 重要说明
+### 重新登录微信后失效
 
-### 密钥有效期
+重新提取 `all_keys.json`，再 `sync`。
 
-- 密钥保存在 `all_keys.json`，可重复使用
-- **重新登录微信后，密钥会更新，需重新提取**
-- SIP 可以在获取密钥后重新启用
+## Output Guidance
 
-### 数据更新
+对 agent 来说，优先输出：
 
-- 已解密的数据是**快照**，不会自动更新
-- 需要新数据时，重新运行 `python3 decrypt_db.py`
-- 无需重新提取密钥（除非重新登录过微信）
+- 联系人：昵称、用户名、类型、是否真实好友
+- 会话：会话名、最后消息预览、时间
+- 消息：发送者、时间、文本内容、媒体标识
+- 媒体：导出路径、是否缩略图、MD5
 
-## 相关项目
+不要默认把整份 JSON 原样倾倒给用户；先用 CLI 拿结构化结果，再总结重点。
 
-- 解密工具：`~/.openclaw/workspace/wechat-decrypt`
-- 查询工具：`https://github.com/hwj123hwj/wechat-chat-viewer`
+## Common Patterns
+
+### 查某个人最近说过什么
+
+```bash
+./wechat-api contacts --keyword 张三 --json
+./wechat-api messages --peer wxid_xxx --size 50 --json
+```
+
+### 搜谁提到过“报销”
+
+```bash
+./wechat-api search --keyword 报销 --real-only --size 20 --json
+```
+
+### 导出某条图片消息排查清晰度
+
+```bash
+./wechat-api media image --peer 48367540775@chatroom --local-id 595 --out /tmp/full.jpg
+./wechat-api media image --peer 48367540775@chatroom --local-id 595 --thumb --out /tmp/thumb.jpg
+```
+
+### 启动本地查看服务
+
+```bash
+./wechat-api serve --addr :8080 --sync-interval 1m --warm-images --warm-all
+```

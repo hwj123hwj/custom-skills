@@ -98,11 +98,10 @@ python skills/knowledge-skill/scripts/knowledge_search.py \
 
 ```bash
 # 手动运行一次
-skills/knowledge-skill/.venv/bin/python3 \
-  skills/knowledge-skill/scripts/nightly_harvest.py
+python skills/knowledge-skill/scripts/nightly_harvest.py
 
-# Cron 配置（每晚3点）
-0 3 * * * /home/q/.agents/skills/knowledge-skill/.venv/bin/python3 /home/q/.agents/skills/knowledge-skill/scripts/nightly_harvest.py >> /home/q/.agents/skills/knowledge-skill/harvest.log 2>&1
+# Cron 配置（每晚3点，路径按实际安装位置调整）
+0 3 * * * python /path/to/skills/knowledge-skill/scripts/nightly_harvest.py >> /path/to/skills/knowledge-skill/harvest.log 2>&1
 ```
 
 收割关键词：像素范、水球泡、一人公司、AI焦虑、AI Agent
@@ -164,16 +163,14 @@ knowledge_items (
 # 数据库
 DB_HOST=127.0.0.1
 DB_PORT=5433
-DB_USER=bili
-DB_PASSWORD=bili123456
-DB_NAME=bilibili
+DB_USER=your_db_user
+DB_PASSWORD=your_db_password
+DB_NAME=your_db_name
 
 # SiliconFlow API (Embedding + ASR)
-# Key 存储在 ~/.openclaw/secrets.env
 SILICONFLOW_API_KEY=sk-xxx
 
 # 龙猫 API (AI 摘要，免费)
-# Key 存储在 ~/.openclaw/secrets.env
 LONGCAT_API_KEY=ak-xxx
 
 # 模型配置
@@ -190,7 +187,7 @@ XHS_COOKIE_PATH=~/.xiaohongshu-cli/cookies.json
 BILI_COOKIE_PATH=~/.bilibili-cookies.json
 ```
 
-> ⚠️ API Key 请勿明文写入，统一存储在 `~/.openclaw/secrets.env`，详见军团共享文档 `API_KEY_MANAGEMENT.md`
+> ⚠️ API Key 请勿明文写入，建议通过环境变量或 `.env` 文件管理
 
 ## 注意事项
 

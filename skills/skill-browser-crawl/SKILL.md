@@ -81,23 +81,13 @@ python skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com
 python skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com --max-concurrent 3
 ```
 
-## 编码问题
-
-如果在 Windows 上遇到编码错误，脚本已内置自动 UTF-8 修复。对于手动脚本执行，请确保：
-
-```python
-import os
-import sys
-os.environ['PYTHONIOENCODING'] = 'utf-8'
-if sys.platform == 'win32':
-    import codecs
-    sys.stdout = codecs.getwriter('utf-8')(sys.stdout.buffer, 'strict')
-```
-
 ## 依赖项
 
-所需的 Python 包（由 uv 自动安装）：
-- `crawl4ai>=0.7.4`
+脚本使用 PEP 723 内联元数据声明依赖，运行前确保已安装：
+
+```bash
+pip install "crawl4ai>=0.7.4"
+```
 
 ## 适用场景
 

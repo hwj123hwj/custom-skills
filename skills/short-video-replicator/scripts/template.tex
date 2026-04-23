@@ -1,0 +1,27 @@
+% Chinese font support
+\usepackage{xeCJK}
+\setCJKmainfont{Noto Sans CJK SC}
+
+% Table formatting
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\renewcommand{\arraystretch}{1.2}
+\setlength{\tabcolsep}{8pt}
+\AtBeginEnvironment{longtable}{\small}
+
+% Keep code blocks on same page
+\usepackage{fancyvrb}
+\fvset{samepage=true}
+
+% Left-aligned text (better for Chinese)
+\raggedright
+
+% Hyperlink styling
+\AtBeginDocument{
+  \hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue
+  }
+}
