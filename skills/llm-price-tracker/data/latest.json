@@ -1,0 +1,291 @@
+{
+  "date": "2026-04-24",
+  "providers": {
+    "deepseek": {
+      "currency": "CNY",
+      "source": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing",
+      "models": [
+        {
+          "name": "deepseek-v4-flash",
+          "input_cache_hit": 0.2,
+          "input_cache_miss": 1.0,
+          "output": 2.0,
+          "context": "1M",
+          "max_output": "384K"
+        },
+        {
+          "name": "deepseek-v4-pro",
+          "input_cache_hit": 1.0,
+          "input_cache_miss": 12.0,
+          "output": 24.0,
+          "context": "1M",
+          "max_output": "384K"
+        }
+      ]
+    },
+    "openai": {
+      "currency": "USD",
+      "source": "https://openai.com/api/pricing/",
+      "models": [
+        {
+          "name": "gpt-5.4",
+          "input_cache_hit": 0.25,
+          "input_cache_miss": 2.50,
+          "output": 15.00,
+          "context": "1.05M"
+        },
+        {
+          "name": "gpt-5.4-mini",
+          "input_cache_hit": 0.075,
+          "input_cache_miss": 0.75,
+          "output": 4.50,
+          "context": "?"
+        },
+        {
+          "name": "gpt-5.4-nano",
+          "input_cache_hit": 0.02,
+          "input_cache_miss": 0.20,
+          "output": 1.25,
+          "context": "?"
+        },
+        {
+          "name": "gpt-5.4-pro",
+          "input_cache_hit": null,
+          "input_cache_miss": 30.00,
+          "output": 180.00,
+          "context": "?"
+        },
+        {
+          "name": "gpt-5.3-codex",
+          "input_cache_hit": 0.175,
+          "input_cache_miss": 1.75,
+          "output": 14.00,
+          "context": "400K"
+        },
+        {
+          "name": "gpt-5.3-chat-latest",
+          "input_cache_hit": 0.175,
+          "input_cache_miss": 1.75,
+          "output": 14.00,
+          "context": "?"
+        },
+        {
+          "name": "o4-mini",
+          "input_cache_hit": 1.00,
+          "input_cache_miss": 4.00,
+          "output": 16.00,
+          "context": "?"
+        },
+        {
+          "name": "o3-deep-research",
+          "input_cache_hit": 2.50,
+          "input_cache_miss": 10.00,
+          "output": 40.00,
+          "context": "?"
+        },
+        {
+          "name": "o4-mini-deep-research",
+          "input_cache_hit": 0.50,
+          "input_cache_miss": 2.00,
+          "output": 8.00,
+          "context": "?"
+        },
+        {
+          "name": "gpt-4.1",
+          "input_cache_hit": 0.75,
+          "input_cache_miss": 3.00,
+          "output": 12.00,
+          "context": "1M"
+        },
+        {
+          "name": "gpt-4.1-mini",
+          "input_cache_hit": 0.20,
+          "input_cache_miss": 0.80,
+          "output": 3.20,
+          "context": "1M"
+        },
+        {
+          "name": "gpt-4.1-nano",
+          "input_cache_hit": 0.05,
+          "input_cache_miss": 0.20,
+          "output": 0.80,
+          "context": "1M"
+        },
+        {
+          "name": "gpt-4o",
+          "input_cache_hit": 1.875,
+          "input_cache_miss": 2.50,
+          "output": 10.00,
+          "context": "128K"
+        },
+        {
+          "name": "gpt-4o-mini",
+          "input_cache_hit": 0.15,
+          "input_cache_miss": 0.15,
+          "output": 0.60,
+          "context": "128K"
+        }
+      ]
+    },
+    "aliyun_bailian": {
+      "currency": "CNY",
+      "source": "https://help.aliyun.com/zh/model-studio/models",
+      "models": [
+        {
+          "name": "qwen3.6-max-preview",
+          "input_cache_hit": null,
+          "input_cache_miss": 9.0,
+          "output": 54.0,
+          "context": "262K"
+        },
+        {
+          "name": "qwen3.6-plus",
+          "input_cache_hit": null,
+          "input_cache_miss": 2.0,
+          "output": 12.0,
+          "context": "1M"
+        },
+        {
+          "name": "qwen3.6-flash",
+          "input_cache_hit": null,
+          "input_cache_miss": 1.2,
+          "output": 7.2,
+          "context": "1M"
+        },
+        {
+          "name": "qwen3-max (全球)",
+          "input_cache_hit": null,
+          "input_cache_miss": 2.5,
+          "output": 10.0,
+          "context": "262K"
+        }
+      ]
+    },
+    "kimi": {
+      "currency": "CNY",
+      "source": "https://platform.kimi.com/docs/pricing/chat",
+      "models": [
+        {
+          "name": "kimi-k2.6",
+          "input_cache_hit": 1.10,
+          "input_cache_miss": 6.50,
+          "output": 27.00,
+          "context": "262K"
+        },
+        {
+          "name": "kimi-k2-0905-preview",
+          "input_cache_hit": 1.00,
+          "input_cache_miss": 4.00,
+          "output": 16.00,
+          "context": "262K"
+        },
+        {
+          "name": "kimi-k2-turbo-preview",
+          "input_cache_hit": 1.00,
+          "input_cache_miss": 8.00,
+          "output": 58.00,
+          "context": "262K"
+        },
+        {
+          "name": "kimi-k2-thinking",
+          "input_cache_hit": 1.00,
+          "input_cache_miss": 4.00,
+          "output": 16.00,
+          "context": "262K"
+        },
+        {
+          "name": "kimi-k2-thinking-turbo",
+          "input_cache_hit": 1.00,
+          "input_cache_miss": 8.00,
+          "output": 58.00,
+          "context": "262K"
+        }
+      ]
+    },
+    "zhipu": {
+      "currency": "CNY",
+      "source": "https://bigmodel.cn/pricing (crawl4ai 2026-04-24)",
+      "models": [
+        {"name": "glm-5.1", "input_cache_hit": 1.3, "input_cache_miss": 6.0, "output": 24.0, "context": "?", "notes": "[0,32K) input"},
+        {"name": "glm-5-turbo", "input_cache_hit": 1.2, "input_cache_miss": 5.0, "output": 22.0, "context": "?", "notes": "[0,32K) input"},
+        {"name": "glm-5", "input_cache_hit": 1.0, "input_cache_miss": 4.0, "output": 18.0, "context": "?", "notes": "[0,32K) input"},
+        {"name": "glm-4.7", "input_cache_hit": 0.4, "input_cache_miss": 2.0, "output": 8.0, "context": "200K", "notes": "[0,32K) input, [0,0.2K) output"},
+        {"name": "glm-4.5-air", "input_cache_hit": 0.16, "input_cache_miss": 0.8, "output": 2.0, "context": "128K", "notes": "[0,32K) input, [0,0.2K) output"},
+        {"name": "glm-4.7-flashx", "input_cache_hit": 0.1, "input_cache_miss": 0.5, "output": 3.0, "context": "200K"},
+        {"name": "glm-4.7-flash", "input_cache_hit": 0, "input_cache_miss": 0, "output": 0, "context": "200K", "notes": "免费"},
+        {"name": "glm-4-plus", "input_cache_hit": null, "input_cache_miss": 5.0, "output": null, "context": "128K"},
+        {"name": "glm-4-air-250414", "input_cache_hit": null, "input_cache_miss": 0.5, "output": null, "context": "128K"},
+        {"name": "glm-4-airx", "input_cache_hit": null, "input_cache_miss": 10.0, "output": null, "context": "8K"},
+        {"name": "glm-4-long", "input_cache_hit": null, "input_cache_miss": 1.0, "output": null, "context": "1M"},
+        {"name": "glm-4-assistant", "input_cache_hit": null, "input_cache_miss": 5.0, "output": null, "context": "128K"},
+        {"name": "glm-z1-air", "input_cache_hit": null, "input_cache_miss": 0.5, "output": null, "context": "128K"},
+        {"name": "glm-z1-airx", "input_cache_hit": null, "input_cache_miss": 5.0, "output": null, "context": "32K"},
+        {"name": "glm-z1-flashx", "input_cache_hit": null, "input_cache_miss": 0.1, "output": null, "context": "128K"},
+        {"name": "glm-4-flashx-250414", "input_cache_hit": null, "input_cache_miss": 0.1, "output": null, "context": "128K"},
+        {"name": "glm-4-flash-250414", "input_cache_hit": null, "input_cache_miss": 0, "output": 0, "context": "128K", "notes": "免费"},
+        {"name": "glm-z1-flash", "input_cache_hit": null, "input_cache_miss": 0, "output": 0, "context": "128K", "notes": "免费"}
+      ]
+    },
+    "anthropic": {
+      "currency": "USD",
+      "source": "https://platform.claude.com/docs/en/about-claude/pricing (crawl4ai 2026-04-24)",
+      "models": [
+        {"name": "claude-opus-4.7", "input_cache_hit": 0.50, "input_cache_miss": 5.00, "output": 25.00, "context": "1M"},
+        {"name": "claude-opus-4.6", "input_cache_hit": 0.50, "input_cache_miss": 5.00, "output": 25.00, "context": "1M"},
+        {"name": "claude-opus-4.5", "input_cache_hit": 0.50, "input_cache_miss": 5.00, "output": 25.00, "context": "1M"},
+        {"name": "claude-opus-4.1", "input_cache_hit": 1.50, "input_cache_miss": 15.00, "output": 75.00, "context": "200K"},
+        {"name": "claude-opus-4", "input_cache_hit": 1.50, "input_cache_miss": 15.00, "output": 75.00, "context": "200K"},
+        {"name": "claude-sonnet-4.6", "input_cache_hit": 0.30, "input_cache_miss": 3.00, "output": 15.00, "context": "1M"},
+        {"name": "claude-sonnet-4.5", "input_cache_hit": 0.30, "input_cache_miss": 3.00, "output": 15.00, "context": "1M"},
+        {"name": "claude-sonnet-4", "input_cache_hit": 0.30, "input_cache_miss": 3.00, "output": 15.00, "context": "1M"},
+        {"name": "claude-haiku-4.5", "input_cache_hit": 0.10, "input_cache_miss": 1.00, "output": 5.00, "context": "200K"},
+        {"name": "claude-haiku-3.5", "input_cache_hit": 0.08, "input_cache_miss": 0.80, "output": 4.00, "context": "200K"},
+        {"name": "claude-haiku-3", "input_cache_hit": 0.03, "input_cache_miss": 0.25, "output": 1.25, "context": "200K"}
+      ]
+    },
+    "google": {
+      "currency": "USD",
+      "source": "https://ai.google.dev/gemini-api/docs/pricing (camoufox 2026-04-24)",
+      "models": [
+        {"name": "gemini-3.1-pro-preview", "input_cache_hit": null, "input_cache_miss": 2.00, "output": 12.00, "context": "1M", "notes": "<=200K input; >200K: $4/$24"},
+        {"name": "gemini-3.1-flash-lite-preview", "input_cache_hit": null, "input_cache_miss": 0.25, "output": 1.50, "context": "1M", "notes": "免费层级可用"},
+        {"name": "gemini-3-flash-preview", "input_cache_hit": null, "input_cache_miss": 0.15, "output": 0.60, "context": "1M"},
+        {"name": "gemini-2.5-pro", "input_cache_hit": null, "input_cache_miss": 1.25, "output": 10.00, "context": "1M"},
+        {"name": "gemini-2.5-flash", "input_cache_hit": null, "input_cache_miss": 0.15, "output": 0.60, "context": "1M"},
+        {"name": "gemini-2.5-flash-lite", "input_cache_hit": null, "input_cache_miss": 0.075, "output": 0.30, "context": "1M"},
+        {"name": "gemini-2.0-flash", "input_cache_hit": null, "input_cache_miss": 0.10, "output": 0.40, "context": "1M"},
+        {"name": "gemini-2.0-flash-lite", "input_cache_hit": null, "input_cache_miss": 0.075, "output": 0.30, "context": "1M"}
+      ]
+    },
+    "siliconflow": {
+      "currency": "CNY",
+      "source": "https://siliconflow.cn/pricing (camoufox 2026-04-24)",
+      "models": [
+        {"name": "deepseek-r1", "input_cache_hit": null, "input_cache_miss": 2.00, "output": 8.00, "context": "?"},
+        {"name": "deepseek-v3", "input_cache_hit": null, "input_cache_miss": 1.00, "output": 4.00, "context": "?"},
+        {"name": "qwq-32b", "input_cache_hit": null, "input_cache_miss": 0.50, "output": 2.00, "context": "?"},
+        {"name": "qwen3.5-397b-a17b", "input_cache_hit": null, "input_cache_miss": 3.50, "output": 0.53, "context": "?"},
+        {"name": "多种免费模型", "input_cache_hit": null, "input_cache_miss": 0, "output": 0, "context": "?", "notes": "Qwen3-8B, GLM-4-9B, DeepSeek-R1-8B, GLM-Z1-9B等"}
+      ]
+    },
+    "volcengine": {
+      "currency": "CNY",
+      "source": "https://www.volcengine.com/product/doubao (search snippet)",
+      "models": [
+        {"name": "doubao-seed-2.0-mini", "input_cache_hit": 0.04, "input_cache_miss": 0.2, "output": 2.0, "context": "?"},
+        {"name": "doubao-1.5-pro-32k", "input_cache_hit": 0.16, "input_cache_miss": 0.8, "output": 2.0, "context": "32K"}
+      ]
+    },
+    "xai": {
+      "currency": "USD",
+      "source": "https://x.ai/api (search aggregation, Cloudflare blocked)",
+      "models": [
+        {"name": "grok-4", "input_cache_hit": 0.15, "input_cache_miss": 3.00, "output": 15.00, "context": "2M"},
+        {"name": "grok-4-fast", "input_cache_hit": 0.05, "input_cache_miss": 0.20, "output": 1.00, "context": "2M"},
+        {"name": "grok-4.1-fast", "input_cache_hit": 0.05, "input_cache_miss": 0.20, "output": 1.00, "context": "2M"},
+        {"name": "grok-3", "input_cache_hit": null, "input_cache_miss": 3.00, "output": 15.00, "context": "131K"},
+        {"name": "grok-3-mini", "input_cache_hit": null, "input_cache_miss": 0.30, "output": 0.50, "context": "131K"}
+      ]
+    }
+  }
+}

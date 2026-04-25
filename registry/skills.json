@@ -305,5 +305,33 @@
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/weibo-skill",
     "sourcePath": "skills/weibo-skill",
     "lastUpdated": "2026-04-15T02:36:07.000Z"
+  },
+  {
+    "id": "llm-price-tracker",
+    "name": "llm-price-tracker",
+    "displayName": "LLM Price Tracker",
+    "description": "Track and compare LLM API pricing across providers. Query current prices, detect price changes, and generate comparison tables. Triggers: 查模型价格, 价格对比, llm price, model pricing, 降价, 新模型价格.",
+    "detailedDescription": "定期抓取 9 家主流 LLM 厂商（DeepSeek/OpenAI/阿里百炼/Kimi/智谱/Anthropic/Google/硅基流动/火山引擎）的 API 定价页面，检测价格变化，生成对比表。支持按厂商、模型名查询，支持价格变动检测。",
+    "emoji": "💰",
+    "tags": [
+      "LLM",
+      "Pricing",
+      "Monitor",
+      "API"
+    ],
+    "scenarios": [
+      "查询某个模型的 API 价格",
+      "对比不同厂商的模型定价",
+      "监控 LLM 降价动态"
+    ],
+    "aliases": [
+      "模型价格",
+      "LLM定价",
+      "价格对比"
+    ],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill llm-price-tracker",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/llm-price-tracker",
+    "sourcePath": "skills/llm-price-tracker",
+    "lastUpdated": "2026-04-25T14:43:00.000Z"
   }
 ]
