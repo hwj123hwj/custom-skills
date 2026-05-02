@@ -1,18 +1,70 @@
 import { Command } from 'commander';
 import { loadSkills } from '../utils/data-fetcher.js';
+import { loadAgents, searchAgents } from '../utils/agent-registry.js';
 import { searchSkills } from '../utils/matcher.js';
-import { printSkillCard, printJson, printError } from '../utils/output.js';
+import { printSkillCard, printAgentCard, printJson, printError } from '../utils/output.js';
 
 export function registerSearch(program: Command): void {
   program
     .command('search <keyword>')
-    .description('根据关键词搜索技能')
+    .description('根据关键词搜索技能或 Agent')
+    .option('--agent', '搜索 Agent 而非技能')
     .option('-l, --limit <number>', '限制返回结果数量', '10')
     .option('--tag <tag>', '按标签筛选')
     .option('--refresh', '强制刷新缓存')
     .option('--json', '以 JSON 格式输出')
     .action(async (keyword: string, opts) => {
       try {
+        // ── Agent 搜索模式 ────────────────────────────────────────────
+        if (opts.agent) {
+          let agents = await loadAgents(opts.refresh ?? false);
+
+          if (opts.tag) {
+            const tag = (opts.tag as string).toLowerCase();
+            agents = agents.filter(
+              (a) =>
+                a.type === tag ||
+                a.tags?.some((t) => t.toLowerCase() === tag)
+            );
+          }
+
+          const results = searchAgents(agents, keyword, parseInt(opts.limit, 10));
+
+          if (opts.json) {
+            printJson({
+              success: true,
+              message: `找到 ${results.length} 个匹配的 Agent`,
+              exitCode: 0,
+              data: {
+                count: results.length,
+                keyword,
+                agents: results.map((r) => ({
+                  id: r.agent.id,
+                  name: r.agent.name,
+                  description: r.agent.description,
+                  type: r.agent.type,
+                  skills: r.agent.skills ?? [],
+                  score: r.score,
+                })),
+              },
+            });
+            return;
+          }
+
+          if (results.length === 0) {
+            console.log(`未找到与 "${keyword}" 匹配的 Agent`);
+            return;
+          }
+
+          console.log(`\n找到 ${results.length} 个匹配的 Agent:\n`);
+          results.forEach((r, i) => {
+            printAgentCard(r.agent, i + 1);
+            console.log('');
+          });
+          return;
+        }
+
+        // ── 技能搜索模式（原有逻辑不变）──────────────────────────────
         let skills = await loadSkills(opts.refresh ?? false);
 
         if (opts.tag) {
