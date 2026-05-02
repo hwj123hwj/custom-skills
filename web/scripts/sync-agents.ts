@@ -9,6 +9,7 @@ const __dirname = path.dirname(__filename);
 
 const AGENTS_DIR = path.resolve(__dirname, '../../agents');
 const OUTPUT_FILE = path.resolve(__dirname, '../src/data/agents-data.json');
+const REGISTRY_OUTPUT_FILE = path.resolve(__dirname, '../../registry/agents.json');
 const REPO_BASE = 'https://github.com/hwj123hwj/custom-skills';
 
 interface AgentData {
@@ -94,6 +95,10 @@ async function main() {
   fs.mkdirSync(path.dirname(OUTPUT_FILE), { recursive: true });
   fs.writeFileSync(OUTPUT_FILE, JSON.stringify(agents, null, 2));
   console.log(`🎉 Generated agents-data.json (${agents.length} agents)`);
+
+  fs.mkdirSync(path.dirname(REGISTRY_OUTPUT_FILE), { recursive: true });
+  fs.writeFileSync(REGISTRY_OUTPUT_FILE, JSON.stringify(agents, null, 2));
+  console.log(`🎉 Generated registry/agents.json (${agents.length} agents)`);
 }
 
 main().catch(console.error);

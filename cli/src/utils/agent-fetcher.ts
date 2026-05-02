@@ -21,6 +21,7 @@ export function readAgent(name: string): Agent {
   const { data } = matter(raw);
 
   return {
+    id: String(data.id ?? name),
     name: String(data.name ?? name),
     description: String(data.description ?? ''),
     tools: Array.isArray(data.tools) ? data.tools.map(String) : [],

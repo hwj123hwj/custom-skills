@@ -1,0 +1,65 @@
+[
+  {
+    "id": "architect",
+    "name": "architect",
+    "description": "Software architecture specialist for system design, scalability, and technical decision-making. Use PROACTIVELY when planning new features, refactoring large systems, or making architectural decisions.",
+    "tools": [
+      "Read",
+      "Grep",
+      "Glob"
+    ],
+    "model": "opus",
+    "skills": [],
+    "tags": [],
+    "type": "general",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/blob/main/agents/architect.md",
+    "lastUpdated": "2026-05-02T08:29:23.000Z"
+  },
+  {
+    "id": "media-agent",
+    "name": "media-agent",
+    "description": "Cross-platform media analyst for Chinese social platforms. Use PROACTIVELY when the user wants to research a topic, analyze public opinion, track trending content, or generate structured media reports across Bilibili, WeChat, Weibo, and Xiaohongshu.",
+    "tools": [
+      "Read",
+      "Write",
+      "Bash",
+      "Glob",
+      "WebFetch"
+    ],
+    "model": "sonnet",
+    "skills": [
+      "media-analyze",
+      "bilibili-cli",
+      "wechat-search",
+      "weibo-skill",
+      "xiaohongshu-cli",
+      "tavily"
+    ],
+    "tags": [
+      "Media",
+      "Content",
+      "Analysis"
+    ],
+    "type": "vertical",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/blob/main/agents/media-agent.md",
+    "lastUpdated": "2026-05-02T08:29:23.000Z"
+  },
+  {
+    "id": "tdd-guide",
+    "name": "tdd-guide",
+    "description": "Test-Driven Development specialist enforcing write-tests-first methodology. Use PROACTIVELY when writing new features, fixing bugs, or refactoring code. Ensures 80%+ test coverage.",
+    "tools": [
+      "Read",
+      "Write",
+      "Edit",
+      "Bash",
+      "Grep"
+    ],
+    "model": "sonnet",
+    "skills": [],
+    "tags": [],
+    "type": "general",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/blob/main/agents/tdd-guide.md",
+    "lastUpdated": "2026-05-02T08:29:23.000Z"
+  }
+]
