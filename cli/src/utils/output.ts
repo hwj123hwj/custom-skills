@@ -1,4 +1,5 @@
 import { NormalizedSkill, CommandResult } from '../types/skill.js';
+import { Agent } from '../types/agent.js';
 
 // 简单 ANSI 颜色，不引入额外依赖
 const c = {
@@ -85,4 +86,44 @@ export function printSuccess(msg: string): void {
 
 export function printInfo(msg: string): void {
   console.log(`${col('gray', msg)}`);
+}
+
+export function printAgentCard(agent: Agent, index?: number): void {
+  const prefix = index !== undefined ? `${index}. ` : '';
+  const typeLabel = agent.type === 'vertical' ? '[垂直型]' : '[通用型]';
+  console.log(`${col('bold', `${prefix}${agent.id}`)} ${col('yellow', typeLabel)}`);
+  console.log(`   ${col('gray', '名称:')} ${agent.name}`);
+  console.log(`   ${col('gray', '描述:')} ${agent.description}`);
+  if (agent.skills && agent.skills.length > 0) {
+    console.log(`   ${col('gray', '依赖技能:')} ${agent.skills.join(', ')}`);
+  }
+  console.log(
+    `   ${col('gray', '安装:')} ${col('cyan', `npx custom-skills install ${agent.id} --agent`)}`
+  );
+}
+
+export function printAgentList(agents: Agent[]): void {
+  const verticals = agents.filter((a) => a.type === 'vertical');
+  const generals = agents.filter((a) => a.type !== 'vertical');
+
+  console.log(`\n${col('bold', `共有 ${agents.length} 个 Agent:`)}\n`);
+
+  if (verticals.length > 0) {
+    console.log(col('yellow', '垂直型 Agent（含依赖技能）:'));
+    for (const a of verticals) {
+      const idPadded = a.id.padEnd(24);
+      const skills =
+        a.skills && a.skills.length > 0 ? ` [${a.skills.join(', ')}]` : '';
+      console.log(`  - ${col('cyan', idPadded)} ${a.name}${col('gray', skills)}`);
+    }
+    console.log('');
+  }
+
+  if (generals.length > 0) {
+    console.log(col('yellow', '通用型 Agent:'));
+    for (const a of generals) {
+      const idPadded = a.id.padEnd(24);
+      console.log(`  - ${col('cyan', idPadded)} ${a.name}`);
+    }
+  }
 }
