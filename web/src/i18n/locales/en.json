@@ -40,5 +40,11 @@
   "agent_type": {
     "vertical": "Vertical",
     "general": "General"
+  },
+  "onboarding": {
+    "title": "Add to your CLAUDE.md",
+    "description": "Copy this snippet and paste it into your project's CLAUDE.md to let Claude know about your skills.",
+    "copy_button": "Copy Snippet",
+    "copied": "Copied!"
   }
 }

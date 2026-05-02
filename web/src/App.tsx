@@ -10,9 +10,10 @@ import type { Skill } from './types/skill'
 import type { Agent } from './types/agent'
 import skillsData from './data/skills-data.json'
 import agentsData from './data/agents-data.json'
-import { Search } from 'lucide-react'
+import { Search, Copy, Check } from 'lucide-react'
 import { searchSkills } from './lib/search'
 import { searchAgents } from './lib/agent-search'
+import { generateOnboardingSnippet } from './lib/generate-snippet'
 
 function App() {
   const { t } = useTranslation()
@@ -25,6 +26,8 @@ function App() {
 
   const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null)
   const [isAgentModalOpen, setIsAgentModalOpen] = useState(false)
+
+  const [snippetCopied, setSnippetCopied] = useState(false)
 
   const filteredSkills = useMemo(() => {
     if (!searchQuery.trim()) return skillsData as Skill[]
@@ -39,6 +42,13 @@ function App() {
   const handleTabChange = (tab: 'skills' | 'agents') => {
     setActiveTab(tab)
     setSearchQuery('')
+  }
+
+  const handleCopySnippet = () => {
+    const snippet = generateOnboardingSnippet(skillsData as Skill[])
+    navigator.clipboard.writeText(snippet)
+    setSnippetCopied(true)
+    setTimeout(() => setSnippetCopied(false), 2000)
   }
 
   const handleSkillClick = (skill: Skill) => {
@@ -84,6 +94,31 @@ function App() {
               onChange={(e) => setSearchQuery(e.target.value)}
               className="bg-transparent border-none outline-none text-white placeholder-gray-500 w-full"
             />
+          </div>
+        </div>
+      </div>
+
+      {/* Onboarding snippet — global CLAUDE.md setup */}
+      <div className="max-w-2xl mx-auto mb-10">
+        <div className="bg-white/5 border border-white/10 rounded-2xl p-5 backdrop-blur-xl">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <h3 className="text-sm font-semibold text-white mb-1">
+                {t('onboarding.title')}
+              </h3>
+              <p className="text-xs text-gray-400">
+                {t('onboarding.description')}
+              </p>
+            </div>
+            <button
+              onClick={handleCopySnippet}
+              className="shrink-0 flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 hover:text-purple-200 border border-purple-500/30 text-sm font-medium transition-all"
+            >
+              {snippetCopied
+                ? <><Check className="w-4 h-4" />{t('onboarding.copied')}</>
+                : <><Copy className="w-4 h-4" />{t('onboarding.copy_button')}</>
+              }
+            </button>
           </div>
         </div>
       </div>
