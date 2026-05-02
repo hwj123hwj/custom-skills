@@ -20,7 +20,7 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill asr",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/asr",
     "sourcePath": "skills/asr",
-    "lastUpdated": "2026-05-02T08:29:23.000Z"
+    "lastUpdated": "2026-05-02T15:49:31.000Z"
   },
   {
     "id": "bilibili-cli",
@@ -45,7 +45,7 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill bilibili-cli",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/bilibili-cli",
     "sourcePath": "skills/bilibili-cli",
-    "lastUpdated": "2026-05-02T08:29:23.000Z",
+    "lastUpdated": "2026-05-02T15:49:31.000Z",
     "author": "jackwener"
   },
   {
@@ -97,7 +97,7 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill boss-cli",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/boss-cli",
     "sourcePath": "skills/boss-cli",
-    "lastUpdated": "2026-05-02T08:29:23.000Z",
+    "lastUpdated": "2026-05-02T15:49:31.000Z",
     "author": "jackwener"
   },
   {
@@ -148,7 +148,7 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill image-provider",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/image-provider",
     "sourcePath": "skills/image-provider",
-    "lastUpdated": "2026-05-02T08:29:23.000Z"
+    "lastUpdated": "2026-05-02T15:49:31.000Z"
   },
   {
     "id": "knowledge-skill",
@@ -201,7 +201,7 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill llm-price-tracker",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/llm-price-tracker",
     "sourcePath": "skills/llm-price-tracker",
-    "lastUpdated": "2026-05-02T08:54:35.000Z"
+    "lastUpdated": "2026-05-02T15:49:31.000Z"
   },
   {
     "id": "media-analyze",
@@ -225,7 +225,7 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill media-analyze",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/media-analyze",
     "sourcePath": "skills/media-analyze",
-    "lastUpdated": "2026-05-02T08:29:23.000Z"
+    "lastUpdated": "2026-05-02T15:49:31.000Z"
   },
   {
     "id": "memory-organizer",
@@ -276,7 +276,7 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill mp-weixin-ops",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/mp-weixin-ops",
     "sourcePath": "skills/mp-weixin-ops",
-    "lastUpdated": "2026-05-02T08:29:23.000Z"
+    "lastUpdated": "2026-05-02T15:49:31.000Z"
   },
   {
     "id": "rss-monitor",
@@ -327,7 +327,7 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill short-drama-pipeline",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/short-drama-pipeline",
     "sourcePath": "skills/short-drama-pipeline",
-    "lastUpdated": "2026-05-02T08:29:23.000Z"
+    "lastUpdated": "2026-05-02T15:49:31.000Z"
   },
   {
     "id": "short-video-replicator",
@@ -351,7 +351,7 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill short-video-replicator",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/short-video-replicator",
     "sourcePath": "skills/short-video-replicator",
-    "lastUpdated": "2026-05-02T08:29:23.000Z"
+    "lastUpdated": "2026-05-02T15:49:31.000Z"
   },
   {
     "id": "skill-browser-crawl",
@@ -429,7 +429,7 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill tavily",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/tavily",
     "sourcePath": "skills/tavily",
-    "lastUpdated": "2026-05-02T08:29:23.000Z"
+    "lastUpdated": "2026-05-02T15:49:31.000Z"
   },
   {
     "id": "tts",
@@ -452,7 +452,7 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill tts",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/tts",
     "sourcePath": "skills/tts",
-    "lastUpdated": "2026-05-02T08:29:23.000Z"
+    "lastUpdated": "2026-05-02T15:49:31.000Z"
   },
   {
     "id": "vertex-video-reader",
@@ -475,7 +475,7 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill vertex-video-reader",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/vertex-video-reader",
     "sourcePath": "skills/vertex-video-reader",
-    "lastUpdated": "2026-05-02T08:29:23.000Z"
+    "lastUpdated": "2026-05-02T15:49:31.000Z"
   },
   {
     "id": "videocut",
@@ -499,7 +499,7 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill videocut",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/videocut",
     "sourcePath": "skills/videocut",
-    "lastUpdated": "2026-05-02T08:29:23.000Z"
+    "lastUpdated": "2026-05-02T15:49:31.000Z"
   },
   {
     "id": "wechat-decrypt",
@@ -608,7 +608,7 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill xiaohongshu-cli",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/xiaohongshu-cli",
     "sourcePath": "skills/xiaohongshu-cli",
-    "lastUpdated": "2026-05-02T08:29:23.000Z",
+    "lastUpdated": "2026-05-02T15:49:31.000Z",
     "author": "jackwener"
   }
 ]
