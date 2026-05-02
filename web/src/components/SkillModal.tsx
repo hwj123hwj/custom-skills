@@ -1,14 +1,17 @@
 import { useState } from 'react';
 import type { Skill } from '../types/skill';
+import type { Agent } from '../types/agent';
 import { X, Copy, Check, ExternalLink } from 'lucide-react';
 
 interface SkillModalProps {
   skill: Skill | null;
   isOpen: boolean;
   onClose: () => void;
+  agents?: Agent[];
+  onOpenAgent?: (agentId: string) => void;
 }
 
-export function SkillModal({ skill, isOpen, onClose }: SkillModalProps) {
+export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent }: SkillModalProps) {
   const [copied, setCopied] = useState(false);
 
   if (!isOpen || !skill) return null;
@@ -17,6 +20,14 @@ export function SkillModal({ skill, isOpen, onClose }: SkillModalProps) {
     navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  // 反向计算：哪些 agent 依赖当前 skill
+  const usedByAgents = agents.filter((a) => a.skills.includes(skill.id));
+
+  const handleAgentClick = (agentId: string) => {
+    onClose();
+    onOpenAgent?.(agentId);
   };
 
   return (
@@ -93,6 +104,24 @@ export function SkillModal({ skill, isOpen, onClose }: SkillModalProps) {
                   </li>
                 ))}
               </ul>
+            </div>
+          )}
+
+          {/* Used by Agents */}
+          {usedByAgents.length > 0 && (
+            <div>
+              <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-3">Used by Agents</h3>
+              <div className="flex flex-wrap gap-2">
+                {usedByAgents.map((agent) => (
+                  <button
+                    key={agent.id}
+                    onClick={() => handleAgentClick(agent.id)}
+                    className="text-xs px-3 py-1.5 rounded-full bg-purple-500/10 text-purple-300 border border-purple-500/20 hover:bg-purple-500/20 hover:border-purple-500/40 transition-all font-medium"
+                  >
+                    {agent.name}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
         </div>
