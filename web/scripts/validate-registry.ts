@@ -188,6 +188,64 @@ function main(): void {
   }
 
   console.log(`✅ Registry validation passed for ${registry.length} skills`);
+
+  // ── Agent 校验（agents-data.json 存在时才校验）────────────────────────────
+  const AGENTS_DATA_PATH = path.resolve(ROOT_DIR, 'web/src/data/agents-data.json');
+  if (fs.existsSync(AGENTS_DATA_PATH)) {
+    const agents = readJsonFile<AgentRegistryItem[]>(AGENTS_DATA_PATH);
+    if (!Array.isArray(agents)) fail('agents-data.json 必须是数组');
+    const skillIdSet = new Set(registryIds);
+    for (const agent of agents) {
+      validateAgent(agent, skillIdSet);
+    }
+    console.log(`✅ Agent validation passed for ${agents.length} agents`);
+  }
+}
+
+// ── Agent 类型与校验函数 ──────────────────────────────────────────────────────
+
+interface AgentRegistryItem {
+  id: string;
+  name: string;
+  description: string;
+  tools: string[];
+  model: string;
+  skills: string[];
+  tags: string[];
+  type: string;
+  githubUrl: string;
+  lastUpdated: string;
+}
+
+const VALID_MODELS = new Set(['opus', 'sonnet', 'haiku']);
+
+function validateAgent(agent: AgentRegistryItem, skillIds: Set<string>): void {
+  if (!agent.id || typeof agent.id !== 'string') {
+    fail('Agent 缺少合法 id');
+  }
+  if (!VALID_MODELS.has(agent.model)) {
+    fail(`${agent.id}.model 不合法: ${agent.model}，允许值: opus, sonnet, haiku`);
+  }
+  if (!Array.isArray(agent.skills)) {
+    fail(`${agent.id}.skills 必须是数组`);
+  }
+  for (const skillId of agent.skills) {
+    if (!skillIds.has(skillId)) {
+      fail(`${agent.id}.skills 引用了不存在的 skill id: ${skillId}`);
+    }
+  }
+  const expectedType = agent.skills.length > 0 ? 'vertical' : 'general';
+  if (agent.type !== expectedType) {
+    fail(`${agent.id}.type 应为 ${expectedType}，实际为 ${agent.type}`);
+  }
+  if (!agent.githubUrl.includes(`agents/${agent.id}`)) {
+    fail(`${agent.id}.githubUrl 未指向对应 agent 文件`);
+  }
+  for (const tag of (agent.tags ?? [])) {
+    if (!ALLOWED_TAGS.has(tag)) {
+      fail(`${agent.id}.tags 包含未注册标签: ${tag}`);
+    }
+  }
 }
 
 main();
