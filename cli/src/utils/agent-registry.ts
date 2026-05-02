@@ -1,55 +1,14 @@
 import https from 'https';
 import fs from 'fs';
 import path from 'path';
-import os from 'os';
 import { Agent } from '../types/agent.js';
+import { readCache, isCacheValid, writeCache } from './cache.js';
 
 const AGENTS_REGISTRY_URL =
   'https://raw.githubusercontent.com/hwj123hwj/custom-skills/main/registry/agents.json';
 
-const CACHE_DIR = path.join(os.homedir(), '.cache', 'custom-skills');
-const CACHE_FILE = path.join(CACHE_DIR, 'agents-data.json');
-const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 小时
-
-const LOCAL_REGISTRY_PATH = path.resolve(
-  __dirname,
-  '../../../registry/agents.json'
-);
-
-// ── 缓存工具 ──────────────────────────────────────────────────────────────
-
-interface CacheEntry<T> {
-  data: T;
-  cachedAt: number;
-}
-
-function readAgentsCache<T>(): T | null {
-  try {
-    if (!fs.existsSync(CACHE_FILE)) return null;
-    const raw = fs.readFileSync(CACHE_FILE, 'utf-8');
-    const entry: CacheEntry<T> = JSON.parse(raw);
-    return entry.data;
-  } catch {
-    return null;
-  }
-}
-
-function isAgentsCacheValid(): boolean {
-  try {
-    if (!fs.existsSync(CACHE_FILE)) return false;
-    const raw = fs.readFileSync(CACHE_FILE, 'utf-8');
-    const entry: CacheEntry<unknown> = JSON.parse(raw);
-    return Date.now() - entry.cachedAt < CACHE_TTL_MS;
-  } catch {
-    return false;
-  }
-}
-
-function writeAgentsCache<T>(data: T): void {
-  fs.mkdirSync(CACHE_DIR, { recursive: true });
-  const entry: CacheEntry<T> = { data, cachedAt: Date.now() };
-  fs.writeFileSync(CACHE_FILE, JSON.stringify(entry, null, 2), 'utf-8');
-}
+const CACHE_KEY = 'agents-data';
+const LOCAL_REGISTRY_PATH = path.resolve(__dirname, '../../../registry/agents.json');
 
 // ── 远程拉取 ──────────────────────────────────────────────────────────────
 
@@ -66,7 +25,7 @@ function fetchRemoteAgents(): Promise<Agent[]> {
           https
             .get(location, (res2) => {
               let body = '';
-              res2.on('data', (chunk: string) => (body += chunk));
+              res2.on('data', (chunk) => (body += chunk));
               res2.on('end', () => {
                 try {
                   resolve(JSON.parse(body));
@@ -83,7 +42,7 @@ function fetchRemoteAgents(): Promise<Agent[]> {
           return;
         }
         let body = '';
-        res.on('data', (chunk: string) => (body += chunk));
+        res.on('data', (chunk) => (body += chunk));
         res.on('end', () => {
           try {
             resolve(JSON.parse(body));
@@ -96,11 +55,10 @@ function fetchRemoteAgents(): Promise<Agent[]> {
   });
 }
 
-function readLocalAgentsRegistry(): Agent[] | null {
+function readLocalRegistry(): Agent[] | null {
   if (!fs.existsSync(LOCAL_REGISTRY_PATH)) return null;
   try {
-    const content = fs.readFileSync(LOCAL_REGISTRY_PATH, 'utf-8');
-    return JSON.parse(content) as Agent[];
+    return JSON.parse(fs.readFileSync(LOCAL_REGISTRY_PATH, 'utf-8')) as Agent[];
   } catch {
     return null;
   }
@@ -110,23 +68,23 @@ function readLocalAgentsRegistry(): Agent[] | null {
 
 export async function loadAgents(forceRefresh = false): Promise<Agent[]> {
   // 1. 开发模式：本地仓库内存在 registry 则优先使用
-  const local = readLocalAgentsRegistry();
+  const local = readLocalRegistry();
   if (local) return local;
 
   // 2. 使用缓存（未过期且不强制刷新）
-  if (!forceRefresh && isAgentsCacheValid()) {
-    const cached = readAgentsCache<Agent[]>();
+  if (!forceRefresh && isCacheValid(CACHE_KEY)) {
+    const cached = readCache<Agent[]>(CACHE_KEY);
     if (cached) return cached;
   }
 
   // 3. 远程拉取
   try {
     const agents = await fetchRemoteAgents();
-    writeAgentsCache(agents);
+    writeCache(agents, CACHE_KEY);
     return agents;
   } catch (err) {
     // 4. 降级：远程失败则使用过期缓存
-    const cached = readAgentsCache<Agent[]>();
+    const cached = readCache<Agent[]>(CACHE_KEY);
     if (cached) {
       process.stderr.write(
         `[警告] 无法拉取最新 Agent 数据（${(err as Error).message}），使用本地缓存\n`

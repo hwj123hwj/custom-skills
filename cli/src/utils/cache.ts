@@ -3,12 +3,15 @@ import path from 'path';
 import os from 'os';
 
 const CACHE_DIR = path.join(os.homedir(), '.cache', 'custom-skills');
-const CACHE_FILE = path.join(CACHE_DIR, 'skills-data.json');
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 小时
 
 interface CacheEntry<T> {
   data: T;
   cachedAt: number;
+}
+
+function cacheFile(key: string): string {
+  return path.join(CACHE_DIR, `${key}.json`);
 }
 
 function ensureCacheDir(): void {
@@ -17,10 +20,11 @@ function ensureCacheDir(): void {
   }
 }
 
-export function readCache<T>(): T | null {
+export function readCache<T>(key = 'skills-data'): T | null {
   try {
-    if (!fs.existsSync(CACHE_FILE)) return null;
-    const raw = fs.readFileSync(CACHE_FILE, 'utf-8');
+    const file = cacheFile(key);
+    if (!fs.existsSync(file)) return null;
+    const raw = fs.readFileSync(file, 'utf-8');
     const entry: CacheEntry<T> = JSON.parse(raw);
     return entry.data;
   } catch {
@@ -28,10 +32,11 @@ export function readCache<T>(): T | null {
   }
 }
 
-export function isCacheValid(): boolean {
+export function isCacheValid(key = 'skills-data'): boolean {
   try {
-    if (!fs.existsSync(CACHE_FILE)) return false;
-    const raw = fs.readFileSync(CACHE_FILE, 'utf-8');
+    const file = cacheFile(key);
+    if (!fs.existsSync(file)) return false;
+    const raw = fs.readFileSync(file, 'utf-8');
     const entry: CacheEntry<unknown> = JSON.parse(raw);
     return Date.now() - entry.cachedAt < CACHE_TTL_MS;
   } catch {
@@ -39,24 +44,26 @@ export function isCacheValid(): boolean {
   }
 }
 
-export function writeCache<T>(data: T): void {
+export function writeCache<T>(data: T, key = 'skills-data'): void {
   ensureCacheDir();
   const entry: CacheEntry<T> = { data, cachedAt: Date.now() };
-  fs.writeFileSync(CACHE_FILE, JSON.stringify(entry, null, 2), 'utf-8');
+  fs.writeFileSync(cacheFile(key), JSON.stringify(entry, null, 2), 'utf-8');
 }
 
-export function clearCache(): void {
-  if (fs.existsSync(CACHE_FILE)) {
-    fs.unlinkSync(CACHE_FILE);
+export function clearCache(key = 'skills-data'): void {
+  const file = cacheFile(key);
+  if (fs.existsSync(file)) {
+    fs.unlinkSync(file);
   }
 }
 
-export function getCacheInfo(): { exists: boolean; age?: string; path: string } {
-  if (!fs.existsSync(CACHE_FILE)) {
-    return { exists: false, path: CACHE_FILE };
+export function getCacheInfo(key = 'skills-data'): { exists: boolean; age?: string; path: string } {
+  const file = cacheFile(key);
+  if (!fs.existsSync(file)) {
+    return { exists: false, path: file };
   }
   try {
-    const raw = fs.readFileSync(CACHE_FILE, 'utf-8');
+    const raw = fs.readFileSync(file, 'utf-8');
     const entry: CacheEntry<unknown> = JSON.parse(raw);
     const ageMs = Date.now() - entry.cachedAt;
     const ageHours = Math.floor(ageMs / (1000 * 60 * 60));
@@ -64,9 +71,9 @@ export function getCacheInfo(): { exists: boolean; age?: string; path: string } 
     return {
       exists: true,
       age: `${ageHours}h ${ageMinutes}m`,
-      path: CACHE_FILE,
+      path: file,
     };
   } catch {
-    return { exists: true, path: CACHE_FILE };
+    return { exists: true, path: file };
   }
 }
