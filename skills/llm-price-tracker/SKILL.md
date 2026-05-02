@@ -1,6 +1,10 @@
 ---
 name: llm-price-tracker
 description: Track and compare LLM API pricing across providers. Query current prices, detect price changes, and generate comparison tables. Triggers: 查模型价格, 价格对比, llm price, model pricing, 降价, 新模型价格.
+tags:
+  - Monitoring
+  - Research
+  - Analysis
 ---
 
 # LLM Price Tracker

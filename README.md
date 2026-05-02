@@ -60,6 +60,7 @@ npm run dev
 | [idea-incubator](./skills/idea-incubator) | 专业的 CPO + 技术合伙人助手，帮助用户孵化想法、分析可行性并编写技术文档。 |
 | [image-provider](./skills/image-provider) | Unified image generation skill with pluggable providers (strategy pattern). |
 | [knowledge-skill](./skills/knowledge-skill) | 个人知识库技能。 |
+| [llm-price-tracker](./skills/llm-price-tracker) | Track and compare LLM API pricing across providers. |
 | [media-analyze](./skills/media-analyze) | 媒体分析报告生成。 |
 | [memory-organizer](./skills/memory-organizer) | 长期记忆整理指南。 |
 | [mp-weixin-ops](./skills/mp-weixin-ops) | 微信公众号一站式运营 Skill。 |
