@@ -23,14 +23,18 @@ from providers.registry import get_provider, PROVIDERS
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "..", "outputs")
 
 
-def extract_audio(media_path: str) -> str:
-    """Extract audio from video/audio file to 16kHz mono WAV."""
-    tmp = tempfile.NamedTemporaryFile(suffix=".wav", delete=False)
+def extract_audio(media_path: str, fmt: str = "mp3") -> str:
+    """Extract audio from video/audio file. Default to mp3 for smaller file size."""
+    tmp = tempfile.NamedTemporaryFile(suffix=f".{fmt}", delete=False)
     tmp.close()
+    if fmt == "wav":
+        codec_args = ["-acodec", "pcm_s16le", "-ar", "16000", "-ac", "1"]
+    else:
+        codec_args = ["-acodec", "libmp3lame", "-q:a", "4", "-ar", "16000", "-ac", "1"]
     subprocess.run(
         [
             "ffmpeg", "-y", "-i", media_path,
-            "-vn", "-acodec", "pcm_s16le", "-ar", "16000", "-ac", "1",
+            "-vn", *codec_args,
             tmp.name,
         ],
         capture_output=True,
@@ -85,10 +89,16 @@ Examples:
         parser.error(f"File not found: {input_path}")
 
     # Extract audio if needed (mp4, mkv, etc.)
+    # Always convert to mp3 for upload to avoid API file size limits
     ext = os.path.splitext(input_path)[1].lower()
-    if ext not in (".wav", ".mp3", ".m4a", ".aac", ".flac", ".ogg"):
+    if ext in (".mp4", ".mkv", ".mov", ".avi", ".webm"):
         print(f"Extracting audio from {ext}...")
-        audio_path = extract_audio(input_path)
+        audio_path = extract_audio(input_path, fmt="mp3")
+        cleanup = True
+    elif ext == ".wav":
+        # WAV files are too large, convert to mp3 before uploading
+        print("Converting WAV to MP3 for smaller upload...")
+        audio_path = extract_audio(input_path, fmt="mp3")
         cleanup = True
     else:
         audio_path = input_path
