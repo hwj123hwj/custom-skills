@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAgentDesc } from '../lib/skill-desc';
 import type { Agent } from '../types/agent';
 import type { Skill } from '../types/skill';
 import { X, Copy, Check, ExternalLink } from 'lucide-react';
@@ -24,6 +25,7 @@ const MODEL_STYLES: Record<Agent['model'], string> = {
 
 export function AgentModal({ agent, isOpen, onClose, allSkills }: AgentModalProps) {
   const { t } = useTranslation();
+  const desc = useAgentDesc(agent.id, agent.description);
   const [copied, setCopied] = useState(false);
   const [nestedSkill, setNestedSkill] = useState<Skill | null>(null);
   const [isNestedOpen, setIsNestedOpen] = useState(false);
@@ -109,7 +111,7 @@ export function AgentModal({ agent, isOpen, onClose, allSkills }: AgentModalProp
                 {t('modal.description')}
               </h3>
               <p className="text-gray-200 leading-relaxed">
-                {agent.description || t('modal.no_description')}
+                {desc || t('modal.no_description')}
               </p>
             </div>
 
