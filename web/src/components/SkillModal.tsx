@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import type { Skill } from '../types/skill';
 import type { Agent } from '../types/agent';
 import { X, Copy, Check, ExternalLink } from 'lucide-react';
+import { useSkillDesc } from '../lib/skill-desc';
 
 interface SkillModalProps {
   skill: Skill | null;
@@ -15,6 +16,7 @@ interface SkillModalProps {
 
 export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, zIndex = 'z-[100]' }: SkillModalProps) {
   const { t } = useTranslation();
+  const desc = useSkillDesc(skill.id, skill.detailedDescription || skill.description);
   const [copied, setCopied] = useState(false);
 
   if (!isOpen || !skill) return null;
@@ -72,7 +74,7 @@ export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, z
               {t('modal.description')}
             </h3>
             <p className="text-gray-200 leading-relaxed">
-              {skill.detailedDescription || skill.description || t('modal.no_description_skill')}
+              {desc || t('modal.no_description_skill')}
             </p>
           </div>
 
