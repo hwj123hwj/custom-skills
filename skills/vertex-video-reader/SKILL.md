@@ -1,6 +1,10 @@
 ---
 name: vertex-video-reader
 description: Use this skill to read, analyze, and understand video files using Google Cloud Vertex AI's lightweight video model (gemini-3.1-flash-lite-preview). Use it whenever the user asks to summarize a video, extract text/actions from a video, describe what happens in an mp4/mov file, or ask questions about a specific video clip.
+tags:
+  - Video
+  - Media
+  - Analysis
 ---
 
 # Vertex AI Video Reader Skill

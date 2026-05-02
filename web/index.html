@@ -34,18 +34,29 @@
       <h1>Custom Skills Hub - AI 技能市场</h1>
       <p>为 AI Agent 提供一键安装的自动化技能仓库。浏览以下技能列表：</p>
       <ul>
+        <li><a href="/skill/asr">ASR — 语音识别技能</a> - Unified ASR (Speech Recognition) skill with pluggable providers (strategy pattern). Supports: SiliconFlow (TeleAI/TeleSpeechASR). Use for transcribing audio/video files to text. Trigger: "转录", "识别语音", "语音转文字", "ASR", "transcribe", "语音识别". Auto-extracts audio from video files via ffmpeg.</li>
         <li><a href="/skill/bilibili-cli">bilibili-cli Skill</a> - CLI skill for Bilibili (哔哩哔哩, B站) with token-efficient YAML output for AI agents to browse videos, users, search, trending, dynamics, favorites, and interactions from the terminal</li>
         <li><a href="/skill/bjtuo-classroom-query">BJTU Classroom Query</a> - 北京交通大学（BJTU）教室综合查询。结合教务系统课表（判断是否有课）和实时人数接口（当前在场人数），综合评估教室空闲情况。</li>
+        <li><a href="/skill/boss-cli">boss-cli — BOSS 直聘 CLI Tool</a> - Use boss-cli for ALL BOSS 直聘 operations — searching jobs, viewing recommendations, managing applications, chatting with recruiters, and batch greeting. Invoke whenever the user requests any job search or recruitment platform interaction on BOSS 直聘.</li>
         <li><a href="/skill/idea-incubator">Idea Incubator</a> - 专业的 CPO + 技术合伙人助手，帮助用户孵化想法、分析可行性并编写技术文档。适用于当你有新产品想法、技术方案或“灵光一现”需要结构化整理时。</li>
+        <li><a href="/skill/image-provider">Image Provider</a> - Unified image generation skill with pluggable providers (strategy pattern). Supports: Vertex AI Imagen (Google), dvcode (company tool). Use for any image generation need: article inline images, cover images, general purpose. Trigger: "生成图片", "配图", "封面图", "generate image", "create cover".</li>
         <li><a href="/skill/knowledge-skill">Knowledge Skill</a> - 个人知识库技能。支持将网页、B站、微信公众号、小红书等内容入库到 PostgreSQL， 并通过关键词或语义检索找回历史知识。自动生成 AI 摘要与向量嵌入， 同时支持 URL 一键入库和夜间自动收割。</li>
         <li><a href="/skill/media-analyze">媒体分析技能</a> - 媒体分析报告生成。多源搜索话题，自动生成结构化分析报告。触发场景：(1) 用户要求分析某个话题 (2) 需要生成话题调研报告 (3) 了解事件的舆论反应。关键词：分析话题、媒体报告、话题调研、舆论分析。</li>
         <li><a href="/skill/memory-organizer">Memory Organizer</a> - 长期记忆整理指南。使用当需要清理、组织或重构 MEMORY.md 文件时，或决策哪些信息应该/不应该存储在长期记忆中。提供区分静态知识（长期价值）vs 动态信息（可自动获取）的原则。</li>
+        <li><a href="/skill/mp-weixin-ops">mp-weixin-ops — 微信公众号一站式运营</a> - 微信公众号一站式运营 Skill。覆盖从热点调研、选题策划、文章写作、配图生成、封面制作、排版转换到推送草稿箱的完整工作流。触发词：写公众号文章、帮我写一篇、公众号运营、从选题到发布、推送草稿箱、帮我配图、生成封面、公众号排版、content planning、publish to WeChat。所有子功能内置于 skills/ 子目录，无需单独安装。</li>
         <li><a href="/skill/rss-monitor">RSS Monitor</a> - RSS 消息监控与智能摘要。定时拉取自部署 WeWe RSS 的公众号 feed，识别新文章，生成结构化摘要，推送给用户，并记录反馈形成自进化偏好体系。触发场景：(1) 用户要求监控某个公众号 (2) 用户要求查看今天的信息流 (3) heartbeat 定时检查 (4) 用户反馈某篇文章有用/没用。</li>
+        <li><a href="/skill/short-drama-pipeline">short-drama-pipeline — AI 短剧/短视频全链路生产</a> - AI 短剧/短视频全链路生产技能。从选题调研、脚本撰写、视频生成到成片输出的完整工作流。 触发词：做一条短视频、做个短剧、AI短剧、帮我选题、生成视频、短视频制作、短剧制作、帮我创作。 复用 tavily（调研）、xiaohongshu-cli/bilibili-cli（平台数据）、libtv-skill（视频生成）。 所有子功能内置于 skills/ 子目录，无需单独安装。</li>
+        <li><a href="/skill/short-video-replicator">short-video-replicator</a> - 短视频爆款复刻一站式工具。输入抖音/B站/YouTube链接或本地视频路径，自动完成： 视频下载与语音转录 → 结构化文字稿 → 三维度爆款分析 → 文案二创 → 口播脚本×3 + 小剧情脚本×3 → Viral-5D评分 → PDF报告导出（可选飞书推送）。 使用场景：拆解爆款视频、学习短视频文案技巧、生成可直接拍摄的二创脚本。 关键词：短视频复刻、爆款分析、口播脚本、小剧情、文案二创、视频转录、PDF报告、抖音、B站</li>
         <li><a href="/skill/skill-browser-crawl">Browser-Based Web Crawler</a> - 基于浏览器的轻量级网页爬虫。支持 JavaScript 渲染、Markdown 提取，并能递归爬取文档类网站。</li>
         <li><a href="/skill/skills-sh-installer">Skills.sh Installer</a> - 从 skills.sh（Cursor/Windsurf 技能市场）下载并安装技能到本地 .deepv/skills 目录。支持自动解析仓库结构、提取 .claude/skills 下的成品技能、清理构建残留。</li>
-        <li><a href="/skill/wechat-decrypt">WeChat Decrypt</a> - 解密微信 macOS 数据库，提取聊天记录。用于查询和分析微信本地聊天数据。当用户提到"解密微信数据库"、"微信聊天记录"、"查看微信消息"、"导出微信数据"时使用此技能。</li>
-        <li><a href="/skill/wechat-search">WeChat Search</a> - 用于搜索微信公众号文章的工具。每当用户要求搜索“微信公众号文章”、“微信文章”、或者通过关键词寻找特定话题（如“搜一下AI进展”）时，必须触发此技能。本技能负责搜索文章列表（标题、链接、摘要）。</li>
+        <li><a href="/skill/tavily">tavily — Tavily CLI unified skill</a> - Unified Tavily CLI skill — web search, URL extraction, and deep research via `tvly`. Use this skill when the user wants to search the web, extract content from URLs, conduct research, find articles, look up information, or needs current information from the internet. Routes to the appropriate sub-command based on user intent.</li>
+        <li><a href="/skill/tts">TTS — 语音合成技能</a> - Unified TTS (Text-to-Speech) skill with pluggable providers (strategy pattern). Supports: Edge TTS (free, no API key), Vertex AI Gemini TTS (Google). Use for generating voiceovers, narration, dubbing. Trigger: "配音", "生成语音", "TTS", "text-to-speech", "合成语音", "语音合成".</li>
+        <li><a href="/skill/vertex-video-reader">Vertex AI Video Reader Skill</a> - Use this skill to read, analyze, and understand video files using Google Cloud Vertex AI's lightweight video model (gemini-3.1-flash-lite-preview). Use it whenever the user asks to summarize a video, extract text/actions from a video, describe what happens in an mp4/mov file, or ask questions about a specific video clip.</li>
+        <li><a href="/skill/videocut">videocut — 口播视频一站式剪辑</a> - 口播视频一站式剪辑 Skill。覆盖转录、口误识别、字幕生成、高清导出的完整工作流。触发词：剪口播、处理视频、帮我剪辑、生成字幕、导出高清。从视频到成片，一步到位。</li>
+        <li><a href="/skill/wechat-decrypt">WeChat Decrypt</a> - 用于解密、同步、查询和导出本机微信 macOS 聊天数据的 CLI-first 技能。每当用户提到“微信聊天记录”“微信数据库”“查微信消息”“搜聊天记录”“导出微信图片/文件”“同步最新微信数据”“查看联系人/会话”时，都应该优先使用这个技能。日常查询优先走 `wechat-api` CLI；只有首次初始化、密钥缺失或快照过旧时，才回退到 `wechat-decrypt` 的提密钥与解密步骤。</li>
+        <li><a href="/skill/wechat-search">WeChat Search</a> - 用于搜索微信公众号文章的工具。每当用户要求搜索"微信公众号文章"、"微信文章"、或者通过关键词寻找特定话题（如"搜一下AI进展"）时，必须触发此技能。本技能负责搜索文章列表（标题、链接、摘要）。</li>
         <li><a href="/skill/weibo-skill">Weibo Skill</a> - 微博内容搜索、热搜查看、用户动态及评论读取。使用 m.weibo.cn 移动端接口，无需账号和 API Key。触发场景：(1) 用户要求搜索微博内容或话题，(2) 查看实时微博热搜榜，(3) 获取指定用户的微博动态，(4) 查看某条微博的评论，(5) 用户粘贴了 weibo.com 或 m.weibo.cn 的链接。</li>
+        <li><a href="/skill/xiaohongshu-cli">xiaohongshu-cli — Xiaohongshu CLI Tool</a> - Use xiaohongshu-cli for ALL Xiaohongshu (Little Red Book, 小红书) operations — searching notes, reading content, browsing users, liking, collecting, commenting, following, and posting. Invoke whenever the user requests any Xiaohongshu interaction.</li>
       </ul>
     </noscript>
     <div id="root"></div>

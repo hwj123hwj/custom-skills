@@ -87,6 +87,22 @@ python skills/skill-browser-crawl/scripts/deep_crawl.py https://docs.example.com
 
 ```bash
 pip install "crawl4ai>=0.7.4"
+playwright install chromium
+```
+
+### macOS 权限问题
+
+在 macOS 上运行可能遇到 `~/.crawl4ai` 目录权限问题（尤其是在 Homebrew 安装的 Python 环境中）。如果遇到权限错误，尝试设置临时 HOME 目录：
+
+```bash
+export HOME=/tmp/crawl4ai_home
+mkdir -p $HOME
+
+# 首次运行前安装浏览器
+playwright install chromium
+
+# 然后正常爬取
+python skills/skill-browser-crawl/scripts/basic_crawl.py <url>
 ```
 
 ## 适用场景
@@ -105,6 +121,8 @@ pip install "crawl4ai>=0.7.4"
 
 ## 输出格式
 
-基础爬取会生成：
-- **Markdown**: 转换后的页面正文。
-- **截图**: 页面加载完成后的视觉快照。
+基础爬取会在**当前工作目录**生成：
+- **output.md**: 页面内容的 Markdown 格式
+- **screenshot.png**: 页面截图
+
+建议在专用目录中运行爬取，避免文件散落。

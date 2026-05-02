@@ -4,9 +4,9 @@ description: CLI skill for Bilibili (哔哩哔哩, B站) with token-efficient YA
 author: jackwener
 version: "0.6.2"
 tags:
-  - bilibili
-  - 哔哩哔哩
-  - b站
+  - Bilibili
+  - Video
+  - CLI
   - video
   - social-media
   - cli

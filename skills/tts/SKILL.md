@@ -6,6 +6,9 @@ description: |
   Use for generating voiceovers, narration, dubbing.
   Trigger: "配音", "生成语音", "TTS", "text-to-speech", "合成语音", "语音合成".
 allowed-tools: Bash(python3 */scripts/tts.py *)
+tags:
+  - Audio
+  - Utility
 ---
 
 # TTS — 语音合成技能

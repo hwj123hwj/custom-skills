@@ -45,6 +45,7 @@ interface SkillData {
   githubUrl: string;
   sourcePath: string;
   lastUpdated?: string;
+  author?: string;
 }
 
 function stripQuotes(value: string): string {
@@ -427,7 +428,10 @@ async function main() {
         const lastUpdated = getLastUpdated(skillMdPath);
         const sourcePath = `skills/${id}`;
 
-        skills.push({
+        // Author (for third-party contributed skills)
+        const author = getFrontmatterString(frontmatter, 'author') || undefined;
+
+        const skillEntry: SkillData = {
           id,
           name,
           displayName,
@@ -441,7 +445,9 @@ async function main() {
           githubUrl: `${REPO_BASE}/tree/main/${sourcePath}`,
           sourcePath,
           lastUpdated,
-        });
+        };
+        if (author) skillEntry.author = author;
+        skills.push(skillEntry);
         console.log(`✅ Loaded skill: ${id}`);
       } catch (e) {
         console.error(`❌ Failed to process skill ${dir}:`, e);

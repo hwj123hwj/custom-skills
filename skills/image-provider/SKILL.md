@@ -5,6 +5,9 @@ description: |
   Supports: Vertex AI Imagen (Google), dvcode (company tool).
   Use for any image generation need: article inline images, cover images, general purpose.
   Trigger: "生成图片", "配图", "封面图", "generate image", "create cover".
+tags:
+  - Media
+  - Utility
 ---
 
 # Image Provider

@@ -1,6 +1,10 @@
 ---
 name: videocut
 description: 口播视频一站式剪辑 Skill。覆盖转录、口误识别、字幕生成、高清导出的完整工作流。触发词：剪口播、处理视频、帮我剪辑、生成字幕、导出高清。从视频到成片，一步到位。
+tags:
+  - Video
+  - Media
+  - Utility
 ---
 
 # videocut — 口播视频一站式剪辑

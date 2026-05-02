@@ -17,6 +17,7 @@ interface SkillRegistryItem {
   githubUrl: string;
   sourcePath: string;
   lastUpdated: string;
+  author?: string;
 }
 
 const __filename = fileURLToPath(import.meta.url);
@@ -28,8 +29,11 @@ const REGISTRY_PATH = path.resolve(ROOT_DIR, 'registry/skills.json');
 const WEB_MIRROR_PATH = path.resolve(ROOT_DIR, 'web/src/data/skills-data.json');
 const README_PATH = path.resolve(ROOT_DIR, 'README.md');
 const ALLOWED_TAGS = new Set([
+  // General
   'Analysis',
+  'Audio',
   'Automation',
+  'CLI',
   'Content',
   'Crawler',
   'Education',
@@ -38,25 +42,25 @@ const ALLOWED_TAGS = new Set([
   'Knowledge',
   'LocalData',
   'Marketplace',
+  'Media',
   'Monitoring',
   'Planning',
   'Product',
   'Productivity',
+  'Recruitment',
   'Research',
   'Search',
   'Social',
   'Summary',
   'Utility',
+  'Video',
   'Web',
+  'Writing',
+  // Platforms
+  'Bilibili',
   'WeChat',
   'Weibo',
-  'Writing',
-  'bilibili',
-  '哔哩哔哩',
-  'b站',
-  'video',
-  'social-media',
-  'cli'
+  'Xiaohongshu',
 ]);
 
 function fail(message: string): never {

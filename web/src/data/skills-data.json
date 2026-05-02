@@ -1,5 +1,23 @@
 [
   {
+    "id": "asr",
+    "name": "asr",
+    "displayName": "ASR — 语音识别技能",
+    "description": "Unified ASR (Speech Recognition) skill with pluggable providers (strategy pattern). Supports: SiliconFlow (TeleAI/TeleSpeechASR). Use for transcribing audio/video files to text. Trigger: \"转录\", \"识别语音\", \"语音转文字\", \"ASR\", \"transcribe\", \"语音识别\". Auto-extracts audio from video files via ffmpeg.",
+    "detailedDescription": "统一语音识别技能，基于策略模式，支持多个 ASR 后端切换。",
+    "emoji": "📦",
+    "tags": [
+      "Audio",
+      "Utility"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill asr",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/asr",
+    "sourcePath": "skills/asr",
+    "lastUpdated": "2026-04-23T04:16:51.000Z"
+  },
+  {
     "id": "bilibili-cli",
     "name": "bilibili-cli",
     "displayName": "bilibili-cli Skill",
@@ -7,16 +25,17 @@
     "detailedDescription": "A CLI tool for interacting with Bilibili (哔哩哔哩). Use it to fetch video info, search content, browse user profiles, and perform interactions like liking or triple-clicking.",
     "emoji": "📦",
     "tags": [
-      "bilibili",
-      "哔哩哔哩",
-      "b站"
+      "Bilibili",
+      "Video",
+      "CLI"
     ],
     "scenarios": [],
     "aliases": [],
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill bilibili-cli",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/bilibili-cli",
     "sourcePath": "skills/bilibili-cli",
-    "lastUpdated": "2026-04-20T11:18:16.000Z"
+    "lastUpdated": "2026-04-20T11:18:16.000Z",
+    "author": "jackwener"
   },
   {
     "id": "bjtuo-classroom-query",
@@ -46,6 +65,26 @@
     "lastUpdated": "2026-04-19T14:34:48.000Z"
   },
   {
+    "id": "boss-cli",
+    "name": "boss-cli",
+    "displayName": "boss-cli — BOSS 直聘 CLI Tool",
+    "description": "Use boss-cli for ALL BOSS 直聘 operations — searching jobs, viewing recommendations, managing applications, chatting with recruiters, and batch greeting. Invoke whenever the user requests any job search or recruitment platform interaction on BOSS 直聘.",
+    "detailedDescription": "**Binary:** `boss` **Credentials:** browser cookies (auto-extracted from 10+ browsers) or QR code login (`--qrcode`)",
+    "emoji": "📦",
+    "tags": [
+      "Recruitment",
+      "Social",
+      "CLI"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill boss-cli",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/boss-cli",
+    "sourcePath": "skills/boss-cli",
+    "lastUpdated": "2026-04-23T04:16:51.000Z",
+    "author": "jackwener"
+  },
+  {
     "id": "idea-incubator",
     "name": "idea-incubator",
     "displayName": "Idea Incubator",
@@ -73,6 +112,24 @@
     "lastUpdated": "2026-04-19T14:43:02.000Z"
   },
   {
+    "id": "image-provider",
+    "name": "image-provider",
+    "displayName": "Image Provider",
+    "description": "Unified image generation skill with pluggable providers (strategy pattern). Supports: Vertex AI Imagen (Google), dvcode (company tool). Use for any image generation need: article inline images, cover images, general purpose. Trigger: \"生成图片\", \"配图\", \"封面图\", \"generate image\", \"create cover\".",
+    "detailedDescription": "统一生图技能，基于策略模式，支持多个后端 Provider 自由切换。",
+    "emoji": "📦",
+    "tags": [
+      "Media",
+      "Utility"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill image-provider",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/image-provider",
+    "sourcePath": "skills/image-provider",
+    "lastUpdated": "2026-04-23T04:16:51.000Z"
+  },
+  {
     "id": "knowledge-skill",
     "name": "knowledge-skill",
     "displayName": "Knowledge Skill",
@@ -98,7 +155,7 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill knowledge-skill",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/knowledge-skill",
     "sourcePath": "skills/knowledge-skill",
-    "lastUpdated": "2026-04-19T14:43:02.000Z"
+    "lastUpdated": "2026-04-23T04:16:51.000Z"
   },
   {
     "id": "media-analyze",
@@ -108,7 +165,9 @@
     "detailedDescription": "多源搜索话题，自动生成结构化分析报告。",
     "emoji": "📦",
     "tags": [
-      "Utility"
+      "Media",
+      "Analysis",
+      "Research"
     ],
     "scenarios": [],
     "aliases": [],
@@ -145,6 +204,25 @@
     "lastUpdated": "2026-04-15T02:36:07.000Z"
   },
   {
+    "id": "mp-weixin-ops",
+    "name": "mp-weixin-ops",
+    "displayName": "mp-weixin-ops — 微信公众号一站式运营",
+    "description": "微信公众号一站式运营 Skill。覆盖从热点调研、选题策划、文章写作、配图生成、封面制作、排版转换到推送草稿箱的完整工作流。触发词：写公众号文章、帮我写一篇、公众号运营、从选题到发布、推送草稿箱、帮我配图、生成封面、公众号排版、content planning、publish to WeChat。所有子功能内置于 skills/ 子目录，无需单独安装。",
+    "detailedDescription": "一个 Skill 搞定公众号全链路：热点 → 选题 → 写作 → 配图 → 封面 → 排版 → 发布。",
+    "emoji": "📦",
+    "tags": [
+      "WeChat",
+      "Content",
+      "Writing"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill mp-weixin-ops",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/mp-weixin-ops",
+    "sourcePath": "skills/mp-weixin-ops",
+    "lastUpdated": "2026-04-23T04:16:51.000Z"
+  },
+  {
     "id": "rss-monitor",
     "name": "rss-monitor",
     "displayName": "RSS Monitor",
@@ -169,7 +247,45 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill rss-monitor",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/rss-monitor",
     "sourcePath": "skills/rss-monitor",
-    "lastUpdated": "2026-04-21T03:56:47.000Z"
+    "lastUpdated": "2026-04-21T04:11:54.000Z"
+  },
+  {
+    "id": "short-drama-pipeline",
+    "name": "short-drama-pipeline",
+    "displayName": "short-drama-pipeline — AI 短剧/短视频全链路生产",
+    "description": "AI 短剧/短视频全链路生产技能。从选题调研、脚本撰写、视频生成到成片输出的完整工作流。 触发词：做一条短视频、做个短剧、AI短剧、帮我选题、生成视频、短视频制作、短剧制作、帮我创作。 复用 tavily（调研）、xiaohongshu-cli/bilibili-cli（平台数据）、libtv-skill（视频生成）。 所有子功能内置于 skills/ 子目录，无需单独安装。",
+    "detailedDescription": "选题 → 脚本 → 生成 → 成片，一个技能打通全流程。",
+    "emoji": "📦",
+    "tags": [
+      "Video",
+      "Media",
+      "Content"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill short-drama-pipeline",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/short-drama-pipeline",
+    "sourcePath": "skills/short-drama-pipeline",
+    "lastUpdated": "2026-04-23T04:16:51.000Z"
+  },
+  {
+    "id": "short-video-replicator",
+    "name": "short-video-replicator",
+    "displayName": "short-video-replicator",
+    "description": "短视频爆款复刻一站式工具。输入抖音/B站/YouTube链接或本地视频路径，自动完成： 视频下载与语音转录 → 结构化文字稿 → 三维度爆款分析 → 文案二创 → 口播脚本×3 + 小剧情脚本×3 → Viral-5D评分 → PDF报告导出（可选飞书推送）。 使用场景：拆解爆款视频、学习短视频文案技巧、生成可直接拍摄的二创脚本。 关键词：短视频复刻、爆款分析、口播脚本、小剧情、文案二创、视频转录、PDF报告、抖音、B站",
+    "detailedDescription": "短视频爆款复刻全流程 Skill。从一条链接到一套可拍摄脚本，7步完成。",
+    "emoji": "📦",
+    "tags": [
+      "Video",
+      "Media",
+      "Content"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill short-video-replicator",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/short-video-replicator",
+    "sourcePath": "skills/short-video-replicator",
+    "lastUpdated": "2026-04-23T04:16:51.000Z"
   },
   {
     "id": "skill-browser-crawl",
@@ -196,7 +312,7 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill skill-browser-crawl",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/skill-browser-crawl",
     "sourcePath": "skills/skill-browser-crawl",
-    "lastUpdated": "2026-04-19T14:43:02.000Z"
+    "lastUpdated": "2026-04-23T04:16:51.000Z"
   },
   {
     "id": "skills-sh-installer",
@@ -226,11 +342,86 @@
     "lastUpdated": "2026-04-15T02:36:07.000Z"
   },
   {
+    "id": "tavily",
+    "name": "tavily",
+    "displayName": "tavily — Tavily CLI unified skill",
+    "description": "Unified Tavily CLI skill — web search, URL extraction, and deep research via `tvly`. Use this skill when the user wants to search the web, extract content from URLs, conduct research, find articles, look up information, or needs current information from the internet. Routes to the appropriate sub-command based on user intent.",
+    "detailedDescription": "Web search, URL content extraction, and AI-powered deep research via the Tavily CLI.",
+    "emoji": "📦",
+    "tags": [
+      "Search",
+      "Web",
+      "Research"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill tavily",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/tavily",
+    "sourcePath": "skills/tavily",
+    "lastUpdated": "2026-04-23T04:16:51.000Z"
+  },
+  {
+    "id": "tts",
+    "name": "tts",
+    "displayName": "TTS — 语音合成技能",
+    "description": "Unified TTS (Text-to-Speech) skill with pluggable providers (strategy pattern). Supports: Edge TTS (free, no API key), Vertex AI Gemini TTS (Google). Use for generating voiceovers, narration, dubbing. Trigger: \"配音\", \"生成语音\", \"TTS\", \"text-to-speech\", \"合成语音\", \"语音合成\".",
+    "detailedDescription": "统一语音合成技能，基于策略模式，支持多个 TTS 后端切换。",
+    "emoji": "📦",
+    "tags": [
+      "Audio",
+      "Utility"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill tts",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/tts",
+    "sourcePath": "skills/tts",
+    "lastUpdated": "2026-04-23T04:16:51.000Z"
+  },
+  {
+    "id": "vertex-video-reader",
+    "name": "vertex-video-reader",
+    "displayName": "Vertex AI Video Reader Skill",
+    "description": "Use this skill to read, analyze, and understand video files using Google Cloud Vertex AI's lightweight video model (gemini-3.1-flash-lite-preview). Use it whenever the user asks to summarize a video, extract text/actions from a video, describe what happens in an mp4/mov file, or ask questions about a specific video clip.",
+    "detailedDescription": "This skill allows you to analyze and understand video contents using the fast and cost-effective `gemini-3.1-flash-lite-preview` model via Google Vertex AI.",
+    "emoji": "📦",
+    "tags": [
+      "Video",
+      "Media",
+      "Analysis"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill vertex-video-reader",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/vertex-video-reader",
+    "sourcePath": "skills/vertex-video-reader",
+    "lastUpdated": "2026-04-23T04:16:51.000Z"
+  },
+  {
+    "id": "videocut",
+    "name": "videocut",
+    "displayName": "videocut — 口播视频一站式剪辑",
+    "description": "口播视频一站式剪辑 Skill。覆盖转录、口误识别、字幕生成、高清导出的完整工作流。触发词：剪口播、处理视频、帮我剪辑、生成字幕、导出高清。从视频到成片，一步到位。",
+    "detailedDescription": "> 火山引擎转录 + AI 口误识别 + 字幕生成 + 高清导出",
+    "emoji": "📦",
+    "tags": [
+      "Video",
+      "Media",
+      "Utility"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill videocut",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/videocut",
+    "sourcePath": "skills/videocut",
+    "lastUpdated": "2026-04-23T04:16:51.000Z"
+  },
+  {
     "id": "wechat-decrypt",
     "name": "wechat-decrypt",
     "displayName": "WeChat Decrypt",
-    "description": "解密微信 macOS 数据库，提取聊天记录。用于查询和分析微信本地聊天数据。当用户提到\"解密微信数据库\"、\"微信聊天记录\"、\"查看微信消息\"、\"导出微信数据\"时使用此技能。",
-    "detailedDescription": "解密微信 macOS 4.x 版本的本地数据库，获取聊天记录、联系人等信息。",
+    "description": "用于解密、同步、查询和导出本机微信 macOS 聊天数据的 CLI-first 技能。每当用户提到“微信聊天记录”“微信数据库”“查微信消息”“搜聊天记录”“导出微信图片/文件”“同步最新微信数据”“查看联系人/会话”时，都应该优先使用这个技能。日常查询优先走 `wechat-api` CLI；只有首次初始化、密钥缺失或快照过旧时，才回退到 `wechat-decrypt` 的提密钥与解密步骤。",
+    "detailedDescription": "这个技能覆盖两层能力：",
     "emoji": "📦",
     "tags": [
       "LocalData",
@@ -238,25 +429,29 @@
       "Forensics"
     ],
     "scenarios": [
-      "解密微信本地数据库",
-      "导出聊天记录用于分析",
-      "查看本机微信历史消息"
+      "同步最新微信数据库快照",
+      "查询联系人、会话、聊天记录",
+      "全局搜索微信聊天内容",
+      "导出微信图片和文件",
+      "排查图片是缩略图还是原图"
     ],
     "aliases": [
       "微信解密",
-      "聊天记录导出",
-      "微信数据库"
+      "微信聊天记录",
+      "微信数据库",
+      "微信搜索",
+      "微信图片导出"
     ],
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill wechat-decrypt",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/wechat-decrypt",
     "sourcePath": "skills/wechat-decrypt",
-    "lastUpdated": "2026-04-15T02:36:07.000Z"
+    "lastUpdated": "2026-04-23T04:16:51.000Z"
   },
   {
     "id": "wechat-search",
     "name": "wechat-search",
     "displayName": "WeChat Search",
-    "description": "用于搜索微信公众号文章的工具。每当用户要求搜索“微信公众号文章”、“微信文章”、或者通过关键词寻找特定话题（如“搜一下AI进展”）时，必须触发此技能。本技能负责搜索文章列表（标题、链接、摘要）。",
+    "description": "用于搜索微信公众号文章的工具。每当用户要求搜索\"微信公众号文章\"、\"微信文章\"、或者通过关键词寻找特定话题（如\"搜一下AI进展\"）时，必须触发此技能。本技能负责搜索文章列表（标题、链接、摘要）。",
     "detailedDescription": "本技能通过 `miku_ai` 库实现微信公众号文章的搜索。",
     "emoji": "📦",
     "tags": [
@@ -277,7 +472,7 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill wechat-search",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/wechat-search",
     "sourcePath": "skills/wechat-search",
-    "lastUpdated": "2026-04-15T02:36:07.000Z"
+    "lastUpdated": "2026-04-23T04:16:51.000Z"
   },
   {
     "id": "weibo-skill",
@@ -287,9 +482,9 @@
     "detailedDescription": "直接调用 m.weibo.cn 移动端接口，只需 httpx 即可实现微博内容搜索、热搜查看、用户动态及评论读取。无需账号，无需 API Key。",
     "emoji": "📦",
     "tags": [
-      "Search",
+      "Weibo",
       "Social",
-      "Weibo"
+      "Search"
     ],
     "scenarios": [
       "搜索微博内容或话题",
@@ -305,5 +500,25 @@
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/weibo-skill",
     "sourcePath": "skills/weibo-skill",
     "lastUpdated": "2026-04-15T02:36:07.000Z"
+  },
+  {
+    "id": "xiaohongshu-cli",
+    "name": "xiaohongshu-cli",
+    "displayName": "xiaohongshu-cli — Xiaohongshu CLI Tool",
+    "description": "Use xiaohongshu-cli for ALL Xiaohongshu (Little Red Book, 小红书) operations — searching notes, reading content, browsing users, liking, collecting, commenting, following, and posting. Invoke whenever the user requests any Xiaohongshu interaction.",
+    "detailedDescription": "**Binary:** `xhs` **Credentials:** browser cookies (auto-extracted) or browser-assisted QR login (`--qrcode`)",
+    "emoji": "📦",
+    "tags": [
+      "Xiaohongshu",
+      "Social",
+      "CLI"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill xiaohongshu-cli",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/xiaohongshu-cli",
+    "sourcePath": "skills/xiaohongshu-cli",
+    "lastUpdated": "2026-04-23T04:16:51.000Z",
+    "author": "jackwener"
   }
 ]

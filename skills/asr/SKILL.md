@@ -7,6 +7,9 @@ description: |
   Trigger: "转录", "识别语音", "语音转文字", "ASR", "transcribe", "语音识别".
   Auto-extracts audio from video files via ffmpeg.
 allowed-tools: Bash(python3 */scripts/transcribe.py *)
+tags:
+  - Audio
+  - Utility
 ---
 
 # ASR — 语音识别技能

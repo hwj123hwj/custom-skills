@@ -3,6 +3,10 @@ name: tavily
 description: |
   Unified Tavily CLI skill — web search, URL extraction, and deep research via `tvly`. Use this skill when the user wants to search the web, extract content from URLs, conduct research, find articles, look up information, or needs current information from the internet. Routes to the appropriate sub-command based on user intent.
 allowed-tools: Bash(tvly *)
+tags:
+  - Search
+  - Web
+  - Research
 ---
 
 # tavily — Tavily CLI unified skill
