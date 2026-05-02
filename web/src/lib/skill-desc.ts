@@ -11,7 +11,7 @@ const agentDescMap: Record<string, string> = agentDescZh;
  */
 export function useSkillDesc(skillId: string, originalDesc: string): string {
   const { i18n } = useTranslation();
-  if (i18n.language === 'zh' && skillDescMap[skillId]) {
+  if (i18n.language.startsWith('zh') && skillDescMap[skillId]) {
     return skillDescMap[skillId];
   }
   return originalDesc;
@@ -23,7 +23,7 @@ export function useSkillDesc(skillId: string, originalDesc: string): string {
  */
 export function useAgentDesc(agentId: string, originalDesc: string): string {
   const { i18n } = useTranslation();
-  if (i18n.language === 'zh' && agentDescMap[agentId]) {
+  if (i18n.language.startsWith('zh') && agentDescMap[agentId]) {
     return agentDescMap[agentId];
   }
   return originalDesc;

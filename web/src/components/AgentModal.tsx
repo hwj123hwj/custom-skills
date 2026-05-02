@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAgentDesc } from '../lib/skill-desc';
+import { useAgentDesc, useSkillDesc } from '../lib/skill-desc';
 import type { Agent } from '../types/agent';
 import type { Skill } from '../types/skill';
 import { X, Copy, Check, ExternalLink } from 'lucide-react';
@@ -23,9 +23,29 @@ const MODEL_STYLES: Record<Agent['model'], string> = {
   haiku: 'bg-green-500/20 text-green-300 border-green-500/30',
 };
 
+/** 单个依赖 skill 行，独立组件以便合法调用 useSkillDesc hook */
+function DepSkillRow({ skill, onClick }: { skill: Skill; onClick: () => void }) {
+  const desc = useSkillDesc(skill.id, skill.description);
+  return (
+    <button
+      onClick={onClick}
+      className="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-white/5 border border-white/10 hover:border-purple-500/50 hover:bg-white/10 transition-all text-left group"
+    >
+      <span className="text-xl">{skill.emoji}</span>
+      <div className="flex-1 min-w-0">
+        <span className="text-sm font-medium text-white group-hover:text-purple-300 transition-colors">
+          {skill.displayName}
+        </span>
+        <p className="text-xs text-gray-500 truncate mt-0.5">{desc}</p>
+      </div>
+      <ExternalLink className="w-3 h-3 text-gray-600 group-hover:text-purple-400 shrink-0" />
+    </button>
+  );
+}
+
 export function AgentModal({ agent, isOpen, onClose, allSkills }: AgentModalProps) {
   const { t } = useTranslation();
-  const desc = useAgentDesc(agent.id, agent.description);
+  const desc = useAgentDesc(agent?.id ?? '', agent?.description ?? '');
   const [copied, setCopied] = useState(false);
   const [nestedSkill, setNestedSkill] = useState<Skill | null>(null);
   const [isNestedOpen, setIsNestedOpen] = useState(false);
@@ -123,20 +143,11 @@ export function AgentModal({ agent, isOpen, onClose, allSkills }: AgentModalProp
                 </h3>
                 <div className="space-y-2">
                   {depSkills.map((skill) => (
-                    <button
+                    <DepSkillRow
                       key={skill.id}
+                      skill={skill}
                       onClick={() => handleSkillClick(skill.id)}
-                      className="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-white/5 border border-white/10 hover:border-purple-500/50 hover:bg-white/10 transition-all text-left group"
-                    >
-                      <span className="text-xl">{skill.emoji}</span>
-                      <div className="flex-1 min-w-0">
-                        <span className="text-sm font-medium text-white group-hover:text-purple-300 transition-colors">
-                          {skill.displayName}
-                        </span>
-                        <p className="text-xs text-gray-500 truncate mt-0.5">{skill.description}</p>
-                      </div>
-                      <ExternalLink className="w-3 h-3 text-gray-600 group-hover:text-purple-400 shrink-0" />
-                    </button>
+                    />
                   ))}
                   {agent.skills
                     .filter((id) => !allSkills.find((s) => s.id === id))

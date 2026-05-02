@@ -16,7 +16,7 @@ interface SkillModalProps {
 
 export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, zIndex = 'z-[100]' }: SkillModalProps) {
   const { t } = useTranslation();
-  const desc = useSkillDesc(skill.id, skill.detailedDescription || skill.description);
+  const desc = useSkillDesc(skill?.id ?? '', skill?.detailedDescription || skill?.description ?? '');
   const [copied, setCopied] = useState(false);
 
   if (!isOpen || !skill) return null;
