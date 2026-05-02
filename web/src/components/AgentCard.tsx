@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import type { Agent } from '../types/agent';
 import { ChevronRight } from 'lucide-react';
 
@@ -6,7 +7,6 @@ interface AgentCardProps {
   onClick: (agent: Agent) => void;
 }
 
-// kebab-case 转 Title Case：media-agent → Media Agent
 function toTitleCase(str: string): string {
   return str.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 }
@@ -18,6 +18,8 @@ const MODEL_STYLES: Record<Agent['model'], string> = {
 };
 
 export function AgentCard({ agent, onClick }: AgentCardProps) {
+  const { t } = useTranslation();
+
   return (
     <div
       onClick={() => onClick(agent)}
@@ -26,7 +28,6 @@ export function AgentCard({ agent, onClick }: AgentCardProps) {
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-start gap-3">
-          {/* Model + type badges */}
           <div className="flex flex-col gap-1.5 shrink-0 mt-0.5">
             <span
               className={`text-xs px-2 py-0.5 rounded-full border font-medium ${MODEL_STYLES[agent.model]}`}
@@ -40,7 +41,7 @@ export function AgentCard({ agent, onClick }: AgentCardProps) {
                   : 'bg-white/10 text-gray-400 border-white/10'
               }`}
             >
-              {agent.type === 'vertical' ? 'Vertical' : 'General'}
+              {t(agent.type === 'vertical' ? 'agent_type.vertical' : 'agent_type.general')}
             </span>
           </div>
 
@@ -64,22 +65,20 @@ export function AgentCard({ agent, onClick }: AgentCardProps) {
 
       {/* Description */}
       <p className="text-gray-400 text-sm line-clamp-2 mb-4 min-h-[40px]">
-        {agent.description || 'No description provided.'}
+        {agent.description || t('card.no_description')}
       </p>
 
       {/* Footer */}
       <div className="flex items-center justify-between pt-4 border-t border-white/5">
         <div className="text-xs text-gray-500">
           {agent.type === 'vertical' ? (
-            <span>
-              {agent.skills.length} skill{agent.skills.length !== 1 ? 's' : ''}
-            </span>
+            <span>{t('card.skills_count', { count: agent.skills.length })}</span>
           ) : (
-            <span>General</span>
+            <span>{t('card.general')}</span>
           )}
         </div>
         <div className="flex items-center gap-1 text-xs text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity">
-          <span>View Details</span>
+          <span>{t('card.view_details')}</span>
           <ChevronRight className="w-3 h-3" />
         </div>
       </div>

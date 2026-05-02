@@ -1,0 +1,44 @@
+{
+  "layout": {
+    "title": "Custom Skills Hub",
+    "github": "GitHub",
+    "footer": "© {{year}} Custom Skills Hub. 开源于 GitHub。"
+  },
+  "hero": {
+    "title": "为你的 Agent 提速",
+    "subtitle": "个人技能注册中心，同时服务于人类和 AI Agent。网页浏览，CLI 一键安装。"
+  },
+  "search": {
+    "placeholder_skills": "搜索技能...",
+    "placeholder_agents": "搜索 Agent...",
+    "no_results_skills": "未找到与「{{query}}」匹配的技能",
+    "no_results_agents": "未找到与「{{query}}」匹配的 Agent",
+    "clear": "清除搜索"
+  },
+  "tab": {
+    "skills": "技能",
+    "agents": "Agent"
+  },
+  "card": {
+    "view_details": "查看详情",
+    "general": "通用",
+    "no_description": "暂无描述。",
+    "skills_count_one": "{{count}} 个技能",
+    "skills_count_other": "{{count}} 个技能"
+  },
+  "modal": {
+    "description": "描述",
+    "installation": "安装",
+    "usage_scenarios": "使用场景",
+    "used_by_agents": "被以下 Agent 使用",
+    "tools": "工具",
+    "capabilities": "能力组合 — {{count}} 个技能",
+    "view_source": "查看源码",
+    "no_description": "暂无描述。",
+    "no_description_skill": "该技能暂无描述。"
+  },
+  "agent_type": {
+    "vertical": "垂直型",
+    "general": "通用型"
+  }
+}

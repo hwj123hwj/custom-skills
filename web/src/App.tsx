@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Layout } from './components/Layout'
 import { SkillCard } from './components/SkillCard'
 import { SkillModal } from './components/SkillModal'
@@ -14,14 +15,14 @@ import { searchSkills } from './lib/search'
 import { searchAgents } from './lib/agent-search'
 
 function App() {
+  const { t } = useTranslation()
+
   const [activeTab, setActiveTab] = useState<'skills' | 'agents'>('skills')
   const [searchQuery, setSearchQuery] = useState('')
 
-  // Skill modal state
   const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null)
   const [isSkillModalOpen, setIsSkillModalOpen] = useState(false)
 
-  // Agent modal state
   const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null)
   const [isAgentModalOpen, setIsAgentModalOpen] = useState(false)
 
@@ -50,7 +51,6 @@ function App() {
     setIsAgentModalOpen(true)
   }
 
-  // SkillModal 里点击 agent badge：关闭 SkillModal，切到 Agents Tab，打开对应 AgentModal
   const handleOpenAgentFromSkill = (agentId: string) => {
     const agent = (agentsData as Agent[]).find((a) => a.id === agentId)
     if (!agent) return
@@ -61,17 +61,16 @@ function App() {
     setIsAgentModalOpen(true)
   }
 
-  const placeholder = activeTab === 'skills' ? 'Search skills...' : 'Search agents...'
+  const placeholder = t(activeTab === 'skills' ? 'search.placeholder_skills' : 'search.placeholder_agents')
 
   return (
     <Layout>
       <div className="max-w-2xl mx-auto text-center mb-12 space-y-4">
         <h2 className="text-4xl sm:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-gray-500">
-          Supercharge your agents
+          {t('hero.title')}
         </h2>
         <p className="text-gray-400 text-lg">
-          A personal skill registry for humans and AI agents.
-          Search once, browse in the web UI, and install through the CLI.
+          {t('hero.subtitle')}
         </p>
 
         <div className="relative max-w-md mx-auto mt-8 group">
@@ -105,12 +104,14 @@ function App() {
           </div>
           {filteredSkills.length === 0 && (
             <div className="text-center py-20">
-              <p className="text-gray-500 text-lg">No skills found matching "{searchQuery}"</p>
+              <p className="text-gray-500 text-lg">
+                {t('search.no_results_skills', { query: searchQuery })}
+              </p>
               <button
                 onClick={() => setSearchQuery('')}
                 className="mt-4 text-purple-400 hover:text-purple-300 font-medium"
               >
-                Clear search
+                {t('search.clear')}
               </button>
             </div>
           )}
@@ -126,12 +127,14 @@ function App() {
           </div>
           {filteredAgents.length === 0 && (
             <div className="text-center py-20">
-              <p className="text-gray-500 text-lg">No agents found matching "{searchQuery}"</p>
+              <p className="text-gray-500 text-lg">
+                {t('search.no_results_agents', { query: searchQuery })}
+              </p>
               <button
                 onClick={() => setSearchQuery('')}
                 className="mt-4 text-purple-400 hover:text-purple-300 font-medium"
               >
-                Clear search
+                {t('search.clear')}
               </button>
             </div>
           )}

@@ -1,0 +1,44 @@
+{
+  "layout": {
+    "title": "Custom Skills Hub",
+    "github": "GitHub",
+    "footer": "© {{year}} Custom Skills Hub. Open source on GitHub."
+  },
+  "hero": {
+    "title": "Supercharge your agents",
+    "subtitle": "A personal skill registry for humans and AI agents. Search once, browse in the web UI, and install through the CLI."
+  },
+  "search": {
+    "placeholder_skills": "Search skills...",
+    "placeholder_agents": "Search agents...",
+    "no_results_skills": "No skills found matching \"{{query}}\"",
+    "no_results_agents": "No agents found matching \"{{query}}\"",
+    "clear": "Clear search"
+  },
+  "tab": {
+    "skills": "Skills",
+    "agents": "Agents"
+  },
+  "card": {
+    "view_details": "View Details",
+    "general": "General",
+    "no_description": "No description provided.",
+    "skills_count_one": "{{count}} skill",
+    "skills_count_other": "{{count}} skills"
+  },
+  "modal": {
+    "description": "Description",
+    "installation": "Installation",
+    "usage_scenarios": "Usage Scenarios",
+    "used_by_agents": "Used by Agents",
+    "tools": "Tools",
+    "capabilities": "Capabilities — {{count}} Skills",
+    "view_source": "View Source",
+    "no_description": "No description provided.",
+    "no_description_skill": "No description provided for this skill."
+  },
+  "agent_type": {
+    "vertical": "Vertical",
+    "general": "General"
+  }
+}

@@ -174,7 +174,7 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill llm-price-tracker",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/llm-price-tracker",
     "sourcePath": "skills/llm-price-tracker",
-    "lastUpdated": "2026-04-25T14:45:09.000Z"
+    "lastUpdated": "2026-05-02T08:54:35.000Z"
   },
   {
     "id": "media-analyze",

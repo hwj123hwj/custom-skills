@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 interface TabBarProps {
   activeTab: 'skills' | 'agents';
   skillCount: number;
@@ -6,17 +8,19 @@ interface TabBarProps {
 }
 
 export function TabBar({ activeTab, skillCount, agentCount, onTabChange }: TabBarProps) {
+  const { t } = useTranslation();
+
   return (
     <div className="flex justify-center mb-8">
       <div className="flex gap-1 p-1 bg-white/5 border border-white/10 rounded-xl backdrop-blur-sm">
         <TabButton
-          label="Skills"
+          label={t('tab.skills')}
           count={skillCount}
           active={activeTab === 'skills'}
           onClick={() => onTabChange('skills')}
         />
         <TabButton
-          label="Agents"
+          label={t('tab.agents')}
           count={agentCount}
           active={activeTab === 'agents'}
           onClick={() => onTabChange('agents')}

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import type { Skill } from '../types/skill';
 import { Calendar, ChevronRight } from 'lucide-react';
 
@@ -7,8 +8,10 @@ interface SkillCardProps {
 }
 
 export function SkillCard({ skill, onClick }: SkillCardProps) {
+  const { t, i18n } = useTranslation();
+
   return (
-    <div 
+    <div
       onClick={() => onClick(skill)}
       className="group relative w-full overflow-hidden rounded-xl border border-white/10 bg-white/5 p-6 hover:border-purple-500/50 hover:bg-white/10 transition-all duration-300 cursor-pointer"
     >
@@ -33,16 +36,20 @@ export function SkillCard({ skill, onClick }: SkillCardProps) {
       </div>
 
       <p className="text-gray-400 text-sm line-clamp-2 mb-4 min-h-[40px]">
-        {skill.description || "No description provided."}
+        {skill.description || t('card.no_description')}
       </p>
 
       <div className="flex items-center justify-between pt-4 border-t border-white/5">
         <div className="flex items-center gap-2 text-xs text-gray-500">
           <Calendar className="w-3 h-3" />
-          <span>{skill.lastUpdated ? new Date(skill.lastUpdated).toLocaleDateString() : 'Unknown'}</span>
+          <span>
+            {skill.lastUpdated
+              ? new Date(skill.lastUpdated).toLocaleDateString(i18n.language)
+              : 'Unknown'}
+          </span>
         </div>
         <div className="flex items-center gap-1 text-xs text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity">
-          <span>View Details</span>
+          <span>{t('card.view_details')}</span>
           <ChevronRight className="w-3 h-3" />
         </div>
       </div>

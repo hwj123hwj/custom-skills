@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { Skill } from '../types/skill';
 import type { Agent } from '../types/agent';
 import { X, Copy, Check, ExternalLink } from 'lucide-react';
@@ -13,6 +14,7 @@ interface SkillModalProps {
 }
 
 export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, zIndex = 'z-[100]' }: SkillModalProps) {
+  const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
 
   if (!isOpen || !skill) return null;
@@ -23,7 +25,6 @@ export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, z
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // 反向计算：哪些 agent 依赖当前 skill
   const usedByAgents = agents.filter((a) => a.skills.includes(skill.id));
 
   const handleAgentClick = (agentId: string) => {
@@ -67,15 +68,19 @@ export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, z
         <div className="flex-1 overflow-y-auto p-6 space-y-8">
           {/* Description */}
           <div>
-            <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-3">Description</h3>
+            <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-3">
+              {t('modal.description')}
+            </h3>
             <p className="text-gray-200 leading-relaxed">
-              {skill.detailedDescription || skill.description || "No description provided for this skill."}
+              {skill.detailedDescription || skill.description || t('modal.no_description_skill')}
             </p>
           </div>
 
           {/* Installation */}
           <div>
-            <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-3">Installation</h3>
+            <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-3">
+              {t('modal.installation')}
+            </h3>
             <div className="bg-black/50 rounded-lg border border-white/10 overflow-hidden">
               <div className="p-4">
                 <div className="group relative">
@@ -96,7 +101,9 @@ export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, z
           {/* Scenarios */}
           {skill.scenarios.length > 0 && (
             <div>
-              <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-3">Usage Scenarios</h3>
+              <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-3">
+                {t('modal.usage_scenarios')}
+              </h3>
               <ul className="space-y-2">
                 {skill.scenarios.map((scenario, index) => (
                   <li key={index} className="flex items-start gap-3 text-gray-300 text-sm">
@@ -111,7 +118,9 @@ export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, z
           {/* Used by Agents */}
           {usedByAgents.length > 0 && (
             <div>
-              <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-3">Used by Agents</h3>
+              <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-3">
+                {t('modal.used_by_agents')}
+              </h3>
               <div className="flex flex-wrap gap-2">
                 {usedByAgents.map((agent) => (
                   <button
@@ -135,7 +144,7 @@ export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, z
             rel="noopener noreferrer"
             className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-sm font-medium transition-colors"
           >
-            View Source
+            {t('modal.view_source')}
             <ExternalLink className="w-4 h-4" />
           </a>
         </div>

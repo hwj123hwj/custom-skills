@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { Agent } from '../types/agent';
 import type { Skill } from '../types/skill';
 import { X, Copy, Check, ExternalLink } from 'lucide-react';
@@ -22,6 +23,7 @@ const MODEL_STYLES: Record<Agent['model'], string> = {
 };
 
 export function AgentModal({ agent, isOpen, onClose, allSkills }: AgentModalProps) {
+  const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
   const [nestedSkill, setNestedSkill] = useState<Skill | null>(null);
   const [isNestedOpen, setIsNestedOpen] = useState(false);
@@ -44,7 +46,6 @@ export function AgentModal({ agent, isOpen, onClose, allSkills }: AgentModalProp
     }
   };
 
-  // 依赖 skill 对象（按 agent.skills 顺序）
   const depSkills = agent.skills
     .map((id) => allSkills.find((s) => s.id === id))
     .filter((s): s is Skill => s !== undefined);
@@ -74,7 +75,7 @@ export function AgentModal({ agent, isOpen, onClose, allSkills }: AgentModalProp
                       : 'bg-white/10 text-gray-400 border-white/10'
                   }`}
                 >
-                  {agent.type === 'vertical' ? 'Vertical' : 'General'}
+                  {t(agent.type === 'vertical' ? 'agent_type.vertical' : 'agent_type.general')}
                 </span>
               </div>
               <div>
@@ -105,18 +106,18 @@ export function AgentModal({ agent, isOpen, onClose, allSkills }: AgentModalProp
             {/* Description */}
             <div>
               <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-3">
-                Description
+                {t('modal.description')}
               </h3>
               <p className="text-gray-200 leading-relaxed">
-                {agent.description || 'No description provided.'}
+                {agent.description || t('modal.no_description')}
               </p>
             </div>
 
-            {/* Capabilities (垂直型 agent) */}
+            {/* Capabilities */}
             {agent.type === 'vertical' && agent.skills.length > 0 && (
               <div>
                 <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-3">
-                  Capabilities — {agent.skills.length} Skills
+                  {t('modal.capabilities', { count: agent.skills.length })}
                 </h3>
                 <div className="space-y-2">
                   {depSkills.map((skill) => (
@@ -135,7 +136,6 @@ export function AgentModal({ agent, isOpen, onClose, allSkills }: AgentModalProp
                       <ExternalLink className="w-3 h-3 text-gray-600 group-hover:text-purple-400 shrink-0" />
                     </button>
                   ))}
-                  {/* skill id 存在于 agent 但不在 registry 中（未同步） */}
                   {agent.skills
                     .filter((id) => !allSkills.find((s) => s.id === id))
                     .map((id) => (
@@ -155,7 +155,7 @@ export function AgentModal({ agent, isOpen, onClose, allSkills }: AgentModalProp
             {agent.tools.length > 0 && (
               <div>
                 <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-3">
-                  Tools
+                  {t('modal.tools')}
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {agent.tools.map((tool) => (
@@ -173,7 +173,7 @@ export function AgentModal({ agent, isOpen, onClose, allSkills }: AgentModalProp
             {/* Installation */}
             <div>
               <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-3">
-                Installation
+                {t('modal.installation')}
               </h3>
               <div className="bg-black/50 rounded-lg border border-white/10 overflow-hidden">
                 <div className="p-4">
@@ -205,7 +205,7 @@ export function AgentModal({ agent, isOpen, onClose, allSkills }: AgentModalProp
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-sm font-medium transition-colors"
             >
-              View Source
+              {t('modal.view_source')}
               <ExternalLink className="w-4 h-4" />
             </a>
           </div>
