@@ -153,7 +153,7 @@ async function installAgent(
   agentName: string,
   force: boolean,
   global: boolean
-): Promise<{ agentPath: string; skillPaths: string[] }> {
+): Promise<{ agentPath: string; skillPaths: string[]; skippedSkills: string[] }> {
   const agent = readAgent(agentName);
   const agentFile = getClaudeAgentFile(agentName, global);
   const skills = agent.skills ?? [];
@@ -177,20 +177,25 @@ async function installAgent(
 
   // 写入依赖 skills
   const skillPaths: string[] = [];
+  const skippedSkills: string[] = [];
   for (const skillId of skills) {
     const srcDir = path.join(REPO_DIR, 'skills', skillId);
     const destDir = getClaudeSkillDir(skillId, global);
     if (fs.existsSync(destDir)) {
-      if (!force) {
-        throw new Error(`依赖 skill "${skillId}" 已安装于 ${destDir}，使用 --force 强制覆盖`);
+      if (force) {
+        fs.rmSync(destDir, { recursive: true, force: true });
+      } else {
+        // 已存在时跳过，不报错——用户可能之前单独安装过
+        skippedSkills.push(skillId);
+        skillPaths.push(destDir);
+        continue;
       }
-      fs.rmSync(destDir, { recursive: true, force: true });
     }
     copyDir(srcDir, destDir);
     skillPaths.push(destDir);
   }
 
-  return { agentPath: agentFile, skillPaths };
+  return { agentPath: agentFile, skillPaths, skippedSkills };
 }
 
 // ────────────────────────────────────────────────────────────────────────────
@@ -269,7 +274,7 @@ export function registerInstall(program: Command): void {
             }
           }
 
-          const { agentPath, skillPaths } = await installAgent(
+          const { agentPath, skillPaths, skippedSkills } = await installAgent(
             keyword,
             opts.force ?? false,
             opts.global ?? false
@@ -280,14 +285,19 @@ export function registerInstall(program: Command): void {
               success: true,
               message: '安装成功',
               exitCode: 0,
-              data: { agent: keyword, agentPath, skillPaths },
+              data: { agent: keyword, agentPath, skillPaths, skippedSkills },
             });
           } else {
             printSuccess(`已安装 Agent: ${keyword}`);
             console.log(`  路径: ${agentPath}`);
             if (skillPaths.length > 0) {
-              printSuccess(`已安装 Skills (${skillPaths.length}):`);
-              skillPaths.forEach((p) => console.log(`  ${p}`));
+              printSuccess(`已安装 Skills (${skillPaths.length - skippedSkills.length}):`);
+              skillPaths
+                .filter((p) => !skippedSkills.some((id) => p.endsWith(id)))
+                .forEach((p) => console.log(`  ${p}`));
+            }
+            if (skippedSkills.length > 0) {
+              printInfo(`已跳过（已存在）: ${skippedSkills.join(', ')}`);
             }
           }
           return;
