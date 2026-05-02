@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import type { Skill } from '../types/skill';
 import { Calendar, ChevronRight } from 'lucide-react';
-import { useSkillDesc } from '../lib/skill-desc';
+import { pickDescription } from '../lib/i18n-utils';
 
 interface SkillCardProps {
   skill: Skill;
@@ -10,7 +10,6 @@ interface SkillCardProps {
 
 export function SkillCard({ skill, onClick }: SkillCardProps) {
   const { t, i18n } = useTranslation();
-  const desc = useSkillDesc(skill.id, skill.description);
 
   return (
     <div
@@ -38,7 +37,7 @@ export function SkillCard({ skill, onClick }: SkillCardProps) {
       </div>
 
       <p className="text-gray-400 text-sm line-clamp-2 mb-4 min-h-[40px]">
-        {desc || t('card.no_description')}
+        {pickDescription(skill.id, skill.description, i18n.language) || t('card.no_description')}
       </p>
 
       <div className="flex items-center justify-between pt-4 border-t border-white/5">

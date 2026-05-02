@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import type { Skill } from '../types/skill';
 import type { Agent } from '../types/agent';
 import { X, Copy, Check, ExternalLink } from 'lucide-react';
-import { useSkillDesc } from '../lib/skill-desc';
+import { pickDescription } from '../lib/i18n-utils';
 
 interface SkillModalProps {
   skill: Skill | null;
@@ -15,8 +15,7 @@ interface SkillModalProps {
 }
 
 export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, zIndex = 'z-[100]' }: SkillModalProps) {
-  const { t } = useTranslation();
-  const desc = useSkillDesc(skill?.id ?? '', skill?.detailedDescription || skill?.description ?? '');
+  const { t, i18n } = useTranslation();
   const [copied, setCopied] = useState(false);
 
   if (!isOpen || !skill) return null;
@@ -33,6 +32,13 @@ export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, z
     onClose();
     onOpenAgent?.(agentId);
   };
+
+  // Modal 详情优先显示 detailedDescription，按语言选择
+  const detailedDesc = pickDescription(
+    skill.id,
+    skill.detailedDescription || skill.description,
+    i18n.language
+  );
 
   return (
     <div className={`fixed inset-0 ${zIndex} flex items-center justify-center p-4 sm:p-6`}>
@@ -74,7 +80,7 @@ export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, z
               {t('modal.description')}
             </h3>
             <p className="text-gray-200 leading-relaxed">
-              {desc || t('modal.no_description_skill')}
+              {detailedDesc || t('modal.no_description_skill')}
             </p>
           </div>
 

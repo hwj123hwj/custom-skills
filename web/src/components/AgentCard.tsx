@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import type { Agent } from '../types/agent';
 import { ChevronRight } from 'lucide-react';
-import { useAgentDesc } from '../lib/skill-desc';
+import { pickDescription } from '../lib/i18n-utils';
 
 interface AgentCardProps {
   agent: Agent;
@@ -19,8 +19,7 @@ const MODEL_STYLES: Record<Agent['model'], string> = {
 };
 
 export function AgentCard({ agent, onClick }: AgentCardProps) {
-  const { t } = useTranslation();
-  const desc = useAgentDesc(agent.id, agent.description);
+  const { t, i18n } = useTranslation();
 
   return (
     <div
@@ -67,7 +66,7 @@ export function AgentCard({ agent, onClick }: AgentCardProps) {
 
       {/* Description */}
       <p className="text-gray-400 text-sm line-clamp-2 mb-4 min-h-[40px]">
-        {desc || t('card.no_description')}
+        {pickDescription(agent.id, agent.description, i18n.language, 'agent') || t('card.no_description')}
       </p>
 
       {/* Footer */}

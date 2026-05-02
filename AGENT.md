@@ -118,6 +118,8 @@ cd web && npm run generate:registry
 - `README.md` — 技能列表表格
 - `web/index.html` — SEO 元数据注入
 
+新增技能时，还需在 `web/src/i18n/skill-descriptions.ts` 的 `skillDescriptionsZh` 中补充中文描述（见第 6 节）。
+
 验证 registry 一致性（CI 会自动执行，本地也可手动跑）：
 
 ```bash
@@ -227,4 +229,62 @@ Agent registry 自动生成尚未实现（Phase 2）。当前流程：
 1. 在 `agents/` 下创建 `<name>.md` 文件
 2. 确保 frontmatter 字段完整
 3. 运行 `cd web && npm run generate:registry`（当前只更新 skill registry）
-4. 将文件纳入 git 提交即可
+4. 在 `web/src/i18n/skill-descriptions.ts` 的 `agentDescriptionsZh` 中补充中文描述（见第 6 节）
+5. 将文件纳入 git 提交即可
+
+## 6. Web 前端 i18n 维护规范 (Web i18n Maintenance)
+
+Web 前端支持中英双语切换。**翻译与数据严格分离**：
+
+- `SKILL.md` / `agents/*.md` 的 `description` 字段**统一使用英文**，是 Agent 读取的数据源，不应包含任何中文翻译字段。
+- 中文描述统一维护在 **`web/src/i18n/skill-descriptions.ts`**，前端按语言 id 查表显示。
+
+### 文件结构
+
+```typescript
+// web/src/i18n/skill-descriptions.ts
+
+export const skillDescriptionsZh: Record<string, string> = {
+  'skill-id': '对应的中文描述',
+  // ...
+};
+
+export const agentDescriptionsZh: Record<string, string> = {
+  'agent-id': '对应的中文描述',
+  // ...
+};
+```
+
+### 新增技能/Agent 时的 i18n 步骤
+
+**新增 Skill：**
+
+1. 在 `skills/<name>/SKILL.md` 中写好英文 `description`
+2. 运行 `cd web && npm run generate:registry`
+3. 在 `web/src/i18n/skill-descriptions.ts` 的 `skillDescriptionsZh` 中添加：
+   ```typescript
+   'your-skill-id': '简洁的中文描述，20-60 字，说明用途和触发场景。',
+   ```
+
+**新增 Agent：**
+
+1. 在 `agents/<name>.md` 中写好英文 `description`
+2. 在 `web/src/i18n/skill-descriptions.ts` 的 `agentDescriptionsZh` 中添加：
+   ```typescript
+   'your-agent-id': '简洁的中文描述，说明这个 Agent 的专长和使用时机。',
+   ```
+
+### 中文描述写作建议
+
+- 长度：20–60 字，简洁说明**是什么**、**什么时候用**
+- 包含关键触发词，便于用户搜索
+- 与英文 `description` 语义一致，无需逐字翻译
+
+### 运行逻辑（供参考）
+
+`web/src/lib/i18n-utils.ts` 的 `pickDescription(id, description, language, type)` 函数：
+
+- 语言为 `zh`：查 `skillDescriptionsZh` / `agentDescriptionsZh`，未命中则回退英文 `description`
+- 语言为 `en`（或其他）：直接使用 `description`（英文原文）
+
+**不需要修改任何组件或脚本**，只维护 `skill-descriptions.ts` 即可。
