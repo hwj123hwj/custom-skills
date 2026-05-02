@@ -1,10 +1,16 @@
-import { skillDescriptionsZh, agentDescriptionsZh } from '../i18n/skill-descriptions';
+import {
+  skillDescriptionsZh,
+  agentDescriptionsZh,
+  skillDescriptionsEn,
+  agentDescriptionsEn,
+} from '../i18n/skill-descriptions';
 
 /**
- * 按当前语言选择合适的描述。
+ * Pick the right description for the current language.
  *
- * - zh：查 skillDescriptionsZh / agentDescriptionsZh 映射，未命中回退 description
- * - en（或其他语言）：直接使用 description（SKILL.md 统一英文）
+ * - zh: look up skillDescriptionsZh / agentDescriptionsZh, fall back to raw description
+ * - en (or other): look up skillDescriptionsEn / agentDescriptionsEn first (covers skills
+ *   whose SKILL.md description is in Chinese), then fall back to the raw description field
  */
 export function pickDescription(
   id: string,
@@ -12,7 +18,12 @@ export function pickDescription(
   language: string,
   type: 'skill' | 'agent' = 'skill'
 ): string {
-  if (!language.startsWith('zh')) return description;
-  const map = type === 'agent' ? agentDescriptionsZh : skillDescriptionsZh;
-  return map[id] ?? description;
+  if (language.startsWith('zh')) {
+    const map = type === 'agent' ? agentDescriptionsZh : skillDescriptionsZh;
+    return map[id] ?? description;
+  }
+
+  // English (or any non-zh locale)
+  const enMap = type === 'agent' ? agentDescriptionsEn : skillDescriptionsEn;
+  return enMap[id] ?? description;
 }

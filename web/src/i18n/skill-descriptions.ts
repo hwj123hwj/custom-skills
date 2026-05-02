@@ -69,3 +69,54 @@ export const agentDescriptionsZh: Record<string, string> = {
   'tdd-guide':
     '测试驱动开发（TDD）专家，严格执行先写测试的方法论。在新增功能、修复 Bug 或重构代码时主动使用，确保测试覆盖率 80% 以上。',
 };
+
+/**
+ * English translations for skills whose SKILL.md description is in Chinese.
+ * Skills with English descriptions in SKILL.md do NOT need an entry here —
+ * pickDescription() will fall back to the raw description field automatically.
+ */
+export const skillDescriptionsEn: Record<string, string> = {
+  'bjtuo-classroom-query':
+    'Classroom query tool for Beijing Jiaotong University (BJTU). Combines timetable data (scheduled classes) with real-time occupancy counts to assess whether a classroom is free.',
+  'idea-incubator':
+    'Professional CPO + technical co-founder assistant. Helps incubate ideas, analyze feasibility, and draft technical documents. Use when you have a new product idea, technical plan, or a flash of inspiration that needs structured elaboration.',
+  'knowledge-skill':
+    'Personal knowledge base skill. Ingest web pages, Bilibili, WeChat articles, Xiaohongshu posts and more into PostgreSQL; retrieve them via keyword or semantic search. Auto-generates AI summaries and vector embeddings; supports one-click URL ingestion and nightly harvesting.',
+  'media-analyze':
+    'Media analysis report generator. Multi-source topic search with automated structured report generation. Use when a user asks to analyze a topic, needs a research report, or wants to understand public opinion around an event.',
+  'memory-organizer':
+    'Long-term memory organization guide. Use when you need to clean up, organize, or restructure a MEMORY.md file, or decide what information should or should not be stored in long-term memory.',
+  'mp-weixin-ops':
+    'All-in-one WeChat Official Account operations skill. Covers the full workflow from trending topic research, editorial planning, article writing, image generation, cover design, formatting, to pushing drafts.',
+  'rss-monitor':
+    'RSS feed monitoring and intelligent summarization. Periodically fetches WeChat account feeds from a self-hosted WeWe RSS, identifies new articles, generates structured summaries, notifies users, and records feedback to form a self-evolving preference model.',
+  'short-drama-pipeline':
+    'Full-pipeline AI short drama / short video production skill. End-to-end workflow from topic research, scriptwriting, and video generation to final output. Reuses tavily (research), xiaohongshu-cli / bilibili-cli (platform data), and libtv-skill (video generation).',
+  'short-video-replicator':
+    'All-in-one viral short video replication tool. Input a Douyin / Bilibili / YouTube link or local video path; it automatically handles: download & transcription → structured transcript → 3-dimension viral analysis → content rewrite → 3 voiceover scripts + 3 mini-drama scripts → Viral-5D score → PDF report export.',
+  'skill-browser-crawl':
+    'Lightweight browser-based web crawler. Supports JavaScript rendering, Markdown extraction, and recursive crawling of documentation-style sites.',
+  'skills-sh-installer':
+    'Download and install skills from skills.sh (Cursor/Windsurf skill marketplace) into the local .deepv/skills directory. Auto-parses repository structure, extracts finished skills from .claude/skills, and cleans up build artifacts.',
+  'videocut':
+    'All-in-one voiceover video editing skill. Full workflow covering transcription, filler-word detection, subtitle generation, and high-quality export. Trigger words: edit voiceover, process video, cut video, generate subtitles, export HD.',
+  'wechat-decrypt':
+    'CLI-first skill for decrypting, syncing, querying, and exporting WeChat chat data from a local macOS installation. Use whenever the user mentions WeChat chat history, the WeChat database, searching chat messages, or exporting WeChat images/files.',
+  'wechat-search':
+    'Tool for searching WeChat Official Account articles. Must be triggered whenever the user asks to search WeChat Official Account articles or find articles on a specific topic by keyword.',
+  'weibo-skill':
+    'Search Weibo content, view trending topics, read user posts and comments. Uses the m.weibo.cn mobile API — no account or API key required. Trigger scenarios: search Weibo content/topics, check real-time hot searches, fetch user posts, view comments.',
+};
+
+/**
+ * English translations for agents whose agent.md description is in Chinese.
+ * All three current agents have Chinese descriptions, so all are listed here.
+ */
+export const agentDescriptionsEn: Record<string, string> = {
+  'architect':
+    'Software architecture expert focused on system design, scalability, and technology decisions. Use proactively when planning new features, refactoring large systems, or making architectural decisions.',
+  'media-agent':
+    'Cross-platform media analyst for Chinese social platforms. Use when researching topics, analyzing sentiment, tracking trending content, or generating structured media reports on Bilibili, WeChat, Weibo, or Xiaohongshu.',
+  'tdd-guide':
+    'Test-Driven Development (TDD) expert who strictly follows a test-first methodology. Use proactively when adding features, fixing bugs, or refactoring code to ensure ≥80% test coverage.',
+};
