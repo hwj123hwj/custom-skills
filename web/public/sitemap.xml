@@ -49,6 +49,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://weijian.online/skill/llm-price-tracker</loc>
+    <lastmod>2026-04-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://weijian.online/skill/media-analyze</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>weekly</changefreq>
