@@ -45,7 +45,7 @@ function App() {
   }
 
   const handleCopySnippet = () => {
-    const snippet = generateOnboardingSnippet(skillsData as Skill[])
+    const snippet = generateOnboardingSnippet()
     navigator.clipboard.writeText(snippet)
     setSnippetCopied(true)
     setTimeout(() => setSnippetCopied(false), 2000)
