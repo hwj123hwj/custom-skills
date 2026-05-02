@@ -9,9 +9,10 @@ interface SkillModalProps {
   onClose: () => void;
   agents?: Agent[];
   onOpenAgent?: (agentId: string) => void;
+  zIndex?: string;
 }
 
-export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent }: SkillModalProps) {
+export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, zIndex = 'z-[100]' }: SkillModalProps) {
   const [copied, setCopied] = useState(false);
 
   if (!isOpen || !skill) return null;
@@ -31,7 +32,7 @@ export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent }:
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+    <div className={`fixed inset-0 ${zIndex} flex items-center justify-center p-4 sm:p-6`}>
       <div
         className="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity"
         onClick={onClose}

@@ -212,11 +212,12 @@ export function AgentModal({ agent, isOpen, onClose, allSkills }: AgentModalProp
         </div>
       </div>
 
-      {/* 嵌套 SkillModal（z-index 更高，覆盖当前 AgentModal） */}
+      {/* 嵌套 SkillModal：z-[200] 确保覆盖 AgentModal，不传 agents/onOpenAgent 禁用反向跳转 */}
       <SkillModal
         skill={nestedSkill}
         isOpen={isNestedOpen}
         onClose={() => setIsNestedOpen(false)}
+        zIndex="z-[200]"
       />
     </>
   );
