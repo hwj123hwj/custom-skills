@@ -136,6 +136,12 @@ async function installSkillToClaude(
   }
 
   copyDir(sourceDir, targetDir);
+
+  const skillMd = path.join(targetDir, 'SKILL.md');
+  if (!fs.existsSync(skillMd)) {
+    throw new Error(`安装失败：${targetDir}/SKILL.md 不存在`);
+  }
+
   return targetDir;
 }
 
