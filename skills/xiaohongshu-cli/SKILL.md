@@ -7,6 +7,11 @@ tags:
   - Xiaohongshu
   - Social
   - CLI
+aliases:
+  - 小红书
+  - 笔记
+  - 种草
+  - xhs
 ---
 
 # xiaohongshu-cli — Xiaohongshu CLI Tool

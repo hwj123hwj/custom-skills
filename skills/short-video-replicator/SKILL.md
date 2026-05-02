@@ -9,6 +9,11 @@ tags:
   - Video
   - Media
   - Content
+aliases:
+  - 短视频复刻
+  - 爆款分析
+  - 口播脚本
+  - 文案二创
 ---
 
 # short-video-replicator

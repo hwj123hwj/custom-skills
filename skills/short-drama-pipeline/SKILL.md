@@ -6,6 +6,11 @@ description: |
   复用 tavily（调研）、xiaohongshu-cli/bilibili-cli（平台数据）、libtv-skill（视频生成）。
   所有子功能内置于 skills/ 子目录，无需单独安装。
 allowed-tools: Bash(tvly *), Bash(bili *), Bash(xhs *), Bash(boss *), Read, Write, Glob, Grep
+aliases:
+  - AI短剧
+  - 短视频制作
+  - 短剧制作
+  - 生成视频
 tags:
   - Video
   - Media

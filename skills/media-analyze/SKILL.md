@@ -5,6 +5,11 @@ tags:
   - Media
   - Analysis
   - Research
+aliases:
+  - 分析话题
+  - 媒体报告
+  - 话题调研
+  - 舆论分析
 ---
 
 # 媒体分析技能

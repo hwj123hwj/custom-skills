@@ -5,6 +5,11 @@ tags:
   - WeChat
   - Content
   - Writing
+aliases:
+  - 公众号运营
+  - 写公众号文章
+  - 公众号排版
+  - 推送草稿箱
 ---
 
 # mp-weixin-ops — 微信公众号一站式运营

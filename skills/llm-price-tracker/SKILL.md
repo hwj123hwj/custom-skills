@@ -5,6 +5,12 @@ tags:
   - Monitoring
   - Research
   - Analysis
+aliases:
+  - LLM价格
+  - 模型定价
+  - API价格
+  - 降价
+  - 新模型价格
 ---
 
 # LLM Price Tracker

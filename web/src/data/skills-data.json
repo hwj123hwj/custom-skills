@@ -11,7 +11,12 @@
       "Utility"
     ],
     "scenarios": [],
-    "aliases": [],
+    "aliases": [
+      "转录",
+      "语音识别",
+      "语音转文字",
+      "ASR"
+    ],
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill asr",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/asr",
     "sourcePath": "skills/asr",
@@ -30,7 +35,13 @@
       "CLI"
     ],
     "scenarios": [],
-    "aliases": [],
+    "aliases": [
+      "B站",
+      "bilibili",
+      "哔哩哔哩",
+      "UP主",
+      "视频"
+    ],
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill bilibili-cli",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/bilibili-cli",
     "sourcePath": "skills/bilibili-cli",
@@ -77,7 +88,12 @@
       "CLI"
     ],
     "scenarios": [],
-    "aliases": [],
+    "aliases": [
+      "招聘",
+      "BOSS直聘",
+      "找工作",
+      "投简历"
+    ],
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill boss-cli",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/boss-cli",
     "sourcePath": "skills/boss-cli",
@@ -123,7 +139,12 @@
       "Utility"
     ],
     "scenarios": [],
-    "aliases": [],
+    "aliases": [
+      "生成图片",
+      "配图",
+      "封面图",
+      "generate image"
+    ],
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill image-provider",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/image-provider",
     "sourcePath": "skills/image-provider",
@@ -170,7 +191,13 @@
       "Analysis"
     ],
     "scenarios": [],
-    "aliases": [],
+    "aliases": [
+      "LLM价格",
+      "模型定价",
+      "API价格",
+      "降价",
+      "新模型价格"
+    ],
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill llm-price-tracker",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/llm-price-tracker",
     "sourcePath": "skills/llm-price-tracker",
@@ -189,7 +216,12 @@
       "Research"
     ],
     "scenarios": [],
-    "aliases": [],
+    "aliases": [
+      "分析话题",
+      "媒体报告",
+      "话题调研",
+      "舆论分析"
+    ],
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill media-analyze",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/media-analyze",
     "sourcePath": "skills/media-analyze",
@@ -235,7 +267,12 @@
       "Writing"
     ],
     "scenarios": [],
-    "aliases": [],
+    "aliases": [
+      "公众号运营",
+      "写公众号文章",
+      "公众号排版",
+      "推送草稿箱"
+    ],
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill mp-weixin-ops",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/mp-weixin-ops",
     "sourcePath": "skills/mp-weixin-ops",
@@ -281,7 +318,12 @@
       "Content"
     ],
     "scenarios": [],
-    "aliases": [],
+    "aliases": [
+      "AI短剧",
+      "短视频制作",
+      "短剧制作",
+      "生成视频"
+    ],
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill short-drama-pipeline",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/short-drama-pipeline",
     "sourcePath": "skills/short-drama-pipeline",
@@ -300,7 +342,12 @@
       "Content"
     ],
     "scenarios": [],
-    "aliases": [],
+    "aliases": [
+      "短视频复刻",
+      "爆款分析",
+      "口播脚本",
+      "文案二创"
+    ],
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill short-video-replicator",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/short-video-replicator",
     "sourcePath": "skills/short-video-replicator",
@@ -373,7 +420,12 @@
       "Research"
     ],
     "scenarios": [],
-    "aliases": [],
+    "aliases": [
+      "搜索网页",
+      "联网查资料",
+      "提取URL内容",
+      "深度调研"
+    ],
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill tavily",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/tavily",
     "sourcePath": "skills/tavily",
@@ -391,7 +443,12 @@
       "Utility"
     ],
     "scenarios": [],
-    "aliases": [],
+    "aliases": [
+      "配音",
+      "语音合成",
+      "TTS",
+      "合成语音"
+    ],
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill tts",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/tts",
     "sourcePath": "skills/tts",
@@ -410,7 +467,11 @@
       "Analysis"
     ],
     "scenarios": [],
-    "aliases": [],
+    "aliases": [
+      "分析视频内容",
+      "理解视频",
+      "视频总结"
+    ],
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill vertex-video-reader",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/vertex-video-reader",
     "sourcePath": "skills/vertex-video-reader",
@@ -429,7 +490,12 @@
       "Utility"
     ],
     "scenarios": [],
-    "aliases": [],
+    "aliases": [
+      "剪口播",
+      "处理视频",
+      "生成字幕",
+      "视频剪辑"
+    ],
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill videocut",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/videocut",
     "sourcePath": "skills/videocut",
@@ -533,7 +599,12 @@
       "CLI"
     ],
     "scenarios": [],
-    "aliases": [],
+    "aliases": [
+      "小红书",
+      "笔记",
+      "种草",
+      "xhs"
+    ],
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill xiaohongshu-cli",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/xiaohongshu-cli",
     "sourcePath": "skills/xiaohongshu-cli",

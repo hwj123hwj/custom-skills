@@ -5,6 +5,11 @@ tags:
   - Video
   - Media
   - Utility
+aliases:
+  - 剪口播
+  - 处理视频
+  - 生成字幕
+  - 视频剪辑
 ---
 
 # videocut — 口播视频一站式剪辑

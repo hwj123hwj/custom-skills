@@ -8,6 +8,11 @@ description: |
 tags:
   - Media
   - Utility
+aliases:
+  - 生成图片
+  - 配图
+  - 封面图
+  - generate image
 ---
 
 # Image Provider

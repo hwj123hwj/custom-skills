@@ -5,6 +5,10 @@ tags:
   - Video
   - Media
   - Analysis
+aliases:
+  - 分析视频内容
+  - 理解视频
+  - 视频总结
 ---
 
 # Vertex AI Video Reader Skill

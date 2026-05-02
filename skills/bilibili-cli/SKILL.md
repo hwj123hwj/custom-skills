@@ -10,6 +10,12 @@ tags:
   - video
   - social-media
   - cli
+aliases:
+  - B站
+  - bilibili
+  - 哔哩哔哩
+  - UP主
+  - 视频
 ---
 
 # bilibili-cli Skill

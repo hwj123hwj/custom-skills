@@ -7,6 +7,11 @@ tags:
   - Recruitment
   - Social
   - CLI
+aliases:
+  - 招聘
+  - BOSS直聘
+  - 找工作
+  - 投简历
 ---
 
 # boss-cli — BOSS 直聘 CLI Tool

@@ -7,6 +7,11 @@ tags:
   - Search
   - Web
   - Research
+aliases:
+  - 搜索网页
+  - 联网查资料
+  - 提取URL内容
+  - 深度调研
 ---
 
 # tavily — Tavily CLI unified skill
