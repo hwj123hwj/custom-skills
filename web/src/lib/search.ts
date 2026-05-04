@@ -1,4 +1,5 @@
 import type { Skill } from '../types/skill';
+import { pickDescription } from './i18n-utils';
 
 export interface SkillSearchResult {
   skill: Skill;
@@ -9,7 +10,7 @@ function containsIgnoringSpace(value: string, keyword: string): boolean {
   return value.replace(/\s+/g, '').includes(keyword.replace(/\s+/g, ''));
 }
 
-export function scoreSkill(skill: Skill, keyword: string): number {
+export function scoreSkill(skill: Skill, keyword: string, language = 'en'): number {
   const kw = keyword.toLowerCase().trim();
   const kwNoSpace = kw.replace(/\s+/g, '');
   if (!kw) return 0;
@@ -35,6 +36,14 @@ export function scoreSkill(skill: Skill, keyword: string): number {
   if (aliases.some((alias) => alias.includes(kw))) return 50;
   if (tags.some((tag) => tag.includes(kw))) return 40;
   if (description.includes(kw) || containsIgnoringSpace(description, kwNoSpace)) return 30;
+
+  // 搜索本地化描述（命中分数略低于原始 description，避免影响英文搜索排序）
+  const localizedDesc = pickDescription(skill.id, skill.description, language).toLowerCase();
+  if (localizedDesc !== description &&
+    (localizedDesc.includes(kw) || containsIgnoringSpace(localizedDesc, kwNoSpace))) {
+    return 29;
+  }
+
   if (scenarios.some((scenario) => scenario.includes(kw) || containsIgnoringSpace(scenario, kwNoSpace))) {
     return 20;
   }
@@ -42,14 +51,14 @@ export function scoreSkill(skill: Skill, keyword: string): number {
   return 0;
 }
 
-export function searchSkills(skills: Skill[], keyword: string): SkillSearchResult[] {
+export function searchSkills(skills: Skill[], keyword: string, language = 'en'): SkillSearchResult[] {
   const kw = keyword.trim();
   if (!kw) {
     return skills.map((skill) => ({ skill, score: 0 }));
   }
 
   return skills
-    .map((skill) => ({ skill, score: scoreSkill(skill, keyword) }))
+    .map((skill) => ({ skill, score: scoreSkill(skill, keyword, language) }))
     .filter((result) => result.score > 0)
     .sort((a, b) => b.score - a.score || a.skill.id.localeCompare(b.skill.id));
 }

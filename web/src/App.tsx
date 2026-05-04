@@ -16,7 +16,7 @@ import { searchAgents } from './lib/agent-search'
 import { generateOnboardingSnippet } from './lib/generate-snippet'
 
 function App() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   const [activeTab, setActiveTab] = useState<'skills' | 'agents'>('skills')
   const [searchQuery, setSearchQuery] = useState('')
@@ -31,13 +31,13 @@ function App() {
 
   const filteredSkills = useMemo(() => {
     if (!searchQuery.trim()) return skillsData as Skill[]
-    return searchSkills(skillsData as Skill[], searchQuery).map((r) => r.skill)
-  }, [searchQuery])
+    return searchSkills(skillsData as Skill[], searchQuery, i18n.language).map((r) => r.skill)
+  }, [searchQuery, i18n.language])
 
   const filteredAgents = useMemo(() => {
     if (!searchQuery.trim()) return agentsData as Agent[]
-    return searchAgents(agentsData as Agent[], searchQuery).map((r) => r.agent)
-  }, [searchQuery])
+    return searchAgents(agentsData as Agent[], searchQuery, i18n.language).map((r) => r.agent)
+  }, [searchQuery, i18n.language])
 
   const handleTabChange = (tab: 'skills' | 'agents') => {
     setActiveTab(tab)

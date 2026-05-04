@@ -1,11 +1,12 @@
 import type { Agent } from '../types/agent';
+import { pickDescription } from './i18n-utils';
 
 export interface AgentSearchResult {
   agent: Agent;
   score: number;
 }
 
-export function searchAgents(agents: Agent[], query: string): AgentSearchResult[] {
+export function searchAgents(agents: Agent[], query: string, language = 'en'): AgentSearchResult[] {
   const kw = query.toLowerCase().trim();
   if (!kw) return agents.map((agent) => ({ agent, score: 100 }));
 
@@ -14,6 +15,7 @@ export function searchAgents(agents: Agent[], query: string): AgentSearchResult[
   for (const agent of agents) {
     let score = 0;
     const name = agent.name.toLowerCase();
+    const description = agent.description.toLowerCase();
 
     if (name === kw) {
       score = 100;
@@ -23,10 +25,16 @@ export function searchAgents(agents: Agent[], query: string): AgentSearchResult[
       score = 60;
     } else if (agent.tags.some((t) => t.toLowerCase().includes(kw))) {
       score = 40;
-    } else if (agent.description.toLowerCase().includes(kw)) {
+    } else if (description.includes(kw)) {
       score = 30;
-    } else if (agent.skills.some((s) => s.toLowerCase().includes(kw))) {
-      score = 20;
+    } else {
+      // 搜索本地化描述
+      const localizedDesc = pickDescription(agent.id, agent.description, language, 'agent').toLowerCase();
+      if (localizedDesc !== description && localizedDesc.includes(kw)) {
+        score = 29;
+      } else if (agent.skills.some((s) => s.toLowerCase().includes(kw))) {
+        score = 20;
+      }
     }
 
     if (score > 0) results.push({ agent, score });
