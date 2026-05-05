@@ -53,10 +53,14 @@ npm run dev
 <!-- SKILL_TABLE:START -->
 | 技能 | 说明 |
 |------|------|
+| [academic-search](./skills/academic-search) | 学术论文搜索、引用分析与元数据提取专用 Skill。 |
 | [asr](./skills/asr) | Unified ASR (Speech Recognition) skill with pluggable providers (strategy pattern). |
 | [bilibili-cli](./skills/bilibili-cli) | CLI skill for Bilibili (哔哩哔哩, B站) with token-efficient YAML output for AI agents to browse videos... |
 | [bjtuo-classroom-query](./skills/bjtuo-classroom-query) | 北京交通大学（BJTU）教室综合查询。 |
 | [boss-cli](./skills/boss-cli) | Use boss-cli for ALL BOSS 直聘 operations — searching jobs, viewing recommendations, managing appli... |
+| [drawio-skill](./skills/drawio-skill) | Use when user requests diagrams, flowcharts, architecture charts, or visualizations. |
+| [edgeone-pages-deploy](./skills/edgeone-pages-deploy) | >- |
+| [edgeone-pages-dev](./skills/edgeone-pages-dev) | >- |
 | [idea-incubator](./skills/idea-incubator) | 专业的 CPO + 技术合伙人助手，帮助用户孵化想法、分析可行性并编写技术文档。 |
 | [image-provider](./skills/image-provider) | Unified image generation skill with pluggable providers (strategy pattern). |
 | [knowledge-skill](./skills/knowledge-skill) | 个人知识库技能。 |
