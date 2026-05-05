@@ -7,6 +7,12 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://weijian.online/skill/academic-search</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://weijian.online/skill/asr</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>weekly</changefreq>
@@ -14,7 +20,7 @@
   </url>
   <url>
     <loc>https://weijian.online/skill/bilibili-cli</loc>
-    <lastmod>2026-05-02</lastmod>
+    <lastmod>2026-05-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -26,7 +32,25 @@
   </url>
   <url>
     <loc>https://weijian.online/skill/boss-cli</loc>
-    <lastmod>2026-05-02</lastmod>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://weijian.online/skill/drawio-skill</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://weijian.online/skill/edgeone-pages-deploy</loc>
+    <lastmod>2026-05-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://weijian.online/skill/edgeone-pages-dev</loc>
+    <lastmod>2026-05-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -146,7 +170,7 @@
   </url>
   <url>
     <loc>https://weijian.online/skill/xiaohongshu-cli</loc>
-    <lastmod>2026-05-02</lastmod>
+    <lastmod>2026-05-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

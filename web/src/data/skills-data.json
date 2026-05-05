@@ -1,5 +1,25 @@
 [
   {
+    "id": "academic-search",
+    "name": "academic-search",
+    "displayName": "academic-search Skill",
+    "description": "学术论文搜索、引用分析与元数据提取专用 Skill。",
+    "detailedDescription": "学术论文搜索、引用分析与元数据提取专用 Skill。",
+    "emoji": "📦",
+    "tags": [
+      "Utility"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill academic-search",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/academic-search",
+    "sourcePath": "skills/academic-search",
+    "lastUpdated": "2026-05-05T15:40:12.000Z",
+    "author": "ustc-ai4science",
+    "upstream": "ustc-ai4science/academic-search",
+    "upstreamSha": "df71ccc5ceab5be4a0e1846a560455cec5349eff"
+  },
+  {
     "id": "asr",
     "name": "asr",
     "displayName": "ASR — 语音识别技能",
@@ -45,7 +65,7 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill bilibili-cli",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/bilibili-cli",
     "sourcePath": "skills/bilibili-cli",
-    "lastUpdated": "2026-05-02T15:49:31.000Z",
+    "lastUpdated": "2026-05-05T01:06:45.000Z",
     "author": "jackwener",
     "upstream": "jackwener/bilibili-cli"
   },
@@ -98,9 +118,63 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill boss-cli",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/boss-cli",
     "sourcePath": "skills/boss-cli",
-    "lastUpdated": "2026-05-02T15:49:31.000Z",
+    "lastUpdated": "2026-05-05T01:06:45.000Z",
     "author": "jackwener",
     "upstream": "jackwener/boss-cli"
+  },
+  {
+    "id": "drawio-skill",
+    "name": "drawio-skill",
+    "displayName": "Draw.io Diagrams",
+    "description": "Use when user requests diagrams, flowcharts, architecture charts, or visualizations. Also use proactively when explaining systems with 3+ components, complex data flows, or relationships that benefit from visual representation. Generates .drawio XML files and exports to PNG/SVG/PDF locally using the native draw.io desktop CLI.",
+    "detailedDescription": "Generate `.drawio` XML files and export to PNG/SVG/PDF/JPG locally using the native draw.io desktop app CLI.\n\n**Supported formats:** PNG, SVG, PDF, JPG — no browser automation needed.\n\nPNG, SVG, and PDF exports support `--embed-diagram` (`-e`) — the exported file contains the full diagram XML, so opening it in draw.io recovers the editable diagram. Use double extensions (`name.drawio.png`) to signal embedded XML.",
+    "emoji": "📦",
+    "tags": [
+      "Utility"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill drawio-skill",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/drawio-skill",
+    "sourcePath": "skills/drawio-skill",
+    "lastUpdated": "2026-05-05T15:40:12.000Z",
+    "author": "Agents365-ai",
+    "upstream": "Agents365-ai/drawio-skill",
+    "upstreamSha": "7b9d607d2cb343c8c8161488b4c22b238b7b8a25"
+  },
+  {
+    "id": "edgeone-pages-deploy",
+    "name": "edgeone-pages-deploy",
+    "displayName": "EdgeOne Pages Deployment Skill",
+    "description": ">-",
+    "detailedDescription": "Deploy any project to **EdgeOne Pages**.",
+    "emoji": "📦",
+    "tags": [
+      "Utility"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill edgeone-pages-deploy",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/edgeone-pages-deploy",
+    "sourcePath": "skills/edgeone-pages-deploy",
+    "lastUpdated": "2026-05-05T15:37:22.946Z"
+  },
+  {
+    "id": "edgeone-pages-dev",
+    "name": "edgeone-pages-dev",
+    "displayName": "EdgeOne Pages Development Guide",
+    "description": ">-",
+    "detailedDescription": "Develop full-stack applications on **EdgeOne Pages** — Edge Functions, Cloud Functions (Node.js / Go / Python), and Middleware.",
+    "emoji": "📦",
+    "tags": [
+      "Utility"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill edgeone-pages-dev",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/edgeone-pages-dev",
+    "sourcePath": "skills/edgeone-pages-dev",
+    "lastUpdated": "2026-05-05T15:37:22.981Z"
   },
   {
     "id": "idea-incubator",
@@ -610,7 +684,7 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill xiaohongshu-cli",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/xiaohongshu-cli",
     "sourcePath": "skills/xiaohongshu-cli",
-    "lastUpdated": "2026-05-02T15:49:31.000Z",
+    "lastUpdated": "2026-05-05T01:06:45.000Z",
     "author": "jackwener",
     "upstream": "jackwener/xiaohongshu-cli"
   }

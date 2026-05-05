@@ -1,5 +1,8 @@
 ---
 name: academic-search
+author: ustc-ai4science
+upstream: ustc-ai4science/academic-search
+upstreamSha: df71ccc5ceab5be4a0e1846a560455cec5349eff
 description: |
   学术论文搜索、引用分析与元数据提取专用 Skill。
 

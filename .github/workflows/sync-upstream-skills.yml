@@ -41,12 +41,24 @@ jobs:
           SUMMARY=""
           CONFLICT_SUMMARY=""
 
-          # 读取 registry/skills.json，找出所有有 upstream 字段的技能
+          # 从各技能的 SKILL.md frontmatter 读取 upstream 和 upstreamSha
           UPSTREAMS=$(node -e "
-            const skills = require('./registry/skills.json');
-            skills
-              .filter(s => s.upstream)
-              .forEach(s => console.log(s.id + ' ' + s.upstream + ' ' + (s.upstreamSha || '')));
+            const fs = require('fs');
+            const path = require('path');
+            const skillsDir = 'skills';
+            const dirs = fs.readdirSync(skillsDir);
+            for (const dir of dirs) {
+              const skillMd = path.join(skillsDir, dir, 'SKILL.md');
+              if (!fs.existsSync(skillMd)) continue;
+              const content = fs.readFileSync(skillMd, 'utf8');
+              const upstreamMatch = content.match(/^upstream:\s*(.+)$/m);
+              const shaMatch = content.match(/^upstreamSha:\s*(.+)$/m);
+              if (upstreamMatch) {
+                const upstream = upstreamMatch[1].trim();
+                const sha = shaMatch ? shaMatch[1].trim() : '';
+                console.log(dir + ' ' + upstream + ' ' + sha);
+              }
+            }
           ")
 
           if [ -z "$UPSTREAMS" ]; then
@@ -152,18 +164,17 @@ jobs:
               ! -path '*/.git/*' ! -name '*.pyc' ! -path '*/__pycache__/*' \
               -printf '%P\0')
 
-            # 更新 registry 中的 upstreamSha
-            node -e "
-              const fs = require('fs');
-              const path = './registry/skills.json';
-              const skills = JSON.parse(fs.readFileSync(path, 'utf8'));
-              const skill = skills.find(s => s.id === '$SKILL_ID');
-              if (skill) {
-                skill.upstreamSha = '$UPSTREAM_HEAD';
-                skill.lastUpdated = new Date().toISOString();
-              }
-              fs.writeFileSync(path, JSON.stringify(skills, null, 2) + '\n');
-            "
+            # 更新 SKILL.md frontmatter 中的 upstreamSha
+            SKILL_MD="$DEST/SKILL.md"
+            if [ -f "$SKILL_MD" ]; then
+              if grep -q "^upstreamSha:" "$SKILL_MD"; then
+                sed -i "s|^upstreamSha:.*|upstreamSha: $UPSTREAM_HEAD|" "$SKILL_MD"
+              else
+                # 在第一个 --- 之后插入
+                sed -i "0,/^---$/!{0,/^---$/s/^---$/---\nupstreamSha: $UPSTREAM_HEAD/}" "$SKILL_MD"
+              fi
+              echo "    ↳ Updated upstreamSha in SKILL.md → $UPSTREAM_HEAD"
+            fi
 
             if [ $SKILL_CHANGED -gt 0 ]; then
               CHANGED=$((CHANGED + 1))

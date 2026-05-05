@@ -1,5 +1,8 @@
 ---
 name: drawio-skill
+author: Agents365-ai
+upstream: Agents365-ai/drawio-skill
+upstreamSha: 7b9d607d2cb343c8c8161488b4c22b238b7b8a25
 description: Use when user requests diagrams, flowcharts, architecture charts, or visualizations. Also use proactively when explaining systems with 3+ components, complex data flows, or relationships that benefit from visual representation. Generates .drawio XML files and exports to PNG/SVG/PDF locally using the native draw.io desktop CLI.
 license: MIT
 homepage: https://github.com/Agents365-ai/drawio-skill
