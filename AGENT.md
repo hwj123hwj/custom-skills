@@ -51,6 +51,8 @@ skills/*/SKILL.md
 | `aliases` | 可选 | 中文别名列表，辅助模糊匹配 |
 | `scenarios` | 可选 | 触发场景列表，辅助 Agent 识别 |
 | `author` | 可选 | 第三方贡献者 ID，写明来源便于追踪同步更新 |
+| `upstream` | 可选 | 第三方技能的上游仓库，格式 `owner/repo`，CI 凭此同步更新 |
+| `upstreamSha` | 可选 | 上次同步时的上游 commit SHA，三路合并的 base，由 CI 自动更新 |
 | `version` | 可选 | 版本号，第三方 skill 建议填写 |
 
 **当前 ALLOWED_TAGS 白名单：**
@@ -67,7 +69,7 @@ Bilibili, WeChat, Weibo, Xiaohongshu
 
 > 需要新增 tag 时，先在 `web/scripts/validate-registry.ts` 的 `ALLOWED_TAGS` 中注册，再使用。
 
-**Frontmatter 完整示例：**
+**Frontmatter 完整示例（自有技能）：**
 ```markdown
 ---
 name: my-skill
@@ -86,6 +88,21 @@ author: your-github-id   # 第三方贡献时填写
 # My Skill
 ...
 ```
+
+**Frontmatter 完整示例（第三方技能，需要同步上游）：**
+```markdown
+---
+name: some-upstream-skill
+author: upstream-owner
+upstream: upstream-owner/repo-name        # CI 凭此每日拉取更新
+upstreamSha: <git rev-parse HEAD 的值>    # clone 后记录，CI 自动维护
+description: ...
+tags:
+  - Utility
+---
+```
+
+> `upstreamSha` 是三路合并的 base：CI 每次只合并该 SHA 之后的上游变更，你的本地修改会被保留，有冲突时会在 PR 中标注。
 
 ### Python 脚本规范 (Python Coding Standards)
 
@@ -112,7 +129,14 @@ author: your-github-id   # 第三方贡献时填写
 cd web && npm run generate:registry
 ```
 
-这条命令会同时更新以下 4 个文件：
+或直接用项目根目录的快捷命令（推荐）：
+
+```bash
+make registry   # 重新生成 registry
+make validate   # 验证 registry 一致性（CI 也会自动执行）
+```
+
+`make registry` 会同时更新以下 4 个文件：
 - `registry/skills.json` — 技能索引
 - `web/src/data/skills-data.json` — Web 静态镜像
 - `README.md` — 技能列表表格
