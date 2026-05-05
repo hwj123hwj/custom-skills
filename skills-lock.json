@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "skills": {
+    "brainstorming": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "skillPath": "skills/brainstorming/SKILL.md",
+      "computedHash": "8df9b47092524833138b58682d03f2e153a242e550d1693657afdbee0cc9cdb0"
+    },
+    "edgeone-pages-deploy": {
+      "source": "TencentEdgeOne/edgeone-pages-skills",
+      "sourceType": "github",
+      "skillPath": "skills/edgeone-pages-deploy/SKILL.md",
+      "computedHash": "2d53128b10d20f325ff63e06289c2f284dbe1ca6c42b68284d57d9bba0ffad7e"
+    },
+    "edgeone-pages-dev": {
+      "source": "TencentEdgeOne/edgeone-pages-skills",
+      "sourceType": "github",
+      "skillPath": "skills/edgeone-pages-dev/SKILL.md",
+      "computedHash": "f2f5644a4878f09c43627bc569fbe021617a978cd011c2d531d0032a9baea9fd"
+    }
+  }
+}
