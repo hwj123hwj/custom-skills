@@ -48,23 +48,43 @@ function getClaudeAgentFile(agentName: string, global: boolean): string {
 // 仓库管理
 // ────────────────────────────────────────────────────────────────────────────
 
+function isValidGitRepo(dir: string): boolean {
+  const result = spawnSync('git', ['-C', dir, 'rev-parse', '--git-dir'], {
+    stdio: 'pipe',
+  });
+  return result.status === 0;
+}
+
+function cloneRepo(): void {
+  printInfo('正在克隆技能仓库，首次安装需要一点时间...');
+  const result = spawnSync('git', ['clone', '--depth=1', REPO_URL, REPO_DIR], {
+    stdio: 'inherit',
+  });
+  if (result.status !== 0) {
+    throw new Error('仓库克隆失败，请检查网络连接');
+  }
+}
+
 function ensureRepo(): void {
   if (!fs.existsSync(REPO_DIR)) {
-    printInfo('正在克隆技能仓库，首次安装需要一点时间...');
-    const result = spawnSync('git', ['clone', '--depth=1', REPO_URL, REPO_DIR], {
-      stdio: 'inherit',
-    });
-    if (result.status !== 0) {
-      throw new Error('仓库克隆失败，请检查网络连接');
-    }
-  } else {
-    printInfo('正在更新技能仓库...');
-    const result = spawnSync('git', ['-C', REPO_DIR, 'pull', '--ff-only'], {
-      stdio: 'inherit',
-    });
-    if (result.status !== 0) {
-      process.stderr.write('[警告] 仓库更新失败，将使用本地已缓存版本\n');
-    }
+    cloneRepo();
+    return;
+  }
+
+  // 目录存在但不是有效 git 仓库（残缺目录、非 git 路径等）→ 删除重新克隆
+  if (!isValidGitRepo(REPO_DIR)) {
+    process.stderr.write('[警告] 本地缓存目录不是有效的 git 仓库，正在重新克隆...\n');
+    fs.rmSync(REPO_DIR, { recursive: true, force: true });
+    cloneRepo();
+    return;
+  }
+
+  printInfo('正在更新技能仓库...');
+  const result = spawnSync('git', ['-C', REPO_DIR, 'pull', '--ff-only'], {
+    stdio: 'inherit',
+  });
+  if (result.status !== 0) {
+    process.stderr.write('[警告] 仓库更新失败，将使用本地已缓存版本\n');
   }
 }
 

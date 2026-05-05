@@ -46,7 +46,8 @@
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/bilibili-cli",
     "sourcePath": "skills/bilibili-cli",
     "lastUpdated": "2026-05-02T15:49:31.000Z",
-    "author": "jackwener"
+    "author": "jackwener",
+    "upstream": "jackwener/bilibili-cli"
   },
   {
     "id": "bjtuo-classroom-query",
@@ -98,7 +99,8 @@
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/boss-cli",
     "sourcePath": "skills/boss-cli",
     "lastUpdated": "2026-05-02T15:49:31.000Z",
-    "author": "jackwener"
+    "author": "jackwener",
+    "upstream": "jackwener/boss-cli"
   },
   {
     "id": "idea-incubator",
@@ -609,6 +611,7 @@
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/xiaohongshu-cli",
     "sourcePath": "skills/xiaohongshu-cli",
     "lastUpdated": "2026-05-02T15:49:31.000Z",
-    "author": "jackwener"
+    "author": "jackwener",
+    "upstream": "jackwener/xiaohongshu-cli"
   }
 ]

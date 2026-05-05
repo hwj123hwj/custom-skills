@@ -1,0 +1,127 @@
+name: Sync Upstream Skills
+
+on:
+  schedule:
+    # 每天 UTC 02:00（北京时间 10:00）运行
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    # 也可以手动触发
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install Web Dependencies
+        working-directory: web
+        run: npm ci
+
+      - name: Sync upstream skills
+        id: sync
+        run: |
+          set -e
+
+          CHANGED=0
+          SUMMARY=""
+
+          # 读取 registry/skills.json，找出所有有 upstream 字段的技能
+          UPSTREAMS=$(node -e "
+            const skills = require('./registry/skills.json');
+            skills
+              .filter(s => s.upstream)
+              .forEach(s => console.log(s.id + ' ' + s.upstream));
+          ")
+
+          if [ -z "$UPSTREAMS" ]; then
+            echo "No upstream skills found, nothing to sync."
+            exit 0
+          fi
+
+          while IFS=' ' read -r SKILL_ID UPSTREAM_REPO; do
+            echo "▶ Syncing $SKILL_ID from $UPSTREAM_REPO ..."
+
+            TMP_DIR=$(mktemp -d)
+            git clone --depth=1 "https://github.com/$UPSTREAM_REPO.git" "$TMP_DIR" 2>&1 || {
+              echo "⚠️  Failed to clone $UPSTREAM_REPO, skipping."
+              rm -rf "$TMP_DIR"
+              continue
+            }
+
+            # 确定上游的技能目录（优先查找 .claude/skills/<id>，其次根目录）
+            if [ -d "$TMP_DIR/.claude/skills/$SKILL_ID" ]; then
+              SRC="$TMP_DIR/.claude/skills/$SKILL_ID"
+            elif [ -f "$TMP_DIR/SKILL.md" ]; then
+              SRC="$TMP_DIR"
+            else
+              echo "⚠️  Cannot locate skill directory in $UPSTREAM_REPO, skipping."
+              rm -rf "$TMP_DIR"
+              continue
+            fi
+
+            DEST="skills/$SKILL_ID"
+
+            # 对比差异
+            DIFF=$(diff -rq \
+              --exclude=".git" \
+              --exclude="*.pyc" \
+              --exclude="__pycache__" \
+              "$SRC/" "$DEST/" 2>/dev/null || true)
+
+            if [ -n "$DIFF" ]; then
+              echo "  ↳ Changes detected, updating..."
+              rm -rf "$DEST"
+              mkdir -p "$DEST"
+              cp -r "$SRC/." "$DEST/"
+              CHANGED=$((CHANGED + 1))
+              SUMMARY="$SUMMARY\n- \`$SKILL_ID\` synced from \`$UPSTREAM_REPO\`"
+            else
+              echo "  ↳ No changes."
+            fi
+
+            rm -rf "$TMP_DIR"
+          done <<< "$UPSTREAMS"
+
+          echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
+          # 保存 SUMMARY（多行需要用 EOF 语法）
+          {
+            echo "summary<<EOF"
+            echo -e "$SUMMARY"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Regenerate registry
+        if: steps.sync.outputs.changed != '0'
+        working-directory: web
+        run: npm run generate:registry
+
+      - name: Create Pull Request
+        if: steps.sync.outputs.changed != '0'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: chore/sync-upstream-skills
+          commit-message: "chore: sync upstream skills"
+          title: "chore: sync upstream skills"
+          body: |
+            由 `sync-upstream-skills` CI 自动同步以下第三方技能：
+
+            ${{ steps.sync.outputs.summary }}
+
+            请检查变更内容后合并。
+          labels: upstream-sync
+          delete-branch: true

@@ -46,6 +46,7 @@ interface SkillData {
   sourcePath: string;
   lastUpdated?: string;
   author?: string;
+  upstream?: string;
 }
 
 function stripQuotes(value: string): string {
@@ -426,6 +427,8 @@ async function main() {
 
         // Author (for third-party contributed skills)
         const author = getFrontmatterString(frontmatter, 'author') || undefined;
+        // Upstream repo (format: "owner/repo"), used by sync-upstream-skills CI
+        const upstream = getFrontmatterString(frontmatter, 'upstream') || undefined;
 
         const skillEntry: SkillData = {
           id,
@@ -443,6 +446,7 @@ async function main() {
           lastUpdated,
         };
         if (author) skillEntry.author = author;
+        if (upstream) skillEntry.upstream = upstream;
         skills.push(skillEntry);
         console.log(`✅ Loaded skill: ${id}`);
       } catch (e) {

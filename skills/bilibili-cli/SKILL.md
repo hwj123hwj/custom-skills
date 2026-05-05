@@ -2,6 +2,7 @@
 name: bilibili-cli
 description: CLI skill for Bilibili (哔哩哔哩, B站) with token-efficient YAML output for AI agents to browse videos, users, search, trending, dynamics, favorites, and interactions from the terminal
 author: jackwener
+upstream: jackwener/bilibili-cli
 version: "0.6.2"
 tags:
   - Bilibili
