@@ -1,5 +1,69 @@
 [
   {
+    "id": "academic-search",
+    "name": "academic-search",
+    "displayName": "Academic Search — 学术论文搜索",
+    "description": "学术论文搜索、引用分析与元数据提取。支持 arXiv、Semantic Scholar、Google Scholar、ACM DL、IEEE Xplore、PubMed、Papers with Code、CNKI（知网）、百度学术。触发词：搜论文、找论文、查论文、文献综述、顶会、引用数、BibTeX、知网、arXiv。",
+    "detailedDescription": "学术论文搜索与元数据提取专用 Skill，基于 CDP 浏览器自动化，支持多平台检索。",
+    "emoji": "📚",
+    "tags": [
+      "Research",
+      "Search",
+      "Academic"
+    ],
+    "scenarios": [
+      "搜索某个主题的学术论文",
+      "查询论文引用数和 BibTeX",
+      "在知网或百度学术检索中文文献"
+    ],
+    "aliases": [
+      "搜论文",
+      "文献综述",
+      "知网",
+      "arXiv",
+      "学术搜索"
+    ],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill academic-search",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/academic-search",
+    "sourcePath": "skills/academic-search",
+    "lastUpdated": "2026-05-05T00:00:00.000Z",
+    "author": "ustc-ai4science",
+    "upstream": "ustc-ai4science/academic-search",
+    "upstreamSha": "df71ccc5ceab5be4a0e1846a560455cec5349eff"
+  },
+  {
+    "id": "drawio-skill",
+    "name": "drawio-skill",
+    "displayName": "Draw.io Skill — 图表与架构图",
+    "description": "Use when user requests diagrams, flowcharts, architecture charts, or visualizations. Also use proactively when explaining systems with 3+ components, complex data flows, or relationships that benefit from visual representation. Generates .drawio XML files and exports to PNG/SVG/PDF locally using the native draw.io desktop CLI.",
+    "detailedDescription": "基于 draw.io 桌面 CLI 的本地图表生成技能，支持导出 PNG/SVG/PDF。",
+    "emoji": "📐",
+    "tags": [
+      "Diagram",
+      "Design",
+      "Visualization"
+    ],
+    "scenarios": [
+      "生成系统架构图",
+      "绘制流程图或 UML 类图",
+      "将 .drawio 文件导出为 PNG/SVG"
+    ],
+    "aliases": [
+      "画图",
+      "架构图",
+      "流程图",
+      "drawio",
+      "diagram"
+    ],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill drawio-skill",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/drawio-skill",
+    "sourcePath": "skills/drawio-skill",
+    "lastUpdated": "2026-05-05T00:00:00.000Z",
+    "author": "Agents365-ai",
+    "upstream": "Agents365-ai/drawio-skill",
+    "upstreamSha": "7b9d607d2cb343c8c8161488b4c22b238b7b8a25"
+  },
+  {
     "id": "asr",
     "name": "asr",
     "displayName": "ASR — 语音识别技能",
