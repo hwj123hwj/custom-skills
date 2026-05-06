@@ -92,19 +92,77 @@ author: your-github-id   # 第三方贡献时填写
 ```
 
 **Frontmatter 完整示例（第三方技能，需要同步上游）：**
+
+情况一：技能文件就在仓库根目录（`SKILL.md` 在根）
 ```markdown
 ---
 name: some-upstream-skill
 author: upstream-owner
 upstream: upstream-owner/repo-name        # CI 凭此每日拉取更新
 upstreamSha: <git rev-parse HEAD 的值>    # clone 后记录，CI 自动维护
-description: ...
+lastUpdated: "2026-01-01T00:00:00.000Z"  # 写死防止时间戳漂移
 tags:
-  - Utility
+  - Utility                               # 必须是白名单值，上游的自由格式 tag 需手动映射
+description: ...
 ---
 ```
 
-> `upstreamSha` 是三路合并的 base：CI 每次只合并该 SHA 之后的上游变更，你的本地修改会被保留，有冲突时会在 PR 中标注。
+情况二：技能在仓库的某个子目录下（如 `skills/officecli-docx/`）
+```markdown
+---
+name: officecli-docx
+author: upstream-owner
+upstream: upstream-owner/repo-name
+upstreamPath: skills/officecli-docx       # 指定技能在仓库中的子路径，CI 只同步这个目录
+upstreamSha: <git rev-parse HEAD 的值>
+lastUpdated: "2026-01-01T00:00:00.000Z"
+tags:
+  - Utility
+description: ...
+---
+```
+
+**`upstreamSha` 获取方式：**
+```bash
+# 如果能 clone（本地网络ok）：
+git clone --depth=1 https://github.com/owner/repo.git /tmp/repo
+git -C /tmp/repo rev-parse HEAD
+
+# 网络超时时走代理：
+ALL_PROXY=http://127.0.0.1:7890 git clone --depth=1 ...
+
+# 仓库太大 clone 超时，用 ls-remote（轻量）：
+git ls-remote https://github.com/owner/repo.git HEAD
+```
+
+> - `upstreamSha`：三路合并的 base，CI 每次只合并该 SHA 之后的上游变更，你的本地修改会被保留，有冲突时在 PR 中标注，之后由 CI 自动更新。
+> - `upstreamPath`：当技能不在仓库根目录时必须填写，否则 CI 找不到技能目录会跳过。
+> - `lastUpdated`：写死一个固定时间即可，防止每次 `make registry` 因 git-log 时间戳不同产生 diff。
+
+### 新增第三方技能完整流程
+
+```bash
+# 1. 获取上游 HEAD SHA（网络超时时加 ALL_PROXY=http://127.0.0.1:7890）
+git ls-remote https://github.com/owner/repo.git HEAD
+
+# 2. 创建技能目录，下载 SKILL.md
+mkdir -p skills/<skill-id>
+curl -fsSL https://raw.githubusercontent.com/owner/repo/main/path/to/SKILL.md \
+  -o skills/<skill-id>/SKILL.md
+# 网络不通时：
+curl -x http://127.0.0.1:7890 -fsSL ... -o skills/<skill-id>/SKILL.md
+
+# 3. 编辑 SKILL.md frontmatter，补充以下字段：
+#    - author, upstream, upstreamSha（步骤1拿到的SHA）
+#    - upstreamPath（技能不在仓库根目录时必填，如 "skills/officecli-docx"）
+#    - lastUpdated（写死当前时间，如 "2026-01-01T00:00:00.000Z"）
+#    - tags（必须映射到 ALLOWED_TAGS 白名单，上游自由格式不可直接使用）
+
+# 4. 生成、验证、暂存、提交
+make add
+git commit -m "feat: add <skill-id> (upstream: owner/repo)"
+git push
+```
 
 ### Python 脚本规范 (Python Coding Standards)
 
@@ -128,12 +186,12 @@ tags:
 修改 `SKILL.md` 后，**提交前必须按顺序执行：**
 
 ```bash
-make registry                        # 重新生成所有派生文件
-make validate                        # 本地验证，先过才推
-git add registry/skills.json web/src/data/skills-data.json README.md web/public/sitemap.xml
+make add        # 生成 + 验证 + 暂存所有必须提交的生成文件
 git commit -m "..."
 git push
 ```
+
+> `make add` 等价于 `make registry && make validate && git add registry/skills.json web/src/data/skills-data.json README.md web/public/sitemap.xml`。
 
 > **必须一起提交的生成文件**：`registry/skills.json`、`web/src/data/skills-data.json`、`README.md`、`web/public/sitemap.xml`。漏提交任何一个，CI 都会报 "Uncommitted changes in generated files"。
 > `web/index.html` 已从 CI 检查中排除（每次生成结果不稳定），无需手动提交。
