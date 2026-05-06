@@ -66,6 +66,7 @@ npm run dev
 | [media-analyze](./skills/media-analyze) | 媒体分析报告生成。 |
 | [memory-organizer](./skills/memory-organizer) | 长期记忆整理指南。 |
 | [mp-weixin-ops](./skills/mp-weixin-ops) | 微信公众号一站式运营 Skill。 |
+| [officecli-docx](./skills/officecli-docx) | Use this skill any time a .docx file is involved -- as input, output, or both. |
 | [rss-monitor](./skills/rss-monitor) | RSS 消息监控与智能摘要。 |
 | [short-drama-pipeline](./skills/short-drama-pipeline) | AI 短剧/短视频全链路生产技能。 |
 | [short-video-replicator](./skills/short-video-replicator) | 短视频爆款复刻一站式工具。 |

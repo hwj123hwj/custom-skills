@@ -47,6 +47,7 @@ interface SkillData {
   lastUpdated?: string;
   author?: string;
   upstream?: string;
+  upstreamPath?: string;
   upstreamSha?: string;
 }
 
@@ -430,6 +431,8 @@ async function main() {
         const author = getFrontmatterString(frontmatter, 'author') || undefined;
         // Upstream repo (format: "owner/repo"), used by sync-upstream-skills CI
         const upstream = getFrontmatterString(frontmatter, 'upstream') || undefined;
+        // Sub-path within the upstream repo where the skill lives (e.g. "skills/officecli-docx")
+        const upstreamPath = getFrontmatterString(frontmatter, 'upstreamPath') || undefined;
         // Last synced upstream commit SHA
         const upstreamSha = getFrontmatterString(frontmatter, 'upstreamSha') || undefined;
 
@@ -450,6 +453,7 @@ async function main() {
         };
         if (author) skillEntry.author = author;
         if (upstream) skillEntry.upstream = upstream;
+        if (upstreamPath) skillEntry.upstreamPath = upstreamPath;
         if (upstreamSha) skillEntry.upstreamSha = upstreamSha;
         skills.push(skillEntry);
         console.log(`✅ Loaded skill: ${id}`);

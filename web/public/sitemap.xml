@@ -85,6 +85,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://weijian.online/skill/officecli-docx</loc>
+    <lastmod>2026-05-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://weijian.online/skill/rss-monitor</loc>
     <lastmod>2026-04-21</lastmod>
     <changefreq>weekly</changefreq>

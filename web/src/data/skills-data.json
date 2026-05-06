@@ -308,6 +308,29 @@
     "lastUpdated": "2026-05-02T15:49:31.000Z"
   },
   {
+    "id": "officecli-docx",
+    "name": "officecli-docx",
+    "displayName": "OfficeCLI DOCX Skill",
+    "description": "Use this skill any time a .docx file is involved -- as input, output, or both. This includes: creating Word documents, reports, letters, memos, or proposals; reading, parsing, or extracting text from any .docx file; editing, modifying, or updating existing documents; working with templates, tracked changes, comments, headers/footers, or tables of contents. Trigger whenever the user mentions 'Word doc', 'document', 'report', 'letter', 'memo', or references a .docx filename.",
+    "detailedDescription": "Use this skill any time a .docx file is involved -- as input, output, or both. This includes: creating Word documents, reports, letters, memos, or proposals; reading, parsing, or extracting text from any .docx file; editing, modifying, or updating existing documents; working with templates, tracked changes, comments, headers/footers, or tables of contents. Trigger whenever the user mentions 'Word doc', 'document', 'report', 'letter', 'memo', or references a .docx filename.",
+    "emoji": "📦",
+    "tags": [
+      "CLI",
+      "Automation",
+      "Utility"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill officecli-docx",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/officecli-docx",
+    "sourcePath": "skills/officecli-docx",
+    "lastUpdated": "2026-05-06T08:32:48.060Z",
+    "author": "iOfficeAI",
+    "upstream": "iOfficeAI/OfficeCLI",
+    "upstreamPath": "skills/officecli-docx",
+    "upstreamSha": "14e897db285ac5e0ee1af0b8d165f81f7be636bc"
+  },
+  {
     "id": "rss-monitor",
     "name": "rss-monitor",
     "displayName": "RSS Monitor",

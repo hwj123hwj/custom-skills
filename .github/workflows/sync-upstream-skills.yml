@@ -41,7 +41,7 @@ jobs:
           SUMMARY=""
           CONFLICT_SUMMARY=""
 
-          # 从各技能的 SKILL.md frontmatter 读取 upstream 和 upstreamSha
+          # 从各技能的 SKILL.md frontmatter 读取 upstream / upstreamPath / upstreamSha
           UPSTREAMS=$(node -e "
             const fs = require('fs');
             const path = require('path');
@@ -52,11 +52,13 @@ jobs:
               if (!fs.existsSync(skillMd)) continue;
               const content = fs.readFileSync(skillMd, 'utf8');
               const upstreamMatch = content.match(/^upstream:\s*(.+)$/m);
+              const pathMatch = content.match(/^upstreamPath:\s*(.+)$/m);
               const shaMatch = content.match(/^upstreamSha:\s*(.+)$/m);
               if (upstreamMatch) {
                 const upstream = upstreamMatch[1].trim();
+                const upstreamPath = pathMatch ? pathMatch[1].trim() : '';
                 const sha = shaMatch ? shaMatch[1].trim() : '';
-                console.log(dir + ' ' + upstream + ' ' + sha);
+                console.log(dir + ' ' + upstream + ' ' + sha + ' ' + upstreamPath);
               }
             }
           ")
@@ -66,7 +68,7 @@ jobs:
             exit 0
           fi
 
-          while IFS=' ' read -r SKILL_ID UPSTREAM_REPO LAST_SHA; do
+          while IFS=' ' read -r SKILL_ID UPSTREAM_REPO LAST_SHA UPSTREAM_PATH; do
             echo "▶ Syncing $SKILL_ID from $UPSTREAM_REPO (base: ${LAST_SHA:-none}) ..."
 
             TMP_NEW=$(mktemp -d)
@@ -80,7 +82,10 @@ jobs:
             }
 
             # 确定上游的技能目录
-            if [ -d "$TMP_NEW/.claude/skills/$SKILL_ID" ]; then
+            # 确定上游的技能目录（优先 upstreamPath，其次约定路径）
+            if [ -n "$UPSTREAM_PATH" ] && [ -d "$TMP_NEW/$UPSTREAM_PATH" ]; then
+              SRC_NEW="$TMP_NEW/$UPSTREAM_PATH"
+            elif [ -d "$TMP_NEW/.claude/skills/$SKILL_ID" ]; then
               SRC_NEW="$TMP_NEW/.claude/skills/$SKILL_ID"
             elif [ -f "$TMP_NEW/SKILL.md" ]; then
               SRC_NEW="$TMP_NEW"
@@ -108,7 +113,9 @@ jobs:
               git clone "https://github.com/$UPSTREAM_REPO.git" "$TMP_BASE" --no-checkout 2>&1 || true
               git -C "$TMP_BASE" checkout "$LAST_SHA" -- . 2>/dev/null || true
               # 确定 base 目录
-              if [ -d "$TMP_BASE/.claude/skills/$SKILL_ID" ]; then
+              if [ -n "$UPSTREAM_PATH" ] && [ -d "$TMP_BASE/$UPSTREAM_PATH" ]; then
+                SRC_BASE="$TMP_BASE/$UPSTREAM_PATH"
+              elif [ -d "$TMP_BASE/.claude/skills/$SKILL_ID" ]; then
                 SRC_BASE="$TMP_BASE/.claude/skills/$SKILL_ID"
               elif [ -f "$TMP_BASE/SKILL.md" ]; then
                 SRC_BASE="$TMP_BASE"
