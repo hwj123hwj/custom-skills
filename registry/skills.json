@@ -143,40 +143,6 @@
     "upstreamSha": "7b9d607d2cb343c8c8161488b4c22b238b7b8a25"
   },
   {
-    "id": "edgeone-pages-deploy",
-    "name": "edgeone-pages-deploy",
-    "displayName": "EdgeOne Pages Deployment Skill",
-    "description": ">-",
-    "detailedDescription": "Deploy any project to **EdgeOne Pages**.",
-    "emoji": "📦",
-    "tags": [
-      "Utility"
-    ],
-    "scenarios": [],
-    "aliases": [],
-    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill edgeone-pages-deploy",
-    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/edgeone-pages-deploy",
-    "sourcePath": "skills/edgeone-pages-deploy",
-    "lastUpdated": "2026-05-05T15:37:22.946Z"
-  },
-  {
-    "id": "edgeone-pages-dev",
-    "name": "edgeone-pages-dev",
-    "displayName": "EdgeOne Pages Development Guide",
-    "description": ">-",
-    "detailedDescription": "Develop full-stack applications on **EdgeOne Pages** — Edge Functions, Cloud Functions (Node.js / Go / Python), and Middleware.",
-    "emoji": "📦",
-    "tags": [
-      "Utility"
-    ],
-    "scenarios": [],
-    "aliases": [],
-    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill edgeone-pages-dev",
-    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/edgeone-pages-dev",
-    "sourcePath": "skills/edgeone-pages-dev",
-    "lastUpdated": "2026-05-05T15:37:22.981Z"
-  },
-  {
     "id": "idea-incubator",
     "name": "idea-incubator",
     "displayName": "Idea Incubator",
