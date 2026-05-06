@@ -136,8 +136,7 @@ jobs:
                 # 三路合并：base=上次上游, ours=本地, theirs=最新上游
                 MERGE_TMP=$(mktemp)
                 cp "$LOCAL_FILE" "$MERGE_TMP"
-                git merge-file "$MERGE_TMP" "$BASE_FILE" "$NEW_FILE" 2>/dev/null
-                EXIT_CODE=$?
+                git merge-file "$MERGE_TMP" "$BASE_FILE" "$NEW_FILE" 2>/dev/null; EXIT_CODE=$?
                 if [ $EXIT_CODE -eq 0 ]; then
                   if ! diff -q "$MERGE_TMP" "$LOCAL_FILE" > /dev/null 2>&1; then
                     cp "$MERGE_TMP" "$LOCAL_FILE"
