@@ -110,6 +110,29 @@
     "author": "jackwener"
   },
   {
+    "id": "brainstorming",
+    "name": "brainstorming",
+    "displayName": "Brainstorming Ideas Into Designs",
+    "description": "You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before implementation.",
+    "detailedDescription": "Help turn ideas into fully formed designs and specs through natural collaborative dialogue.",
+    "emoji": "📦",
+    "tags": [
+      "Planning",
+      "Product",
+      "Productivity"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill brainstorming",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/brainstorming",
+    "sourcePath": "skills/brainstorming",
+    "lastUpdated": "2026-05-06T09:00:00.000Z",
+    "author": "obra",
+    "upstream": "obra/superpowers",
+    "upstreamPath": "skills/brainstorming",
+    "upstreamSha": "f2cbfbefebbfef77321e4c9abc9e949826bea9d7"
+  },
+  {
     "id": "drawio-skill",
     "name": "drawio-skill",
     "displayName": "Draw.io Diagrams",

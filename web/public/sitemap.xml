@@ -37,6 +37,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://weijian.online/skill/brainstorming</loc>
+    <lastmod>2026-05-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://weijian.online/skill/drawio-skill</loc>
     <lastmod>2026-05-05</lastmod>
     <changefreq>weekly</changefreq>
