@@ -53,7 +53,7 @@ npm run dev
 <!-- SKILL_TABLE:START -->
 | 技能 | 说明 |
 |------|------|
-| [academic-search](./skills/academic-search) | 学术论文搜索、引用分析与元数据提取专用 Skill。 |
+| [academic-search](./skills/academic-search) | 学术论文搜索、引用分析、开放获取 PDF 判定与结构化元数据提取专用 Skill。 |
 | [asr](./skills/asr) | Unified ASR (Speech Recognition) skill with pluggable providers (strategy pattern). |
 | [bilibili-cli](./skills/bilibili-cli) | CLI skill for Bilibili (哔哩哔哩, B站) with token-efficient YAML output for AI agents to browse videos... |
 | [bjtuo-classroom-query](./skills/bjtuo-classroom-query) | 北京交通大学（BJTU）教室综合查询。 |

@@ -3,8 +3,8 @@
     "id": "academic-search",
     "name": "academic-search",
     "displayName": "academic-search Skill",
-    "description": "学术论文搜索、引用分析与元数据提取专用 Skill。",
-    "detailedDescription": "学术论文搜索、引用分析与元数据提取专用 Skill。",
+    "description": "学术论文搜索、引用分析、开放获取 PDF 判定与结构化元数据提取专用 Skill。Use when the user asks to search/find papers, do literature review/survey/systematic review/PRISMA work, get citation counts, export BibTeX/RIS-style references, find papers by author, inspect PDF/open-access availability, or work with arXiv, Semantic Scholar, OpenAlex, Crossref, Unpaywall, PubMed, Google Scholar, ACM DL, IEEE Xplore, Papers with Code, CNKI, ScienceDirect, Wiley, Springer, ACS, MeSH, JEL, MSC, or ACM CCS.",
+    "detailedDescription": "学术论文搜索、引用分析、开放获取 PDF 判定与结构化元数据提取专用 Skill。Use when the user asks to search/find papers, do literature review/survey/systematic review/PRISMA work, get citation counts, export BibTeX/RIS-style references, find papers by author, inspect PDF/open-access availability, or work with arXiv, Semantic Scholar, OpenAlex, Crossref, Unpaywall, PubMed, Google Scholar, ACM DL, IEEE Xplore, Papers with Code, CNKI, ScienceDirect, Wiley, Springer, ACS, MeSH, JEL, MSC, or ACM CCS.",
     "emoji": "📦",
     "tags": [
       "Utility"
@@ -14,10 +14,10 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill academic-search",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/academic-search",
     "sourcePath": "skills/academic-search",
-    "lastUpdated": "2026-05-05T15:40:12.000Z",
+    "lastUpdated": "2026-05-06T07:45:20.000Z",
     "author": "ustc-ai4science",
     "upstream": "ustc-ai4science/academic-search",
-    "upstreamSha": "df71ccc5ceab5be4a0e1846a560455cec5349eff"
+    "upstreamSha": "91588a420966ec7253a2718365b7439a7e3d805a"
   },
   {
     "id": "asr",
@@ -52,22 +52,15 @@
     "tags": [
       "Bilibili",
       "Video",
-      "CLI"
+      "Social"
     ],
     "scenarios": [],
-    "aliases": [
-      "B站",
-      "bilibili",
-      "哔哩哔哩",
-      "UP主",
-      "视频"
-    ],
+    "aliases": [],
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill bilibili-cli",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/bilibili-cli",
     "sourcePath": "skills/bilibili-cli",
-    "lastUpdated": "2026-05-05T01:06:45.000Z",
-    "author": "jackwener",
-    "upstream": "jackwener/bilibili-cli"
+    "lastUpdated": "2026-05-06T06:46:20.000Z",
+    "author": "jackwener"
   },
   {
     "id": "bjtuo-classroom-query",
@@ -105,22 +98,16 @@
     "emoji": "📦",
     "tags": [
       "Recruitment",
-      "Social",
-      "CLI"
+      "CLI",
+      "Automation"
     ],
     "scenarios": [],
-    "aliases": [
-      "招聘",
-      "BOSS直聘",
-      "找工作",
-      "投简历"
-    ],
+    "aliases": [],
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill boss-cli",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/boss-cli",
     "sourcePath": "skills/boss-cli",
-    "lastUpdated": "2026-05-05T01:06:45.000Z",
-    "author": "jackwener",
-    "upstream": "jackwener/boss-cli"
+    "lastUpdated": "2026-05-06T06:46:20.000Z",
+    "author": "jackwener"
   },
   {
     "id": "drawio-skill",
@@ -137,7 +124,7 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill drawio-skill",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/drawio-skill",
     "sourcePath": "skills/drawio-skill",
-    "lastUpdated": "2026-05-05T15:40:12.000Z",
+    "lastUpdated": "2026-05-05T15:45:55.000Z",
     "author": "Agents365-ai",
     "upstream": "Agents365-ai/drawio-skill",
     "upstreamSha": "7b9d607d2cb343c8c8161488b4c22b238b7b8a25"
@@ -638,20 +625,14 @@
     "tags": [
       "Xiaohongshu",
       "Social",
-      "CLI"
+      "Content"
     ],
     "scenarios": [],
-    "aliases": [
-      "小红书",
-      "笔记",
-      "种草",
-      "xhs"
-    ],
+    "aliases": [],
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill xiaohongshu-cli",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/xiaohongshu-cli",
     "sourcePath": "skills/xiaohongshu-cli",
-    "lastUpdated": "2026-05-05T01:06:45.000Z",
-    "author": "jackwener",
-    "upstream": "jackwener/xiaohongshu-cli"
+    "lastUpdated": "2026-05-06T06:46:20.000Z",
+    "author": "jackwener"
   }
 ]

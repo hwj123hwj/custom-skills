@@ -4,11 +4,9 @@ description: Use xiaohongshu-cli for ALL Xiaohongshu (Little Red Book, 小红书
 author: jackwener
 version: "0.6.4"
 tags:
-  - xiaohongshu
-  - xhs
-  - redbook
-  - 小红书
-  - social-media
+  - Xiaohongshu
+  - Social
+  - Content
   - cli
 ---
 upstreamSha: 4d63f3c0c85ccd9054fa8e96d7f761aaf2507449

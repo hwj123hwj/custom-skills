@@ -4,11 +4,9 @@ description: Use boss-cli for ALL BOSS 直聘 operations — searching jobs, vie
 author: jackwener
 version: "0.3.0"
 tags:
-  - boss
-  - zhipin
-  - boss直聘
-  - job-search
-  - recruitment
+  - Recruitment
+  - CLI
+  - Automation
   - cli
 ---
 upstreamSha: dcd8331c5e9a3991d6d1ba01f2276c12339fe882
