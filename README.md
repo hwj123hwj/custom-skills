@@ -5,28 +5,37 @@ A personal AI skill registry built around `SKILL.md` as the single source of tru
 ## Quick Install (Claude Code)
 
 ```bash
-npx custom-skills install <skill-id>
+# Install to current project (.claude/skills/<id>/)
+npx custom-skills install <skill-id> --claude
+
+# Install globally (~/.claude/skills/<id>/)
+npx custom-skills install <skill-id> --claude --global
+
+# Install an agent + all its dependent skills
+npx custom-skills install <agent-id> --agent
+npx custom-skills install <agent-id> --agent --global
 ```
 
-This pulls the skill into your local `.claude/skills/` directory so Claude Code picks it up automatically.
+## Browse & Search
 
 ```bash
-# Browse available skills
+# List all available skills
 npx custom-skills list
 
 # Search by keyword
 npx custom-skills search <keyword>
 
-# Install a specific skill
-npx custom-skills install tavily
-npx custom-skills install brainstorming
+# View skill details
+npx custom-skills info <skill-id>
 ```
 
-## Also Compatible: OpenClaw / Other Agents
-
-The standard `skills` CLI (Vercel ecosystem) is also supported:
+## OpenClaw Compatible
 
 ```bash
+# Install to ~/.openclaw/workspace/skills/ (OpenClaw default)
+npx custom-skills install <skill-id>
+
+# Or use the standard skills CLI
 npx skills add https://github.com/hwj123hwj/custom-skills --skill <skill-id>
 ```
 
