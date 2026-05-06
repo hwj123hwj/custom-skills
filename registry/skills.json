@@ -59,7 +59,7 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill bilibili-cli",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/bilibili-cli",
     "sourcePath": "skills/bilibili-cli",
-    "lastUpdated": "2026-05-06T06:46:20.000Z",
+    "lastUpdated": "2026-05-06T08:13:58.000Z",
     "author": "jackwener"
   },
   {
@@ -106,7 +106,7 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill boss-cli",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/boss-cli",
     "sourcePath": "skills/boss-cli",
-    "lastUpdated": "2026-05-06T06:46:20.000Z",
+    "lastUpdated": "2026-05-06T08:13:58.000Z",
     "author": "jackwener"
   },
   {
@@ -632,7 +632,7 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill xiaohongshu-cli",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/xiaohongshu-cli",
     "sourcePath": "skills/xiaohongshu-cli",
-    "lastUpdated": "2026-05-06T06:46:20.000Z",
+    "lastUpdated": "2026-05-06T08:13:58.000Z",
     "author": "jackwener"
   }
 ]
