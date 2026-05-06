@@ -2,18 +2,16 @@
 name: boss-cli
 description: Use boss-cli for ALL BOSS 直聘 operations — searching jobs, viewing recommendations, managing applications, chatting with recruiters, and batch greeting. Invoke whenever the user requests any job search or recruitment platform interaction on BOSS 直聘.
 author: jackwener
-upstream: jackwener/boss-cli
 version: "0.3.0"
 tags:
-  - Recruitment
-  - Social
-  - CLI
-aliases:
-  - 招聘
-  - BOSS直聘
-  - 找工作
-  - 投简历
+  - boss
+  - zhipin
+  - boss直聘
+  - job-search
+  - recruitment
+  - cli
 ---
+upstreamSha: dcd8331c5e9a3991d6d1ba01f2276c12339fe882
 
 # boss-cli — BOSS 直聘 CLI Tool
 

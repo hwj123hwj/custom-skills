@@ -125,6 +125,115 @@ curl -s "https://api.semanticscholar.org/graph/v1/paper/{paper_id}/references?fi
 
 ---
 
+## Crossref
+
+**根 URL**：`https://api.crossref.org`  
+**鉴权**：无需；建议在请求中带 `mailto` 参数  
+**格式**：JSON  
+**适用**：跨学科 DOI、期刊、出版商、ISSN、参考文献基础核对
+
+```bash
+# 按 DOI 查询单篇
+curl -s "https://api.crossref.org/works/10.1038/nature12373?mailto=your@email.com"
+
+# 关键词搜索
+curl -s "https://api.crossref.org/works?query.title=graph+neural+network&rows=10&mailto=your@email.com"
+
+# 期刊 ISSN 查询
+curl -s "https://api.crossref.org/journals/2041-1723/works?rows=10&mailto=your@email.com"
+```
+
+**响应字段映射**：
+
+| JSON 字段 | 标准字段 |
+|-----------|---------|
+| `message.title[0]` | title |
+| `message.author[].given/family` | authors[] |
+| `message.published-print.date-parts` / `published-online` | publication_date / year |
+| `message.container-title[0]` | venue |
+| `message.DOI` | doi |
+| `message.type` | publication_type |
+| `message.ISSN[]` | issn |
+| `message.ISBN[]` | isbn |
+| `message.license[].URL` | license |
+
+**注意**：Crossref 不保证摘要和 PDF。它适合作为 DOI/出版信息的权威补全，不应替代全文获取。
+
+---
+
+## OpenAlex
+
+**根 URL**：`https://api.openalex.org`  
+**鉴权**：无需；建议带 `mailto` 参数  
+**格式**：JSON  
+**适用**：跨学科作者、机构、概念、引用关系和开放获取状态补充
+
+```bash
+# 关键词搜索
+curl -s "https://api.openalex.org/works?search=large+language+models&per-page=10&mailto=your@email.com"
+
+# 按 DOI 查询
+curl -s "https://api.openalex.org/works/https://doi.org/10.1038/nature12373?mailto=your@email.com"
+
+# 作者搜索
+curl -s "https://api.openalex.org/authors?search=Yann+LeCun&per-page=10&mailto=your@email.com"
+```
+
+**响应字段映射**：
+
+| JSON 字段 | 标准字段 |
+|-----------|---------|
+| `title` | title |
+| `authorships[].author.display_name` | authors[] |
+| `publication_year` | year |
+| `publication_date` | publication_date |
+| `primary_location.source.display_name` | venue |
+| `doi` | doi |
+| `type` | publication_type |
+| `cited_by_count` | citation_count |
+| `open_access.oa_status` | open_access_status |
+| `primary_location.pdf_url` | pdf_url |
+
+**注意**：OpenAlex 的概念分类适合跨学科召回，但具体期刊/会议质量仍应按 discipline profile 判断。
+
+---
+
+## Unpaywall
+
+**根 URL**：`https://api.unpaywall.org/v2`  
+**鉴权**：无需；必须带 email 参数  
+**格式**：JSON  
+**适用**：开放获取状态、合法 OA PDF 链接、出版商访问限制判定
+
+```bash
+# 按 DOI 查询开放获取状态
+curl -s "https://api.unpaywall.org/v2/10.1038/nature12373?email=your@email.com"
+```
+
+**响应字段映射**：
+
+| JSON 字段 | 标准字段 |
+|-----------|---------|
+| `doi` | doi |
+| `title` | title |
+| `year` | year |
+| `journal_name` | venue |
+| `is_oa` + `oa_status` | open_access_status |
+| `best_oa_location.url_for_pdf` | pdf_url |
+| `best_oa_location.license` | license |
+
+**full_text_status 判定**：
+
+| 条件 | 状态 |
+|------|------|
+| `best_oa_location.url_for_pdf` 存在且响应为 PDF | `open_pdf` |
+| `is_oa=false` | `no_open_pdf` |
+| 出版商页面存在但 PDF 需要登录/订阅 | `needs_institution` |
+| PDF URL 返回 HTML | `html_not_pdf` |
+| 403、Cloudflare、验证码 | `anti_bot_blocked` |
+
+---
+
 ## PubMed（NCBI E-utilities）
 
 **根 URL**：`https://eutils.ncbi.nlm.nih.gov/entrez/eutils/`  

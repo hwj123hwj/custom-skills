@@ -11,16 +11,34 @@
   "title": "Attention Is All You Need",
   "authors": ["Ashish Vaswani", "Noam Shazeer", "Niki Parmar"],
   "year": 2017,
+  "publication_date": "2017-06-12",
+  "publication_type": "conference",
   "venue": "NeurIPS 2017",
   "doi": "10.5555/3295222.3295349",
   "arxiv_id": "1706.03762",
   "pubmed_id": null,
+  "pmcid": null,
+  "orcid": [],
+  "issn": null,
+  "isbn": null,
   "cnki_url": null,
   "abstract": "The dominant sequence transduction models...",
   "keywords": [],
+  "mesh_terms": [],
+  "jel_codes": [],
+  "msc_codes": [],
+  "acm_ccs": [],
+  "study_type": null,
+  "sample_size": null,
+  "population": null,
   "citation_count": 90000,
   "download_count": null,
+  "open_access_status": "green",
+  "license": null,
+  "full_text_status": "open_pdf",
   "pdf_url": "https://arxiv.org/pdf/1706.03762",
+  "data_availability": null,
+  "code_url": null,
   "bibtex": "@inproceedings{vaswani2017attention,...}",
   "source_platforms": ["arxiv", "semanticscholar"],
   "fetched_at": "2026-04-01"
@@ -34,16 +52,34 @@
 | `title` | string | 是 | 论文标题，保留原始大小写 |
 | `authors` | string[] | 是 | 作者列表。优先使用可直接展示的自然人姓名；若来源仅提供缩写且无法可靠还原，允许保留原格式（如 PubMed 的 `Smith JA`） |
 | `year` | integer | 是 | 发表年份（4 位整数） |
+| `publication_date` | string | 否 | 发表日期，ISO 8601 格式；预印本、医学文献优先保留到日 |
+| `publication_type` | string | 否 | 文献类型，如 `journal-article`、`conference`、`preprint`、`review`、`clinical-trial`、`book-chapter`、`working-paper` |
 | `venue` | string | 否 | 会议/期刊名称，包含年份（如 `NeurIPS 2017`） |
 | `doi` | string | 否 | 全局唯一标识，格式 `10.xxx/xxx` |
 | `arxiv_id` | string | 否 | arXiv ID，仅数字+点格式（如 `1706.03762`） |
 | `pubmed_id` | string | 否 | PubMed PMID |
+| `pmcid` | string | 否 | PubMed Central 全文 ID |
+| `orcid` | string[] | 否 | 作者 ORCID 列表，用于作者消歧 |
+| `issn` | string | 否 | 期刊 ISSN |
+| `isbn` | string | 否 | 图书或章节 ISBN |
 | `cnki_url` | string | 否 | CNKI 论文详情页 URL（知网特有，格式 `https://kns.cnki.net/kcms2/article/abstract?v=...`） |
 | `abstract` | string | 否 | 摘要原文 |
 | `keywords` | string[] | 否 | 关键词列表（知网、部分期刊平台提供） |
+| `mesh_terms` | string[] | 否 | 医学主题词 |
+| `jel_codes` | string[] | 否 | 经济学 JEL 分类 |
+| `msc_codes` | string[] | 否 | 数学 MSC 分类 |
+| `acm_ccs` | string[] | 否 | 计算机 ACM CCS 分类 |
+| `study_type` | string | 否 | 医学/社科研究类型，如 RCT、cohort、case-control、survey、qualitative |
+| `sample_size` | integer | 否 | 研究样本量 |
+| `population` | string | 否 | 研究对象、人群或样本来源 |
 | `citation_count` | integer | 否 | 引用数（来自 Scholar 或 Semantic Scholar） |
 | `download_count` | integer | 否 | 下载次数（CNKI 特有字段，其他平台为 null） |
+| `open_access_status` | string | 否 | 开放获取状态，如 `gold`、`green`、`hybrid`、`bronze`、`closed`、`unknown` |
+| `license` | string | 否 | 开放许可，如 `cc-by`、`cc-by-nc` |
+| `full_text_status` | string | 否 | 全文访问状态：`open_pdf`、`needs_institution`、`no_open_pdf`、`anti_bot_blocked`、`html_not_pdf`、`unknown` |
 | `pdf_url` | string | 否 | 可公开访问的 PDF 直链 |
+| `data_availability` | string | 否 | 数据可得性说明或数据链接 |
+| `code_url` | string | 否 | 代码仓库链接 |
 | `bibtex` | string | 否 | BibTeX 格式引用 |
 | `source_platforms` | string[] | 是 | 数据来源平台列表（含 `"cnki"` 时表示来自知网） |
 | `fetched_at` | string | 是 | 抓取日期，ISO 8601 格式（YYYY-MM-DD） |
@@ -96,12 +132,17 @@
 | 字段 | 优先来源 |
 |------|---------|
 | `citation_count` | Google Scholar > Semantic Scholar > CNKI > 其他 |
-| `pdf_url` | arXiv > Semantic Scholar openAccessPdf > CNKI > 其他 |
+| `open_access_status` | Unpaywall > 出版商页面 > OpenAlex > 其他 |
+| `full_text_status` | 实际下载/访问验证结果 > Unpaywall > 出版商页面 > 其他 |
+| `pdf_url` | arXiv > Semantic Scholar openAccessPdf > Unpaywall > CNKI > 其他 |
 | `abstract` | Semantic Scholar > arXiv > CNKI > ACM/IEEE |
 | `venue` | ACM DL > IEEE > CNKI > Semantic Scholar > arXiv |
 | `doi` | ACM DL > IEEE > CNKI > Semantic Scholar > arXiv |
 | `bibtex` | ACM DL > arXiv > 拼装生成 |
-| `keywords` | CNKI > 其他平台（若其他平台不提供则仅来自 CNKI） |
+| `keywords` | CNKI > 出版商页面 > 其他平台 |
+| `mesh_terms` | PubMed / Europe PMC |
+| `jel_codes` | RePEc / Crossref / 出版商页面 |
+| `code_url` | Papers with Code > 论文官方页面 > GitHub 链接 |
 | `download_count` | 仅 CNKI 提供，无需合并 |
 
 ### 合并示例
