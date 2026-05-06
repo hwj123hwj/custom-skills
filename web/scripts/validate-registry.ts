@@ -189,6 +189,19 @@ function main(): void {
 
   console.log(`✅ Registry validation passed for ${registry.length} skills`);
 
+  // ── i18n 覆盖率检查 ──────────────────────────────────────────────────────
+  const I18N_PATH = path.resolve(ROOT_DIR, 'web/src/i18n/skill-descriptions.ts');
+  if (fs.existsSync(I18N_PATH)) {
+    const i18nContent = fs.readFileSync(I18N_PATH, 'utf-8');
+    const missingI18n = registryIds.filter((id) => !i18nContent.includes(`'${id}'`));
+    if (missingI18n.length > 0) {
+      fail(
+        `以下技能缺少中文描述（web/src/i18n/skill-descriptions.ts）：\n  ${missingI18n.join(', ')}\n请在 skillDescriptionsZh 中补充对应条目。`
+      );
+    }
+    console.log(`✅ i18n coverage check passed (${registryIds.length} skills)`);
+  }
+
   // ── Agent 校验（agents-data.json 存在时才校验）────────────────────────────
   const AGENTS_DATA_PATH = path.resolve(ROOT_DIR, 'web/src/data/agents-data.json');
   if (fs.existsSync(AGENTS_DATA_PATH)) {

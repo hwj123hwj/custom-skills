@@ -9,8 +9,16 @@
 
 export const skillDescriptionsZh: Record<string, string> = {
   // ── 原本英文 description 的技能 ──
+  'drawio-skill':
+    '流程图与架构图绘制。当用户需要绘制流程图、架构图、时序图或其他可视化图表时使用；也可在解释含 3 个以上组件的系统、复杂数据流或关系时主动调用。生成 .drawio XML 文件并通过本地 draw.io 桌面 CLI 导出为 PNG/SVG/PDF。',
+  'officecli-docx':
+    'Word 文档全能处理工具（.docx）。凡涉及 .docx 文件的场景均使用：创建 Word 文档、报告、信函、备忘录或提案；读取/解析/提取已有 .docx 内容；编辑/修改文档；处理模板、批注、页眉页脚或目录。触发词：Word 文档、生成报告、写信函、.docx 文件名。',
+  'academic-search':
+    '学术论文搜索与元数据提取。支持 arXiv、Semantic Scholar、Google Scholar、ACM DL、IEEE Xplore、PubMed、Papers with Code、CNKI（知网）、百度学术等多平台检索。触发词：搜论文、找论文、文献综述、顶会、引用数、BibTeX、知网。',
   'asr':
     '统一语音识别（ASR）技能，基于策略模式，支持可插拔 Provider（SiliconFlow）。用于将音频/视频文件转录为文字。触发词：转录、识别语音、语音转文字、ASR。可通过 ffmpeg 自动从视频中提取音频。',
+  'brainstorming':
+    '创意头脑风暴与方案设计。在开发新功能、构建组件或修改行为之前必须使用。通过对话探索用户意图、厘清需求和设计方案，确保实现前已形成共识。触发词：想法讨论、方案设计、功能规划、需求分析。',
   'bilibili-cli':
     'B站（哔哩哔哩）CLI 技能，YAML 输出对 AI Agent 更高效。支持视频信息、用户主页、搜索、热门排行、动态、收藏夹以及点赞三连等互动操作。',
   'boss-cli':

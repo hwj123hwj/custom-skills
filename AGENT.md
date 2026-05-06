@@ -158,7 +158,10 @@ curl -x http://127.0.0.1:7890 -fsSL ... -o skills/<skill-id>/SKILL.md
 #    - lastUpdated（写死当前时间，如 "2026-01-01T00:00:00.000Z"）
 #    - tags（必须映射到 ALLOWED_TAGS 白名单，上游自由格式不可直接使用）
 
-# 4. 生成、验证、暂存、提交
+# 4. 在 web/src/i18n/skill-descriptions.ts 的 skillDescriptionsZh 中补充中文描述
+#    （CI 会检查覆盖率，漏填会报红）
+
+# 5. 生成、验证、暂存、提交
 make add
 git commit -m "feat: add <skill-id> (upstream: owner/repo)"
 git push
