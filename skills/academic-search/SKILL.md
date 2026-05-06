@@ -345,11 +345,7 @@ curl -s "http://127.0.0.1:${CDP_PROXY_PORT:-3456}/close?target=$TARGET"
 
 操作中积累的特定网站经验，按域名存储在 `references/site-patterns/` 下。
 
-<<<<<<< /tmp/tmp.GGvfbQ3ET8
-已预置经验的平台：arXiv、Semantic Scholar、Google Scholar、ACM DL、IEEE Xplore、PubMed、Papers with Code、CNKI（知网）、百度学术
-=======
-已预置经验的平台：arXiv、Semantic Scholar、Google Scholar、ACM DL、IEEE Xplore、PubMed、Papers with Code、CNKI（知网），以及 ScienceDirect、Wiley、Springer、ACS 等主要出版商访问限制。
->>>>>>> /tmp/tmp.2xNRXPQuBy/SKILL.md
+已预置经验的平台：arXiv、Semantic Scholar、Google Scholar、ACM DL、IEEE Xplore、PubMed、Papers with Code、CNKI（知网）、百度学术，以及 ScienceDirect、Wiley、Springer、ACS 等主要出版商访问限制。
 
 确定目标平台后，**必须**读取对应文件获取先验知识（平台特征、有效模式、已知陷阱）。经验内容标注发现日期，当作**可能有效的提示，不是保证正确的事实**——按经验操作失败时，回退通用模式，并**更新经验文件**（记录失败原因和发现日期）。操作成功后若发现了新模式或陷阱，同样主动写入。
 
