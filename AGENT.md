@@ -69,6 +69,8 @@ Bilibili, WeChat, Weibo, Xiaohongshu
 
 > 需要新增 tag 时，先在 `web/scripts/validate-registry.ts` 的 `ALLOWED_TAGS` 中注册，再使用。
 
+> **第三方技能注意**：上游 SKILL.md 的 tags 往往是自由格式（小写、中文、带连字符），同步进来后**必须手动改成白名单值**，否则 CI 报红。如果上游 tags 找不到合适的对应值，统一用 `Utility` 兜底。
+
 **Frontmatter 完整示例（自有技能）：**
 ```markdown
 ---
@@ -123,31 +125,31 @@ tags:
 
 ## 3. 生成与验证注册表 (Registry Generation & Validation)
 
-修改 `SKILL.md` 后，**提交前必须运行：**
+修改 `SKILL.md` 后，**提交前必须按顺序执行：**
 
 ```bash
-cd web && npm run generate:registry
+make registry                        # 重新生成所有派生文件
+make validate                        # 本地验证，先过才推
+git add registry/skills.json web/src/data/skills-data.json README.md web/public/sitemap.xml
+git commit -m "..."
+git push
 ```
 
-或直接用项目根目录的快捷命令（推荐）：
+> **必须一起提交的生成文件**：`registry/skills.json`、`web/src/data/skills-data.json`、`README.md`、`web/public/sitemap.xml`。漏提交任何一个，CI 都会报 "Uncommitted changes in generated files"。
+> `web/index.html` 已从 CI 检查中排除（每次生成结果不稳定），无需手动提交。
 
-```bash
-make registry   # 重新生成 registry
-make validate   # 验证 registry 一致性（CI 也会自动执行）
-```
-
-`make registry` 会同时更新以下 4 个文件：
+`make registry` 会同时更新以下文件：
 - `registry/skills.json` — 技能索引
 - `web/src/data/skills-data.json` — Web 静态镜像
 - `README.md` — 技能列表表格
-- `web/index.html` — SEO 元数据注入
+- `web/public/sitemap.xml` — SEO sitemap
 
 新增技能时，还需在 `web/src/i18n/skill-descriptions.ts` 的 `skillDescriptionsZh` 中补充中文描述（见第 6 节）。
 
 验证 registry 一致性（CI 会自动执行，本地也可手动跑）：
 
 ```bash
-cd web && npm run validate:registry
+make validate
 ```
 
 **如果忘记重新生成，GitHub CI 会因文件变更未同步而报错。**
