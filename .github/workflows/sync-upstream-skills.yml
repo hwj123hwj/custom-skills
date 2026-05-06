@@ -34,7 +34,7 @@ jobs:
       - name: Sync upstream skills
         id: sync
         run: |
-          set -e
+          set -o pipefail
 
           CHANGED=0
           CONFLICTS=0
