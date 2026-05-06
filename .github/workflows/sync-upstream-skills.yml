@@ -127,11 +127,30 @@ jobs:
               # 确保目标目录存在
               mkdir -p "$(dirname "$LOCAL_FILE")"
 
+              # 判断是否为二进制文件（图片/字体/压缩包等不做 merge，直接用上游版本）
+              case "$REL_FILE" in
+                *.png|*.jpg|*.jpeg|*.gif|*.webp|*.ico|*.svg|*.pdf|\
+                *.zip|*.tar|*.gz|*.tgz|*.bz2|*.xz|*.7z|\
+                *.woff|*.woff2|*.ttf|*.eot|\
+                *.mp3|*.mp4|*.mov|*.avi|*.webm|\
+                *.db|*.sqlite|*.bin|*.so|*.dylib|*.exe)
+                  IS_BINARY=1 ;;
+                *)
+                  IS_BINARY=0 ;;
+              esac
+
               if [ ! -f "$LOCAL_FILE" ]; then
                 # 本地不存在 → 直接新增
                 cp "$NEW_FILE" "$LOCAL_FILE"
                 echo "    + added: $REL_FILE"
                 SKILL_CHANGED=$((SKILL_CHANGED + 1))
+              elif [ "$IS_BINARY" -eq 1 ]; then
+                # 二进制文件 → 直接用上游版本覆盖（无法文本合并）
+                if ! diff -q "$NEW_FILE" "$LOCAL_FILE" > /dev/null 2>&1; then
+                  cp "$NEW_FILE" "$LOCAL_FILE"
+                  echo "    ~ updated (binary): $REL_FILE"
+                  SKILL_CHANGED=$((SKILL_CHANGED + 1))
+                fi
               elif [ -n "$BASE_FILE" ] && [ -f "$BASE_FILE" ]; then
                 # 三路合并：base=上次上游, ours=本地, theirs=最新上游
                 MERGE_TMP=$(mktemp)
