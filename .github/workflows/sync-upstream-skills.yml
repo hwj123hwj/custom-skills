@@ -180,7 +180,7 @@ jobs:
               fi
             done < <(find "$SRC_NEW" -type f \
               ! -path '*/.git/*' ! -name '*.pyc' ! -path '*/__pycache__/*' \
-              -printf '%P\0')
+              -printf '%P\0') || true
 
             # 更新 SKILL.md frontmatter 中的 upstreamSha
             SKILL_MD="$DEST/SKILL.md"
