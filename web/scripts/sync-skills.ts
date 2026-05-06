@@ -386,6 +386,12 @@ async function main() {
   const skillDirs = fs.readdirSync(SKILLS_DIR).sort();
   const skills: SkillData[] = [];
 
+  // Load existing registry to preserve lastUpdated when content hasn't changed
+  const existingRegistry: SkillData[] = fs.existsSync(REGISTRY_OUTPUT_FILE)
+    ? JSON.parse(fs.readFileSync(REGISTRY_OUTPUT_FILE, 'utf-8'))
+    : [];
+  const existingMap = new Map(existingRegistry.map((s) => [s.id, s]));
+
   for (const dir of skillDirs) {
     const skillPath = path.join(SKILLS_DIR, dir);
     const skillMdPath = path.join(skillPath, 'SKILL.md');
@@ -423,8 +429,13 @@ async function main() {
         const tags = getFrontmatterList(frontmatter, 'tags');
         const aliases = getFrontmatterList(frontmatter, 'aliases');
 
-        // Last Updated (using git log for accuracy)
-        const lastUpdated = getLastUpdated(skillMdPath);
+        // Last Updated: frontmatter > existing registry > now
+        // Using a fixed source makes make registry idempotent regardless of when it runs.
+        const existing = existingMap.get(id);
+        const lastUpdated =
+          getFrontmatterString(frontmatter, 'lastUpdated') ||
+          existing?.lastUpdated ||
+          new Date().toISOString();
         const sourcePath = `skills/${id}`;
 
         // Author (for third-party contributed skills)
@@ -455,6 +466,16 @@ async function main() {
         if (upstream) skillEntry.upstream = upstream;
         if (upstreamPath) skillEntry.upstreamPath = upstreamPath;
         if (upstreamSha) skillEntry.upstreamSha = upstreamSha;
+
+        // Preserve lastUpdated from existing registry if content is unchanged
+        if (existing) {
+          const { lastUpdated: _a, ...newWithout } = skillEntry;
+          const { lastUpdated: _b, ...existWithout } = existing;
+          if (JSON.stringify(newWithout) === JSON.stringify(existWithout)) {
+            skillEntry.lastUpdated = existing.lastUpdated;
+          }
+        }
+
         skills.push(skillEntry);
         console.log(`✅ Loaded skill: ${id}`);
       } catch (e) {

@@ -324,7 +324,7 @@
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill officecli-docx",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/officecli-docx",
     "sourcePath": "skills/officecli-docx",
-    "lastUpdated": "2026-05-06T08:32:48.060Z",
+    "lastUpdated": "2026-05-06T08:34:08.000Z",
     "author": "iOfficeAI",
     "upstream": "iOfficeAI/OfficeCLI",
     "upstreamPath": "skills/officecli-docx",
