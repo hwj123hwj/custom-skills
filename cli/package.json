@@ -1,6 +1,6 @@
 {
   "name": "custom-skills",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "CLI tool to search and install custom AI skills",
   "main": "dist/index.js",
   "bin": {
