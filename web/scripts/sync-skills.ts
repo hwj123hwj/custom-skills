@@ -174,7 +174,7 @@ function extractFrontmatter(content: string): Record<string, string | string[]> 
     const [, key, rawValue] = match;
     const value = rawValue.trim();
 
-    if (value === '|' || value === '>') {
+    if (value === '|' || value === '|-' || value === '|+' || value === '>' || value === '>-' || value === '>+') {
       currentKey = key;
       currentMode = 'block';
       buffer = [];
