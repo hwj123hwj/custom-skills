@@ -67,6 +67,10 @@ export const skillDescriptionsZh: Record<string, string> = {
     '用于搜索微信公众号文章的工具。每当用户要求搜索微信公众号文章、微信文章，或通过关键词寻找特定话题时必须触发此技能。返回文章标题、链接和摘要。',
   'weibo-skill':
     '微博内容搜索、热搜查看、用户动态及评论读取。使用 m.weibo.cn 移动端接口，无需账号和 API Key。触发场景：搜索微博内容/话题、查看实时热搜、获取用户动态、查看评论。',
+  'paddleocr-doc-parsing':
+    'PaddleOCR 文档解析技能。从 PDF 和文档图片中提取结构化 Markdown/JSON，支持表格（单元格级精度）、LaTeX 公式、图表、印章、页眉页脚、多栏排版及正确阅读顺序。触发词：文档解析、版面分析、版面还原、表格提取、公式识别、多栏排版、扫描件结构化、发票、财报、复杂 PDF、PDF转Markdown。',
+  'paddleocr-text-recognition':
+    'PaddleOCR 文字识别技能（OCR）。从图片、照片、扫描件、截图或扫描版 PDF 中提取机器可读文本，支持行级文字和可选坐标框输出，对中文、小字号及手写体识别精度高。触发词：OCR、文字识别、图片转文字、截图识字、提取图中文字、扫描识字、识字、bbox、bounding box。',
 };
 
 export const agentDescriptionsZh: Record<string, string> = {
