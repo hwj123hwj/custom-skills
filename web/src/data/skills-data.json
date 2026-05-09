@@ -17,7 +17,7 @@
     "lastUpdated": "2026-05-06T07:45:20.000Z",
     "author": "ustc-ai4science",
     "upstream": "ustc-ai4science/academic-search",
-    "upstreamSha": "91588a420966ec7253a2718365b7439a7e3d805a"
+    "upstreamSha": "c66c7f6ed35148b83dfde02016229603f4a20fa9"
   },
   {
     "id": "asr",
@@ -351,7 +351,7 @@
     "author": "iOfficeAI",
     "upstream": "iOfficeAI/OfficeCLI",
     "upstreamPath": "skills/officecli-docx",
-    "upstreamSha": "14e897db285ac5e0ee1af0b8d165f81f7be636bc"
+    "upstreamSha": "06f6bf4e92711309d8a41ddb8c821e2de004aaf8"
   },
   {
     "id": "paddleocr-doc-parsing",

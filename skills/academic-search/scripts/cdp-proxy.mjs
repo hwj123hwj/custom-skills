@@ -315,7 +315,11 @@ const server = http.createServer(async (req, res) => {
 
   try {
     if (pathname === '/health') {
-      const connected = ws && (ws.readyState === WS.OPEN || ws.readyState === 1);
+      let connected = ws && (ws.readyState === WS.OPEN || ws.readyState === 1);
+      if (!connected) {
+        await connect().catch(() => {});
+        connected = ws && (ws.readyState === WS.OPEN || ws.readyState === 1);
+      }
       res.end(JSON.stringify({ status: 'ok', connected, sessions: sessions.size, chromePort }));
       return;
     }
