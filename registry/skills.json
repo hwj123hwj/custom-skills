@@ -680,5 +680,47 @@
     "sourcePath": "skills/xiaohongshu-cli",
     "lastUpdated": "2026-05-06T08:13:58.000Z",
     "author": "jackwener"
+  },
+  {
+    "id": "paddleocr-doc-parsing",
+    "name": "paddleocr-doc-parsing",
+    "displayName": "paddleocr-doc-parsing — PaddleOCR Document Parsing Skill",
+    "description": "Use this skill to extract structured Markdown/JSON from PDFs and document images—tables with cell-level precision, formulas as LaTeX, figures, seals, charts, headers/footers, multi-column layout and correct reading order. Trigger terms: 文档解析, 版面分析, 版面还原, 表格提取, 公式识别, 多栏排版, 扫描件结构化, 发票, 财报, 复杂 PDF, PDF转Markdown, 图表, 阅读顺序; reading order, formula, LaTeX, layout parsing, structure extraction, PP-StructureV3, PaddleOCR-VL.",
+    "detailedDescription": "Use this skill to extract structured Markdown/JSON from PDFs and document images—tables with cell-level precision, formulas as LaTeX, figures, seals, charts, headers/footers, multi-column layout and correct reading order. Trigger terms: 文档解析, 版面分析, 版面还原, 表格提取, 公式识别, 多栏排版, 扫描件结构化, 发票, 财报, 复杂 PDF, PDF转Markdown, 图表, 阅读顺序; reading order, formula, LaTeX, layout parsing, structure extraction, PP-StructureV3, PaddleOCR-VL.",
+    "emoji": "📄",
+    "tags": [
+      "OCR",
+      "Document",
+      "PDF",
+      "PaddleOCR"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill paddleocr-doc-parsing",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/paddleocr-doc-parsing",
+    "sourcePath": "skills/paddleocr-doc-parsing",
+    "lastUpdated": "2026-05-09T00:00:00.000Z",
+    "author": "PaddlePaddle"
+  },
+  {
+    "id": "paddleocr-text-recognition",
+    "name": "paddleocr-text-recognition",
+    "displayName": "paddleocr-text-recognition — PaddleOCR Text Recognition Skill",
+    "description": "Use this skill whenever the user wants text extracted from images, photos, scans, screenshots, or scanned PDFs. Returns exact machine-readable strings with line-level text and optional bbox coordinates. Strong accuracy for CJK, small print, and handwritten text. Trigger terms: OCR, 文字识别, 图片转文字, 截图识字, 提取图中文字, 扫描识字, 识字, 纯文字, plain text extraction, 坐标, 检测框, bbox, bounding box, image to text, screenshot, photo scan, recognize text.",
+    "detailedDescription": "Use this skill whenever the user wants text extracted from images, photos, scans, screenshots, or scanned PDFs. Returns exact machine-readable strings with line-level text and optional bbox coordinates. Strong accuracy for CJK, small print, and handwritten text. Trigger terms: OCR, 文字识别, 图片转文字, 截图识字, 提取图中文字, 扫描识字, 识字, 纯文字, plain text extraction, 坐标, 检测框, bbox, bounding box, image to text, screenshot, photo scan, recognize text.",
+    "emoji": "🔤",
+    "tags": [
+      "OCR",
+      "Image",
+      "Text",
+      "PaddleOCR"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill paddleocr-text-recognition",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/paddleocr-text-recognition",
+    "sourcePath": "skills/paddleocr-text-recognition",
+    "lastUpdated": "2026-05-09T00:00:00.000Z",
+    "author": "PaddlePaddle"
   }
 ]

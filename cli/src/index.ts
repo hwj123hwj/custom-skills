@@ -5,13 +5,14 @@ import { registerList } from './commands/list.js';
 import { registerInfo } from './commands/info.js';
 import { registerInstall } from './commands/install.js';
 import { getCacheInfo, clearCache } from './utils/cache.js';
+import { version } from '../package.json';
 
 const program = new Command();
 
 program
   .name('custom-skills')
   .description('搜索和安装 custom-skills 仓库中的 AI 技能')
-  .version('1.0.0', '-v, --version');
+  .version(version, '-v, --version');
 
 // 注册所有子命令
 registerSearch(program);
