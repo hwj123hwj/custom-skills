@@ -17,6 +17,7 @@
 
 ## News
 
+- `2026-05-08` 新增 OA PDF 下载 manifest 与开放 PDF 批量下载 helper：只处理 `open_pdf` 合法来源，不绕过付费墙
 - `2026-05-01` 新增多学科使用指引：学科路由、开放获取 PDF 状态、Crossref/OpenAlex/Unpaywall 跨学科底座与主要出版商访问限制
 - `2026-04-05` 新增 CNKI（知网）支持文档：补充检索策略、metadata schema 字段与 site pattern 经验文件
 - `2026-04-02` 发布 `v1.2.0`：新增前沿性优先排序、Query 扩展、PDF 直取、意图感知两遍搜索
@@ -28,6 +29,7 @@
 🚀 **覆盖全**：arXiv、Semantic Scholar、OpenAlex、Crossref、Unpaywall、Google Scholar、CNKI... 多学科平台协同检索。
 📊 **功能强**：论文检索、引用追踪、BibTeX 导出、多源去重，一气呵成。  
 📑 **获取稳**：开放获取 PDF 级联获取，明确标注机构权限和反爬限制。  
+🧾 **下载清楚**：先生成 manifest，再按确认下载开放 PDF，保留跳过、失败和非 PDF 状态。
 🎯 **策略精**：时效性优先排序，自带 CCF 等级标注，只看最值得看的顶会干货。
 
 > **Academic-Search：重新定义 AI 驱动的学术研究。**
@@ -59,6 +61,7 @@ bash ~/.claude/skills/academic-search/scripts/check-deps.sh
 **数据获取**
 - PDF：开放获取 PDF 级联获取；arXiv ID 存在即直接构造链接，不依赖 S2 `openAccessPdf`（该字段经常为 null）
 - 全文状态：标注 `open_pdf` / `needs_institution` / `no_open_pdf` / `anti_bot_blocked` / `html_not_pdf`，不绕过付费墙
+- OA PDF 下载：可生成下载 manifest，并只下载 `open_pdf` 状态的合法开放 PDF；不绕过付费墙，不处理 Sci-Hub/WebVPN/Tor。
 - BibTeX：平台原生导出 + 字段拼装双路径
 - 跨学科元数据：Crossref / OpenAlex / Unpaywall 补 DOI、作者机构、开放获取状态和引用关系
 - 代码：Papers with Code API 自动补全代码可用性列
@@ -166,6 +169,42 @@ Open API 优先，Google Scholar 与 CNKI 等无公开 API 或强反爬平台需
 ```
 去 Google Scholar 查一下 "attention is all you need" 的引用数
 ```
+```
+搜索 time series agent 近两年的论文，生成开放 PDF 下载清单
+```
+
+### 开放 PDF 下载清单
+
+Academic-Search 可以把检索结果转换成开放 PDF 下载清单：
+
+```bash
+node scripts/oa-pdf-download.mjs \
+  --input results.json \
+  --manifest download-manifest.json
+```
+
+确认后只下载 `open_pdf` 记录：
+
+```bash
+node scripts/oa-pdf-download.mjs \
+  --input results.json \
+  --manifest download-manifest.json \
+  --download \
+  --out-dir ./papers
+```
+
+该功能只处理合法开放 PDF，不使用 Sci-Hub、LibGen、WebVPN、Tor 或 Cloudflare 绕过。Manifest 会保留每条记录的处理结果：
+
+| 字段 | 含义 |
+|------|------|
+| `download_status` | `eligible` / `downloaded` / `skipped` / `failed` / `not_pdf` |
+| `download_error` | 跳过或失败原因 |
+| `local_pdf_path` | 已下载 PDF 的本地路径，仅 `downloaded` 时填写 |
+
+### 与 scansci-pdf 的分工
+
+Academic-Search 负责检索、筛选、元数据、开放获取状态和开放 PDF 下载清单。
+如果任务目标是“尽可能下载论文 PDF”，尤其涉及 WebVPN、机构代理、多源竞速或非开放来源，应交给 scansci-pdf 这类专门的论文获取工具处理。
 
 ---
 
@@ -189,10 +228,13 @@ curl -s "http://127.0.0.1:${CDP_PROXY_PORT:-3456}/close?target=ID"              
 
 ```
 academic-search/
+├── Makefile                    # 标准测试入口（make test / make test-release）
 ├── SKILL.md                    # 主指令文件（搜索哲学、平台矩阵、核心能力）
 ├── scripts/
 │   ├── cdp-proxy.mjs           # CDP Proxy（直连用户 Chrome）
 │   ├── check-deps.sh           # 环境检查 + 自动启动 Proxy
+│   ├── oa-pdf-download.mjs     # OA PDF manifest 生成与开放 PDF 下载
+│   ├── oa-pdf-download-self-test.sh # OA PDF 下载 helper 回归测试
 │   ├── self-test.sh            # 本地回归测试
 │   └── release-test.sh         # 发布前测试
 ├── references/

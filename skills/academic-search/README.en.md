@@ -50,6 +50,7 @@ Search for top-venue papers on graph neural networks published after 2023, give 
 
 ## News
 
+- `2026-05-08` Added an open-access PDF manifest and batch download helper: only handles legal `open_pdf` sources and does not bypass paywalls
 - `2026-05-01` Added multidisciplinary guidance: discipline routing, open-access PDF status, Crossref/OpenAlex/Unpaywall foundations, and publisher access-limit handling
 - `2026-04-05` Added CNKI support docs: search strategy, metadata schema fields, and a dedicated site pattern file
 - `2026-04-02` Released `v1.2.0`: frontier-first ranking, query expansion, direct PDF retrieval, and intent-aware two-pass search
@@ -64,6 +65,8 @@ Search for top-venue papers on graph neural networks published after 2023, give 
 - [Requirements](#requirements)
 - [Testing](#testing)
 - [Usage Examples](#usage-examples)
+- [Open-Access PDF Download Manifest](#open-access-pdf-download-manifest)
+- [Relationship With scansci-pdf](#relationship-with-scansci-pdf)
 - [Multidisciplinary Usage](#multidisciplinary-usage)
 - [Platforms and Access Strategy](#platforms-and-access-strategy)
 - [CDP Proxy API](#cdp-proxy-api)
@@ -102,6 +105,7 @@ Search for top-venue papers on graph neural networks published after 2023, give 
 | Result filtering | Filter by recency / citation count / venue tier / open PDF / code availability |
 | Structured metadata | Unified schema across all platforms; DOI as primary dedup key |
 | Open-access PDF retrieval | ArXiv ID present → construct link directly; S2 / Unpaywall / repository links as legal open-access fallbacks |
+| Open-access PDF download | Generate a download manifest and download only records marked `open_pdf`; does not bypass paywalls and does not use Sci-Hub/WebVPN/Tor |
 | Full-text access status | Records `open_pdf`, `needs_institution`, `no_open_pdf`, `anti_bot_blocked`, `html_not_pdf`, or `unknown` instead of treating every publisher block as a generic failure |
 | Cross-disciplinary metadata | Crossref / OpenAlex / Unpaywall supplement DOI, venue, institution, citation, and open-access status across fields |
 | BibTeX export | Platform-native export + field-assembly fallback |
@@ -221,6 +225,43 @@ Look up BERT, GPT-3, and T5 in parallel — give me a comparison table with meta
 Check Google Scholar for the citation count of "Attention Is All You Need"
 ```
 
+```
+Search for time series agent papers from the last two years and generate an open-access PDF download manifest
+```
+
+### Open-Access PDF Download Manifest
+
+Academic-Search can turn search results into an open-access PDF download manifest:
+
+```bash
+node scripts/oa-pdf-download.mjs \
+  --input results.json \
+  --manifest download-manifest.json
+```
+
+After confirmation, download only records marked `open_pdf`:
+
+```bash
+node scripts/oa-pdf-download.mjs \
+  --input results.json \
+  --manifest download-manifest.json \
+  --download \
+  --out-dir ./papers
+```
+
+This feature handles legal open-access PDFs only. It does not use Sci-Hub, LibGen, WebVPN, Tor, or Cloudflare bypasses. The manifest keeps the processing result for each record:
+
+| Field | Meaning |
+|-------|---------|
+| `download_status` | `eligible` / `downloaded` / `skipped` / `failed` / `not_pdf` |
+| `download_error` | Skip or failure reason |
+| `local_pdf_path` | Local downloaded PDF path, filled only when `downloaded` |
+
+### Relationship With scansci-pdf
+
+Academic-Search handles discovery, filtering, metadata, open-access status, and open-access PDF manifests.
+If the goal is to maximize PDF acquisition, especially with WebVPN, institutional proxy, source racing, or non-open sources, hand the task off to a dedicated paper-acquisition tool such as scansci-pdf.
+
 ---
 
 ## Multidisciplinary Usage
@@ -296,6 +337,8 @@ academic-search/
 ├── scripts/
 │   ├── cdp-proxy.mjs                 # CDP Proxy HTTP server (connects to user's Chrome)
 │   ├── check-deps.sh                 # Environment check + auto-start Proxy
+│   ├── oa-pdf-download.mjs           # OA PDF manifest generation and open PDF download
+│   ├── oa-pdf-download-self-test.sh  # Regression test for OA PDF download helper
 │   ├── self-test.sh                  # Base local regression test (requires Chrome remote debugging)
 │   └── release-test.sh               # Pre-release regression test (concurrency / invalid target / binary response)
 └── references/

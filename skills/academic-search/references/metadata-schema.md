@@ -37,6 +37,10 @@
   "license": null,
   "full_text_status": "open_pdf",
   "pdf_url": "https://arxiv.org/pdf/1706.03762",
+  "local_pdf_path": null,
+  "download_status": "not_requested",
+  "download_error": null,
+  "download_source": null,
   "data_availability": null,
   "code_url": null,
   "bibtex": "@inproceedings{vaswani2017attention,...}",
@@ -78,11 +82,28 @@
 | `license` | string | 否 | 开放许可，如 `cc-by`、`cc-by-nc` |
 | `full_text_status` | string | 否 | 全文访问状态：`open_pdf`、`needs_institution`、`no_open_pdf`、`anti_bot_blocked`、`html_not_pdf`、`unknown` |
 | `pdf_url` | string | 否 | 可公开访问的 PDF 直链 |
+| `local_pdf_path` | string | 否 | 本地已下载 OA PDF 路径；仅当 `download_status=downloaded` 时填写 |
+| `download_status` | string | 否 | OA PDF 下载状态：`not_requested`、`eligible`、`downloaded`、`skipped`、`failed`、`not_pdf` |
+| `download_error` | string | 否 | 下载失败或跳过原因，成功时为 null |
+| `download_source` | string | 否 | 实际下载来源，如 `arxiv`、`unpaywall`、`openalex`、`semantic_scholar`、`pubmed_central` |
 | `data_availability` | string | 否 | 数据可得性说明或数据链接 |
 | `code_url` | string | 否 | 代码仓库链接 |
 | `bibtex` | string | 否 | BibTeX 格式引用 |
 | `source_platforms` | string[] | 是 | 数据来源平台列表（含 `"cnki"` 时表示来自知网） |
 | `fetched_at` | string | 是 | 抓取日期，ISO 8601 格式（YYYY-MM-DD） |
+
+---
+
+### OA PDF 下载状态
+
+| 状态 | 含义 |
+|------|------|
+| `not_requested` | 未请求下载，仅完成元数据或 OA 状态判定 |
+| `eligible` | `full_text_status=open_pdf` 且存在可公开访问的 `pdf_url`，可下载 |
+| `downloaded` | 已下载到本地，`local_pdf_path` 有值 |
+| `skipped` | 不满足下载条件，如需要机构权限、无开放 PDF、缺少 URL |
+| `failed` | 网络错误、HTTP 错误或文件写入错误 |
+| `not_pdf` | URL 返回内容不是 PDF 二进制 |
 
 ---
 

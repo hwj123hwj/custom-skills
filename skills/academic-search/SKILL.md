@@ -2,7 +2,7 @@
 name: academic-search
 author: ustc-ai4science
 upstream: ustc-ai4science/academic-search
-upstreamSha: 91588a420966ec7253a2718365b7439a7e3d805a
+upstreamSha: c66c7f6ed35148b83dfde02016229603f4a20fa9
 description: |
   学术论文搜索、引用分析、开放获取 PDF 判定与结构化元数据提取专用 Skill。Use when the user asks to search/find papers, do literature review/survey/systematic review/PRISMA work, get citation counts, export BibTeX/RIS-style references, find papers by author, inspect PDF/open-access availability, or work with arXiv, Semantic Scholar, OpenAlex, Crossref, Unpaywall, PubMed, Google Scholar, ACM DL, IEEE Xplore, Papers with Code, CNKI, ScienceDirect, Wiley, Springer, ACS, MeSH, JEL, MSC, or ACM CCS.
 metadata:
@@ -235,6 +235,52 @@ curl -s "https://api.semanticscholar.org/graph/v1/paper/ARXIV:{arxiv_id}?fields=
 | `anti_bot_blocked` | 被 Cloudflare、验证码或反爬限制拦截 |
 | `html_not_pdf` | PDF 路由返回 HTML 页面而不是 PDF |
 | `unknown` | 当前证据不足，无法可靠判断 |
+
+### 开放 PDF 下载与 manifest 导出
+
+Academic-Search 可以下载合法开放访问 PDF，但边界必须清楚：
+
+- 只下载 `full_text_status="open_pdf"` 且存在 `pdf_url` 的论文。
+- 不得调用 Sci-Hub、LibGen、shadow library、WebVPN、CARSI、Tor 或 Cloudflare 绕过工具。
+- 遇到 `needs_institution`、`no_open_pdf`、`anti_bot_blocked`、`html_not_pdf`、`unknown` 时，不下载，只写入 manifest 并说明原因。
+- 批量任务先生成 manifest，再由用户确认是否下载，除非用户明确要求“下载所有开放 PDF”。
+
+推荐流程：
+
+1. 搜索/精确查询论文，生成标准 metadata schema。
+2. 通过 arXiv、Semantic Scholar、OpenAlex、Unpaywall、PubMed Central 判断 `full_text_status` 和 `pdf_url`。
+3. 调用 `scripts/oa-pdf-download.mjs --input <metadata.json> --manifest <manifest.json>` 生成下载清单。
+4. 用户确认后，调用 `scripts/oa-pdf-download.mjs --input <metadata.json> --manifest <manifest.json> --download --out-dir <dir>` 下载开放 PDF。
+5. 输出下载结果表：标题、DOI/arXiv ID、状态、本地路径、跳过原因。
+
+CLI 示例：
+
+```bash
+node scripts/oa-pdf-download.mjs \
+  --input /tmp/academic-search-results.json \
+  --manifest /tmp/academic-search-download-manifest.json
+
+node scripts/oa-pdf-download.mjs \
+  --input /tmp/academic-search-results.json \
+  --manifest /tmp/academic-search-download-manifest.json \
+  --download \
+  --out-dir /tmp/academic-search-pdfs
+```
+
+输出 JSON 计数字段：
+
+```json
+{"total":3,"eligible":2,"downloaded":1,"skipped":1,"failed":0,"not_pdf":1}
+```
+
+`download_status` 枚举：`not_requested`、`eligible`、`downloaded`、`skipped`、`failed`、`not_pdf`。详细字段定义见 `references/metadata-schema.md`。
+
+分工规则：
+
+- 用户要“找论文 / 筛论文 / 查引用 / 生成开放 PDF 清单” → 使用 Academic-Search。
+- 用户要“尽可能下载这些 DOI 的 PDF / 用 WebVPN / 多源下载 / Sci-Hub / LibGen” → 明确说明这超出 Academic-Search 边界，并建议切换 scansci-pdf。
+
+如果用户需要下载非开放获取论文，应建议使用机构图书馆、作者邮件、馆际互借，或切换到 scansci-pdf 这类专门的论文获取工具；Academic-Search 不负责绕过访问限制。
 
 不要尝试访问任何需要绕过付费墙的第三方服务。遇到 Elsevier、Wiley、Springer、ACS、Taylor & Francis、JSTOR 等商业出版平台时，先判定开放获取状态；若需要机构访问，停止自动下载并报告 `needs_institution`。
 
