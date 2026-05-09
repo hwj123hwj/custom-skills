@@ -354,6 +354,40 @@
     "upstreamSha": "14e897db285ac5e0ee1af0b8d165f81f7be636bc"
   },
   {
+    "id": "paddleocr-doc-parsing",
+    "name": "paddleocr-doc-parsing",
+    "displayName": "PaddleOCR Document Parsing Skill",
+    "description": ">-",
+    "detailedDescription": ">-",
+    "emoji": "📦",
+    "tags": [
+      "Utility"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill paddleocr-doc-parsing",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/paddleocr-doc-parsing",
+    "sourcePath": "skills/paddleocr-doc-parsing",
+    "lastUpdated": "2026-05-09T00:00:00.000Z"
+  },
+  {
+    "id": "paddleocr-text-recognition",
+    "name": "paddleocr-text-recognition",
+    "displayName": "PaddleOCR Text Recognition Skill",
+    "description": ">-",
+    "detailedDescription": ">-",
+    "emoji": "📦",
+    "tags": [
+      "Utility"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill paddleocr-text-recognition",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/paddleocr-text-recognition",
+    "sourcePath": "skills/paddleocr-text-recognition",
+    "lastUpdated": "2026-05-09T00:00:00.000Z"
+  },
+  {
     "id": "rss-monitor",
     "name": "rss-monitor",
     "displayName": "RSS Monitor",
