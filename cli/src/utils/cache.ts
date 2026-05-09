@@ -3,11 +3,11 @@ import path from 'path';
 import os from 'os';
 
 const CACHE_DIR = path.join(os.homedir(), '.cache', 'custom-skills');
-const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 小时
 
 interface CacheEntry<T> {
   data: T;
   cachedAt: number;
+  etag?: string;
 }
 
 function cacheFile(key: string): string {
@@ -32,21 +32,25 @@ export function readCache<T>(key = 'skills-data'): T | null {
   }
 }
 
-export function isCacheValid(key = 'skills-data'): boolean {
+export function readCacheEtag(key = 'skills-data'): string | null {
   try {
     const file = cacheFile(key);
-    if (!fs.existsSync(file)) return false;
+    if (!fs.existsSync(file)) return null;
     const raw = fs.readFileSync(file, 'utf-8');
     const entry: CacheEntry<unknown> = JSON.parse(raw);
-    return Date.now() - entry.cachedAt < CACHE_TTL_MS;
+    return entry.etag ?? null;
   } catch {
-    return false;
+    return null;
   }
 }
 
-export function writeCache<T>(data: T, key = 'skills-data'): void {
+export function hasCache(key = 'skills-data'): boolean {
+  return fs.existsSync(cacheFile(key));
+}
+
+export function writeCache<T>(data: T, key = 'skills-data', etag?: string): void {
   ensureCacheDir();
-  const entry: CacheEntry<T> = { data, cachedAt: Date.now() };
+  const entry: CacheEntry<T> = { data, cachedAt: Date.now(), etag };
   fs.writeFileSync(cacheFile(key), JSON.stringify(entry, null, 2), 'utf-8');
 }
 

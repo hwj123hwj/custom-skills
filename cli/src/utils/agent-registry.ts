@@ -2,7 +2,7 @@ import https from 'https';
 import fs from 'fs';
 import path from 'path';
 import { Agent } from '../types/agent.js';
-import { readCache, isCacheValid, writeCache } from './cache.js';
+import { readCache, readCacheEtag, writeCache } from './cache.js';
 
 const AGENTS_REGISTRY_URL =
   'https://raw.githubusercontent.com/hwj123hwj/custom-skills/main/registry/agents.json';
@@ -12,46 +12,50 @@ const LOCAL_REGISTRY_PATH = path.resolve(__dirname, '../../../registry/agents.js
 
 // ── 远程拉取 ──────────────────────────────────────────────────────────────
 
-function fetchRemoteAgents(): Promise<Agent[]> {
+function fetchRemoteAgents(etag?: string | null): Promise<{ agents: Agent[]; etag?: string } | null> {
   return new Promise((resolve, reject) => {
-    https
-      .get(AGENTS_REGISTRY_URL, (res) => {
-        if (res.statusCode === 301 || res.statusCode === 302) {
-          const location = res.headers.location;
-          if (!location) {
-            reject(new Error('重定向但无 Location 头'));
+    const headers: Record<string, string> = {};
+    if (etag) headers['If-None-Match'] = etag;
+
+    const request = (url: string) => {
+      https
+        .get(url, { headers }, (res) => {
+          if (res.statusCode === 301 || res.statusCode === 302) {
+            const location = res.headers.location;
+            if (!location) {
+              reject(new Error('重定向但无 Location 头'));
+              return;
+            }
+            request(location);
             return;
           }
-          https
-            .get(location, (res2) => {
-              let body = '';
-              res2.on('data', (chunk) => (body += chunk));
-              res2.on('end', () => {
-                try {
-                  resolve(JSON.parse(body));
-                } catch {
-                  reject(new Error('数据解析失败'));
-                }
-              });
-            })
-            .on('error', reject);
-          return;
-        }
-        if (res.statusCode !== 200) {
-          reject(new Error(`HTTP ${res.statusCode}`));
-          return;
-        }
-        let body = '';
-        res.on('data', (chunk) => (body += chunk));
-        res.on('end', () => {
-          try {
-            resolve(JSON.parse(body));
-          } catch {
-            reject(new Error('数据解析失败'));
+
+          if (res.statusCode === 304) {
+            resolve(null);
+            return;
           }
-        });
-      })
-      .on('error', reject);
+
+          if (res.statusCode !== 200) {
+            reject(new Error(`HTTP ${res.statusCode}`));
+            return;
+          }
+
+          let body = '';
+          res.on('data', (chunk) => (body += chunk));
+          res.on('end', () => {
+            try {
+              const agents = JSON.parse(body) as Agent[];
+              const newEtag = res.headers.etag as string | undefined;
+              resolve({ agents, etag: newEtag });
+            } catch {
+              reject(new Error('数据解析失败'));
+            }
+          });
+        })
+        .on('error', reject);
+    };
+
+    request(AGENTS_REGISTRY_URL);
   });
 }
 
@@ -71,19 +75,21 @@ export async function loadAgents(forceRefresh = false): Promise<Agent[]> {
   const local = readLocalRegistry();
   if (local) return local;
 
-  // 2. 使用缓存（未过期且不强制刷新）
-  if (!forceRefresh && isCacheValid(CACHE_KEY)) {
-    const cached = readCache<Agent[]>(CACHE_KEY);
-    if (cached) return cached;
-  }
-
-  // 3. 远程拉取
+  // 2. 条件请求（ETag），服务端未变化则 304 直接用缓存
   try {
-    const agents = await fetchRemoteAgents();
-    writeCache(agents, CACHE_KEY);
-    return agents;
+    const cachedEtag = forceRefresh ? null : readCacheEtag(CACHE_KEY);
+    const result = await fetchRemoteAgents(cachedEtag);
+
+    if (result === null) {
+      // 304 Not Modified
+      const cached = readCache<Agent[]>(CACHE_KEY);
+      if (cached) return cached;
+    } else {
+      writeCache(result.agents, CACHE_KEY, result.etag);
+      return result.agents;
+    }
   } catch (err) {
-    // 4. 降级：远程失败则使用过期缓存
+    // 3. 网络失败降级：使用本地缓存
     const cached = readCache<Agent[]>(CACHE_KEY);
     if (cached) {
       process.stderr.write(
@@ -95,6 +101,11 @@ export async function loadAgents(forceRefresh = false): Promise<Agent[]> {
       `无法获取 Agent 数据：${(err as Error).message}。请检查网络连接后重试。`
     );
   }
+
+  // 4. 兜底
+  const cached = readCache<Agent[]>(CACHE_KEY);
+  if (cached) return cached;
+  throw new Error('无法获取 Agent 数据，请检查网络连接后重试。');
 }
 
 export function searchAgents(

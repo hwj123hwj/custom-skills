@@ -2,7 +2,7 @@ import https from 'https';
 import fs from 'fs';
 import path from 'path';
 import { Skill, NormalizedSkill } from '../types/skill.js';
-import { readCache, isCacheValid, writeCache } from './cache.js';
+import { readCache, readCacheEtag, hasCache, writeCache } from './cache.js';
 
 const SKILLS_DATA_URL =
   'https://raw.githubusercontent.com/hwj123hwj/custom-skills/main/registry/skills.json';
@@ -22,47 +22,51 @@ function normalizeSkill(skill: Skill): NormalizedSkill {
   };
 }
 
-function fetchRemote(): Promise<Skill[]> {
+function fetchRemote(etag?: string | null): Promise<{ skills: Skill[]; etag?: string } | null> {
   return new Promise((resolve, reject) => {
-    https
-      .get(SKILLS_DATA_URL, (res) => {
-        if (res.statusCode === 301 || res.statusCode === 302) {
-          // 处理重定向
-          const location = res.headers.location;
-          if (!location) {
-            reject(new Error('重定向但无 Location 头'));
+    const headers: Record<string, string> = {};
+    if (etag) headers['If-None-Match'] = etag;
+
+    const request = (url: string) => {
+      https
+        .get(url, { headers }, (res) => {
+          if (res.statusCode === 301 || res.statusCode === 302) {
+            const location = res.headers.location;
+            if (!location) {
+              reject(new Error('重定向但无 Location 头'));
+              return;
+            }
+            request(location);
             return;
           }
-          https
-            .get(location, (res2) => {
-              let body = '';
-              res2.on('data', (chunk) => (body += chunk));
-              res2.on('end', () => {
-                try {
-                  resolve(JSON.parse(body));
-                } catch {
-                  reject(new Error('数据解析失败'));
-                }
-              });
-            })
-            .on('error', reject);
-          return;
-        }
-        if (res.statusCode !== 200) {
-          reject(new Error(`HTTP ${res.statusCode}`));
-          return;
-        }
-        let body = '';
-        res.on('data', (chunk) => (body += chunk));
-        res.on('end', () => {
-          try {
-            resolve(JSON.parse(body));
-          } catch {
-            reject(new Error('数据解析失败'));
+
+          // 304 Not Modified：缓存仍然有效
+          if (res.statusCode === 304) {
+            resolve(null);
+            return;
           }
-        });
-      })
-      .on('error', reject);
+
+          if (res.statusCode !== 200) {
+            reject(new Error(`HTTP ${res.statusCode}`));
+            return;
+          }
+
+          let body = '';
+          res.on('data', (chunk) => (body += chunk));
+          res.on('end', () => {
+            try {
+              const skills = JSON.parse(body) as Skill[];
+              const newEtag = res.headers.etag as string | undefined;
+              resolve({ skills, etag: newEtag });
+            } catch {
+              reject(new Error('数据解析失败'));
+            }
+          });
+        })
+        .on('error', reject);
+    };
+
+    request(SKILLS_DATA_URL);
   });
 }
 
@@ -84,30 +88,22 @@ export async function loadSkills(forceRefresh = false): Promise<NormalizedSkill[
     return localRegistry.map(normalizeSkill);
   }
 
-  // 2. 使用缓存（未过期且不强制刷新）
-  if (!forceRefresh && isCacheValid()) {
-    const cached = readCache<Skill[]>();
-    if (cached) {
-      return cached.map(normalizeSkill);
-    }
-  }
-
-  // 3. 尝试远程拉取
+  // 2. 尝试远程拉取（携带 ETag 做条件请求，服务端未变化则返回 304 直接用缓存）
   try {
-    const skills = await fetchRemote();
-    writeCache(skills);
-    return skills.map(normalizeSkill);
-  } catch (err) {
-    // 4. 开发模式降级：优先使用仓库内本地 registry
-    const localRegistry = readLocalRegistry();
-    if (localRegistry) {
-      process.stderr.write(
-        `[警告] 无法拉取最新数据（${(err as Error).message}），使用本地 registry\n`
-      );
-      return localRegistry.map(normalizeSkill);
-    }
+    const cachedEtag = forceRefresh ? null : readCacheEtag();
+    const result = await fetchRemote(cachedEtag);
 
-    // 5. 降级：远程失败则使用过期缓存
+    if (result === null) {
+      // 304 Not Modified，缓存仍有效
+      const cached = readCache<Skill[]>();
+      if (cached) return cached.map(normalizeSkill);
+    } else {
+      // 200 拿到新数据，更新缓存
+      writeCache(result.skills, 'skills-data', result.etag);
+      return result.skills.map(normalizeSkill);
+    }
+  } catch (err) {
+    // 3. 网络失败降级：使用本地缓存
     const cached = readCache<Skill[]>();
     if (cached) {
       process.stderr.write(
@@ -119,4 +115,9 @@ export async function loadSkills(forceRefresh = false): Promise<NormalizedSkill[
       `无法获取技能数据：${(err as Error).message}。请检查网络连接后重试。`
     );
   }
+
+  // 4. 兜底：本地缓存
+  const cached = readCache<Skill[]>();
+  if (cached) return cached.map(normalizeSkill);
+  throw new Error('无法获取技能数据，请检查网络连接后重试。');
 }
