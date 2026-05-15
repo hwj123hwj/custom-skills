@@ -34,6 +34,7 @@
     "tools": "Tools",
     "capabilities": "Capabilities — {{count}} Skills",
     "view_source": "View Source",
+    "agent_install_hint": "This command installs the agent definition and its dependent skills into Claude Code's .claude directory via the custom-skills CLI.",
     "no_description": "No description provided.",
     "no_description_skill": "No description provided for this skill."
   },

@@ -121,8 +121,8 @@ function validateSkill(skill: SkillRegistryItem): void {
   }
 
   const tags = ensureArray('tags', skill.tags, skill.id);
-  const aliases = ensureArray('aliases', skill.aliases, skill.id);
-  const scenarios = ensureArray('scenarios', skill.scenarios, skill.id);
+  ensureArray('aliases', skill.aliases, skill.id);
+  ensureArray('scenarios', skill.scenarios, skill.id);
 
   if (tags.length === 0) fail(`${skill.id}.tags 不能为空`);
   // if (aliases.length === 0) fail(`${skill.id}.aliases 不能为空`);

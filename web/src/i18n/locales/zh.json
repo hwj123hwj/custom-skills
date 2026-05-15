@@ -34,6 +34,7 @@
     "tools": "工具",
     "capabilities": "能力组合 — {{count}} 个技能",
     "view_source": "查看源码",
+    "agent_install_hint": "该命令会通过 custom-skills CLI 将 Agent 定义及其依赖技能安装到 Claude Code 的 .claude 目录。",
     "no_description": "暂无描述。",
     "no_description_skill": "该技能暂无描述。"
   },

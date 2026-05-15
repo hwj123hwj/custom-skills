@@ -1,23 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { execSync } from 'child_process';
-
-// Function to get last updated time from git
-function getGitLastUpdated(filePath: string): string | null {
-  try {
-    const gitDate = execSync(`git log -1 --format=%ai -- "${filePath}"`, { encoding: 'utf-8' }).trim();
-    return gitDate ? new Date(gitDate).toISOString() : null;
-  } catch (e) {
-    return null;
-  }
-}
-
-function getLastUpdated(filePath: string): string {
-  const gitDate = getGitLastUpdated(filePath);
-  if (gitDate) return gitDate;
-  return fs.statSync(filePath).mtime.toISOString();
-}
 
 // Get __dirname equivalent in ESM
 const __filename = fileURLToPath(import.meta.url);
@@ -49,6 +32,12 @@ interface SkillData {
   upstream?: string;
   upstreamPath?: string;
   upstreamSha?: string;
+}
+
+function omitLastUpdated(skill: SkillData): Omit<SkillData, 'lastUpdated'> {
+  const { lastUpdated, ...rest } = skill;
+  void lastUpdated;
+  return rest;
 }
 
 function stripQuotes(value: string): string {
@@ -469,8 +458,8 @@ async function main() {
 
         // Preserve lastUpdated from existing registry if content is unchanged
         if (existing) {
-          const { lastUpdated: _a, ...newWithout } = skillEntry;
-          const { lastUpdated: _b, ...existWithout } = existing;
+          const newWithout = omitLastUpdated(skillEntry);
+          const existWithout = omitLastUpdated(existing);
           if (JSON.stringify(newWithout) === JSON.stringify(existWithout)) {
             skillEntry.lastUpdated = existing.lastUpdated;
           }

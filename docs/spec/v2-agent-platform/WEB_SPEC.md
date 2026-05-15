@@ -182,10 +182,10 @@ npx skills add https://github.com/hwj123hwj/custom-skills --skill <id>
 
 **Agent 详情弹窗**，展示对应的安装命令：
 ```bash
-npx skills add https://github.com/hwj123hwj/custom-skills --agent <name>
+npx custom-skills install <name> --agent
 ```
 
-> 注：`--agent` flag 依赖 skills.sh 生态支持，暂时作为占位展示。如果生态暂不支持，可先展示 GitHub 链接引导用户手动安装。
+> 注：Agent 安装由本仓库的 `custom-skills` CLI 提供，不应复用 `npx skills add` 的 Skill 安装交互命令。
 
 ---
 

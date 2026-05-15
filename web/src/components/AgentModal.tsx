@@ -31,7 +31,7 @@ export function AgentModal({ agent, isOpen, onClose, allSkills }: AgentModalProp
 
   if (!isOpen || !agent) return null;
 
-  const installCommand = `npx skills add https://github.com/hwj123hwj/custom-skills --agent ${agent.id}`;
+  const installCommand = `npx custom-skills install ${agent.id} --agent`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(installCommand);
@@ -180,10 +180,10 @@ export function AgentModal({ agent, isOpen, onClose, allSkills }: AgentModalProp
               <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-3">
                 {t('modal.installation')}
               </h3>
-              <div className="bg-black/50 rounded-lg border border-white/10 overflow-hidden">
-                <div className="p-4">
-                  <div className="group/copy relative">
-                    <div className="font-mono text-sm text-green-400 bg-black/50 p-4 rounded-lg border border-white/5 overflow-x-auto">
+            <div className="bg-black/50 rounded-lg border border-white/10 overflow-hidden">
+              <div className="p-4">
+                <div className="group/copy relative">
+                  <div className="font-mono text-sm text-green-400 bg-black/50 p-4 rounded-lg border border-white/5 overflow-x-auto">
                       {installCommand}
                     </div>
                     <button
@@ -197,6 +197,9 @@ export function AgentModal({ agent, isOpen, onClose, allSkills }: AgentModalProp
                       )}
                     </button>
                   </div>
+                  <p className="mt-3 text-xs text-gray-500 leading-relaxed">
+                    {t('modal.agent_install_hint')}
+                  </p>
                 </div>
               </div>
             </div>
