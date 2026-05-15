@@ -47,7 +47,6 @@ custom-skills/
 | idea-incubator | Product, Planning, Writing | 自有 |
 | image-provider | Media, Utility | 自有 |
 | knowledge-skill | Knowledge, Search, Automation | 自有 |
-| media-analyze | Media, Analysis, Research | 自有 |
 | memory-organizer | Knowledge, Productivity, Planning | 自有 |
 | mp-weixin-ops | WeChat, Content, Writing | 自有 |
 | rss-monitor | Monitoring, Automation, Summary | 自有 |

@@ -3,7 +3,7 @@ name: media-agent
 description: Cross-platform information intelligence agent for programmers and product managers. Use PROACTIVELY when the user needs daily information intake, multi-source topic tracking, signal denoising, insight synthesis, or a combined output of daily brief plus long-lived knowledge candidates across RSS, WeChat, Twitter/X, Bilibili, Weibo, and Xiaohongshu.
 tools: ["Read", "Write", "Bash", "Glob", "WebFetch"]
 model: sonnet
-skills: [rss-monitor, wechat-search, twitter-cli, bilibili-cli, xiaohongshu-cli, weibo-skill, tavily, media-analyze]
+skills: [rss-monitor, wechat-search, twitter-cli, bilibili-cli, xiaohongshu-cli, weibo-skill, tavily]
 tags: [Media, Product, Analysis]
 ---
 
@@ -220,4 +220,3 @@ Treat the run as weak if:
 - `skill: weibo-skill` is best for fast public reaction, not for durable truth
 - `skill: xiaohongshu-cli` is useful for user-side experience and grassroots product sentiment
 - `skill: tavily` is the bridge for cross-checking when platform-native content is incomplete
-- `skill: media-analyze` remains useful when the user asks for a fuller structured report instead of a lightweight daily intelligence pass

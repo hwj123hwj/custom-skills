@@ -256,30 +256,6 @@
     "lastUpdated": "2026-05-02T15:49:31.000Z"
   },
   {
-    "id": "media-analyze",
-    "name": "media-analyze",
-    "displayName": "媒体分析技能",
-    "description": "媒体分析报告生成。多源搜索话题，自动生成结构化分析报告。触发场景：(1) 用户要求分析某个话题 (2) 需要生成话题调研报告 (3) 了解事件的舆论反应。关键词：分析话题、媒体报告、话题调研、舆论分析。",
-    "detailedDescription": "多源搜索话题，自动生成结构化分析报告。",
-    "emoji": "📦",
-    "tags": [
-      "Media",
-      "Analysis",
-      "Research"
-    ],
-    "scenarios": [],
-    "aliases": [
-      "分析话题",
-      "媒体报告",
-      "话题调研",
-      "舆论分析"
-    ],
-    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill media-analyze",
-    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/media-analyze",
-    "sourcePath": "skills/media-analyze",
-    "lastUpdated": "2026-05-02T15:49:31.000Z"
-  },
-  {
     "id": "memory-organizer",
     "name": "memory-organizer",
     "displayName": "Memory Organizer",

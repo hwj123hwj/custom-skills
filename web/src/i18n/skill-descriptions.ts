@@ -45,8 +45,6 @@ export const skillDescriptionsZh: Record<string, string> = {
     '专业的 CPO + 技术合伙人助手，帮助用户孵化想法、分析可行性并编写技术文档。适用于当你有新产品想法、技术方案或"灵光一现"需要结构化整理时。',
   'knowledge-skill':
     '个人知识库技能。支持将网页、B站、微信公众号、小红书等内容入库到 PostgreSQL，并通过关键词或语义检索找回历史知识。自动生成 AI 摘要与向量嵌入，同时支持 URL 一键入库和夜间自动收割。',
-  'media-analyze':
-    '媒体分析报告生成。多源搜索话题，自动生成结构化分析报告。触发场景：用户要求分析某个话题、需要生成话题调研报告、了解事件的舆论反应。',
   'memory-organizer':
     '长期记忆整理指南。使用当需要清理、组织或重构 MEMORY.md 文件时，或决策哪些信息应该/不应该存储在长期记忆中。提供区分静态知识（长期价值）vs 动态信息（可自动获取）的原则。',
   'mp-weixin-ops':
@@ -96,8 +94,6 @@ export const skillDescriptionsEn: Record<string, string> = {
     'Professional CPO + technical co-founder assistant. Helps incubate ideas, analyze feasibility, and draft technical documents. Use when you have a new product idea, technical plan, or a flash of inspiration that needs structured elaboration.',
   'knowledge-skill':
     'Personal knowledge base skill. Ingest web pages, Bilibili, WeChat articles, Xiaohongshu posts and more into PostgreSQL; retrieve them via keyword or semantic search. Auto-generates AI summaries and vector embeddings; supports one-click URL ingestion and nightly harvesting.',
-  'media-analyze':
-    'Media analysis report generator. Multi-source topic search with automated structured report generation. Use when a user asks to analyze a topic, needs a research report, or wants to understand public opinion around an event.',
   'memory-organizer':
     'Long-term memory organization guide. Use when you need to clean up, organize, or restructure a MEMORY.md file, or decide what information should or should not be stored in long-term memory.',
   'mp-weixin-ops':

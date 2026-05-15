@@ -34,8 +34,7 @@
       "bilibili-cli",
       "xiaohongshu-cli",
       "weibo-skill",
-      "tavily",
-      "media-analyze"
+      "tavily"
     ],
     "tags": [
       "Media",
@@ -44,7 +43,7 @@
     ],
     "type": "vertical",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/blob/main/agents/media-agent.md",
-    "lastUpdated": "2026-05-02T08:29:23.000Z"
+    "lastUpdated": "2026-05-15T18:07:49.000Z"
   },
   {
     "id": "tdd-guide",

@@ -146,7 +146,6 @@ custom-skills/
 │   └── research-agent.md
 ├── skills/               ← 技能能力（保持不变，持续扩充）
 │   ├── bilibili-cli/
-│   ├── media-analyze/
 │   ├── wechat-search/
 │   └── ...
 ├── registry/
@@ -179,7 +178,7 @@ name: media-agent
 description: 触发描述，写清楚什么时候 PROACTIVELY 用这个 Agent
 tools: ["Read", "Write", "Bash", "WebFetch"]
 model: sonnet
-skills: [media-analyze, bilibili-cli, weibo-skill, wechat-search, xiaohongshu-cli]  # 垂直型必填
+skills: [bilibili-cli, weibo-skill, wechat-search, xiaohongshu-cli, twitter-cli]  # 垂直型必填
 ---
 
 你是...（角色定义）
@@ -227,7 +226,7 @@ For full details, see `skill: bilibili-cli`, `skill: wechat-search`.
 
 ```yaml
 name: media-agent
-skills: [media-analyze, bilibili-cli, weibo-skill, wechat-search, xiaohongshu-cli]
+skills: [bilibili-cli, weibo-skill, wechat-search, xiaohongshu-cli, twitter-cli]
 定位: 跨平台媒体内容采集与深度分析
 输入: 话题关键词
 输出: 结构化 Markdown 分析报告

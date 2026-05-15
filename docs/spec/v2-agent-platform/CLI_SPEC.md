@@ -199,7 +199,7 @@ export interface Agent {
 
 安装 agent 时只解析 `agents/<name>.md` frontmatter 中的 `skills: [...]` 字段，不会递归解析 skill 内部引用的其他 skill。
 
-例如：`media-agent` 依赖 `media-analyze`，而 `media-analyze` 的 SKILL.md 内部文档引用了 `weibo-skill`、`wechat-search`——CLI 不会自动安装这些传递依赖，需要 agent 作者在 frontmatter `skills` 中显式声明所有直接依赖。
+例如：`media-agent` 依赖 `weibo-skill`、`wechat-search`、`bilibili-cli`、`twitter-cli` 等信息类 skill。CLI 不会递归推断“隐式依赖”，需要 agent 作者在 frontmatter `skills` 中显式声明所有直接依赖。
 
 **规则：agent 的 `skills` 字段必须列出所有运行时需要的 skill，包括间接依赖。**
 

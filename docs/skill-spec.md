@@ -47,6 +47,24 @@ Bilibili, WeChat, Weibo, Xiaohongshu
 - 如果 Skill 位于上游子目录中，必须补充 `upstreamPath`
 - 需要在 `web/src/i18n/skill-descriptions.ts` 中补充中文描述
 
+### 外部 CLI 型 Skill 的轻量接入原则
+
+对于 `twitter-cli`、`bilibili-cli`、`xiaohongshu-cli` 这类“运行时依赖外部已发布 CLI”的 Skill，本仓库优先保存：
+
+- `SKILL.md`
+- `SCHEMA.md`（如果 `SKILL.md` 有引用）
+- 少量对 Agent 真正有用的补充说明文件
+
+通常不需要把上游仓库完整 vendoring 进来，例如：
+
+- `.github/`
+- `tests/`
+- `pyproject.toml`
+- `uv.lock`
+- 源码目录
+
+这类 Skill 在本仓库中的主要职责是提供安装方式、认证步骤、输出契约与使用策略，而不是镜像整个上游实现。
+
 ## Python 脚本规则
 
 - 优先使用 PEP 723 内联元数据
