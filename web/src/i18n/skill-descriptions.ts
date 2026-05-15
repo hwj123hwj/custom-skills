@@ -35,6 +35,8 @@ export const skillDescriptionsZh: Record<string, string> = {
     '使用 Google Cloud Vertex AI 轻量级视频模型（gemini-3.1-flash-lite-preview）读取、分析和理解视频文件。当用户需要视频摘要、提取字幕/动作、描述 mp4/mov 内容或对视频片段提问时使用。',
   'xiaohongshu-cli':
     '小红书一站式 CLI 工具。支持搜索笔记、阅读内容、浏览用户主页、点赞、收藏、评论、关注及发布。凡涉及小红书的操作，均通过此技能完成。',
+  'twitter-cli':
+    'Twitter/X 一站式 CLI 工具。支持读取时间线、书签、搜索结果、用户主页、推文详情，以及发帖、回复、引用、点赞、转推、关注等操作。凡涉及 Twitter/X 的交互，均通过此技能完成。',
 
   // ── 原本中文 description 的技能（无需额外翻译，但保留中文映射供显示） ──
   'bjtuo-classroom-query':
@@ -77,7 +79,7 @@ export const agentDescriptionsZh: Record<string, string> = {
   'architect':
     '软件架构专家，专注系统设计、可扩展性与技术决策。在规划新功能、重构大型系统或做架构决策时主动使用。',
   'media-agent':
-    '中文社交平台跨平台媒体分析师。当用户需要调研话题、分析舆情、追踪热门内容，或在 B站、微信、微博、小红书生成结构化媒体报告时主动使用。',
+    '面向程序员与产品经理的跨平台信息情报 Agent。当用户需要做每日信息摄取、多源追踪、信号去噪、洞察提炼，或同时产出日报与长期知识候选时主动使用。',
   'tdd-guide':
     '测试驱动开发（TDD）专家，严格执行先写测试的方法论。在新增功能、修复 Bug 或重构代码时主动使用，确保测试覆盖率 80% 以上。',
 };
@@ -128,7 +130,7 @@ export const agentDescriptionsEn: Record<string, string> = {
   'architect':
     'Software architecture expert focused on system design, scalability, and technology decisions. Use proactively when planning new features, refactoring large systems, or making architectural decisions.',
   'media-agent':
-    'Cross-platform media analyst for Chinese social platforms. Use when researching topics, analyzing sentiment, tracking trending content, or generating structured media reports on Bilibili, WeChat, Weibo, or Xiaohongshu.',
+    'Cross-platform information intelligence agent for programmers and product managers. Use when handling daily information intake, multi-source tracking, signal denoising, insight synthesis, or a combined output of daily brief plus long-lived knowledge candidates.',
   'tdd-guide':
     'Test-Driven Development (TDD) expert who strictly follows a test-first methodology. Use proactively when adding features, fixing bugs, or refactoring code to ensure ≥80% test coverage.',
 };

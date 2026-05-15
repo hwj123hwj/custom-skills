@@ -18,7 +18,7 @@
   {
     "id": "media-agent",
     "name": "media-agent",
-    "description": "Cross-platform media analyst for Chinese social platforms. Use PROACTIVELY when the user wants to research a topic, analyze public opinion, track trending content, or generate structured media reports across Bilibili, WeChat, Weibo, and Xiaohongshu.",
+    "description": "Cross-platform information intelligence agent for programmers and product managers. Use PROACTIVELY when the user needs daily information intake, multi-source topic tracking, signal denoising, insight synthesis, or a combined output of daily brief plus long-lived knowledge candidates across RSS, WeChat, Twitter/X, Bilibili, Weibo, and Xiaohongshu.",
     "tools": [
       "Read",
       "Write",
@@ -28,16 +28,18 @@
     ],
     "model": "sonnet",
     "skills": [
-      "media-analyze",
-      "bilibili-cli",
+      "rss-monitor",
       "wechat-search",
-      "weibo-skill",
+      "twitter-cli",
+      "bilibili-cli",
       "xiaohongshu-cli",
-      "tavily"
+      "weibo-skill",
+      "tavily",
+      "media-analyze"
     ],
     "tags": [
       "Media",
-      "Content",
+      "Product",
       "Analysis"
     ],
     "type": "vertical",

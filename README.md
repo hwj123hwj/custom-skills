@@ -68,6 +68,7 @@ npx skills add https://github.com/hwj123hwj/custom-skills --skill <skill-id>
 | [skills-sh-installer](./skills/skills-sh-installer) | 从 skills.sh（Cursor/Windsurf 技能市场）下载并安装技能到本地 .deepv/skills 目录。 |
 | [tavily](./skills/tavily) | Unified Tavily CLI skill — web search, URL extraction, and deep research via `tvly`. |
 | [tts](./skills/tts) | Unified TTS (Text-to-Speech) skill with pluggable providers (strategy pattern). |
+| [twitter-cli](./skills/twitter-cli) | Use twitter-cli for ALL Twitter/X operations — reading tweets, posting, replying, quoting, liking... |
 | [vertex-video-reader](./skills/vertex-video-reader) | Use this skill to read, analyze, and understand video files using Google Cloud Vertex AI's lightw... |
 | [videocut](./skills/videocut) | 口播视频一站式剪辑 Skill。 |
 | [wechat-decrypt](./skills/wechat-decrypt) | 用于解密、同步、查询和导出本机微信 macOS 聊天数据的 CLI-first 技能。 |
@@ -78,7 +79,7 @@ npx skills add https://github.com/hwj123hwj/custom-skills --skill <skill-id>
 
 ## For AI Agents
 
-If you are an AI agent reading this, see [AGENT.md](./AGENT.md) for the technical architecture, data flow, and contribution guidelines.
+If you are an AI agent reading this, start with [AGENTS.md](./AGENTS.md) for the lightweight working rules, then see [docs/architecture.md](./docs/architecture.md), [docs/skill-spec.md](./docs/skill-spec.md), and [docs/agent-spec.md](./docs/agent-spec.md) for the detailed technical architecture and contribution guidelines.
 
 ## License
 

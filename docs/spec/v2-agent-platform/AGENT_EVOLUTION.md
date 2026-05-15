@@ -114,7 +114,7 @@ Hooks 不能直接修改初始系统提示词，但可以通过 `systemMessage` 
 
 ```
 custom-skills/
-├── AGENT.md              ← 给 AI 看的技术架构说明（项目级）
+├── AGENTS.md             ← 给 AI 看的项目入口与核心规则
 ├── skills/               ← 24 个技能（能力层，已经比较完善）
 ├── registry/             ← 技能索引（自动生成）
 ├── cli/                  ← 安装工具
@@ -137,7 +137,7 @@ custom-skills/
 
 ```
 custom-skills/
-├── AGENT.md              ← 项目级技术架构（保持不变）
+├── AGENTS.md             ← 项目级入口文档（保持轻量）
 ├── agents/               ← 🆕 专业 Agent 定义（人格层）
 │   ├── media-agent.md
 │   ├── content-creator.md
@@ -166,10 +166,10 @@ custom-skills/
 每个 Agent 一个 `.md` 文件，放在 `agents/` 目录下。
 
 > ⚠️ **注意：本节为早期设计草稿，包含「三段式」结构和部分 frontmatter 字段（displayName/version/tags）已在实践中调整。**
-> **实际规范以 `AGENT.md` 第 5 节为准，实际示例以 `agents/media-agent.md` 为准。**
+> **实际规范以 `docs/agent-spec.md` 为准，实际示例以 `agents/media-agent.md` 为准。**
 
 **早期设计的三段式结构（系统提示词 / 技能组合 / 工作流程）已废弃。**
-实际采用 ECC 风格的平铺结构，详见 `AGENT.md`。
+实际采用 ECC 风格的平铺结构，详见 `docs/agent-spec.md`。
 
 **frontmatter 字段精简后如下（去掉了 `displayName`、`version`、`tags`）：**
 
@@ -282,7 +282,7 @@ skills: [wechat-search, weibo-skill, skill-browser-crawl, rss-monitor]
 1. 创建 `agents/` 目录
 2. 定义 Agent 文件规范（frontmatter + 三段式结构：系统提示词 / 技能组合 / 工作流程）
 3. 编写 2-3 个 Agent 作为示范（`media-agent`、`content-creator`、`research-agent`）
-4. 更新 `AGENT.md`，加入 Agent 开发规范
+4. 更新 `docs/agent-spec.md`，加入 Agent 开发规范
 5. **注意：** 系统提示词部分先作为人格参考文档，不自动注入
 
 ### Phase 2：扩展 CLI 支持
