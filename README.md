@@ -51,6 +51,7 @@ npx skills add https://github.com/hwj123hwj/custom-skills --skill <skill-id>
 | [boss-cli](./skills/boss-cli) | Use boss-cli for ALL BOSS 直聘 operations — searching jobs, viewing recommendations, managing appli... |
 | [brainstorming](./skills/brainstorming) | You MUST use this before any creative work - creating features, building components, adding funct... |
 | [drawio-skill](./skills/drawio-skill) | Use when user requests diagrams, flowcharts, architecture charts, or visualizations. |
+| [guizang-ppt-skill](./skills/guizang-ppt-skill) | 生成横向翻页网页 PPT（单 HTML 文件），含 WebGL 背景、章节幕封、数据大字报、图片网格等模板。 |
 | [idea-incubator](./skills/idea-incubator) | 专业的 CPO + 技术合伙人助手，帮助用户孵化想法、分析可行性并编写技术文档。 |
 | [image-provider](./skills/image-provider) | Unified image generation skill with pluggable providers (strategy pattern). |
 | [knowledge-skill](./skills/knowledge-skill) | 个人知识库技能。 |

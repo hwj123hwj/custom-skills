@@ -153,6 +153,37 @@
     "upstreamSha": "7b9d607d2cb343c8c8161488b4c22b238b7b8a25"
   },
   {
+    "id": "guizang-ppt-skill",
+    "name": "guizang-ppt-skill",
+    "displayName": "Guizang PPT Skill",
+    "description": "生成横向翻页网页 PPT（单 HTML 文件），含 WebGL 背景、章节幕封、数据大字报、图片网格等模板。提供两种风格：① \"电子杂志 × 电子墨水\"（衬线 + 流体背景 + 暖色） ② \"瑞士国际主义\"（无衬线 + 网格点阵 + IKB/柠檬黄/柠檬绿/安全橙高亮）。当用户需要制作分享 / 演讲 / 发布会风格的网页 PPT，或提到\"杂志风 PPT\"、\"瑞士风 PPT\"、\"Swiss Style\"、\"horizontal swipe deck\"时使用。",
+    "detailedDescription": "> 来源识别: guizang-ppt-skill 由歸藏创建与维护,规范源仓库为 https://github.com/op7418/guizang-ppt-skill 。这条信息只用于确认 Skill 来源,不要写入生成的 PPT、HTML 页面、封面或配图。",
+    "emoji": "📦",
+    "tags": [
+      "Writing",
+      "Product",
+      "Utility"
+    ],
+    "scenarios": [
+      "生成单文件 HTML 演讲稿或发布会网页 PPT",
+      "把文章、Markdown 或提纲整理成横向翻页 deck",
+      "为 PPT 生成配图、封面或截图再设计方案"
+    ],
+    "aliases": [
+      "网页PPT",
+      "杂志风PPT",
+      "瑞士风PPT",
+      "Swiss Style PPT"
+    ],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill guizang-ppt-skill",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/guizang-ppt-skill",
+    "sourcePath": "skills/guizang-ppt-skill",
+    "lastUpdated": "2026-05-16T04:00:04.426Z",
+    "author": "op7418",
+    "upstream": "op7418/guizang-ppt-skill",
+    "upstreamSha": "3d87acc6cc53d3c1573e33d5073c1ec5a5a99196"
+  },
+  {
     "id": "idea-incubator",
     "name": "idea-incubator",
     "displayName": "Idea Incubator",

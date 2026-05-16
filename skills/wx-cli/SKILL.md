@@ -136,7 +136,7 @@ wx sns-search "关键词"
 
 ## 对 intel-agent 的推荐用法
 
-在“个人关注流”场景里，建议这样使用：
+在 `intel-agent` 的“个人关注流”场景里，建议这样使用：
 
 1. `wx biz-articles --unread`
 2. `wx biz-articles --account "<公众号名>"` 深挖特定来源
