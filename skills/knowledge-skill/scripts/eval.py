@@ -20,7 +20,7 @@ VENV = "uv run"
 SCRIPTS = str(Path(__file__).parent)
 RESULTS_FILE = str(Path(__file__).parent.parent / "eval_results.tsv")
 
-HEADER = "timestamp\tpassed\ttotal\trate\ttest_1_save\ttest_2_ai_summary\ttest_3_vector_search\ttest_4_keyword_search\ttest_5_hybrid_search\ttest_6_export\tnotes"
+HEADER = "timestamp\tpassed\ttotal\trate\ttest_1_save\ttest_2_ai_summary\ttest_3_vector_search\ttest_4_keyword_search\ttest_5_hybrid_search\ttest_6_export\ttest_7_deck_brief\tnotes"
 
 
 def run_script(script_name, args_str, timeout=60):
@@ -198,6 +198,46 @@ def test_export():
         return False, f"invalid json: {out[:80]}"
 
 
+def test_deck_brief():
+    """测试7: 生成知识卡片和 deck brief"""
+    ok, out, err, dur = run_script(
+        "knowledge_to_deck_brief.py",
+        '--query "AutoResearch 知识" --mode hybrid --limit 4 --cards 2 --content-chars 300',
+    )
+
+    if not ok:
+        return False, f"deck brief failed: {err[:80]}"
+
+    try:
+        data = json.loads(out)
+        cards = data.get("knowledge_cards", [])
+        deck_brief = data.get("deck_brief", {})
+        slide_notes = deck_brief.get("slide_notes", [])
+
+        if not cards:
+            return False, "no knowledge cards"
+        if not deck_brief:
+            return False, "missing deck_brief"
+        if len(slide_notes) < 4:
+            return False, f"too few slide notes: {len(slide_notes)}"
+
+        top_card = cards[0]
+        required_card_fields = [
+            "title",
+            "takeaway",
+            "why_it_matters",
+            "evidence_or_example",
+            "suggested_slide_type",
+        ]
+        missing = [field for field in required_card_fields if not top_card.get(field)]
+        if missing:
+            return False, f"missing card fields: {missing}"
+
+        return True, f"cards={len(cards)} slides={len(slide_notes)} {dur:.1f}s"
+    except json.JSONDecodeError:
+        return False, f"invalid json: {out[:80]}"
+
+
 TESTS = [
     ("test_1_save", test_save),
     ("test_2_ai_summary", test_ai_summary),
@@ -205,6 +245,7 @@ TESTS = [
     ("test_4_keyword_search", test_keyword_search),
     ("test_5_hybrid_search", test_hybrid_search),
     ("test_6_export", test_export),
+    ("test_7_deck_brief", test_deck_brief),
 ]
 
 
@@ -253,6 +294,7 @@ def main():
             "PASS" if results["test_4_keyword_search"][0] else f"FAIL:{results['test_4_keyword_search'][1][:30]}",
             "PASS" if results["test_5_hybrid_search"][0] else f"FAIL:{results['test_5_hybrid_search'][1][:30]}",
             "PASS" if results["test_6_export"][0] else f"FAIL:{results['test_6_export'][1][:30]}",
+            "PASS" if results["test_7_deck_brief"][0] else f"FAIL:{results['test_7_deck_brief'][1][:30]}",
             "",
         ]
         with open(RESULTS_FILE, "a") as f:

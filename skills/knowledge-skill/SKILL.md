@@ -31,6 +31,7 @@ scenarios:
 | 入库 | `knowledge_save.py` | 保存内容到知识库，自动生成 AI 摘要和 embedding |
 | 搜索 | `knowledge_search.py` | 关键词 + 向量语义搜索（支持混合搜索） |
 | 导出候选 | `knowledge_export.py` | 面向 agent 导出更完整的候选知识对象，补齐 `ai_summary`、`content`、`metadata` |
+| 生成 Deck Brief | `knowledge_to_deck_brief.py` | 从导出的候选知识中筛选高价值内容，压成知识卡片，并生成可交给 PPT Skill 的结构化 brief |
 | URL入库 | `knowledge_save_from_url.py` | 从 URL 自动获取并入库（支持视频ASR转录） |
 | 夜间收割 | `nightly_harvest.py` | B站 + 小红书自动收割（含ASR），cron 定时运行 |
 | 评测 | `eval.py` | 知识库搜索质量评测 |
@@ -110,6 +111,26 @@ python skills/knowledge-skill/scripts/knowledge_export.py \
   --mode hybrid \
   --limit 8 \
   --content-chars 800
+```
+
+### 生成 Deck Brief（知识到展示）
+
+```bash
+# 生成结构化卡片 + deck brief（JSON）
+python skills/knowledge-skill/scripts/knowledge_to_deck_brief.py \
+  --query "Agent Infrastructure" \
+  --mode hybrid \
+  --cards 5 \
+  --style swiss
+
+# 生成人类更容易审阅的 Markdown 版本
+python skills/knowledge-skill/scripts/knowledge_to_deck_brief.py \
+  --query "个人知识管理" \
+  --mode hybrid \
+  --cards 4 \
+  --style magazine \
+  --audience "程序员 / 产品经理" \
+  --output markdown
 ```
 
 ### 夜间自动收割
@@ -215,3 +236,4 @@ BILI_COOKIE_PATH=~/.bilibili-cookies.json
 - **多集教程过滤**: 标题含"全"、"集"、"零基础"等关键词 ≥2 个自动跳过
 - **Cron 环境**: 不加载 .env，脚本内需显式 `load_dotenv()`
 - **Agent 消费建议**: 如果后续要做 deck、知识卡片或结构化筛选，优先使用 `knowledge_export.py`，不要直接消费 `knowledge_search.py` 的简化结果
+- **Deck 编排建议**: 如果目标是把知识变成展示资产，先跑 `knowledge_to_deck_brief.py`，再把生成的 brief 交给 `guizang-ppt-skill`
