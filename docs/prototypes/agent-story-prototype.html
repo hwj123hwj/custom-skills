@@ -751,17 +751,17 @@
 
     <main>
       <section class="hero">
-        <div class="eyebrow">Prototype · 复刻当前界面后扩展 Story 页</div>
+        <div class="eyebrow">Prototype · 已同步到当前 Stories 实现方向</div>
         <h1><span>Build Skills. Evolve Agents.</span></h1>
         <p>
-          这是一个单文件 HTML 原型，先尽量复刻当前 Web 的结构和视觉，再往里加入
-          `Agent Story / 进化记录` 这一层，方便后续直观迭代。
+          这是一个单文件 HTML 原型，用来表达当前 Web 已经实现的 `Stories` 方向：
+          在不打乱 Skills 和 Agents 主视图的前提下，引入一个文档驱动的 Agent 复盘层。
         </p>
         <div class="search-shell">
           <div class="search-glow"></div>
           <div class="search-bar">
             <span>⌕</span>
-            <span>搜索 skill、agent，或者直接搜索 “为什么做这个 agent”...</span>
+            <span>搜索 skill、agent，或者搜索某个 agent 的故事、问题和进化记录...</span>
           </div>
         </div>
       </section>
@@ -780,7 +780,7 @@
         <div class="tabbar-shell">
           <button class="tab active" data-tab="skills">Skills <span class="count-pill">30</span></button>
           <button class="tab" data-tab="agents">Agents <span class="count-pill">3</span></button>
-          <button class="tab" data-tab="stories">Stories <span class="count-pill">3</span></button>
+          <button class="tab" data-tab="stories">Stories <span class="count-pill">1</span></button>
         </div>
       </section>
 
@@ -934,22 +934,6 @@
                 </div>
               </article>
 
-              <article class="story-item">
-                <h4>Architect</h4>
-                <p>记录这个 Agent 在真实项目里怎么帮助做架构拆解、决策收敛和技术权衡。</p>
-                <div class="story-meta">
-                  <span class="tag">Draft Story</span>
-                  <span class="tag">General</span>
-                </div>
-              </article>
-
-              <article class="story-item">
-                <h4>Guizang PPT Skill</h4>
-                <p>新增第三方设计型 skill，后续也能延展成“为什么需要这个能力”的故事卡片。</p>
-                <div class="story-meta">
-                  <span class="tag">Draft Story</span>
-                </div>
-              </article>
             </div>
           </aside>
 
@@ -989,7 +973,7 @@
                   <div class="metric-note">Twitter following、微信未读公众号、B 站关注动态。</div>
                 </div>
                 <div class="metric-card">
-                  <div class="metric-label">当前体感效果</div>
+                  <div class="metric-label">当前状态</div>
                   <div class="metric-value">还行</div>
                   <div class="metric-note">已有初步价值，但还需要更多真实反馈压缩噪音。</div>
                 </div>
@@ -1195,7 +1179,7 @@ tags: [analysis, knowledge, following-first]
         </div>
 
         <div class="proto-note">
-          这个版本更接近“最终方向”的样子了：页面结构基本固定，内容来自 `docs/agent-stories/*.md`。下一步如果你认可，我们就不再继续手改 HTML，而是开始定义 story 文档格式，并让 Web 自动渲染它。
+          这份 HTML 现在主要用来和正式 Web 保持同一个思路：页面结构基本固定，内容来自 `docs/agent-stories/*.md`，真实站点再通过同步脚本生成 `stories-data.json` 供前端消费。
         </div>
       </section>
 
