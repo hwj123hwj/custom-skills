@@ -16,8 +16,8 @@
 
 ## Source Plan
 
-- Primary：`twitter-cli`、`rss-monitor`
-- Secondary：`bilibili-cli`、`wechat-search`
+- Primary：`twitter-cli`
+- Secondary：`bilibili-cli`
 - Optional：`tavily`
 
 ## Run Constraints
@@ -38,6 +38,7 @@
 - 内容很多，但缺少工程判断
 - 只讲新闻，不讲工作流影响
 - `Knowledge Candidate` 没有可复用的工程经验
+- 过度拔高新语言、新框架或纯研究架构发布，却没有落到开发者近期可用性的判断
 
 ## Review Rubric
 

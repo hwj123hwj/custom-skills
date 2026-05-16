@@ -49,8 +49,8 @@ export const skillDescriptionsZh: Record<string, string> = {
     '长期记忆整理指南。使用当需要清理、组织或重构 MEMORY.md 文件时，或决策哪些信息应该/不应该存储在长期记忆中。提供区分静态知识（长期价值）vs 动态信息（可自动获取）的原则。',
   'mp-weixin-ops':
     '微信公众号一站式运营 Skill。覆盖从热点调研、选题策划、文章写作、配图生成、封面制作、排版转换到推送草稿箱的完整工作流。所有子功能内置于 skills/ 子目录，无需单独安装。',
-  'rss-monitor':
-    'RSS 消息监控与智能摘要。定时拉取自部署 WeWe RSS 的公众号 feed，识别新文章，生成结构化摘要，推送给用户，并记录反馈形成自进化偏好体系。',
+  'wx-cli':
+    '本地微信消息与公众号文章查询 CLI。读取本机微信数据库，查询会话、聊天记录、联系人、群成员、朋友圈通知，以及关注公众号推送文章。适用于查看微信关注流、按关键词搜索历史消息、筛选未读公众号文章。',
   'short-drama-pipeline':
     'AI 短剧/短视频全链路生产技能。从选题调研、脚本撰写、视频生成到成片输出的完整工作流。复用 tavily（调研）、xiaohongshu-cli/bilibili-cli（平台数据）、libtv-skill（视频生成）。',
   'short-video-replicator':
@@ -63,8 +63,6 @@ export const skillDescriptionsZh: Record<string, string> = {
     '口播视频一站式剪辑 Skill。覆盖转录、口误识别、字幕生成、高清导出的完整工作流。触发词：剪口播、处理视频、帮我剪辑、生成字幕、导出高清。',
   'wechat-decrypt':
     '用于解密、同步、查询和导出本机微信 macOS 聊天数据的 CLI-first 技能。每当用户提到微信聊天记录、微信数据库、查微信消息、搜聊天记录、导出微信图片/文件时使用。',
-  'wechat-search':
-    '用于搜索微信公众号文章的工具。每当用户要求搜索微信公众号文章、微信文章，或通过关键词寻找特定话题时必须触发此技能。返回文章标题、链接和摘要。',
   'weibo-skill':
     '微博内容搜索、热搜查看、用户动态及评论读取。使用 m.weibo.cn 移动端接口，无需账号和 API Key。触发场景：搜索微博内容/话题、查看实时热搜、获取用户动态、查看评论。',
   'paddleocr-doc-parsing':
@@ -98,8 +96,8 @@ export const skillDescriptionsEn: Record<string, string> = {
     'Long-term memory organization guide. Use when you need to clean up, organize, or restructure a MEMORY.md file, or decide what information should or should not be stored in long-term memory.',
   'mp-weixin-ops':
     'All-in-one WeChat Official Account operations skill. Covers the full workflow from trending topic research, editorial planning, article writing, image generation, cover design, formatting, to pushing drafts.',
-  'rss-monitor':
-    'RSS feed monitoring and intelligent summarization. Periodically fetches WeChat account feeds from a self-hosted WeWe RSS, identifies new articles, generates structured summaries, notifies users, and records feedback to form a self-evolving preference model.',
+  'wx-cli':
+    'CLI for querying local WeChat messages and official-account articles. Reads the local WeChat database to inspect sessions, chat history, contacts, group members, Moments notifications, and followed official-account pushes. Useful for WeChat-based personal signal review, history lookups, and unread official-account article scanning.',
   'short-drama-pipeline':
     'Full-pipeline AI short drama / short video production skill. End-to-end workflow from topic research, scriptwriting, and video generation to final output. Reuses tavily (research), xiaohongshu-cli / bilibili-cli (platform data), and libtv-skill (video generation).',
   'short-video-replicator':
@@ -112,8 +110,6 @@ export const skillDescriptionsEn: Record<string, string> = {
     'All-in-one voiceover video editing skill. Full workflow covering transcription, filler-word detection, subtitle generation, and high-quality export. Trigger words: edit voiceover, process video, cut video, generate subtitles, export HD.',
   'wechat-decrypt':
     'CLI-first skill for decrypting, syncing, querying, and exporting WeChat chat data from a local macOS installation. Use whenever the user mentions WeChat chat history, the WeChat database, searching chat messages, or exporting WeChat images/files.',
-  'wechat-search':
-    'Tool for searching WeChat Official Account articles. Must be triggered whenever the user asks to search WeChat Official Account articles or find articles on a specific topic by keyword.',
   'weibo-skill':
     'Search Weibo content, view trending topics, read user posts and comments. Uses the m.weibo.cn mobile API — no account or API key required. Trigger scenarios: search Weibo content/topics, check real-time hot searches, fetch user posts, view comments.',
 };

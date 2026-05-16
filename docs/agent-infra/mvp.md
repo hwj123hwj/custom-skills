@@ -16,8 +16,7 @@
 
 ## 推荐 Skill
 
-- `rss-monitor`
-- `wechat-search`
+- `wx-cli`
 - `twitter-cli`
 - `bilibili-cli`
 - `xiaohongshu-cli`

@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://weijian.online/</loc>
-    <lastmod>2026-05-15</lastmod>
+    <lastmod>2026-05-16</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -103,12 +103,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://weijian.online/skill/rss-monitor</loc>
-    <lastmod>2026-04-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://weijian.online/skill/short-drama-pipeline</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>weekly</changefreq>
@@ -169,14 +163,14 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://weijian.online/skill/wechat-search</loc>
-    <lastmod>2026-04-23</lastmod>
+    <loc>https://weijian.online/skill/weibo-skill</loc>
+    <lastmod>2026-05-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://weijian.online/skill/weibo-skill</loc>
-    <lastmod>2026-05-02</lastmod>
+    <loc>https://weijian.online/skill/wx-cli</loc>
+    <lastmod>2026-05-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

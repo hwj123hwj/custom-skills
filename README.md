@@ -60,7 +60,6 @@ npx skills add https://github.com/hwj123hwj/custom-skills --skill <skill-id>
 | [officecli-docx](./skills/officecli-docx) | Use this skill any time a .docx file is involved -- as input, output, or both. |
 | [paddleocr-doc-parsing](./skills/paddleocr-doc-parsing) | Use this skill to extract structured Markdown/JSON from PDFs and document images—tables with cell... |
 | [paddleocr-text-recognition](./skills/paddleocr-text-recognition) | Use this skill whenever the user wants text extracted from images, photos, scans, screenshots, or... |
-| [rss-monitor](./skills/rss-monitor) | RSS 消息监控与智能摘要。 |
 | [short-drama-pipeline](./skills/short-drama-pipeline) | AI 短剧/短视频全链路生产技能。 |
 | [short-video-replicator](./skills/short-video-replicator) | 短视频爆款复刻一站式工具。 |
 | [skill-browser-crawl](./skills/skill-browser-crawl) | 基于浏览器的轻量级网页爬虫。 |
@@ -71,8 +70,8 @@ npx skills add https://github.com/hwj123hwj/custom-skills --skill <skill-id>
 | [vertex-video-reader](./skills/vertex-video-reader) | Use this skill to read, analyze, and understand video files using Google Cloud Vertex AI's lightw... |
 | [videocut](./skills/videocut) | 口播视频一站式剪辑 Skill。 |
 | [wechat-decrypt](./skills/wechat-decrypt) | 用于解密、同步、查询和导出本机微信 macOS 聊天数据的 CLI-first 技能。 |
-| [wechat-search](./skills/wechat-search) | 用于搜索微信公众号文章的工具。 |
 | [weibo-skill](./skills/weibo-skill) | 微博内容搜索、热搜查看、用户动态及评论读取。 |
+| [wx-cli](./skills/wx-cli) | 本地微信消息与公众号文章查询 CLI。 |
 | [xiaohongshu-cli](./skills/xiaohongshu-cli) | Use xiaohongshu-cli for ALL Xiaohongshu (Little Red Book, 小红书) operations — searching notes, read... |
 <!-- SKILL_TABLE:END -->
 

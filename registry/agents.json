@@ -18,7 +18,7 @@
   {
     "id": "media-agent",
     "name": "media-agent",
-    "description": "Cross-platform information intelligence agent for programmers and product managers. Use PROACTIVELY when the user needs daily information intake, multi-source topic tracking, signal denoising, insight synthesis, or a combined output of daily brief plus long-lived knowledge candidates across RSS, WeChat, Twitter/X, Bilibili, Weibo, and Xiaohongshu.",
+    "description": "Cross-platform information intelligence agent for programmers and product managers. Use PROACTIVELY when the user needs daily information intake, multi-source topic tracking, signal denoising, insight synthesis, or a combined output of daily brief plus long-lived knowledge candidates across WeChat, Twitter/X, Bilibili, Weibo, and Xiaohongshu.",
     "tools": [
       "Read",
       "Write",
@@ -28,8 +28,7 @@
     ],
     "model": "sonnet",
     "skills": [
-      "rss-monitor",
-      "wechat-search",
+      "wx-cli",
       "twitter-cli",
       "bilibili-cli",
       "xiaohongshu-cli",
@@ -43,7 +42,7 @@
     ],
     "type": "vertical",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/blob/main/agents/media-agent.md",
-    "lastUpdated": "2026-05-15T18:07:49.000Z"
+    "lastUpdated": "2026-05-15T19:03:15.000Z"
   },
   {
     "id": "tdd-guide",

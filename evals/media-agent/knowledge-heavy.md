@@ -16,8 +16,8 @@
 
 ## Source Plan
 
-- Primary：`wechat-search`、`rss-monitor`
-- Secondary：`twitter-cli`、`bilibili-cli`
+- Primary：`wx-cli`、`twitter-cli`
+- Secondary：`bilibili-cli`
 - Optional：`tavily`、`xiaohongshu-cli`
 
 ## Run Constraints
@@ -39,6 +39,7 @@
 - 候选过多但强度很弱
 - 没有解释长期价值
 - 明显应该进知识候选的内容被漏掉
+- 把尚未产品化、尚无实际采用信号的理论突破直接沉淀为长期知识
 
 ## Review Rubric
 

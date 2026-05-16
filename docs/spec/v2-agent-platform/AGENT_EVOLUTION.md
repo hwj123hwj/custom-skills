@@ -146,7 +146,6 @@ custom-skills/
 │   └── research-agent.md
 ├── skills/               ← 技能能力（保持不变，持续扩充）
 │   ├── bilibili-cli/
-│   ├── wechat-search/
 │   └── ...
 ├── registry/
 │   ├── skills.json       ← 技能索引（已有）
@@ -178,7 +177,7 @@ name: media-agent
 description: 触发描述，写清楚什么时候 PROACTIVELY 用这个 Agent
 tools: ["Read", "Write", "Bash", "WebFetch"]
 model: sonnet
-skills: [bilibili-cli, weibo-skill, wechat-search, xiaohongshu-cli, twitter-cli]  # 垂直型必填
+skills: [bilibili-cli, weibo-skill, xiaohongshu-cli, twitter-cli, tavily]  # 垂直型必填
 ---
 
 你是...（角色定义）
@@ -195,7 +194,7 @@ skills: [bilibili-cli, weibo-skill, wechat-search, xiaohongshu-cli, twitter-cli]
 ## Workflow
 ...
 
-For full details, see `skill: bilibili-cli`, `skill: wechat-search`.
+For full details, see `skill: bilibili-cli`, `skill: twitter-cli`.
 ```
 
 ### 3.2 关键设计决策
@@ -214,7 +213,7 @@ For full details, see `skill: bilibili-cli`, `skill: wechat-search`.
 
 **Agent 与 Skill 的关系：组合，不是继承**
 
-- 一个 Skill 可以被多个 Agent 复用（如 `wechat-search` 被 `media-agent` 和 `research-agent` 共用）
+- 一个 Skill 可以被多个 Agent 复用（如 `twitter-cli` 可被多个情报类 Agent 共用）
 - 一个 Agent 可以组合多个 Skills（如 `media-agent` 组合了 5 个搜索类 skill）
 - Agent 定义"谁在用"和"怎么用"，Skill 定义"能做什么"
 
@@ -226,7 +225,7 @@ For full details, see `skill: bilibili-cli`, `skill: wechat-search`.
 
 ```yaml
 name: media-agent
-skills: [bilibili-cli, weibo-skill, wechat-search, xiaohongshu-cli, twitter-cli]
+skills: [bilibili-cli, weibo-skill, xiaohongshu-cli, twitter-cli, tavily]
 定位: 跨平台媒体内容采集与深度分析
 输入: 话题关键词
 输出: 结构化 Markdown 分析报告
@@ -266,7 +265,7 @@ skills: []
 
 ```yaml
 name: research-agent
-skills: [wechat-search, weibo-skill, skill-browser-crawl, rss-monitor]
+skills: [weibo-skill, skill-browser-crawl, wx-cli, tavily]
 定位: 深度信息搜集与整理
 输入: 研究主题
 输出: 带引用来源的研究报告

@@ -17,7 +17,7 @@
 
 ## Source Plan
 
-- Primary：`twitter-cli`、`rss-monitor`、`wechat-search`
+- Primary：`twitter-cli`、`wx-cli`
 - Secondary：`bilibili-cli`、`weibo-skill`
 - Optional：`xiaohongshu-cli`、`tavily`
 
@@ -45,6 +45,8 @@
 - 太追热点，缺少判断
 - 输出太长，像素材堆积而不是简报
 - `Knowledge Candidates` 只是新闻摘要，没有长期价值
+- 把新编程语言发布当成核心主题，但缺少 adoption、生态牵引或实际工作流影响
+- 把纯模型理论或架构宣发抬成头条，但没有明确产品化进展或能力跃迁证据
 
 ## Review Rubric
 

@@ -49,7 +49,7 @@ Bilibili, WeChat, Weibo, Xiaohongshu
 
 ### 外部 CLI 型 Skill 的轻量接入原则
 
-对于 `twitter-cli`、`bilibili-cli`、`xiaohongshu-cli` 这类“运行时依赖外部已发布 CLI”的 Skill，本仓库优先保存：
+对于 `twitter-cli`、`bilibili-cli`、`xiaohongshu-cli`、`wx-cli` 这类“运行时依赖外部已发布 CLI”的 Skill，本仓库优先保存：
 
 - `SKILL.md`
 - `SCHEMA.md`（如果 `SKILL.md` 有引用）

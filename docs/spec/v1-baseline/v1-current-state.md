@@ -49,7 +49,7 @@ custom-skills/
 | knowledge-skill | Knowledge, Search, Automation | 自有 |
 | memory-organizer | Knowledge, Productivity, Planning | 自有 |
 | mp-weixin-ops | WeChat, Content, Writing | 自有 |
-| rss-monitor | Monitoring, Automation, Summary | 自有 |
+| wx-cli | CLI, WeChat, LocalData | jackwener |
 | short-drama-pipeline | Video, Media, Content | 自有 |
 | short-video-replicator | Video, Media, Content | 自有 |
 | skill-browser-crawl | Web, Crawler, Automation | 自有 |
@@ -59,7 +59,6 @@ custom-skills/
 | vertex-video-reader | Video, Media, Analysis | 自有 |
 | videocut | Video, Media, Utility | 自有 |
 | wechat-decrypt | LocalData, WeChat, Forensics | 自有 |
-| wechat-search | Search, WeChat, Content | 自有 |
 | weibo-skill | Weibo, Social, Search | 自有 |
 | xiaohongshu-cli | Xiaohongshu, Social, CLI | jackwener |
 
