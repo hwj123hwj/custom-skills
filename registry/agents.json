@@ -16,9 +16,9 @@
     "lastUpdated": "2026-05-02T08:29:23.000Z"
   },
   {
-    "id": "media-agent",
-    "name": "media-agent",
-    "description": "Cross-platform information intelligence agent for programmers and product managers. Use PROACTIVELY when the user needs daily information intake, multi-source topic tracking, signal denoising, insight synthesis, or a combined output of daily brief plus long-lived knowledge candidates across WeChat, Twitter/X, Bilibili, Weibo, and Xiaohongshu.",
+    "id": "intel-agent",
+    "name": "intel-agent",
+    "description": "Following-first information intelligence agent for programmers and product managers. Use PROACTIVELY when the user needs high-density daily intelligence, personal following-feed synthesis, signal denoising, or a combined output of daily brief plus long-lived knowledge candidates across WeChat, Twitter/X, and Bilibili.",
     "tools": [
       "Read",
       "Write",
@@ -32,17 +32,16 @@
       "twitter-cli",
       "bilibili-cli",
       "xiaohongshu-cli",
-      "weibo-skill",
       "tavily"
     ],
     "tags": [
-      "Media",
       "Product",
-      "Analysis"
+      "Analysis",
+      "Knowledge"
     ],
     "type": "vertical",
-    "githubUrl": "https://github.com/hwj123hwj/custom-skills/blob/main/agents/media-agent.md",
-    "lastUpdated": "2026-05-15T19:03:15.000Z"
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/blob/main/agents/intel-agent.md",
+    "lastUpdated": "2026-05-16T03:07:58.369Z"
   },
   {
     "id": "tdd-guide",

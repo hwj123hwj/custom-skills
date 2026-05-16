@@ -28,7 +28,7 @@ evals/<agent-id>/
 ## Baseline Notes
 ```
 
-## `media-agent` 第一批推荐 case 类型
+## `intel-agent` 第一批推荐 case 类型
 
 - balanced
 - noise-heavy

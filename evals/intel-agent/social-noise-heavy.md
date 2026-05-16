@@ -2,11 +2,11 @@
 
 ## Purpose
 
-验证 `media-agent` 在社交平台噪声很高时，是否还能维持较好的过滤能力与主题提炼质量。
+验证 `intel-agent` 在社交平台噪声很高时，是否还能维持较好的过滤能力与主题提炼质量。
 
 ## Scenario
 
-今天的输入主要来自 Twitter/X、微博和小红书，热点很多，但真正有价值的信息比例较低。Agent 需要避免被平台热度牵着走。
+今天的输入里，Twitter following 和小红书检索夹杂了不少噪声，真正有价值的信息比例较低。Agent 需要避免被平台热度或经验贴泛滥牵着走。
 
 ## Input Window
 
@@ -18,7 +18,7 @@
 ## Source Plan
 
 - Primary：`twitter-cli`
-- Secondary：`weibo-skill`、`xiaohongshu-cli`
+- Secondary：`xiaohongshu-cli`
 - Optional：`tavily`
 
 ## Run Constraints

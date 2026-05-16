@@ -60,6 +60,6 @@ skills/*/SKILL.md
 - Upstream sync: [docs/upstream-sync.md](/Users/weijian/Desktop/develop/custom-skills/docs/upstream-sync.md)
 - Agent infrastructure overview: [docs/agent-infra/overview.md](/Users/weijian/Desktop/develop/custom-skills/docs/agent-infra/overview.md)
 - Agent infrastructure MVP: [docs/agent-infra/mvp.md](/Users/weijian/Desktop/develop/custom-skills/docs/agent-infra/mvp.md)
-- Media agent spec: [docs/agent-infra/media-agent-spec.md](/Users/weijian/Desktop/develop/custom-skills/docs/agent-infra/media-agent-spec.md)
+- Intel agent spec: [docs/agent-infra/intel-agent-spec.md](/Users/weijian/Desktop/develop/custom-skills/docs/agent-infra/intel-agent-spec.md)
 - Eval case spec: [docs/agent-infra/eval-case-spec.md](/Users/weijian/Desktop/develop/custom-skills/docs/agent-infra/eval-case-spec.md)
 - Run artifact spec: [docs/agent-infra/run-artifact-spec.md](/Users/weijian/Desktop/develop/custom-skills/docs/agent-infra/run-artifact-spec.md)

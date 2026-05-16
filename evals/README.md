@@ -10,7 +10,7 @@
 
 ## 当前结构
 
-- `media-agent/`
+- `intel-agent/`
   - `daily-brief-balanced.md`
   - `social-noise-heavy.md`
   - `engineering-signal-focused.md`

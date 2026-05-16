@@ -2,11 +2,11 @@
 
 ## Purpose
 
-验证 `media-agent` 在常规工作日里，能否从多个来源中提炼出一份信息密度高、重复少、适合程序员 / 产品经理阅读的日报。
+验证 `intel-agent` 在常规工作日里，能否以关注流优先的方式提炼出一份信息密度高、重复少、适合程序员 / 产品经理阅读的日报。
 
 ## Scenario
 
-今天的信息输入来自多个平台，既有高质量长文，也有实时短讯和平台噪声。目标不是全量覆盖，而是在有限输入里找出最值得关注的主题，并给出少量高质量知识候选。
+今天的信息输入主要来自你主动关注的来源：Twitter following、微信关注公众号推送、B站关注动态。目标不是全量覆盖，而是在有限输入里找出最值得关注的主题，并给出少量高质量知识候选。
 
 ## Input Window
 
@@ -17,11 +17,11 @@
 
 ## Source Plan
 
-- Primary：`twitter-cli`、`wx-cli`
-- Secondary：`bilibili-cli`、`weibo-skill`
-- Optional：`xiaohongshu-cli`、`tavily`
+- Primary：`twitter-cli`、`wx-cli`、`bilibili-cli`
+- Secondary：`tavily`
+- Optional：`xiaohongshu-cli`
 
-先用 Primary Sources 建立主题，再根据需要用 Secondary/Optional Sources 做补充和交叉验证。
+先用 Following Sources 建立主题，再根据需要用 Secondary/Optional Sources 做补充和交叉验证。
 
 ## Run Constraints
 

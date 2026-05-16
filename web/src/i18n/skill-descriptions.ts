@@ -74,8 +74,8 @@ export const skillDescriptionsZh: Record<string, string> = {
 export const agentDescriptionsZh: Record<string, string> = {
   'architect':
     '软件架构专家，专注系统设计、可扩展性与技术决策。在规划新功能、重构大型系统或做架构决策时主动使用。',
-  'media-agent':
-    '面向程序员与产品经理的跨平台信息情报 Agent。当用户需要做每日信息摄取、多源追踪、信号去噪、洞察提炼，或同时产出日报与长期知识候选时主动使用。',
+  'intel-agent':
+    '面向程序员与产品经理的关注流优先信息情报 Agent。当用户需要做高密度日常信息整理、个人关注流去噪、洞察提炼，或同时产出日报与长期知识候选时主动使用。',
   'tdd-guide':
     '测试驱动开发（TDD）专家，严格执行先写测试的方法论。在新增功能、修复 Bug 或重构代码时主动使用，确保测试覆盖率 80% 以上。',
 };
@@ -121,8 +121,8 @@ export const skillDescriptionsEn: Record<string, string> = {
 export const agentDescriptionsEn: Record<string, string> = {
   'architect':
     'Software architecture expert focused on system design, scalability, and technology decisions. Use proactively when planning new features, refactoring large systems, or making architectural decisions.',
-  'media-agent':
-    'Cross-platform information intelligence agent for programmers and product managers. Use when handling daily information intake, multi-source tracking, signal denoising, insight synthesis, or a combined output of daily brief plus long-lived knowledge candidates.',
+  'intel-agent':
+    'Following-first information intelligence agent for programmers and product managers. Use when handling high-density daily intelligence, personal following-feed synthesis, signal denoising, or a combined output of daily brief plus long-lived knowledge candidates.',
   'tdd-guide':
     'Test-Driven Development (TDD) expert who strictly follows a test-first methodology. Use proactively when adding features, fixing bugs, or refactoring code to ensure ≥80% test coverage.',
 };

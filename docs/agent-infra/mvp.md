@@ -20,7 +20,6 @@
 - `twitter-cli`
 - `bilibili-cli`
 - `xiaohongshu-cli`
-- `weibo-skill`
 - `tavily`
 
 ## 最小闭环

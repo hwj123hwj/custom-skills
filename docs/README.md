@@ -14,7 +14,7 @@
 
 - [Agent 基础设施总览](./agent-infra/overview.md)
 - [Agent 基础设施 MVP](./agent-infra/mvp.md)
-- [Media Agent 重构规范](./agent-infra/media-agent-spec.md)
+- [Intel Agent 重构规范](./agent-infra/intel-agent-spec.md)
 - [Eval Case 规范](./agent-infra/eval-case-spec.md)
 - [Run Artifact 规范](./agent-infra/run-artifact-spec.md)
 

@@ -23,7 +23,7 @@ custom-skills/
 ├── README.md             ← 面向人类的项目介绍（自动同步）
 ├── agents/               ← Agent 定义目录（v1 仅有示例，未接入 registry）
 │   ├── architect.md      ← ECC 通用型 agent 示例
-│   ├── media-agent.md    ← 垂直型 agent 示例（v2 主角）
+│   ├── intel-agent.md    ← 垂直型 agent 示例（v2 主角）
 │   └── tdd-guide.md      ← ECC 通用型 agent 示例
 ├── skills/               ← 23 个技能，各自独立目录
 ├── registry/

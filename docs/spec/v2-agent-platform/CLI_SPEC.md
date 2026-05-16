@@ -73,14 +73,14 @@ npx custom-skills install <agent> --agent -y
 1. 从仓库拉取 `agents/<name>.md`，解析 frontmatter 中的 `skills: [...]` 字段
 2. 列出将要安装的内容：
    ```
-   准备安装 Agent: media-agent
-   依赖 Skills: bilibili-cli, weibo-skill, xiaohongshu-cli, twitter-cli, tavily
+   准备安装 Agent: intel-agent
+   依赖 Skills: bilibili-cli, wx-cli, xiaohongshu-cli, twitter-cli, tavily
 
    将写入以下文件:
-     ./.claude/agents/media-agent.md
+     ./.claude/agents/intel-agent.md
      ./.claude/skills/bilibili-cli/
      ./.claude/skills/twitter-cli/
-     ./.claude/skills/weibo-skill/
+     ./.claude/skills/wx-cli/
      ./.claude/skills/xiaohongshu-cli/
      ./.claude/skills/tavily/
 
@@ -92,13 +92,13 @@ npx custom-skills install <agent> --agent -y
 
 **输出示例（成功）：**
 ```
-✓ 已安装 Agent: media-agent
-  路径: ./.claude/agents/media-agent.md
+✓ 已安装 Agent: intel-agent
+  路径: ./.claude/agents/intel-agent.md
 
 ✓ 已安装 Skills (5):
   ./.claude/skills/bilibili-cli/
   ./.claude/skills/twitter-cli/
-  ./.claude/skills/weibo-skill/
+  ./.claude/skills/wx-cli/
   ./.claude/skills/xiaohongshu-cli/
   ./.claude/skills/tavily/
 ```
@@ -199,7 +199,7 @@ export interface Agent {
 
 安装 agent 时只解析 `agents/<name>.md` frontmatter 中的 `skills: [...]` 字段，不会递归解析 skill 内部引用的其他 skill。
 
-例如：`media-agent` 依赖 `weibo-skill`、`bilibili-cli`、`twitter-cli`、`tavily` 等信息类 skill。CLI 不会递归推断“隐式依赖”，需要 agent 作者在 frontmatter `skills` 中显式声明所有直接依赖。
+例如：`intel-agent` 依赖 `wx-cli`、`bilibili-cli`、`twitter-cli`、`tavily` 等信息类 skill。CLI 不会递归推断“隐式依赖”，需要 agent 作者在 frontmatter `skills` 中显式声明所有直接依赖。
 
 **规则：agent 的 `skills` 字段必须列出所有运行时需要的 skill，包括间接依赖。**
 

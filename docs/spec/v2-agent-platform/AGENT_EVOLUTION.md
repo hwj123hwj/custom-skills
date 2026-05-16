@@ -129,7 +129,7 @@ custom-skills/
 | **Agent 定义** | 无（只有 Skill，没有人格层） | 仓库内 `agents/` 目录定义专业 Agent |
 | **系统提示词** | 无（仅靠 CLAUDE.md / skills 用户消息层） | Agent 可定义系统提示词，改变底层行为 |
 | **Agent × Skill 组合** | 无（Skill 是独立的能力单元） | 一个 Agent 可组合多个 Skills |
-| **安装/分发** | 只能安装 skill，不能安装 agent | `npx custom-skills install --agent media-agent` |
+| **安装/分发** | 只能安装 skill，不能安装 agent | `npx custom-skills install --agent intel-agent` |
 
 ---
 
@@ -139,7 +139,7 @@ custom-skills/
 custom-skills/
 ├── AGENTS.md             ← 项目级入口文档（保持轻量）
 ├── agents/               ← 🆕 专业 Agent 定义（人格层）
-│   ├── media-agent.md
+│   ├── intel-agent.md
 │   ├── content-creator.md
 │   ├── code-reviewer.md
 │   ├── security-auditor.md
@@ -164,7 +164,7 @@ custom-skills/
 每个 Agent 一个 `.md` 文件，放在 `agents/` 目录下。
 
 > ⚠️ **注意：本节为早期设计草稿，包含「三段式」结构和部分 frontmatter 字段（displayName/version/tags）已在实践中调整。**
-> **实际规范以 `docs/agent-spec.md` 为准，实际示例以 `agents/media-agent.md` 为准。**
+> **实际规范以 `docs/agent-spec.md` 为准，实际示例以 `agents/intel-agent.md` 为准。**
 
 **早期设计的三段式结构（系统提示词 / 技能组合 / 工作流程）已废弃。**
 实际采用 ECC 风格的平铺结构，详见 `docs/agent-spec.md`。
@@ -173,11 +173,11 @@ custom-skills/
 
 ```markdown
 ---
-name: media-agent
+name: intel-agent
 description: 触发描述，写清楚什么时候 PROACTIVELY 用这个 Agent
 tools: ["Read", "Write", "Bash", "WebFetch"]
 model: sonnet
-skills: [bilibili-cli, weibo-skill, xiaohongshu-cli, twitter-cli, tavily]  # 垂直型必填
+skills: [bilibili-cli, wx-cli, xiaohongshu-cli, twitter-cli, tavily]  # 垂直型必填
 ---
 
 你是...（角色定义）
@@ -214,7 +214,7 @@ For full details, see `skill: bilibili-cli`, `skill: twitter-cli`.
 **Agent 与 Skill 的关系：组合，不是继承**
 
 - 一个 Skill 可以被多个 Agent 复用（如 `twitter-cli` 可被多个情报类 Agent 共用）
-- 一个 Agent 可以组合多个 Skills（如 `media-agent` 组合了 5 个搜索类 skill）
+- 一个 Agent 可以组合多个 Skills（如 `intel-agent` 组合了 5 个信息类 skill）
 - Agent 定义"谁在用"和"怎么用"，Skill 定义"能做什么"
 
 ---
@@ -224,8 +224,8 @@ For full details, see `skill: bilibili-cli`, `skill: twitter-cli`.
 ### 4.1 媒体分析 Agent
 
 ```yaml
-name: media-agent
-skills: [bilibili-cli, weibo-skill, xiaohongshu-cli, twitter-cli, tavily]
+name: intel-agent
+skills: [bilibili-cli, wx-cli, xiaohongshu-cli, twitter-cli, tavily]
 定位: 跨平台媒体内容采集与深度分析
 输入: 话题关键词
 输出: 结构化 Markdown 分析报告
@@ -265,7 +265,7 @@ skills: []
 
 ```yaml
 name: research-agent
-skills: [weibo-skill, skill-browser-crawl, wx-cli, tavily]
+skills: [skill-browser-crawl, wx-cli, tavily]
 定位: 深度信息搜集与整理
 输入: 研究主题
 输出: 带引用来源的研究报告
@@ -279,7 +279,7 @@ skills: [weibo-skill, skill-browser-crawl, wx-cli, tavily]
 
 1. 创建 `agents/` 目录
 2. 定义 Agent 文件规范（frontmatter + 三段式结构：系统提示词 / 技能组合 / 工作流程）
-3. 编写 2-3 个 Agent 作为示范（`media-agent`、`content-creator`、`research-agent`）
+3. 编写 2-3 个 Agent 作为示范（`intel-agent`、`content-creator`、`research-agent`）
 4. 更新 `docs/agent-spec.md`，加入 Agent 开发规范
 5. **注意：** 系统提示词部分先作为人格参考文档，不自动注入
 

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-验证 `media-agent` 在输出 `Knowledge Candidates` 时，是否真的能筛出长期有复用价值的内容，而不仅仅是把日报内容换个标题再说一遍。
+验证 `intel-agent` 在输出 `Knowledge Candidates` 时，是否真的能筛出长期有复用价值的内容，而不仅仅是把日报内容换个标题再说一遍。
 
 ## Scenario
 

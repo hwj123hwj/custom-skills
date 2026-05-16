@@ -2,7 +2,7 @@
 
 ## Purpose
 
-验证 `media-agent` 是否能更偏程序员视角地提炼工程、工具链与工作流变化，而不是泛泛做媒体聚合。
+验证 `intel-agent` 是否能更偏程序员视角地提炼工程、工具链与工作流变化，而不是泛泛做媒体聚合。
 
 ## Scenario
 
@@ -16,8 +16,8 @@
 
 ## Source Plan
 
-- Primary：`twitter-cli`
-- Secondary：`bilibili-cli`
+- Primary：`twitter-cli`、`bilibili-cli`
+- Secondary：`wx-cli`
 - Optional：`tavily`
 
 ## Run Constraints

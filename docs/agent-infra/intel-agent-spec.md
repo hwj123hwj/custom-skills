@@ -1,8 +1,8 @@
-# Media Agent 重构规范
+# Intel Agent 重构规范
 
 ## 目标
 
-把 `media-agent` 从“泛媒体分析角色”升级成“面向日常信息摄取、去噪、洞察提炼与知识候选沉淀”的结构化编排 Agent。
+把 `intel-agent` 设计成“关注流优先”的信息情报 Agent，服务面向程序员 / 产品经理的日常信息摄取、去噪、洞察提炼与知识候选沉淀。
 
 ## 推荐 Frontmatter
 

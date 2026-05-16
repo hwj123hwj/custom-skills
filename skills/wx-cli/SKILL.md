@@ -30,7 +30,7 @@ scenarios:
 - 联系人、群成员、朋友圈通知
 - 关注公众号推送文章
 
-对当前仓库的 `media-agent` 而言，`wx-cli` 最有价值的能力不是“泛搜微信”，而是：
+对当前仓库的 `intel-agent` 而言，`wx-cli` 最有价值的能力不是“泛搜微信”，而是：
 
 - 读取你本地真正看过或收到的微信内容
 - 从公众号推送里提取最近值得关注的文章
@@ -134,7 +134,7 @@ wx sns-search "关键词"
 - `possibly_stale_unknown_shards`：可能需要重新执行 `wx init --force`
 - `windowed`：这是过滤/窗口化结果，不代表全量最新状态
 
-## 对 media-agent 的推荐用法
+## 对 intel-agent 的推荐用法
 
 在“个人关注流”场景里，建议这样使用：
 
