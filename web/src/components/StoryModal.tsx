@@ -1,6 +1,5 @@
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { X, ExternalLink, FileText, Check, Copy } from 'lucide-react';
+import { X, ExternalLink, FileText } from 'lucide-react';
 import type { Story } from '../types/story';
 import type { Agent } from '../types/agent';
 
@@ -63,15 +62,8 @@ const STAGE_STYLES: Record<Story['stage'], string> = {
 
 export function StoryModal({ story, isOpen, onClose, linkedAgent }: StoryModalProps) {
   const { t } = useTranslation();
-  const [copied, setCopied] = useState(false);
 
   if (!isOpen || !story) return null;
-
-  const handleCopyPath = () => {
-    navigator.clipboard.writeText(`docs/agent-stories/${story.id}.md`);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
@@ -132,22 +124,6 @@ export function StoryModal({ story, isOpen, onClose, linkedAgent }: StoryModalPr
             </div>
           </div>
 
-          <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-            <div className="flex items-center justify-between gap-4">
-              <div>
-                <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">{t('story.meta.source_doc')}</div>
-                <div className="font-mono text-sm text-green-400">docs/agent-stories/{story.id}.md</div>
-              </div>
-              <button
-                onClick={handleCopyPath}
-                className="shrink-0 flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-sm text-white transition-colors"
-              >
-                {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
-                {copied ? t('story.copied') : t('story.copy_path')}
-              </button>
-            </div>
-          </div>
-
           {story.sections.map((section) => (
             <section key={section.title} className="rounded-xl border border-white/10 bg-white/5 p-5 space-y-4">
               <div className="flex items-center gap-2">
@@ -176,4 +152,3 @@ export function StoryModal({ story, isOpen, onClose, linkedAgent }: StoryModalPr
     </div>
   );
 }
-
