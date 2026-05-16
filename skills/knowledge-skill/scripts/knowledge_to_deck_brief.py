@@ -290,12 +290,14 @@ def generate_deck_brief(
     cards: int = 5,
     style: str = "swiss",
     audience: str | None = None,
+    source_type: str | None = None,
     content_chars: int = 1000,
 ) -> dict[str, Any]:
     exported = export_candidates(
         query=query,
         mode=mode,
         limit=limit,
+        source_type=source_type,
         content_chars=content_chars,
     )
     selected = select_candidates(exported.get("results", []), query=query, cards=cards)
@@ -320,6 +322,7 @@ def main():
     parser.add_argument("--cards", type=int, default=5, help="最终卡片数量")
     parser.add_argument("--style", choices=["magazine", "swiss"], default="swiss", help="deck 风格")
     parser.add_argument("--audience", help="目标受众")
+    parser.add_argument("--source-type", help="筛选来源类型")
     parser.add_argument("--content-chars", type=int, default=1000, help="导出 content 截断长度")
     parser.add_argument("--output", choices=["json", "markdown"], default="json", help="输出格式")
 
@@ -332,6 +335,7 @@ def main():
         cards=args.cards,
         style=args.style,
         audience=args.audience,
+        source_type=args.source_type,
         content_chars=args.content_chars,
     )
 

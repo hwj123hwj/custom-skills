@@ -23,9 +23,9 @@ from knowledge_search import DB_CONFIG, search_hybrid, search_keyword, search_ve
 
 
 def fetch_full_items(
-    ids_in_order: list[str],
+    ids_in_order: list[int],
     content_chars: int = 1000,
-) -> dict[str, dict[str, Any]]:
+) -> dict[int, dict[str, Any]]:
     """按 id 拉取完整知识条目，并截断 content 便于 agent 消费。"""
     if not ids_in_order:
         return {}
@@ -56,14 +56,14 @@ def fetch_full_items(
         )
 
         rows = cur.fetchall()
-        items: dict[str, dict[str, Any]] = {}
+        items: dict[int, dict[str, Any]] = {}
 
         for row in rows:
             data = dict(row)
             raw_content = data.get("content") or ""
             if content_chars > 0 and len(raw_content) > content_chars:
                 data["content"] = raw_content[:content_chars] + "..."
-            items[str(data["id"])] = data
+            items[int(data["id"])] = data
 
         return items
     finally:
@@ -86,18 +86,18 @@ def export_candidates(
     else:
         search_results = search_hybrid(query, limit, source_type)
 
-    ids_in_order = [str(item["id"]) for item in search_results]
+    ids_in_order = [int(item["id"]) for item in search_results]
     full_items = fetch_full_items(ids_in_order, content_chars=content_chars)
 
     results: list[dict[str, Any]] = []
     for item in search_results:
-        item_id = str(item["id"])
+        item_id = int(item["id"])
         full_item = full_items.get(item_id)
         if not full_item:
             continue
 
         merged = {
-            "id": item_id,
+            "id": str(item_id),
             "title": full_item.get("title"),
             "source_type": full_item.get("source_type"),
             "source_id": full_item.get("source_id"),

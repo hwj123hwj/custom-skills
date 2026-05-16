@@ -15,6 +15,7 @@
 import argparse
 import json
 import os
+import re
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -83,14 +84,31 @@ def generate_summary(title: str, content: str) -> str:
     return content[:500] + "..."
 
 
+def fallback_ai_summary(title: str, content: str) -> str:
+    """在 AI 摘要不可用时，生成一个可用的一句话摘要。"""
+    text = content.strip()
+    if not text:
+        return title[:50]
+
+    parts = re.split(r"[。！？!?；;\n]+", text)
+    for part in parts:
+        sentence = part.strip()
+        if len(sentence) >= 8:
+            if len(sentence) > 50:
+                return sentence[:50] + "..."
+            return sentence
+
+    return (text[:50] + "...") if len(text) > 50 else text
+
+
 def generate_ai_summary(title: str, content: str) -> str:
     """使用龙猫 API（免费）生成一句话摘要，无 fallback"""
     LONGMAO_API_KEY = os.getenv("LONGMAO_API_KEY", "")
     LONGMAO_BASE_URL = os.getenv("LONGMAO_BASE_URL", "https://api.longcat.chat/openai")
 
     if not LONGMAO_API_KEY:
-        print("Warning: LONGMAO_API_KEY not set, skipping AI summary", file=sys.stderr)
-        return None
+        print("Warning: LONGMAO_API_KEY not set, using fallback AI summary", file=sys.stderr)
+        return fallback_ai_summary(title, content)
 
     # 截取内容（最多 2000 字符）
     text = content[:2000] if len(content) > 2000 else content
@@ -122,8 +140,8 @@ def generate_ai_summary(title: str, content: str) -> str:
         response.raise_for_status()
         return response.json()["choices"][0]["message"]["content"].strip()
     except Exception as e:
-        print(f"Error generating AI summary: {e}", file=sys.stderr)
-        return None
+        print(f"Error generating AI summary: {e}; using fallback AI summary", file=sys.stderr)
+        return fallback_ai_summary(title, content)
 
 
 def save_knowledge(

@@ -29,6 +29,11 @@
 
 - [evals/README.md](../evals/README.md)
 
+## Showcase
+
+- [Showcase 索引](./showcase/README.md)
+- [AutoResearch 知识卡片 Brief](./showcase/autoresearch-knowledge-cards.md)
+
 ## 历史设计与计划
 
 - `docs/plans/`：阶段性计划与问题分析

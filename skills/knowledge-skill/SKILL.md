@@ -131,6 +131,15 @@ python skills/knowledge-skill/scripts/knowledge_to_deck_brief.py \
   --style magazine \
   --audience "程序员 / 产品经理" \
   --output markdown
+
+# 先限定来源，再生成更干净的专题卡片
+python skills/knowledge-skill/scripts/knowledge_to_deck_brief.py \
+  --query "AutoResearch" \
+  --mode hybrid \
+  --source-type test \
+  --cards 2 \
+  --style swiss \
+  --output markdown
 ```
 
 ### 夜间自动收割
