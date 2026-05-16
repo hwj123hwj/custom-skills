@@ -5,20 +5,25 @@ import { SkillCard } from './components/SkillCard'
 import { SkillModal } from './components/SkillModal'
 import { AgentCard } from './components/AgentCard'
 import { AgentModal } from './components/AgentModal'
+import { StoryCard } from './components/StoryCard'
+import { StoryModal } from './components/StoryModal'
 import { TabBar } from './components/TabBar'
 import type { Skill } from './types/skill'
 import type { Agent } from './types/agent'
+import type { Story } from './types/story'
 import skillsData from './data/skills-data.json'
 import agentsData from './data/agents-data.json'
+import storiesData from './data/stories-data.json'
 import { Search, Copy, Check } from 'lucide-react'
 import { searchSkills } from './lib/search'
 import { searchAgents } from './lib/agent-search'
+import { searchStories } from './lib/story-search'
 import { generateOnboardingSnippet } from './lib/generate-snippet'
 
 function App() {
   const { t, i18n } = useTranslation()
 
-  const [activeTab, setActiveTab] = useState<'skills' | 'agents'>('skills')
+  const [activeTab, setActiveTab] = useState<'skills' | 'agents' | 'stories'>('skills')
   const [searchQuery, setSearchQuery] = useState('')
 
   const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null)
@@ -26,6 +31,9 @@ function App() {
 
   const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null)
   const [isAgentModalOpen, setIsAgentModalOpen] = useState(false)
+
+  const [selectedStory, setSelectedStory] = useState<Story | null>(null)
+  const [isStoryModalOpen, setIsStoryModalOpen] = useState(false)
 
   const [snippetCopied, setSnippetCopied] = useState(false)
 
@@ -39,7 +47,16 @@ function App() {
     return searchAgents(agentsData as Agent[], searchQuery, i18n.language).map((r) => r.agent)
   }, [searchQuery, i18n.language])
 
-  const handleTabChange = (tab: 'skills' | 'agents') => {
+  const filteredStories = useMemo(() => {
+    if (!searchQuery.trim()) {
+      return [...(storiesData as Story[])].sort(
+        (a, b) => new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime()
+      )
+    }
+    return searchStories(storiesData as Story[], searchQuery).map((r) => r.story)
+  }, [searchQuery])
+
+  const handleTabChange = (tab: 'skills' | 'agents' | 'stories') => {
     setActiveTab(tab)
     setSearchQuery('')
   }
@@ -61,6 +78,11 @@ function App() {
     setIsAgentModalOpen(true)
   }
 
+  const handleStoryClick = (story: Story) => {
+    setSelectedStory(story)
+    setIsStoryModalOpen(true)
+  }
+
   const handleOpenAgentFromSkill = (agentId: string) => {
     const agent = (agentsData as Agent[]).find((a) => a.id === agentId)
     if (!agent) return
@@ -71,7 +93,13 @@ function App() {
     setIsAgentModalOpen(true)
   }
 
-  const placeholder = t(activeTab === 'skills' ? 'search.placeholder_skills' : 'search.placeholder_agents')
+  const placeholder = t(
+    activeTab === 'skills'
+      ? 'search.placeholder_skills'
+      : activeTab === 'agents'
+        ? 'search.placeholder_agents'
+        : 'search.placeholder_stories'
+  )
 
   return (
     <Layout>
@@ -127,6 +155,7 @@ function App() {
         activeTab={activeTab}
         skillCount={(skillsData as Skill[]).length}
         agentCount={(agentsData as Agent[]).length}
+        storyCount={(storiesData as Story[]).length}
         onTabChange={handleTabChange}
       />
 
@@ -176,6 +205,40 @@ function App() {
         </>
       )}
 
+      {activeTab === 'stories' && (
+        <>
+          <div className="max-w-3xl mx-auto mb-8">
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 backdrop-blur-xl">
+              <h3 className="text-sm font-semibold text-white mb-2">
+                {t('story.banner_title')}
+              </h3>
+              <p className="text-sm text-gray-400 leading-relaxed">
+                {t('story.banner_description')}
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
+            {filteredStories.map((story) => (
+              <StoryCard key={story.id} story={story} onClick={handleStoryClick} />
+            ))}
+          </div>
+          {filteredStories.length === 0 && (
+            <div className="text-center py-20">
+              <p className="text-gray-500 text-lg">
+                {t('search.no_results_stories', { query: searchQuery })}
+              </p>
+              <button
+                onClick={() => setSearchQuery('')}
+                className="mt-4 text-purple-400 hover:text-purple-300 font-medium"
+              >
+                {t('search.clear')}
+              </button>
+            </div>
+          )}
+        </>
+      )}
+
       <SkillModal
         skill={selectedSkill}
         isOpen={isSkillModalOpen}
@@ -189,6 +252,13 @@ function App() {
         isOpen={isAgentModalOpen}
         onClose={() => setIsAgentModalOpen(false)}
         allSkills={skillsData as Skill[]}
+      />
+
+      <StoryModal
+        story={selectedStory}
+        isOpen={isStoryModalOpen}
+        onClose={() => setIsStoryModalOpen(false)}
+        linkedAgent={(agentsData as Agent[]).find((agent) => agent.id === selectedStory?.agent) ?? null}
       />
     </Layout>
   )

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "generate:registry": "tsx scripts/sync-skills.ts && tsx scripts/sync-readme.ts && tsx scripts/sync-agents.ts",
+    "generate:registry": "tsx scripts/sync-skills.ts && tsx scripts/sync-readme.ts && tsx scripts/sync-agents.ts && tsx scripts/sync-stories.ts",
     "validate:registry": "tsx scripts/validate-registry.ts",
     "prebuild": "npm run generate:registry",
     "build": "tsc -b && vite build",

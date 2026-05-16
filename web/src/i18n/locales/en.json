@@ -11,13 +11,16 @@
   "search": {
     "placeholder_skills": "Search skills...",
     "placeholder_agents": "Search agents...",
+    "placeholder_stories": "Search stories, problems, or evolution notes...",
     "no_results_skills": "No skills found matching \"{{query}}\"",
     "no_results_agents": "No agents found matching \"{{query}}\"",
+    "no_results_stories": "No stories found matching \"{{query}}\"",
     "clear": "Clear search"
   },
   "tab": {
     "skills": "Skills",
-    "agents": "Agents"
+    "agents": "Agents",
+    "stories": "Stories"
   },
   "card": {
     "view_details": "View Details",
@@ -47,5 +50,33 @@
     "description": "Copy this snippet and paste it into your project's CLAUDE.md to let Claude know about your skills.",
     "copy_button": "Copy Snippet",
     "copied": "Copied!"
+  },
+  "story": {
+    "banner_title": "Stories are the retrospective layer for agents",
+    "banner_description": "They capture why an agent was created, how well it works today, what changed along the way, and what still needs to improve next.",
+    "no_summary": "No summary provided.",
+    "updated": "Updated {{date}}",
+    "view_source": "View source document",
+    "copy_path": "Copy path",
+    "copied": "Copied",
+    "unknown_owner": "Unknown",
+    "meta": {
+      "updated": "Last updated",
+      "owner": "Owner",
+      "linked_agent": "Linked agent",
+      "source_doc": "Source document"
+    },
+    "status": {
+      "active": "Active",
+      "paused": "Paused",
+      "archived": "Archived"
+    },
+    "stage": {
+      "idea": "Idea",
+      "building": "Building",
+      "testing": "Testing",
+      "iterating": "Iterating",
+      "stable": "Stable"
+    }
   }
 }

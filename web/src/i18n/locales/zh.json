@@ -11,13 +11,16 @@
   "search": {
     "placeholder_skills": "搜索技能...",
     "placeholder_agents": "搜索 Agent...",
+    "placeholder_stories": "搜索 Story、问题、演进记录...",
     "no_results_skills": "未找到与「{{query}}」匹配的技能",
     "no_results_agents": "未找到与「{{query}}」匹配的 Agent",
+    "no_results_stories": "未找到与「{{query}}」匹配的 Story",
     "clear": "清除搜索"
   },
   "tab": {
     "skills": "技能",
-    "agents": "Agent"
+    "agents": "Agent",
+    "stories": "Stories"
   },
   "card": {
     "view_details": "查看详情",
@@ -47,5 +50,33 @@
     "description": "复制以下片段粘贴到你项目的 CLAUDE.md，让 Claude 知道你的技能库。",
     "copy_button": "复制片段",
     "copied": "已复制！"
+  },
+  "story": {
+    "banner_title": "Story 是 Agent 的复盘层",
+    "banner_description": "这里记录的不是 Agent 提示词本身，而是它为什么被创建、当前效果如何、经历了哪些调整，以及下一步准备如何继续优化。",
+    "no_summary": "暂无摘要。",
+    "updated": "更新于 {{date}}",
+    "view_source": "查看文档源码",
+    "copy_path": "复制路径",
+    "copied": "已复制",
+    "unknown_owner": "未指定",
+    "meta": {
+      "updated": "最后更新",
+      "owner": "维护者",
+      "linked_agent": "关联 Agent",
+      "source_doc": "来源文档"
+    },
+    "status": {
+      "active": "活跃",
+      "paused": "暂停",
+      "archived": "归档"
+    },
+    "stage": {
+      "idea": "想法",
+      "building": "构建中",
+      "testing": "测试中",
+      "iterating": "迭代中",
+      "stable": "稳定"
+    }
   }
 }
