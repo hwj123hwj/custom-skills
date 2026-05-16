@@ -1,0 +1,1225 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Custom Skills Hub · Agent Story Prototype</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #050505;
+        --panel: rgba(255, 255, 255, 0.05);
+        --panel-strong: rgba(255, 255, 255, 0.08);
+        --border: rgba(255, 255, 255, 0.1);
+        --text: #ffffff;
+        --muted: #9ca3af;
+        --muted-2: #6b7280;
+        --purple: #8b5cf6;
+        --blue: #3b82f6;
+        --green: #22c55e;
+        --amber: #f59e0b;
+        --shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .page-grid {
+        position: fixed;
+        inset: 0;
+        background-image:
+          linear-gradient(to right, rgba(79, 79, 79, 0.18) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(79, 79, 79, 0.18) 1px, transparent 1px);
+        background-size: 14px 24px;
+        mask-image: radial-gradient(ellipse 60% 50% at 50% 0%, #000 70%, transparent 100%);
+        pointer-events: none;
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        backdrop-filter: blur(20px);
+        background: rgba(5, 5, 5, 0.72);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .header-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .brand-mark {
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+        display: grid;
+        place-items: center;
+        font-size: 13px;
+        font-weight: 700;
+        background: linear-gradient(135deg, var(--purple), var(--blue));
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .lang-pill,
+      .ghost-link {
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 999px;
+        padding: 8px 12px;
+      }
+
+      main {
+        position: relative;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 36px 20px 80px;
+      }
+
+      .hero {
+        max-width: 760px;
+        margin: 0 auto 40px;
+        text-align: center;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 14px;
+        margin-bottom: 16px;
+        border: 1px solid rgba(139, 92, 246, 0.28);
+        border-radius: 999px;
+        background: rgba(139, 92, 246, 0.08);
+        color: #d8b4fe;
+        font-size: 13px;
+      }
+
+      .hero h1 {
+        margin: 0 0 14px;
+        font-size: clamp(42px, 7vw, 58px);
+        line-height: 1.04;
+        letter-spacing: -0.04em;
+      }
+
+      .hero h1 span {
+        background: linear-gradient(90deg, #ffffff 0%, #ffffff 55%, #6b7280 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .hero p {
+        margin: 0 auto;
+        max-width: 680px;
+        color: var(--muted);
+        font-size: 18px;
+        line-height: 1.75;
+      }
+
+      .search-shell {
+        position: relative;
+        max-width: 520px;
+        margin: 28px auto 0;
+      }
+
+      .search-glow {
+        position: absolute;
+        inset: 0;
+        border-radius: 999px;
+        background: linear-gradient(90deg, rgba(139, 92, 246, 0.24), rgba(59, 130, 246, 0.22));
+        filter: blur(22px);
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        height: 58px;
+        padding: 0 18px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(18px);
+        color: var(--muted);
+        font-size: 15px;
+      }
+
+      .onboarding {
+        max-width: 760px;
+        margin: 0 auto 28px;
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        background: var(--panel);
+        backdrop-filter: blur(18px);
+        box-shadow: var(--shadow);
+        padding: 20px 22px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+      }
+
+      .onboarding h3 {
+        margin: 0 0 6px;
+        font-size: 15px;
+      }
+
+      .onboarding p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .copy-btn {
+        flex-shrink: 0;
+        border: 1px solid rgba(139, 92, 246, 0.34);
+        border-radius: 14px;
+        background: rgba(139, 92, 246, 0.16);
+        color: #ddd6fe;
+        font-weight: 600;
+        padding: 12px 16px;
+      }
+
+      .tabbar {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 28px;
+      }
+
+      .tabbar-shell {
+        display: inline-flex;
+        gap: 6px;
+        padding: 6px;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(18px);
+      }
+
+      .tab {
+        border: 0;
+        background: transparent;
+        color: var(--muted);
+        padding: 12px 18px;
+        border-radius: 12px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .tab.active {
+        background: #7c3aed;
+        color: white;
+        box-shadow: 0 10px 24px rgba(124, 58, 237, 0.32);
+      }
+
+      .count-pill {
+        font-size: 12px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.12);
+      }
+
+      .view {
+        display: none;
+      }
+
+      .view.active {
+        display: block;
+      }
+
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+      }
+
+      .card {
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(18px);
+        padding: 22px;
+        min-height: 248px;
+        box-shadow: var(--shadow);
+      }
+
+      .card-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+
+      .card-main {
+        display: flex;
+        gap: 14px;
+      }
+
+      .emoji {
+        font-size: 30px;
+        filter: grayscale(1);
+      }
+
+      .card:hover .emoji {
+        filter: grayscale(0);
+      }
+
+      .card h3 {
+        margin: 0 0 8px;
+        font-size: 18px;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.65;
+      }
+
+      .tag-row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 8px;
+      }
+
+      .tag,
+      .model,
+      .agent-type {
+        font-size: 12px;
+        padding: 5px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--muted);
+      }
+
+      .model {
+        color: #bfdbfe;
+        border-color: rgba(59, 130, 246, 0.34);
+        background: rgba(59, 130, 246, 0.18);
+      }
+
+      .agent-type {
+        color: #fcd34d;
+        border-color: rgba(245, 158, 11, 0.34);
+        background: rgba(245, 158, 11, 0.16);
+      }
+
+      .card-footer {
+        margin-top: 18px;
+        padding-top: 16px;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        font-size: 12px;
+        color: var(--muted-2);
+      }
+
+      .story-shell {
+        display: grid;
+        grid-template-columns: 340px minmax(0, 1fr);
+        gap: 24px;
+        align-items: start;
+      }
+
+      .story-sidebar,
+      .story-main {
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(18px);
+        box-shadow: var(--shadow);
+      }
+
+      .story-sidebar {
+        overflow: hidden;
+      }
+
+      .story-sidebar-header,
+      .story-main-header {
+        padding: 20px 22px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .story-sidebar-header h3,
+      .story-main-header h3 {
+        margin: 0 0 6px;
+        font-size: 18px;
+      }
+
+      .story-sidebar-header p,
+      .story-main-header p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .story-list {
+        padding: 12px;
+      }
+
+      .story-item {
+        border: 1px solid transparent;
+        border-radius: 18px;
+        padding: 16px;
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.03);
+        margin-bottom: 10px;
+      }
+
+      .story-item.active {
+        border-color: rgba(139, 92, 246, 0.42);
+        background: rgba(139, 92, 246, 0.12);
+      }
+
+      .story-item h4 {
+        margin: 0 0 8px;
+        font-size: 16px;
+      }
+
+      .story-item p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .story-meta {
+        margin-top: 10px;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .story-main-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+      }
+
+      .story-badges {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+      }
+
+      .status-good {
+        color: #86efac;
+        border-color: rgba(34, 197, 94, 0.34);
+        background: rgba(34, 197, 94, 0.16);
+      }
+
+      .status-watch {
+        color: #fde68a;
+        border-color: rgba(245, 158, 11, 0.34);
+        background: rgba(245, 158, 11, 0.16);
+      }
+
+      .story-main-body {
+        padding: 22px;
+      }
+
+      .story-overview-strip {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        margin-bottom: 18px;
+      }
+
+      .metric-card {
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.04);
+        padding: 16px;
+      }
+
+      .metric-label {
+        color: var(--muted-2);
+        font-size: 12px;
+        margin-bottom: 10px;
+      }
+
+      .metric-value {
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+      }
+
+      .metric-note {
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.6;
+      }
+
+      .story-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        margin-bottom: 18px;
+      }
+
+      .story-card {
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.04);
+        padding: 18px;
+      }
+
+      .story-card h4 {
+        margin: 0 0 10px;
+        font-size: 15px;
+      }
+
+      .story-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+
+      .story-card-header h4 {
+        margin: 0;
+      }
+
+      .story-card p,
+      .story-card li {
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .story-card ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+
+      .timeline {
+        display: grid;
+        gap: 14px;
+      }
+
+      .timeline-item {
+        display: grid;
+        grid-template-columns: 88px 14px 1fr;
+        gap: 14px;
+        align-items: start;
+      }
+
+      .timeline-date {
+        color: var(--muted-2);
+        font-size: 12px;
+        padding-top: 2px;
+      }
+
+      .timeline-dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 999px;
+        background: linear-gradient(180deg, var(--purple), var(--blue));
+        margin-top: 2px;
+        box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.12);
+      }
+
+      .timeline-content {
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.03);
+        padding: 14px 16px;
+      }
+
+      .timeline-content h5 {
+        margin: 0 0 6px;
+        font-size: 14px;
+      }
+
+      .timeline-content p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.65;
+      }
+
+      .feedback-panel {
+        margin-top: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.03));
+        padding: 20px;
+      }
+
+      .feedback-panel h4 {
+        margin: 0 0 10px;
+      }
+
+      .command-box {
+        margin-top: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 16px;
+        background: rgba(0, 0, 0, 0.28);
+        padding: 14px 16px;
+        color: #86efac;
+        font-family:
+          "SFMono-Regular", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", "Courier New", monospace;
+        font-size: 13px;
+        line-height: 1.6;
+        overflow-x: auto;
+      }
+
+      .source-ladder {
+        display: grid;
+        gap: 10px;
+      }
+
+      .source-step {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        padding: 12px 14px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .source-rank {
+        width: 28px;
+        height: 28px;
+        border-radius: 999px;
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+        background: rgba(139, 92, 246, 0.16);
+        color: #ddd6fe;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .feedback-list {
+        display: grid;
+        gap: 10px;
+        margin-top: 12px;
+      }
+
+      .feedback-item {
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 16px;
+        padding: 14px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .feedback-item strong {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 14px;
+      }
+
+      .feedback-item p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.65;
+      }
+
+      .proto-note {
+        margin-top: 28px;
+        border: 1px dashed rgba(139, 92, 246, 0.38);
+        border-radius: 20px;
+        background: rgba(139, 92, 246, 0.07);
+        padding: 18px 20px;
+        color: #ddd6fe;
+        font-size: 14px;
+        line-height: 1.8;
+      }
+
+      footer {
+        margin-top: 40px;
+        padding: 28px 0;
+        text-align: center;
+        border-top: 1px solid var(--border);
+        color: var(--muted-2);
+        font-size: 13px;
+      }
+
+      @media (max-width: 1080px) {
+        .card-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .story-shell {
+          grid-template-columns: 1fr;
+        }
+
+        .story-overview-strip {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 720px) {
+        main {
+          padding-left: 14px;
+          padding-right: 14px;
+        }
+
+        .onboarding {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .card-grid,
+        .story-grid,
+        .story-overview-strip {
+          grid-template-columns: 1fr;
+        }
+
+        .story-main-header {
+          flex-direction: column;
+        }
+
+        .timeline-item {
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
+
+        .timeline-dot {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-grid"></div>
+    <header>
+      <div class="header-inner">
+        <div class="brand">
+          <div class="brand-mark">CS</div>
+          <div>
+            <div style="font-weight: 650">Custom Skills Hub</div>
+          </div>
+        </div>
+        <div class="header-actions">
+          <div class="lang-pill">ZH / EN</div>
+          <a class="ghost-link" href="https://github.com/hwj123hwj/custom-skills">GitHub</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="eyebrow">Prototype · 复刻当前界面后扩展 Story 页</div>
+        <h1><span>Build Skills. Evolve Agents.</span></h1>
+        <p>
+          这是一个单文件 HTML 原型，先尽量复刻当前 Web 的结构和视觉，再往里加入
+          `Agent Story / 进化记录` 这一层，方便后续直观迭代。
+        </p>
+        <div class="search-shell">
+          <div class="search-glow"></div>
+          <div class="search-bar">
+            <span>⌕</span>
+            <span>搜索 skill、agent，或者直接搜索 “为什么做这个 agent”...</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="onboarding">
+        <div>
+          <h3>Global Onboarding Snippet</h3>
+          <p>
+            这一块保留当前站点的 onboarding 气质，后续也可以扩成 “如何参与测试 / 如何提交反馈” 的入口。
+          </p>
+        </div>
+        <button class="copy-btn">Copy Snippet</button>
+      </section>
+
+      <section class="tabbar">
+        <div class="tabbar-shell">
+          <button class="tab active" data-tab="skills">Skills <span class="count-pill">30</span></button>
+          <button class="tab" data-tab="agents">Agents <span class="count-pill">3</span></button>
+          <button class="tab" data-tab="stories">Stories <span class="count-pill">3</span></button>
+        </div>
+      </section>
+
+      <section id="view-skills" class="view active">
+        <div class="card-grid">
+          <article class="card">
+            <div class="card-header">
+              <div class="card-main">
+                <div class="emoji">🐦</div>
+                <div>
+                  <h3>Twitter CLI</h3>
+                  <div class="tag-row">
+                    <span class="tag">Social</span>
+                    <span class="tag">Search</span>
+                    <span class="tag">CLI</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p>Twitter/X 一站式 CLI 工具。支持读取 following feed、搜索、用户主页与推文详情。</p>
+            <div class="card-footer">
+              <span>2026/05/16</span>
+              <span>View Details →</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div class="card-main">
+                <div class="emoji">💬</div>
+                <div>
+                  <h3>WX CLI</h3>
+                  <div class="tag-row">
+                    <span class="tag">CLI</span>
+                    <span class="tag">WeChat</span>
+                    <span class="tag">LocalData</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p>读取本机微信消息与公众号文章，用于关注流整理、历史回查和未读推送筛选。</p>
+            <div class="card-footer">
+              <span>2026/05/16</span>
+              <span>View Details →</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div class="card-main">
+                <div class="emoji">📊</div>
+                <div>
+                  <h3>Guizang PPT Skill</h3>
+                  <div class="tag-row">
+                    <span class="tag">Writing</span>
+                    <span class="tag">Product</span>
+                    <span class="tag">Utility</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p>生成横向翻页网页 PPT 的设计型 skill，适合故事型分享、产品发布和瑞士风 deck。</p>
+            <div class="card-footer">
+              <span>2026/05/16</span>
+              <span>View Details →</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="view-agents" class="view">
+        <div class="card-grid">
+          <article class="card">
+            <div class="card-header">
+              <div class="card-main">
+                <div>
+                  <div class="tag-row" style="margin: 0 0 10px">
+                    <span class="model">sonnet</span>
+                    <span class="agent-type">Vertical</span>
+                  </div>
+                  <h3>Intel Agent</h3>
+                  <div class="tag-row">
+                    <span class="tag">Product</span>
+                    <span class="tag">Analysis</span>
+                    <span class="tag">Knowledge</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p>关注流优先的信息情报 Agent。优先吃 Twitter following、微信公众号未读和 B 站关注动态。</p>
+            <div class="card-footer">
+              <span>5 skills</span>
+              <span>View Details →</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div class="card-main">
+                <div>
+                  <div class="tag-row" style="margin: 0 0 10px">
+                    <span class="model" style="background: rgba(139, 92, 246, 0.18); border-color: rgba(139, 92, 246, 0.34); color: #ddd6fe;">opus</span>
+                    <span class="tag">General</span>
+                  </div>
+                  <h3>Architect</h3>
+                </div>
+              </div>
+            </div>
+            <p>软件架构专家，专注系统设计、可扩展性和技术决策。</p>
+            <div class="card-footer">
+              <span>General Agent</span>
+              <span>View Details →</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div class="card-main">
+                <div>
+                  <div class="tag-row" style="margin: 0 0 10px">
+                    <span class="model">sonnet</span>
+                    <span class="tag">General</span>
+                  </div>
+                  <h3>TDD Guide</h3>
+                </div>
+              </div>
+            </div>
+            <p>测试驱动开发专家，强调先写测试、后写实现的工作方式。</p>
+            <div class="card-footer">
+              <span>General Agent</span>
+              <span>View Details →</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="view-stories" class="view">
+        <div class="story-shell">
+          <aside class="story-sidebar">
+            <div class="story-sidebar-header">
+              <h3>Agent Stories</h3>
+              <p>这里不是单纯看描述，而是记录：为什么造它、效果如何、怎么进化、下一步怎么继续变好。</p>
+            </div>
+            <div class="story-list">
+              <article class="story-item active">
+                <h4>Intel Agent</h4>
+                <p>从“泛媒体分析”收敛到“关注流优先”的高密度信息整理 Agent。</p>
+                <div class="story-meta">
+                  <span class="model">Current</span>
+                  <span class="agent-type">Following-first</span>
+                </div>
+              </article>
+
+              <article class="story-item">
+                <h4>Architect</h4>
+                <p>记录这个 Agent 在真实项目里怎么帮助做架构拆解、决策收敛和技术权衡。</p>
+                <div class="story-meta">
+                  <span class="tag">Draft Story</span>
+                  <span class="tag">General</span>
+                </div>
+              </article>
+
+              <article class="story-item">
+                <h4>Guizang PPT Skill</h4>
+                <p>新增第三方设计型 skill，后续也能延展成“为什么需要这个能力”的故事卡片。</p>
+                <div class="story-meta">
+                  <span class="tag">Draft Story</span>
+                </div>
+              </article>
+            </div>
+          </aside>
+
+          <section class="story-main">
+            <div class="story-main-header">
+              <div>
+                <h3>Intel Agent · Story Page</h3>
+                <p>
+                  第一版以 `agent` 为主对象。这个页面既是你自己的复盘仪表盘，也可以慢慢长成社区测试和反馈入口。
+                </p>
+                <div class="story-badges">
+                  <span class="model">sonnet</span>
+                  <span class="agent-type">Following-first</span>
+                  <span class="tag status-good">Current Effect · 可用</span>
+                  <span class="tag status-watch">Needs More Feedback</span>
+                  <span class="tag">Source · docs/agent-stories/intel-agent.md</span>
+                </div>
+              </div>
+              <div style="min-width: 180px">
+                <div class="story-card" style="padding: 14px 16px">
+                  <h4 style="margin-bottom: 8px">Quick Snapshot</h4>
+                  <p>当前目标：把“刷很多平台”压成“看一份高密度日报 + 候选知识”。后面页面只负责渲染，故事内容来自文档。</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="story-main-body">
+              <div class="story-overview-strip">
+                <div class="metric-card">
+                  <div class="metric-label">当前定位</div>
+                  <div class="metric-value">Following-first</div>
+                  <div class="metric-note">先看你已经关注的人，再决定要不要去全网补充。</div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-label">当前主来源</div>
+                  <div class="metric-value">3 条</div>
+                  <div class="metric-note">Twitter following、微信未读公众号、B 站关注动态。</div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-label">当前体感效果</div>
+                  <div class="metric-value">还行</div>
+                  <div class="metric-note">已有初步价值，但还需要更多真实反馈压缩噪音。</div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-label">下一阶段重点</div>
+                  <div class="metric-value">反馈积累</div>
+                  <div class="metric-note">不是继续加来源，而是把评测、复盘、测试员反馈串起来。</div>
+                </div>
+              </div>
+
+              <div class="story-grid" style="margin-bottom: 18px">
+                <section class="story-card">
+                  <div class="story-card-header">
+                    <h4>以后怎么维护</h4>
+                    <span class="tag">Doc-driven</span>
+                  </div>
+                  <ul>
+                    <li>每个 Agent 一份 story 文档，不再往 HTML 里硬编码故事内容。</li>
+                    <li>列表卡片只读 frontmatter，比如状态、摘要、更新时间、阶段。</li>
+                    <li>详情页正文直接渲染 Markdown section，比如“为什么做”“当前效果”“进化时间线”。</li>
+                  </ul>
+                </section>
+
+                <section class="story-card">
+                  <div class="story-card-header">
+                    <h4>文档来源示意</h4>
+                    <span class="tag">Content Source</span>
+                  </div>
+                  <div class="command-box">docs/agent-stories/intel-agent.md
+
+---
+title: Intel Agent
+agent: intel-agent
+status: active
+stage: iterating
+lastUpdated: 2026-05-16
+summary: 从媒体分析收敛到关注流优先的信息整理 Agent
+tags: [analysis, knowledge, following-first]
+---</div>
+                </section>
+              </div>
+
+              <div class="story-grid">
+                <section class="story-card">
+                  <div class="story-card-header">
+                    <h4>为什么做</h4>
+                    <span class="tag">Origin</span>
+                  </div>
+                  <p>
+                    原始问题不是“没有资讯来源”，而是来源太多、噪音太高、平台推荐不可信。你真正想解决的是：在有限时间里，稳定获得高密度、可决策的信息。
+                  </p>
+                </section>
+
+                <section class="story-card">
+                  <div class="story-card-header">
+                    <h4>当前效果</h4>
+                    <span class="tag status-good">Working</span>
+                  </div>
+                  <ul>
+                    <li>对 OpenAI、Agent、工具链、工作流变化这类信号已经有不错命中。</li>
+                    <li>已经能过滤掉一部分低价值热点和重复话题。</li>
+                    <li>还需要更多真实反馈来判断“哪些内容真的值得长期沉淀”。</li>
+                  </ul>
+                </section>
+              </div>
+
+              <div class="story-grid" style="margin-bottom: 18px">
+                <section class="story-card">
+                  <div class="story-card-header">
+                    <h4>触发方式</h4>
+                    <span class="tag">Install</span>
+                  </div>
+                  <p>这一块故意保留成“接近当前 Agent 详情弹窗”的样子，方便后面判断是独立页还是并回现有 AgentModal。</p>
+                  <div class="command-box">npx custom-skills install intel-agent --agent</div>
+                </section>
+
+                <section class="story-card">
+                  <div class="story-card-header">
+                    <h4>信息源阶梯</h4>
+                    <span class="tag">Input Strategy</span>
+                  </div>
+                  <div class="source-ladder">
+                    <div class="source-step">
+                      <div class="source-rank">1</div>
+                      <div>
+                        <strong>Twitter following</strong>
+                        <p>先看你已关注的人最近在说什么，优先保留高信任度和强信息增量。</p>
+                      </div>
+                    </div>
+                    <div class="source-step">
+                      <div class="source-rank">2</div>
+                      <div>
+                        <strong>wx biz-articles --unread</strong>
+                        <p>把公众号未读流作为高密度补充，不再依赖泛微信搜索。</p>
+                      </div>
+                    </div>
+                    <div class="source-step">
+                      <div class="source-rank">3</div>
+                      <div>
+                        <strong>bili feed</strong>
+                        <p>默认只看动态和标题摘要，不自动走 ASR，先筛再深挖。</p>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+
+              <section class="story-card" style="margin-bottom: 18px">
+                <div class="story-card-header">
+                  <h4>进化时间线</h4>
+                  <span class="tag">Evolution</span>
+                </div>
+                <div class="timeline">
+                  <div class="timeline-item">
+                    <div class="timeline-date">2026-05-15</div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                      <h5>从 media-agent 起步</h5>
+                      <p>最开始还是“媒体分析”视角，更像多平台信息汇总，来源里还带微博与更宽泛的社交平台信号。</p>
+                    </div>
+                  </div>
+
+                  <div class="timeline-item">
+                    <div class="timeline-date">2026-05-16</div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                      <h5>第一次测试暴露噪音问题</h5>
+                      <p>Zero 新语言、SubQ 纯理论架构之类内容被抬得太高，说明“价值判断”没有足够贴近真实使用者偏好。</p>
+                    </div>
+                  </div>
+
+                  <div class="timeline-item">
+                    <div class="timeline-date">2026-05-16</div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                      <h5>Following-first 收敛</h5>
+                      <p>改成优先读 `twitter feed -t following`、`wx biz-articles --unread`、`bili feed`，不再把微博作为默认主来源。</p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <div class="story-grid">
+                <section class="story-card">
+                  <div class="story-card-header">
+                    <h4>反馈与待优化</h4>
+                    <span class="tag status-watch">Needs Iteration</span>
+                  </div>
+                  <ul>
+                    <li>还缺更多真实场景下的多轮评测，不然很难判断“过滤得准不准”。</li>
+                    <li>B 站内容默认不应直接进 ASR，必须先做严格筛选。</li>
+                    <li>小红书更适合作为“经验贴 lookup”，不是日常主信号源。</li>
+                  </ul>
+                </section>
+
+                <section class="story-card">
+                  <div class="story-card-header">
+                    <h4>下一步</h4>
+                    <span class="tag">Roadmap</span>
+                  </div>
+                  <ul>
+                    <li>把故事页从静态文案升级成结构化文档驱动。</li>
+                    <li>接入评测结果、失败模式和版本变化记录。</li>
+                    <li>给未来测试者留一个明确的反馈入口和协作说明。</li>
+                  </ul>
+                </section>
+              </div>
+
+              <section class="feedback-panel">
+                <h4>未来的社区反馈位</h4>
+                <p style="margin: 0; color: var(--muted); line-height: 1.75">
+                  这里以后可以不是“做社区”那么重，而是先做成“招募测试员”的最小形态：谁测了、测了哪个版本、什么场景、反馈了什么、下一步要改什么。
+                </p>
+                <div class="feedback-list">
+                  <div class="feedback-item">
+                    <strong>Tester Feedback #01</strong>
+                    <p>“对工具链和 workflow 类内容挺准，但理论型架构更新还是偏多。”</p>
+                  </div>
+                  <div class="feedback-item">
+                    <strong>Tester Feedback #02</strong>
+                    <p>“B 站如果直接转录会太重，先筛选 UP 主和标题更合理。”</p>
+                  </div>
+                  <div class="feedback-item">
+                    <strong>Owner Reflection</strong>
+                    <p>“个人能力有限，光靠自己测很难形成足够多的反馈，所以页面设计要天然支持协作和迭代。”</p>
+                  </div>
+                </div>
+              </section>
+
+              <section class="story-card" style="margin-top: 18px">
+                <div class="story-card-header">
+                  <h4>最终页面信息架构</h4>
+                  <span class="tag">IA</span>
+                </div>
+                <ul>
+                  <li>左侧是 Story 列表，只显示可检索信息和状态。</li>
+                  <li>右侧是 Story 详情，只展示当前选中 Agent 的故事与反馈。</li>
+                  <li>以后新增 Stories 时，只是多一份 Markdown 文档，不需要继续手改这个页面结构。</li>
+                </ul>
+              </section>
+            </div>
+          </section>
+        </div>
+
+        <div class="proto-note">
+          这个版本更接近“最终方向”的样子了：页面结构基本固定，内容来自 `docs/agent-stories/*.md`。下一步如果你认可，我们就不再继续手改 HTML，而是开始定义 story 文档格式，并让 Web 自动渲染它。
+        </div>
+      </section>
+
+      <footer>
+        Prototype only · 不改当前线上页面 · 先复刻，再演进
+      </footer>
+    </main>
+
+    <script>
+      const tabs = document.querySelectorAll(".tab");
+      const views = {
+        skills: document.getElementById("view-skills"),
+        agents: document.getElementById("view-agents"),
+        stories: document.getElementById("view-stories"),
+      };
+
+      tabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          tabs.forEach((item) => item.classList.remove("active"));
+          tab.classList.add("active");
+          Object.values(views).forEach((view) => view.classList.remove("active"));
+          views[tab.dataset.tab].classList.add("active");
+        });
+      });
+    </script>
+  </body>
+</html>

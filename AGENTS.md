@@ -56,6 +56,7 @@ skills/*/SKILL.md
 - Architecture: [docs/architecture.md](/Users/weijian/Desktop/develop/custom-skills/docs/architecture.md)
 - Skill spec: [docs/skill-spec.md](/Users/weijian/Desktop/develop/custom-skills/docs/skill-spec.md)
 - Agent spec: [docs/agent-spec.md](/Users/weijian/Desktop/develop/custom-skills/docs/agent-spec.md)
+- Agent stories: [docs/agent-stories/README.md](/Users/weijian/Desktop/develop/custom-skills/docs/agent-stories/README.md)
 - Registry workflow: [docs/registry-workflow.md](/Users/weijian/Desktop/develop/custom-skills/docs/registry-workflow.md)
 - Upstream sync: [docs/upstream-sync.md](/Users/weijian/Desktop/develop/custom-skills/docs/upstream-sync.md)
 - Agent infrastructure overview: [docs/agent-infra/overview.md](/Users/weijian/Desktop/develop/custom-skills/docs/agent-infra/overview.md)

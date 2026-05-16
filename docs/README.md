@@ -7,8 +7,13 @@
 - [项目架构](./architecture.md)
 - [Skill 规范](./skill-spec.md)
 - [Agent 规范](./agent-spec.md)
+- [Agent Stories 规范](./agent-stories/README.md)
 - [Registry 生成与校验流程](./registry-workflow.md)
 - [第三方 Skill 同步规范](./upstream-sync.md)
+
+## Agent Stories
+
+- [Intel Agent Story](./agent-stories/intel-agent.md)
 
 ## Agent 基础设施设计
 
