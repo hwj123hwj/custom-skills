@@ -44,6 +44,30 @@
     "lastUpdated": "2026-05-16T03:17:58.000Z"
   },
   {
+    "id": "knowledge-to-deck-agent",
+    "name": "knowledge-to-deck-agent",
+    "description": "Knowledge-to-deck orchestration agent. Use PROACTIVELY when the user wants to turn knowledge-base entries into a curated slide deck, a knowledge card collection, or a showcase-ready web presentation. Best for themed synthesis, high-value knowledge selection, and content-to-presentation transformation.",
+    "tools": [
+      "Read",
+      "Write",
+      "Bash",
+      "Glob"
+    ],
+    "model": "sonnet",
+    "skills": [
+      "knowledge-skill",
+      "guizang-ppt-skill"
+    ],
+    "tags": [
+      "Knowledge",
+      "Writing",
+      "Product"
+    ],
+    "type": "vertical",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/blob/main/agents/knowledge-to-deck-agent.md",
+    "lastUpdated": "2026-05-16T18:37:26.791Z"
+  },
+  {
     "id": "tdd-guide",
     "name": "tdd-guide",
     "description": "Test-Driven Development specialist enforcing write-tests-first methodology. Use PROACTIVELY when writing new features, fixing bugs, or refactoring code. Ensures 80%+ test coverage.",
