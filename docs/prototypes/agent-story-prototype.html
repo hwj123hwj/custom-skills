@@ -357,14 +357,7 @@
         color: var(--muted-2);
       }
 
-      .story-shell {
-        display: grid;
-        grid-template-columns: 340px minmax(0, 1fr);
-        gap: 24px;
-        align-items: start;
-      }
-
-      .story-sidebar,
+      .story-banner,
       .story-main {
         border: 1px solid var(--border);
         border-radius: 24px;
@@ -373,23 +366,18 @@
         box-shadow: var(--shadow);
       }
 
-      .story-sidebar {
-        overflow: hidden;
-      }
-
-      .story-sidebar-header,
+      .story-banner,
       .story-main-header {
         padding: 20px 22px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
       }
 
-      .story-sidebar-header h3,
+      .story-banner h3,
       .story-main-header h3 {
         margin: 0 0 6px;
         font-size: 18px;
       }
 
-      .story-sidebar-header p,
+      .story-banner p,
       .story-main-header p {
         margin: 0;
         color: var(--muted);
@@ -397,20 +385,24 @@
         line-height: 1.6;
       }
 
-      .story-list {
-        padding: 12px;
+      .story-card-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
       }
 
       .story-item {
-        border: 1px solid transparent;
-        border-radius: 18px;
-        padding: 16px;
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        padding: 22px;
         cursor: pointer;
-        background: rgba(255, 255, 255, 0.03);
-        margin-bottom: 10px;
+        background: rgba(255, 255, 255, 0.05);
+        min-height: 240px;
+        box-shadow: var(--shadow);
       }
 
-      .story-item.active {
+      .story-item.active,
+      .story-item:hover {
         border-color: rgba(139, 92, 246, 0.42);
         background: rgba(139, 92, 246, 0.12);
       }
@@ -432,6 +424,17 @@
         display: flex;
         gap: 8px;
         flex-wrap: wrap;
+      }
+
+      .story-item-footer {
+        margin-top: 18px;
+        padding-top: 16px;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        font-size: 12px;
+        color: var(--muted-2);
       }
 
       .story-main-header {
@@ -686,13 +689,55 @@
         font-size: 13px;
       }
 
+      .story-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 40;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .story-modal.open {
+        display: flex;
+      }
+
+      .story-modal-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.82);
+        backdrop-filter: blur(12px);
+      }
+
+      .story-modal-panel {
+        position: relative;
+        width: min(960px, 100%);
+        max-height: 88vh;
+        overflow: auto;
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        background: #0a0a0a;
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+      }
+
+      .modal-close {
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--muted);
+        border-radius: 999px;
+        width: 36px;
+        height: 36px;
+        cursor: pointer;
+      }
+
       @media (max-width: 1080px) {
         .card-grid {
           grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
-        .story-shell {
-          grid-template-columns: 1fr;
+        .story-card-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
         .story-overview-strip {
@@ -712,6 +757,7 @@
         }
 
         .card-grid,
+        .story-card-grid,
         .story-grid,
         .story-overview-strip {
           grid-template-columns: 1fr;
@@ -918,26 +964,38 @@
       </section>
 
       <section id="view-stories" class="view">
-        <div class="story-shell">
-          <aside class="story-sidebar">
-            <div class="story-sidebar-header">
-              <h3>Agent Stories</h3>
-              <p>这里不是单纯看描述，而是记录：为什么造它、效果如何、怎么进化、下一步怎么继续变好。</p>
-            </div>
-            <div class="story-list">
-              <article class="story-item active">
+        <div class="story-banner" style="max-width: 760px; margin: 0 auto 24px">
+          <h3>Story 是 Agent 的复盘层</h3>
+          <p>这里记录的不是 Agent 提示词本身，而是它为什么被创建、当前效果如何、经历了哪些调整，以及下一步准备如何继续优化。</p>
+        </div>
+
+        <div class="story-card-grid">
+          <article class="story-item active" id="intel-story-card">
+            <div class="card-header">
+              <div>
+                <div class="story-meta" style="margin-top: 0; margin-bottom: 12px">
+                  <span class="tag status-good">活跃</span>
+                  <span class="model">迭代中</span>
+                </div>
                 <h4>Intel Agent</h4>
                 <p>从“泛媒体分析”收敛到“关注流优先”的高密度信息整理 Agent。</p>
-                <div class="story-meta">
-                  <span class="model">Current</span>
-                  <span class="agent-type">Following-first</span>
-                </div>
-              </article>
-
+              </div>
             </div>
-          </aside>
+            <div class="story-meta">
+              <span class="agent-type">Following-first</span>
+              <span class="tag">analysis</span>
+              <span class="tag">knowledge</span>
+            </div>
+            <div class="story-item-footer">
+              <span>更新于 2026/05/16</span>
+              <span>查看 Story →</span>
+            </div>
+          </article>
+        </div>
 
-          <section class="story-main">
+        <div class="story-modal" id="story-modal">
+          <div class="story-modal-backdrop" id="story-modal-backdrop"></div>
+          <section class="story-modal-panel story-main">
             <div class="story-main-header">
               <div>
                 <h3>Intel Agent · Story Page</h3>
@@ -958,6 +1016,7 @@
                   <p>当前目标：把“刷很多平台”压成“看一份高密度日报 + 候选知识”。后面页面只负责渲染，故事内容来自文档。</p>
                 </div>
               </div>
+              <button class="modal-close" id="story-modal-close">×</button>
             </div>
 
             <div class="story-main-body">
@@ -1204,6 +1263,23 @@ tags: [analysis, knowledge, following-first]
           views[tab.dataset.tab].classList.add("active");
         });
       });
+
+      const storyModal = document.getElementById("story-modal");
+      const storyCard = document.getElementById("intel-story-card");
+      const storyBackdrop = document.getElementById("story-modal-backdrop");
+      const storyClose = document.getElementById("story-modal-close");
+
+      function openStoryModal() {
+        storyModal.classList.add("open");
+      }
+
+      function closeStoryModal() {
+        storyModal.classList.remove("open");
+      }
+
+      storyCard?.addEventListener("click", openStoryModal);
+      storyBackdrop?.addEventListener("click", closeStoryModal);
+      storyClose?.addEventListener("click", closeStoryModal);
     </script>
   </body>
 </html>
