@@ -45,8 +45,6 @@ export const skillDescriptionsZh: Record<string, string> = {
     '北京交通大学（BJTU）教室综合查询。结合教务系统课表（判断是否有课）和实时人数接口（当前在场人数），综合评估教室空闲情况。',
   'idea-incubator':
     '专业的 CPO + 技术合伙人助手，帮助用户孵化想法、分析可行性并编写技术文档。适用于当你有新产品想法、技术方案或"灵光一现"需要结构化整理时。',
-  'guizang-ppt-skill':
-    'Design-focused skill for building horizontal swipe web PPTs as a single HTML file. Includes both editorial magazine and Swiss-style visual systems, suitable for talks, launch decks, analytical presentations, supporting images, covers, and screenshot redesign.',
   'knowledge-skill':
     '个人知识库技能。支持将网页、B站、微信公众号、小红书等内容入库到 PostgreSQL，并通过关键词或语义检索找回历史知识。自动生成 AI 摘要与向量嵌入，同时支持 URL 一键入库和夜间自动收割。',
   'memory-organizer':
@@ -94,6 +92,8 @@ export const skillDescriptionsEn: Record<string, string> = {
     'Classroom query tool for Beijing Jiaotong University (BJTU). Combines timetable data (scheduled classes) with real-time occupancy counts to assess whether a classroom is free.',
   'idea-incubator':
     'Professional CPO + technical co-founder assistant. Helps incubate ideas, analyze feasibility, and draft technical documents. Use when you have a new product idea, technical plan, or a flash of inspiration that needs structured elaboration.',
+  'guizang-ppt-skill':
+    'Design-focused skill for building horizontal swipe web PPTs as a single HTML file. Includes both editorial magazine and Swiss-style visual systems, suitable for talks, launch decks, analytical presentations, supporting images, covers, and screenshot redesign.',
   'knowledge-skill':
     'Personal knowledge base skill. Ingest web pages, Bilibili, WeChat articles, Xiaohongshu posts and more into PostgreSQL; retrieve them via keyword or semantic search. Auto-generates AI summaries and vector embeddings; supports one-click URL ingestion and nightly harvesting.',
   'memory-organizer':
