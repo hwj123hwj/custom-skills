@@ -20,7 +20,7 @@ VENV = "uv run"
 SCRIPTS = str(Path(__file__).parent)
 RESULTS_FILE = str(Path(__file__).parent.parent / "eval_results.tsv")
 
-HEADER = "timestamp\tpassed\ttotal\trate\ttest_1_save\ttest_2_ai_summary\ttest_3_vector_search\ttest_4_keyword_search\ttest_5_hybrid_search\tnotes"
+HEADER = "timestamp\tpassed\ttotal\trate\ttest_1_save\ttest_2_ai_summary\ttest_3_vector_search\ttest_4_keyword_search\ttest_5_hybrid_search\ttest_6_export\tnotes"
 
 
 def run_script(script_name, args_str, timeout=60):
@@ -161,12 +161,50 @@ def test_hybrid_search():
         return False, f"invalid json: {out[:80]}"
 
 
+def test_export():
+    """测试6: agent 候选导出"""
+    ok, out, err, dur = run_script(
+        "knowledge_export.py",
+        '--query "AutoResearch 知识" --mode hybrid --limit 3 --content-chars 300',
+    )
+
+    if not ok:
+        return False, f"export failed: {err[:80]}"
+
+    try:
+        data = json.loads(out)
+        results = data.get("results", [])
+        if not results:
+            return False, "no export results"
+
+        top = results[0]
+        required_fields = [
+            "title",
+            "source_type",
+            "summary",
+            "ai_summary",
+            "content",
+            "metadata",
+        ]
+        missing = [field for field in required_fields if field not in top]
+        if missing:
+            return False, f"missing fields: {missing}"
+
+        if len(top.get("content", "")) > 303:
+            return False, "content not truncated as expected"
+
+        return True, f"fields ok top='{top.get('title', '')[:20]}' {dur:.1f}s"
+    except json.JSONDecodeError:
+        return False, f"invalid json: {out[:80]}"
+
+
 TESTS = [
     ("test_1_save", test_save),
     ("test_2_ai_summary", test_ai_summary),
     ("test_3_vector_search", test_vector_search),
     ("test_4_keyword_search", test_keyword_search),
     ("test_5_hybrid_search", test_hybrid_search),
+    ("test_6_export", test_export),
 ]
 
 
@@ -214,6 +252,7 @@ def main():
             "PASS" if results["test_3_vector_search"][0] else f"FAIL:{results['test_3_vector_search'][1][:30]}",
             "PASS" if results["test_4_keyword_search"][0] else f"FAIL:{results['test_4_keyword_search'][1][:30]}",
             "PASS" if results["test_5_hybrid_search"][0] else f"FAIL:{results['test_5_hybrid_search'][1][:30]}",
+            "PASS" if results["test_6_export"][0] else f"FAIL:{results['test_6_export'][1][:30]}",
             "",
         ]
         with open(RESULTS_FILE, "a") as f:
