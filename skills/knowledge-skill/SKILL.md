@@ -38,6 +38,7 @@ scenarios:
 | 候选体检 | `knowledge_candidate_review.py` | 对导出候选做 deck 适配度评分、噪音识别和版式建议，帮助判断知识池质量 |
 | Recipe Audit | `knowledge_recipe_audit.py` | 批量审阅 showcase recipes，快速看哪些 recipe 健康、哪些还在串题 |
 | Knowledge Pool Report | `knowledge_pool_report.py` | 直接体检知识池本身，统计来源分布、AI 摘要覆盖率和薄弱条目 |
+| Wiki Review | `knowledge_wiki_review.py` | 扫描 llm-wiki 编译结果，统计 source / concept / entity 页面，并标出偏薄页面与下一步建议 |
 | 生成 Deck Brief | `knowledge_to_deck_brief.py` | 从导出的候选知识中筛选高价值内容，压成知识卡片，并生成可交给 PPT Skill 的结构化 brief |
 | 运行 Deck Recipe | `knowledge_deck_recipe.py` | 从 markdown recipe 复跑 deck 选题参数，生成更稳定的 brief |
 | URL入库 | `knowledge_save_from_url.py` | 从 URL 自动获取并入库（支持视频ASR转录） |
@@ -165,6 +166,10 @@ python skills/knowledge-skill/scripts/knowledge_ingest_markdown.py \
 
 # 一次性导入推荐的 docs 知识种子
 python skills/knowledge-skill/scripts/knowledge_seed_docs_items.py
+
+# 体检当前 llm-wiki 编译结果
+python skills/knowledge-skill/scripts/knowledge_wiki_review.py \
+  --write docs/wiki/reviews/index.md
 ```
 
 ### 生成 Deck Brief（知识到展示）
@@ -216,6 +221,26 @@ excludedTerms:
 ```
 
 这样 recipe runner 和 review runner 都会先按这组约束收紧候选池。
+
+### Wiki 编译线体检
+
+```bash
+# 扫描默认 llm-wiki 目录，输出 markdown 快照
+python skills/knowledge-skill/scripts/knowledge_wiki_review.py \
+  --write docs/wiki/reviews/index.md
+
+# 输出 JSON，便于脚本消费
+python skills/knowledge-skill/scripts/knowledge_wiki_review.py \
+  --output json
+```
+
+如果这份 review 里出现大量：
+
+- source 页面正文偏薄
+- 未抽出概念/实体
+- concept/entity 页面只有单一 mentions
+
+说明当前问题主要在 `raw -> wiki` 的 compile 层，而不是 deck 展示层。
 
 ### 夜间自动收割
 

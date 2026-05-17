@@ -35,6 +35,11 @@
 - [Showcase 索引](./showcase/README.md)
 - [AutoResearch 知识卡片 Brief](./showcase/autoresearch-knowledge-cards.md)
 
+## Wiki Reviews
+
+- [Wiki Reviews 说明](./wiki/reviews/README.md)
+- [Wiki Review 快照](./wiki/reviews/index.md)
+
 ## 历史设计与计划
 
 - `docs/plans/`：阶段性计划与问题分析

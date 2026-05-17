@@ -20,7 +20,7 @@ VENV = "uv run"
 SCRIPTS = str(Path(__file__).parent)
 RESULTS_FILE = str(Path(__file__).parent.parent / "eval_results.tsv")
 
-HEADER = "timestamp\tpassed\ttotal\trate\ttest_1_save\ttest_2_ai_summary\ttest_3_vector_search\ttest_4_keyword_search\ttest_5_hybrid_search\ttest_6_export\ttest_7_deck_brief\ttest_8_candidate_review\ttest_9_recipe_audit\ttest_10_pool_report\ttest_11_backfill_ai_summary\ttest_12_seed_demo_items\ttest_13_ingest_markdown\tnotes"
+HEADER = "timestamp\tpassed\ttotal\trate\ttest_1_save\ttest_2_ai_summary\ttest_3_vector_search\ttest_4_keyword_search\ttest_5_hybrid_search\ttest_6_export\ttest_7_deck_brief\ttest_8_candidate_review\ttest_9_recipe_audit\ttest_10_pool_report\ttest_11_backfill_ai_summary\ttest_12_seed_demo_items\ttest_13_ingest_markdown\ttest_14_wiki_review\tnotes"
 
 
 def run_script(script_name, args_str, timeout=60):
@@ -410,6 +410,104 @@ def test_ingest_markdown():
         return False, f"invalid json: {out[:80]}"
 
 
+def test_wiki_review():
+    """测试14: wiki review 快照"""
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        wiki_root = Path(tmpdir)
+        wiki_pages = wiki_root / "wiki"
+        wiki_pages.mkdir(parents=True, exist_ok=True)
+
+        (wiki_root / ".compile-state.json").write_text(
+            json.dumps({"last_compile": "2026-05-17T00:00:00", "compiled_ids": ["a", "b", "c"]}),
+            encoding="utf-8",
+        )
+
+        (wiki_pages / "source-demo.md").write_text(
+            """---
+type: source
+title: Demo Source
+date: 2026-05-17
+---
+
+# Demo Source
+
+## 核心摘要
+这是一个用于测试 wiki review 的 source 页面，它包含更长的正文内容，足以避免被误判成极薄页面。
+
+## 知识图谱 (Knowledge Graph)
+- **相关概念 (Concepts)**: [[concept-agent]]
+- **相关实体 (Entities)**: [[entity-openai]]
+
+## 内容片段
+这里是一段更长的内容片段，用于模拟 source 页面被编译后的正文。
+""",
+            encoding="utf-8",
+        )
+        (wiki_pages / "concept-agent.md").write_text(
+            """---
+type: concept
+title: Agent
+date: 2026-05-17
+---
+
+# Agent
+
+## 关联来源 (Mentions)
+- [[source-demo]] (Demo Source)
+""",
+            encoding="utf-8",
+        )
+        (wiki_pages / "entity-openai.md").write_text(
+            """---
+type: entity
+title: OpenAI
+date: 2026-05-17
+---
+
+# OpenAI
+
+## 关联来源 (Mentions)
+- [[source-demo]] (Demo Source)
+""",
+            encoding="utf-8",
+        )
+
+        ok, out, err, dur = run_script(
+            "knowledge_wiki_review.py",
+            f'--wiki-dir "{wiki_root}" --output json',
+        )
+
+        if not ok:
+            return False, f"wiki review failed: {err[:80]}"
+
+        try:
+            data = json.loads(out)
+            required_fields = [
+                "exists",
+                "total_pages",
+                "source_count",
+                "concept_count",
+                "entity_count",
+                "recent_sources",
+                "next_actions",
+            ]
+            missing = [field for field in required_fields if field not in data]
+            if missing:
+                return False, f"missing wiki review fields: {missing}"
+            if not data.get("exists"):
+                return False, "wiki dir should exist"
+            if data.get("source_count") != 1:
+                return False, f"unexpected source_count: {data.get('source_count')}"
+            if not isinstance(data.get("next_actions"), list) or not data["next_actions"]:
+                return False, "missing next actions"
+
+            return True, f"pages={data['total_pages']} sources={data['source_count']} {dur:.1f}s"
+        except json.JSONDecodeError:
+            return False, f"invalid json: {out[:80]}"
+
+
 TESTS = [
     ("test_1_save", test_save),
     ("test_2_ai_summary", test_ai_summary),
@@ -424,6 +522,7 @@ TESTS = [
     ("test_11_backfill_ai_summary", test_backfill_ai_summary),
     ("test_12_seed_demo_items", test_seed_demo_items),
     ("test_13_ingest_markdown", test_ingest_markdown),
+    ("test_14_wiki_review", test_wiki_review),
 ]
 
 
@@ -479,6 +578,7 @@ def main():
             "PASS" if results["test_11_backfill_ai_summary"][0] else f"FAIL:{results['test_11_backfill_ai_summary'][1][:30]}",
             "PASS" if results["test_12_seed_demo_items"][0] else f"FAIL:{results['test_12_seed_demo_items'][1][:30]}",
             "PASS" if results["test_13_ingest_markdown"][0] else f"FAIL:{results['test_13_ingest_markdown'][1][:30]}",
+            "PASS" if results["test_14_wiki_review"][0] else f"FAIL:{results['test_14_wiki_review'][1][:30]}",
             "",
         ]
         with open(RESULTS_FILE, "a") as f:
