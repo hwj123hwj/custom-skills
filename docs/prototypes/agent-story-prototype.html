@@ -831,6 +831,42 @@
         line-height: 1.7;
       }
 
+      .deck-preview-frame {
+        width: 100%;
+        min-height: 420px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        background: #0f0f0f;
+        overflow: hidden;
+      }
+
+      .deck-preview-frame iframe {
+        width: 100%;
+        height: 420px;
+        border: 0;
+        background: white;
+      }
+
+      .deck-link-row {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 14px;
+      }
+
+      .deck-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(245, 158, 11, 0.34);
+        background: rgba(245, 158, 11, 0.14);
+        color: #fde68a;
+        font-size: 13px;
+        font-weight: 600;
+      }
+
       .deck-strip {
         display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -992,7 +1028,7 @@
         <h1><span>Build Skills. Evolve Agents.</span></h1>
         <p>
           这是一个单文件 HTML 原型，用来表达站点下一阶段的方向：
-          在 `Stories` 记录进化过程之外，再新增 `Decks`，把知识库和 Agent 流水线产出的精华真正展示出来。
+          在 `Stories` 记录进化过程之外，再新增 `Decks`，把真正生成出来的 HTML / PPT 成果像作品集一样集中展示。
         </p>
         <div class="search-shell">
           <div class="search-glow"></div>
@@ -1436,10 +1472,10 @@ tags: [analysis, knowledge, following-first]
 
       <section id="view-decks" class="view">
         <div class="deck-banner">
-          <h3>Deck 是能力产出的展柜</h3>
+          <h3>Deck 是最终产物，不是说明文档</h3>
           <p>
-            `Stories` 讲的是一个 Agent 为什么被造出来、怎么迭代；`Decks` 展示的则是这套系统最终产出的知识精华。
-            这里会挂知识卡片集、专题 deck 和未来更适合传播的可视化成果。
+            `Stories` 讲的是一个 Agent 为什么被造出来、怎么迭代；`Decks` 展示的则是那些真正生成出来的 HTML deck / PPT 成果。
+            它更像作品集、展柜和成果墙，而不是另一层解释页。
           </p>
         </div>
 
@@ -1456,10 +1492,10 @@ tags: [analysis, knowledge, following-first]
               </div>
 
               <div class="deck-item-main">
-                <h4>第一份知识到展示的真实样板</h4>
+                <h4>第一份真实展品</h4>
                 <p>
                   用 `knowledge_export.py` 和 `knowledge_to_deck_brief.py` 从知识库里提炼卡片，
-                  再交给 `guizang-ppt-skill` 的 Swiss 风格模板，整理成可打开的网页 deck。
+                  再交给 `guizang-ppt-skill` 的 Swiss 风格模板，产出真正可打开的网页 deck。
                 </p>
               </div>
             </div>
@@ -1472,7 +1508,7 @@ tags: [analysis, knowledge, following-first]
               </div>
               <div class="story-item-footer">
                 <span>更新于 2026/05/17</span>
-                <span>View Deck →</span>
+                <span>Open Deck →</span>
               </div>
             </div>
           </article>
@@ -1483,13 +1519,13 @@ tags: [analysis, knowledge, following-first]
           <section class="story-modal-panel story-main">
             <div class="story-main-header">
               <div>
-                <h3>AutoResearch · Knowledge Cards Deck</h3>
+                <h3>AutoResearch · Deck Showcase</h3>
                 <p>
-                  这一页不再讲“为什么做这个 Agent”，而是展示它和知识库流水线真正产出的可传播成果。
+                  这里展示的重点不再是“解释它是什么”，而是直接看这份 deck 本体。后面网站里的 `Decks` 应该优先这样展示真实产物。
                 </p>
                 <div class="story-badges">
                   <span class="model" style="background: rgba(245, 158, 11, 0.18); border-color: rgba(245, 158, 11, 0.34); color: #fde68a;">Swiss Style</span>
-                  <span class="tag status-good">Showcase Ready</span>
+                  <span class="tag status-good">Real Artifact</span>
                   <span class="tag">knowledge-to-deck-agent</span>
                   <span class="tag">guizang-ppt-skill</span>
                 </div>
@@ -1497,13 +1533,30 @@ tags: [analysis, knowledge, following-first]
               <div style="min-width: 180px">
                 <div class="story-card" style="padding: 14px 16px">
                   <h4 style="margin-bottom: 8px">Deck Snapshot</h4>
-                  <p>这是第一份真实样板，重点不是内容规模，而是证明“知识到 deck”的闭环已经成立。</p>
+                  <p>这是一份真实 deck，不是说明文档。重点是把产物像作品一样挂出来，而不是再讲一遍生成逻辑。</p>
                 </div>
               </div>
               <button class="modal-close" id="deck-modal-close">×</button>
             </div>
 
             <div class="story-main-body">
+              <section class="deck-panel" style="margin-bottom: 18px">
+                <div class="story-card-header">
+                  <h4>Deck 预览</h4>
+                  <span class="tag">Artifact Preview</span>
+                </div>
+                <div class="deck-preview-frame">
+                  <iframe
+                    src="../showcase/autoresearch-knowledge-cards.html"
+                    title="AutoResearch Knowledge Cards Deck Preview"
+                  ></iframe>
+                </div>
+                <div class="deck-link-row">
+                  <a class="deck-link" href="../showcase/autoresearch-knowledge-cards.html" target="_blank" rel="noreferrer">打开完整 HTML Deck</a>
+                  <a class="deck-link" href="../showcase/autoresearch-knowledge-cards.md" target="_blank" rel="noreferrer">查看 Brief / 来源说明</a>
+                </div>
+              </section>
+
               <div class="deck-strip">
                 <div class="metric-card">
                   <div class="metric-label">产物类型</div>
@@ -1522,27 +1575,27 @@ tags: [analysis, knowledge, following-first]
                 </div>
                 <div class="metric-card">
                   <div class="metric-label">当前质量目标</div>
-                  <div class="metric-value">先闭环</div>
-                  <div class="metric-note">先证明产物能稳定长出来，再追求更强的内容密度。</div>
+                  <div class="metric-value">先挂出来</div>
+                  <div class="metric-note">先让 deck 作为成果本体能被浏览、被打开、被分享，再继续优化内容密度。</div>
                 </div>
               </div>
 
               <div class="story-grid" style="margin-bottom: 18px">
                 <section class="deck-panel">
                   <div class="story-card-header">
-                    <h4>这页想解决什么</h4>
+                    <h4>Decks 这个视图想解决什么</h4>
                     <span class="tag">Showcase Layer</span>
                   </div>
                   <ul>
-                    <li>让网站不只展示 skill 和 agent 本体，也展示它们产出的“知识精华”。</li>
-                    <li>把 deck 变成可浏览、可传播、可复盘的内容资产。</li>
-                    <li>为未来的社区测试者提供一个更直观的成果观察窗口。</li>
+                    <li>让网站不只展示 skill 和 agent 本体，也展示它们真正产出的 HTML / PPT 作品。</li>
+                    <li>把 deck 变成可浏览、可传播、可复盘的内容资产，而不是藏在仓库目录里。</li>
+                    <li>为未来的测试者和社区用户提供一个直接看成果的入口，而不是先读很多解释。</li>
                   </ul>
                 </section>
 
                 <section class="deck-panel">
                   <div class="story-card-header">
-                    <h4>最小流水线</h4>
+                    <h4>这份 deck 的最小流水线</h4>
                     <span class="tag">Pipeline</span>
                   </div>
                   <div class="command-box">knowledge_export.py
@@ -1571,7 +1624,7 @@ docs/showcase/*.html</div>
               <div class="story-grid">
                 <section class="deck-panel">
                   <div class="story-card-header">
-                    <h4>为什么这份样板是小的</h4>
+                    <h4>为什么先放这份小样板</h4>
                     <span class="tag status-watch">Intentional</span>
                   </div>
                   <ul>
@@ -1583,13 +1636,13 @@ docs/showcase/*.html</div>
 
                 <section class="deck-panel">
                   <div class="story-card-header">
-                    <h4>以后可以怎么长</h4>
+                    <h4>作品集以后怎么长</h4>
                     <span class="tag">Next</span>
                   </div>
                   <ul>
-                    <li>从“知识卡片集”长到“单主题专题 deck”。</li>
-                    <li>给每份 deck 增加来源知识、关联 agent、迭代版本和反馈记录。</li>
-                    <li>把 `Decks` 正式接进 Web，和 `Stories` 一起形成“过程 + 产物”的双视图。</li>
+                    <li>从“知识卡片集”长到“单主题专题 deck”，形成真正可传播的作品墙。</li>
+                    <li>给每份 deck 增加来源知识、关联 agent、版本和精选标记。</li>
+                    <li>后面 Web 正式实现时，优先展示 deck 封面和预览，而不是先展示解释卡片。</li>
                   </ul>
                 </section>
               </div>
@@ -1597,7 +1650,7 @@ docs/showcase/*.html</div>
               <section class="feedback-panel">
                 <h4>对 Web 的意义</h4>
                 <p style="margin: 0; color: var(--muted); line-height: 1.75">
-                  如果 `Stories` 是项目的成长日志，`Decks` 就是这个系统长出来的成品展柜。两者放在同一个网站里，别人不仅能看见你怎么做，还能看见你做出了什么。
+                  如果 `Stories` 是项目的成长日志，`Decks` 就是这个系统长出来的成品展柜。两者放在同一个网站里，别人不仅能看见你怎么做，还能直接点开你做出的东西。
                 </p>
               </section>
             </div>
