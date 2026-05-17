@@ -19,6 +19,7 @@
 
 - [Agent 基础设施总览](./agent-infra/overview.md)
 - [Agent 基础设施 MVP](./agent-infra/mvp.md)
+- [Knowledge Compile Layer](./agent-infra/knowledge-compile-layer.md)
 - [Knowledge to Deck MVP](./agent-infra/knowledge-to-deck-mvp.md)
 - [Knowledge to Deck Agent Spec](./agent-infra/knowledge-to-deck-agent-spec.md)
 - [Intel Agent 重构规范](./agent-infra/intel-agent-spec.md)

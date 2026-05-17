@@ -29,3 +29,19 @@ Signal → Insight → Knowledge Candidate
 ```
 
 系统要做的，是把高噪声内容转换成高密度日报，以及更长效的知识资产。
+
+## 知识层补充
+
+对于 `knowledge-skill`，当前更合理的分层是：
+
+```text
+Raw -> Compile -> Output
+```
+
+- `Raw`：PostgreSQL 中的原始知识条目
+- `Compile`：筛选、提炼、review、brief、wiki 编译
+- `Output`：wiki、deck、Web showcase
+
+详细说明见：
+
+- [Knowledge Compile Layer](./knowledge-compile-layer.md)
