@@ -20,7 +20,7 @@ VENV = "uv run"
 SCRIPTS = str(Path(__file__).parent)
 RESULTS_FILE = str(Path(__file__).parent.parent / "eval_results.tsv")
 
-HEADER = "timestamp\tpassed\ttotal\trate\ttest_1_save\ttest_2_ai_summary\ttest_3_vector_search\ttest_4_keyword_search\ttest_5_hybrid_search\ttest_6_export\ttest_7_deck_brief\ttest_8_candidate_review\tnotes"
+HEADER = "timestamp\tpassed\ttotal\trate\ttest_1_save\ttest_2_ai_summary\ttest_3_vector_search\ttest_4_keyword_search\ttest_5_hybrid_search\ttest_6_export\ttest_7_deck_brief\ttest_8_candidate_review\ttest_9_recipe_audit\tnotes"
 
 
 def run_script(script_name, args_str, timeout=60):
@@ -265,6 +265,32 @@ def test_candidate_review():
         return False, f"invalid json: {out[:80]}"
 
 
+def test_recipe_audit():
+    """测试9: recipe 审计总览"""
+    ok, out, err, dur = run_script(
+        "knowledge_recipe_audit.py",
+        '--recipes-dir docs/showcase/recipes --output json',
+    )
+
+    if not ok:
+        return False, f"recipe audit failed: {err[:80]}"
+
+    try:
+        data = json.loads(out)
+        if not isinstance(data, list) or not data:
+            return False, "audit output empty"
+
+        first = data[0]
+        required_fields = ["title", "health", "action", "avg_score", "ai_coverage"]
+        missing = [field for field in required_fields if field not in first]
+        if missing:
+            return False, f"missing audit fields: {missing}"
+
+        return True, f"recipes={len(data)} first={first['health']} {dur:.1f}s"
+    except json.JSONDecodeError:
+        return False, f"invalid json: {out[:80]}"
+
+
 TESTS = [
     ("test_1_save", test_save),
     ("test_2_ai_summary", test_ai_summary),
@@ -274,6 +300,7 @@ TESTS = [
     ("test_6_export", test_export),
     ("test_7_deck_brief", test_deck_brief),
     ("test_8_candidate_review", test_candidate_review),
+    ("test_9_recipe_audit", test_recipe_audit),
 ]
 
 
@@ -323,6 +350,8 @@ def main():
             "PASS" if results["test_5_hybrid_search"][0] else f"FAIL:{results['test_5_hybrid_search'][1][:30]}",
             "PASS" if results["test_6_export"][0] else f"FAIL:{results['test_6_export'][1][:30]}",
             "PASS" if results["test_7_deck_brief"][0] else f"FAIL:{results['test_7_deck_brief'][1][:30]}",
+            "PASS" if results["test_8_candidate_review"][0] else f"FAIL:{results['test_8_candidate_review'][1][:30]}",
+            "PASS" if results["test_9_recipe_audit"][0] else f"FAIL:{results['test_9_recipe_audit'][1][:30]}",
             "",
         ]
         with open(RESULTS_FILE, "a") as f:
