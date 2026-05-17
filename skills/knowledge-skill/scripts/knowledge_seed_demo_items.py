@@ -96,6 +96,8 @@ def seed_demo_items() -> dict:
                 "success": result.get("success", False),
                 "id": result.get("id"),
                 "ai_summary": result.get("ai_summary"),
+                "has_embedding": result.get("has_embedding"),
+                "error": result.get("error"),
             }
         )
 

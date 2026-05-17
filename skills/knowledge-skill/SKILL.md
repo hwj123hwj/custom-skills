@@ -31,6 +31,7 @@ scenarios:
 | 入库 | `knowledge_save.py` | 保存内容到知识库，自动生成 AI 摘要和 embedding |
 | 文档入库 | `knowledge_ingest_markdown.py` | 把仓库内 Markdown 文档作为 `docs` 来源导入知识池，扩充真实知识源 |
 | Docs 知识种子 | `knowledge_seed_docs_items.py` | 导入一批高价值 story / spec 文档，帮助 showcase 走向 `real-sources` |
+| Wiki Docs 种子 | `knowledge_seed_wiki_docs_items.py` | 导入更适合 wiki 编译线的 story / spec / showcase docs，提升 concept/entity 的 mentions 密度 |
 | 演示知识种子 | `knowledge_seed_demo_items.py` | 写入更厚实的演示知识条目，稳定 showcase / recipe 的基础候选 |
 | 搜索 | `knowledge_search.py` | 关键词 + 向量语义搜索（支持混合搜索） |
 | 导出候选 | `knowledge_export.py` | 面向 agent 导出更完整的候选知识对象，补齐 `ai_summary`、`content`、`metadata` |
@@ -167,6 +168,9 @@ python skills/knowledge-skill/scripts/knowledge_ingest_markdown.py \
 # 一次性导入推荐的 docs 知识种子
 python skills/knowledge-skill/scripts/knowledge_seed_docs_items.py
 
+# 一次性导入更适合 wiki 编译线的 docs 种子
+python skills/knowledge-skill/scripts/knowledge_seed_wiki_docs_items.py
+
 # 体检当前 llm-wiki 编译结果
 python skills/knowledge-skill/scripts/knowledge_wiki_review.py \
   --write docs/wiki/reviews/index.md
@@ -225,6 +229,12 @@ excludedTerms:
 ### Wiki 编译线体检
 
 ```bash
+# 先补更适合 wiki 的 docs 知识种子
+python skills/knowledge-skill/scripts/knowledge_seed_wiki_docs_items.py
+
+# 再执行一轮 wiki 编译
+python skills/knowledge-skill/scripts/wiki_compile.py --limit 5
+
 # 扫描默认 llm-wiki 目录，输出 markdown 快照
 python skills/knowledge-skill/scripts/knowledge_wiki_review.py \
   --write docs/wiki/reviews/index.md

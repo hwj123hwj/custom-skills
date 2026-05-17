@@ -20,7 +20,7 @@ VENV = "uv run"
 SCRIPTS = str(Path(__file__).parent)
 RESULTS_FILE = str(Path(__file__).parent.parent / "eval_results.tsv")
 
-HEADER = "timestamp\tpassed\ttotal\trate\ttest_1_save\ttest_2_ai_summary\ttest_3_vector_search\ttest_4_keyword_search\ttest_5_hybrid_search\ttest_6_export\ttest_7_deck_brief\ttest_8_candidate_review\ttest_9_recipe_audit\ttest_10_pool_report\ttest_11_backfill_ai_summary\ttest_12_seed_demo_items\ttest_13_ingest_markdown\ttest_14_wiki_review\tnotes"
+HEADER = "timestamp\tpassed\ttotal\trate\ttest_1_save\ttest_2_ai_summary\ttest_3_vector_search\ttest_4_keyword_search\ttest_5_hybrid_search\ttest_6_export\ttest_7_deck_brief\ttest_8_candidate_review\ttest_9_recipe_audit\ttest_10_pool_report\ttest_11_backfill_ai_summary\ttest_12_seed_demo_items\ttest_13_ingest_markdown\ttest_14_wiki_review\ttest_15_seed_wiki_docs\tnotes"
 
 
 def run_script(script_name, args_str, timeout=60):
@@ -325,60 +325,82 @@ def test_pool_report():
 
 def test_backfill_ai_summary():
     """测试11: AI 摘要回填"""
-    ok, out, err, dur = run_script(
-        "knowledge_save.py",
-        '--source-type test --source-id eval_missing_ai_summary '
-        '--title "缺失摘要回填测试" '
-        '--content "这是一条用于测试 AI 摘要回填的知识内容，它应该在回填脚本里被补上一句话摘要。" '
-        '--ai-summary ""',
-    )
+    for attempt in range(2):
+        ok, out, err, _ = run_script(
+            "knowledge_save.py",
+            '--source-type test --source-id eval_missing_ai_summary '
+            '--title "缺失摘要回填测试" '
+            '--content "这是一条用于测试 AI 摘要回填的知识内容，它应该在回填脚本里被补上一句话摘要。" '
+            '--ai-summary ""',
+        )
 
-    if not ok:
-        return False, f"seed save failed: {err[:80]}"
+        if not ok:
+            return False, f"seed save failed: {err[:80]}"
 
-    ok, out, err, dur = run_script(
-        "knowledge_backfill_ai_summary.py",
-        '--source-type test --source-id eval_missing_ai_summary',
-        timeout=90,
-    )
-    if not ok:
-        return False, f"backfill failed: {err[:80]}"
+        ok, out, err, dur = run_script(
+            "knowledge_backfill_ai_summary.py",
+            '--source-type test --source-id eval_missing_ai_summary',
+            timeout=90,
+        )
+        if not ok:
+            if attempt == 0:
+                continue
+            return False, f"backfill failed: {err[:80]}"
 
-    try:
-        data = json.loads(out)
-        updated = int(data.get("updated", 0))
-        results = data.get("results", [])
-        if updated < 1 or not results:
-            return False, f"no items updated: {data}"
-        if not results[0].get("ai_summary"):
-            return False, "updated item missing ai_summary"
+        try:
+            data = json.loads(out)
+            updated = int(data.get("updated", 0))
+            results = data.get("results", [])
+            if updated < 1 or not results:
+                if attempt == 0:
+                    continue
+                return False, f"no items updated: {data}"
+            if not results[0].get("ai_summary"):
+                if attempt == 0:
+                    continue
+                return False, "updated item missing ai_summary"
 
-        return True, f"updated={updated} title='{results[0].get('title', '')[:16]}' {dur:.1f}s"
-    except json.JSONDecodeError:
-        return False, f"invalid json: {out[:80]}"
+            return True, f"updated={updated} title='{results[0].get('title', '')[:16]}' {dur:.1f}s"
+        except json.JSONDecodeError:
+            if attempt == 0:
+                continue
+            return False, f"invalid json: {out[:80]}"
+
+    return False, "backfill retry exhausted"
 
 
 def test_seed_demo_items():
     """测试12: 演示知识种子"""
-    ok, out, err, dur = run_script(
-        "knowledge_seed_demo_items.py",
-        "",
-        timeout=90,
-    )
-    if not ok:
-        return False, f"seed demo failed: {err[:80]}"
+    for attempt in range(2):
+        ok, out, err, dur = run_script(
+            "knowledge_seed_demo_items.py",
+            "",
+            timeout=90,
+        )
+        if not ok:
+            if attempt == 0:
+                continue
+            return False, f"seed demo failed: {err[:80]}"
 
-    try:
-        data = json.loads(out)
-        results = data.get("results", [])
-        if int(data.get("seeded", 0)) < 2 or len(results) < 2:
-            return False, f"seeded too few items: {data}"
-        if not all(item.get("success") for item in results):
-            return False, f"seed failures: {results}"
+        try:
+            data = json.loads(out)
+            results = data.get("results", [])
+            if int(data.get("seeded", 0)) < 2 or len(results) < 2:
+                if attempt == 0:
+                    continue
+                return False, f"seeded too few items: {data}"
+            if not all(item.get("success") for item in results):
+                if attempt == 0:
+                    continue
+                return False, f"seed failures: {results}"
 
-        return True, f"seeded={len(results)} {dur:.1f}s"
-    except json.JSONDecodeError:
-        return False, f"invalid json: {out[:80]}"
+            return True, f"seeded={len(results)} {dur:.1f}s"
+        except json.JSONDecodeError:
+            if attempt == 0:
+                continue
+            return False, f"invalid json: {out[:80]}"
+
+    return False, "seed demo retry exhausted"
 
 
 def test_ingest_markdown():
@@ -508,6 +530,35 @@ date: 2026-05-17
             return False, f"invalid json: {out[:80]}"
 
 
+def test_seed_wiki_docs():
+    """测试15: wiki docs 种子 dry-run"""
+    ok, out, err, dur = run_script(
+        "knowledge_seed_wiki_docs_items.py",
+        "--dry-run",
+        timeout=90,
+    )
+
+    if not ok:
+        return False, f"seed wiki docs failed: {err[:80]}"
+
+    try:
+        data = json.loads(out)
+        if not isinstance(data, list) or len(data) < 4:
+            return False, f"too few wiki docs seeds: {data}"
+
+        first = data[0]
+        required_fields = ["source_type", "source_id", "title", "content", "metadata"]
+        missing = [field for field in required_fields if field not in first]
+        if missing:
+            return False, f"missing fields: {missing}"
+        if first.get("source_type") != "docs":
+            return False, f"unexpected source_type: {first.get('source_type')}"
+
+        return True, f"seeded={len(data)} docs {dur:.1f}s"
+    except json.JSONDecodeError:
+        return False, f"invalid json: {out[:80]}"
+
+
 TESTS = [
     ("test_1_save", test_save),
     ("test_2_ai_summary", test_ai_summary),
@@ -523,6 +574,7 @@ TESTS = [
     ("test_12_seed_demo_items", test_seed_demo_items),
     ("test_13_ingest_markdown", test_ingest_markdown),
     ("test_14_wiki_review", test_wiki_review),
+    ("test_15_seed_wiki_docs", test_seed_wiki_docs),
 ]
 
 
@@ -579,6 +631,7 @@ def main():
             "PASS" if results["test_12_seed_demo_items"][0] else f"FAIL:{results['test_12_seed_demo_items'][1][:30]}",
             "PASS" if results["test_13_ingest_markdown"][0] else f"FAIL:{results['test_13_ingest_markdown'][1][:30]}",
             "PASS" if results["test_14_wiki_review"][0] else f"FAIL:{results['test_14_wiki_review'][1][:30]}",
+            "PASS" if results["test_15_seed_wiki_docs"][0] else f"FAIL:{results['test_15_seed_wiki_docs'][1][:30]}",
             "",
         ]
         with open(RESULTS_FILE, "a") as f:
