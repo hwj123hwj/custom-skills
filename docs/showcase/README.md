@@ -29,6 +29,8 @@
 - [向量数据库决策卡片 Deck](./vector-database-decision-cards.html)
 - [程序员工作流变化观察 Brief](./programmer-workflow-shift-notes.md)
 - [程序员工作流变化观察 Deck](./programmer-workflow-shift-notes.html)
+- [Knowledge to Deck 流水线笔记 Brief](./knowledge-to-deck-pipeline-notes.md)
+- [Knowledge to Deck 流水线笔记 Deck](./knowledge-to-deck-pipeline-notes.html)
 - [Deck Recipes](./recipes/README.md)
 
 ## 维护原则

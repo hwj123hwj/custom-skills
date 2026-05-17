@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Knowledge to Deck 流水线笔记 · Workflow Notes</title>
+<style>
+  :root{
+    --bg:#f6f4ee;
+    --panel:#fffdf8;
+    --ink:#111111;
+    --muted:#5f5a53;
+    --line:#d7d1c8;
+    --accent:#0d5bd7;
+    --accent-soft:#dfeaff;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    --sans:"Inter","PingFang SC","Noto Sans SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--sans)}
+  body{scroll-snap-type:y mandatory;overflow-y:auto}
+  .slide{
+    min-height:100vh;
+    padding:5.5vh 5vw;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    scroll-snap-align:start;
+    border-bottom:1px solid var(--line);
+    background:
+      linear-gradient(135deg, rgba(13,91,215,.04), transparent 45%),
+      radial-gradient(circle at top right, rgba(13,91,215,.08), transparent 30%),
+      var(--bg);
+  }
+  .slide:nth-child(even){
+    background:
+      linear-gradient(135deg, rgba(13,91,215,.03), transparent 40%),
+      var(--panel);
+  }
+  .topline,.foot{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:16px;
+    font:12px/1.4 var(--mono);
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+  .rule{height:1px;background:var(--line);margin:18px 0 28px}
+  h1,h2{margin:0;letter-spacing:-.04em}
+  h1{font-size:clamp(48px,8vw,108px);line-height:.92;font-weight:800;max-width:10ch}
+  h2{font-size:clamp(32px,4.6vw,64px);line-height:1.02;font-weight:750;max-width:12ch}
+  p{margin:0;font-size:clamp(16px,1.45vw,24px);line-height:1.6;color:#25211d}
+  .lead{max-width:52rem}
+  .eyebrow{
+    font:12px/1.4 var(--mono);
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:18px;
+  }
+  .grid-2{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:24px;
+  }
+  .card{
+    background:rgba(255,255,255,.72);
+    border:1px solid var(--line);
+    padding:20px 22px;
+    border-radius:20px;
+    backdrop-filter:blur(10px);
+    box-shadow:0 10px 30px rgba(0,0,0,.04);
+  }
+  .card h3{
+    margin:0 0 12px;
+    font-size:22px;
+    line-height:1.25;
+    font-weight:700;
+  }
+  .card p,.card li{
+    font-size:16px;
+    line-height:1.6;
+    color:#2f2a25;
+  }
+  .card ul{margin:0;padding-left:18px}
+  .pill-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .pill{
+    padding:8px 12px;
+    border-radius:999px;
+    background:var(--accent-soft);
+    color:var(--accent);
+    font:600 13px/1 var(--sans);
+  }
+  .stack{display:flex;flex-direction:column;gap:20px}
+  .steps{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:18px;
+  }
+  .step{
+    padding:18px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    background:rgba(255,255,255,.68);
+  }
+  .step .num{
+    font:700 13px/1 var(--mono);
+    color:var(--accent);
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    margin-bottom:16px;
+  }
+  .step h3{
+    margin:0 0 10px;
+    font-size:20px;
+    line-height:1.2;
+  }
+  .step p{
+    font-size:15px;
+    line-height:1.55;
+    color:var(--muted);
+  }
+  .quote{
+    font-size:clamp(26px,3vw,44px);
+    line-height:1.18;
+    font-weight:700;
+    max-width:14ch;
+  }
+  .source-list{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:18px;
+  }
+  .source{
+    padding:18px;
+    border-left:4px solid var(--accent);
+    background:rgba(255,255,255,.72);
+  }
+  .source strong{
+    display:block;
+    margin-bottom:10px;
+    font-size:18px;
+  }
+  .source span{
+    display:block;
+    color:var(--muted);
+    font-size:14px;
+    line-height:1.5;
+  }
+  @media (max-width: 900px){
+    .grid-2,.steps,.source-list{grid-template-columns:1fr}
+    h1{max-width:none}
+  }
+</style>
+</head>
+<body>
+  <section class="slide">
+    <div class="topline"><span>Workflow Notes</span><span>Deck 01</span></div>
+    <div class="stack">
+      <div>
+        <div class="eyebrow">Knowledge Showcase</div>
+        <h1>Knowledge to Deck<br>流水线笔记</h1>
+      </div>
+      <div class="rule"></div>
+      <p class="lead">这份 deck 不是在讲一个抽象概念，而是在展示这套仓库里一条已经跑通的真实链路：知识先被整理成可判断的候选，再被压成卡片，最后进入真正可展示的网页 deck。</p>
+      <div class="pill-row">
+        <span class="pill">docs source</span>
+        <span class="pill">production-track</span>
+        <span class="pill">knowledge-to-deck-agent</span>
+      </div>
+    </div>
+    <div class="foot"><span>Custom Skills Hub</span><span>01 / 05</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="topline"><span>Problem</span><span>Why This Exists</span></div>
+    <div class="stack">
+      <div>
+        <div class="eyebrow">核心矫正</div>
+        <h2>不是把搜索结果排版成 PPT，而是先补一层可判断的知识协议。</h2>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Before</h3>
+          <p>知识库原来更像“给人看列表”的搜索结果页，候选只有标题和截断摘要，Agent 很难判断它到底值不值得上 deck。</p>
+        </div>
+        <div class="card">
+          <h3>After</h3>
+          <p>先通过 export / review / brief 把候选结构补齐，再让 deck 流水线只消费那些已经带结论、证据、来源和展示潜力的知识条目。</p>
+        </div>
+      </div>
+      <p class="quote">先解决“有没有足够信息去判断”，再谈“做不做得好看”。</p>
+    </div>
+    <div class="foot"><span>Design Shift</span><span>02 / 05</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="topline"><span>Pipeline</span><span>Minimal Loop</span></div>
+    <div class="stack">
+      <div>
+        <div class="eyebrow">最小闭环</div>
+        <h2>这条链路真正做的，只是把知识从“可搜”推进到“可展示”。</h2>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="num">Step 01</div>
+          <h3>Export</h3>
+          <p>从知识池导出更完整的候选对象，而不是只看标题和摘要。</p>
+        </div>
+        <div class="step">
+          <div class="num">Step 02</div>
+          <h3>Review</h3>
+          <p>对候选做 deck 适配度体检，先把噪音和偏题项挡在门外。</p>
+        </div>
+        <div class="step">
+          <div class="num">Step 03</div>
+          <h3>Brief</h3>
+          <p>把入围内容压成知识卡片和页面结构，不让模板直接吃原始内容。</p>
+        </div>
+        <div class="step">
+          <div class="num">Step 04</div>
+          <h3>Deck</h3>
+          <p>交给 guizang-ppt-skill 做网页 PPT，让知识变成真正可展示的成果本体。</p>
+        </div>
+      </div>
+    </div>
+    <div class="foot"><span>Recipe Driven</span><span>03 / 05</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="topline"><span>Sources</span><span>Real Knowledge</span></div>
+    <div class="stack">
+      <div>
+        <div class="eyebrow">真实来源</div>
+        <h2>这份 deck 直接来自仓库内已经沉淀好的 spec，而不是 demo seed。</h2>
+      </div>
+      <div class="source-list">
+        <div class="source">
+          <strong>Knowledge to Deck MVP</strong>
+          <span>定义为什么这条线要先走 MVP，明确什么先不做、什么必须补，以及 export 层的必要性。</span>
+        </div>
+        <div class="source">
+          <strong>Knowledge to Deck Agent Spec</strong>
+          <span>定义 Agent 的输入、输出、卡片结构和失败信号，让 deck 生产链变成可复跑的编排流程。</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>这一步的意义</h3>
+        <p>一旦 deck 能直接长自 `docs`、`stories`、`specs` 这些真实文档，网站展示的就不只是样板，而是仓库本身持续积累出来的知识精华。</p>
+      </div>
+    </div>
+    <div class="foot"><span>Docs Source</span><span>04 / 05</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="topline"><span>Closing</span><span>What Changes Next</span></div>
+    <div class="stack">
+      <div>
+        <div class="eyebrow">收束</div>
+        <h2>当 deck 开始来自真实知识池，Showcase 才真正从“样板墙”长成“内容资产墙”。</h2>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>现在已经成立的事</h3>
+          <ul>
+            <li>文档可以直接入知识池</li>
+            <li>recipe / review / audit 都能吃 docs 来源</li>
+            <li>新 deck 不再依赖 test 条目</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>下一步最值钱的事</h3>
+          <ul>
+            <li>继续把更多内部高价值文档变成真实知识源</li>
+            <li>让更多 deck 从 demo-only 迁移到 production-track</li>
+            <li>把 Stories、Specs、Decks 串成同一条知识演化链</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot"><span>Knowledge Becomes Showcase</span><span>05 / 05</span></div>
+  </section>
+</body>
+</html>

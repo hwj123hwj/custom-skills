@@ -20,7 +20,7 @@ VENV = "uv run"
 SCRIPTS = str(Path(__file__).parent)
 RESULTS_FILE = str(Path(__file__).parent.parent / "eval_results.tsv")
 
-HEADER = "timestamp\tpassed\ttotal\trate\ttest_1_save\ttest_2_ai_summary\ttest_3_vector_search\ttest_4_keyword_search\ttest_5_hybrid_search\ttest_6_export\ttest_7_deck_brief\ttest_8_candidate_review\ttest_9_recipe_audit\ttest_10_pool_report\ttest_11_backfill_ai_summary\ttest_12_seed_demo_items\tnotes"
+HEADER = "timestamp\tpassed\ttotal\trate\ttest_1_save\ttest_2_ai_summary\ttest_3_vector_search\ttest_4_keyword_search\ttest_5_hybrid_search\ttest_6_export\ttest_7_deck_brief\ttest_8_candidate_review\ttest_9_recipe_audit\ttest_10_pool_report\ttest_11_backfill_ai_summary\ttest_12_seed_demo_items\ttest_13_ingest_markdown\tnotes"
 
 
 def run_script(script_name, args_str, timeout=60):
@@ -381,6 +381,35 @@ def test_seed_demo_items():
         return False, f"invalid json: {out[:80]}"
 
 
+def test_ingest_markdown():
+    """测试13: Markdown 文档导入预览"""
+    ok, out, err, dur = run_script(
+        "knowledge_ingest_markdown.py",
+        "--path docs/agent-infra/knowledge-to-deck-agent-spec.md --dry-run",
+        timeout=90,
+    )
+    if not ok:
+        return False, f"ingest markdown failed: {err[:80]}"
+
+    try:
+        data = json.loads(out)
+        if not isinstance(data, list) or not data:
+            return False, "dry-run output empty"
+        first = data[0]
+        required_fields = ["source_type", "source_id", "title", "content", "metadata"]
+        missing = [field for field in required_fields if field not in first]
+        if missing:
+            return False, f"missing fields: {missing}"
+        if first.get("source_type") != "docs":
+            return False, f"unexpected source_type: {first.get('source_type')}"
+        if int(first.get("content_length", 0)) < 200:
+            return False, f"content too short: {first.get('content_length')}"
+
+        return True, f"title='{first.get('title', '')[:24]}' {dur:.1f}s"
+    except json.JSONDecodeError:
+        return False, f"invalid json: {out[:80]}"
+
+
 TESTS = [
     ("test_1_save", test_save),
     ("test_2_ai_summary", test_ai_summary),
@@ -394,6 +423,7 @@ TESTS = [
     ("test_10_pool_report", test_pool_report),
     ("test_11_backfill_ai_summary", test_backfill_ai_summary),
     ("test_12_seed_demo_items", test_seed_demo_items),
+    ("test_13_ingest_markdown", test_ingest_markdown),
 ]
 
 
@@ -448,6 +478,7 @@ def main():
             "PASS" if results["test_10_pool_report"][0] else f"FAIL:{results['test_10_pool_report'][1][:30]}",
             "PASS" if results["test_11_backfill_ai_summary"][0] else f"FAIL:{results['test_11_backfill_ai_summary'][1][:30]}",
             "PASS" if results["test_12_seed_demo_items"][0] else f"FAIL:{results['test_12_seed_demo_items'][1][:30]}",
+            "PASS" if results["test_13_ingest_markdown"][0] else f"FAIL:{results['test_13_ingest_markdown'][1][:30]}",
             "",
         ]
         with open(RESULTS_FILE, "a") as f:

@@ -54,6 +54,7 @@ METHOD_PATTERNS = [
 SOURCE_WEIGHTS = {
     "web": 2.0,
     "wechat": 2.0,
+    "docs": 2.0,
     "test": 1.5,
     "bilibili": 1.0,
     "xiaohongshu": 0.5,
@@ -176,6 +177,8 @@ def build_why_it_matters(item: dict[str, Any], query: str, audience: str | None)
         return f"这条内容更可能包含具体案例、流程演示或经验细节，适合做展示卡片{audience_clause}。"
     if source_type == "wechat":
         return f"这条内容更可能包含完整论述和观点展开，适合提炼成主题洞察{audience_clause}。"
+    if source_type == "docs":
+        return f"这条内容来自仓库内沉淀文档，更像方法论、设计说明或复盘资产，适合做结构化展示卡片{audience_clause}。"
     if source_type == "xiaohongshu":
         return f"这条内容更偏经验贴或实操心得，适合用作案例型卡片{audience_clause}。"
     if source_type == "web":

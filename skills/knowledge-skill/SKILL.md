@@ -29,6 +29,8 @@ scenarios:
 | 功能 | 脚本 | 说明 |
 |------|------|------|
 | 入库 | `knowledge_save.py` | 保存内容到知识库，自动生成 AI 摘要和 embedding |
+| 文档入库 | `knowledge_ingest_markdown.py` | 把仓库内 Markdown 文档作为 `docs` 来源导入知识池，扩充真实知识源 |
+| Docs 知识种子 | `knowledge_seed_docs_items.py` | 导入一批高价值 story / spec 文档，帮助 showcase 走向 `real-sources` |
 | 演示知识种子 | `knowledge_seed_demo_items.py` | 写入更厚实的演示知识条目，稳定 showcase / recipe 的基础候选 |
 | 搜索 | `knowledge_search.py` | 关键词 + 向量语义搜索（支持混合搜索） |
 | 导出候选 | `knowledge_export.py` | 面向 agent 导出更完整的候选知识对象，补齐 `ai_summary`、`content`、`metadata` |
@@ -155,6 +157,14 @@ python skills/knowledge-skill/scripts/knowledge_backfill_ai_summary.py \
 
 # 重写 showcase 用的演示知识条目，让候选不再过薄
 python skills/knowledge-skill/scripts/knowledge_seed_demo_items.py
+
+# 把仓库内的高价值 Markdown 文档导入知识池
+python skills/knowledge-skill/scripts/knowledge_ingest_markdown.py \
+  --path docs/agent-stories/intel-agent.md \
+  --path docs/agent-infra/knowledge-to-deck-agent-spec.md
+
+# 一次性导入推荐的 docs 知识种子
+python skills/knowledge-skill/scripts/knowledge_seed_docs_items.py
 ```
 
 ### 生成 Deck Brief（知识到展示）
@@ -247,6 +257,7 @@ python skills/knowledge-skill/scripts/knowledge_save_from_url.py \
 | `wechat` | 微信公众号 | 文章ID |
 | `xiaohongshu` | 小红书 | 笔记ID |
 | `web` | 通用网页 | URL hash |
+| `docs` | 仓库内 Markdown 文档 | 相对路径 |
 | `manual` | 手动录入 | 自定义ID |
 
 ## 数据库结构
@@ -315,6 +326,7 @@ BILI_COOKIE_PATH=~/.bilibili-cookies.json
 - **先看知识池**: 如果问题不是 recipe 串题，而是“库里就没什么好条目”，优先跑 `knowledge_pool_report.py`
 - **优先补摘要**: 如果 `knowledge_pool_report.py` 显示某个来源的 AI 摘要覆盖率低，先跑 `knowledge_backfill_ai_summary.py`
 - **样板过薄时先补种子**: 如果 deck 主要依赖演示条目，优先跑 `knowledge_seed_demo_items.py`，不要让 showcase 长期建立在过薄样例上
+- **先把文档变成知识**: 如果仓库里已经有高价值 spec / story / 复盘文档，但 deck 还在靠 demo 条目，先跑 `knowledge_ingest_markdown.py` 或 `knowledge_seed_docs_items.py`
 - **Deck 编排建议**: 如果目标是把知识变成展示资产，先跑 `knowledge_to_deck_brief.py`，再把生成的 brief 交给 `guizang-ppt-skill`
 - **Recipe 优先**: 同一类 deck 需要反复调优时，优先沉淀为 `docs/showcase/recipes/*.md`，不要长期依赖手敲命令
 - **主题收紧**: 如果 recipe 容易串题，优先增加 `requiredTerms` / `excludedTerms`，而不是一味提高分数阈值
