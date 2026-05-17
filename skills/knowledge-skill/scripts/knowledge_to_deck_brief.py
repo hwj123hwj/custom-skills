@@ -19,6 +19,46 @@ from typing import Any
 
 from knowledge_export import export_candidates
 
+CLICKBAIT_PATTERNS = [
+    "全网唯一",
+    "敢讲真话",
+    "时刻清醒",
+    "谋出路",
+    "电视台不让播",
+    "血淋淋",
+    "一定要",
+]
+
+METHOD_PATTERNS = [
+    "方法",
+    "方法论",
+    "框架",
+    "工作流",
+    "流程",
+    "实践",
+    "案例",
+    "取舍",
+    "对比",
+    "经验",
+    "复盘",
+    "选型",
+    "决策",
+    "pipeline",
+    "framework",
+    "workflow",
+    "case",
+    "comparison",
+    "trade-off",
+]
+
+SOURCE_WEIGHTS = {
+    "web": 2.0,
+    "wechat": 2.0,
+    "test": 1.5,
+    "bilibili": 1.0,
+    "xiaohongshu": 0.5,
+}
+
 
 def normalize_text(value: str) -> str:
     return re.sub(r"\s+", " ", value or "").strip()
@@ -34,6 +74,25 @@ def split_sentences(text: str) -> list[str]:
 
 def title_key(title: str) -> str:
     return re.sub(r"[^a-z0-9\u4e00-\u9fff]+", "", (title or "").lower())
+
+
+def extract_query_terms(query: str) -> list[str]:
+    query = normalize_text(query).lower()
+    terms: list[str] = []
+
+    english_terms = re.findall(r"[a-z0-9][a-z0-9+._-]{1,}", query)
+    terms.extend(english_terms)
+
+    chinese_phrases = re.findall(r"[\u4e00-\u9fff]{2,}", query)
+    terms.extend(chinese_phrases)
+
+    seen: set[str] = set()
+    deduped: list[str] = []
+    for term in terms:
+        if term not in seen:
+            seen.add(term)
+            deduped.append(term)
+    return deduped
 
 
 def infer_slide_type(title: str, text: str) -> str:
@@ -105,22 +164,39 @@ def score_item(item: dict[str, Any], query_terms: list[str]) -> int:
     ai_summary = normalize_text(item.get("ai_summary") or "").lower()
     content = normalize_text(item.get("content") or "").lower()
     metadata = item.get("metadata") or {}
+    source_type = str(item.get("source_type") or "unknown")
 
     if ai_summary:
         score += 3
     if len(content) >= 180:
         score += 2
+    elif len(content) >= 80:
+        score += 1
     if metadata:
         score += 1
-    if item.get("source_type") in {"bilibili", "wechat", "web"}:
-        score += 1
+    score += SOURCE_WEIGHTS.get(source_type, 0)
 
     haystack = f"{title}\n{summary}\n{ai_summary}\n{content}"
     for term in query_terms:
         if term in haystack:
             score += 2
         if term in title:
-            score += 1
+            score += 2
+
+    if any(pattern in haystack for pattern in METHOD_PATTERNS):
+        score += 2
+
+    if infer_slide_type(title, f"{ai_summary}\n{summary}\n{content}") in {"comparison", "framework", "case"}:
+        score += 1
+
+    if any(pattern in title for pattern in CLICKBAIT_PATTERNS):
+        score -= 5
+
+    if not ai_summary and len(title) >= 20:
+        score -= 2
+
+    if len(split_sentences(title)) > 1:
+        score -= 2
 
     return score
 
@@ -130,7 +206,7 @@ def select_candidates(
     query: str,
     cards: int,
 ) -> list[dict[str, Any]]:
-    query_terms = [term.lower() for term in re.split(r"\s+", query) if len(term.strip()) >= 2]
+    query_terms = extract_query_terms(query)
 
     unique: dict[str, dict[str, Any]] = {}
     for item in items:
@@ -142,12 +218,20 @@ def select_candidates(
         if len(normalize_text(item.get("content") or "")) > len(normalize_text(existing.get("content") or "")):
             unique[key] = item
 
-    ranked = sorted(
-        unique.values(),
-        key=lambda item: score_item(item, query_terms),
+    scored = sorted(
+        ((item, score_item(item, query_terms)) for item in unique.values()),
+        key=lambda pair: pair[1],
         reverse=True,
     )
-    return ranked[:cards]
+
+    if not scored:
+        return []
+
+    top_score = scored[0][1]
+    threshold = max(4.0, top_score - 4.0)
+    selected = [item for item, score in scored if score >= threshold]
+
+    return selected[:cards]
 
 
 def build_cards(
