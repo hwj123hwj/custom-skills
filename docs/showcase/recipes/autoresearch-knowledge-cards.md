@@ -8,6 +8,7 @@ style: swiss
 audience: 程序员 / 产品经理
 sourceType: test
 contentChars: 800
+reviewMinScore: 4
 category: knowledge-cards
 sourceAgent: knowledge-to-deck-agent
 tags:

@@ -22,6 +22,7 @@ interface DeckData {
   htmlPath: string;
   htmlUrl: string;
   briefUrl?: string;
+  reviewUrl?: string;
   slideCount: number;
   lastUpdated: string;
   tags: string[];
@@ -133,6 +134,7 @@ async function main() {
     const htmlFilePath = path.join(SHOWCASE_DIR, file);
     const markdownFile = file.replace(/\.html$/, '.md');
     const markdownPath = path.join(SHOWCASE_DIR, markdownFile);
+    const reviewPath = path.join(SHOWCASE_DIR, 'reviews', markdownFile);
     const id = file.replace(/\.html$/, '');
     const html = fs.readFileSync(htmlFilePath, 'utf-8');
     const { summary, meta } = extractSummary(markdownPath);
@@ -149,6 +151,9 @@ async function main() {
       htmlUrl: `${REPO_BASE}/blob/main/docs/showcase/${file}`,
       briefUrl: fs.existsSync(markdownPath)
         ? `${REPO_BASE}/blob/main/docs/showcase/${markdownFile}`
+        : undefined,
+      reviewUrl: fs.existsSync(reviewPath)
+        ? `${REPO_BASE}/blob/main/docs/showcase/reviews/${markdownFile}`
         : undefined,
       slideCount: extractSlideCount(html),
       lastUpdated: getLastUpdated(htmlFilePath),

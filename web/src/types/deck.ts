@@ -7,6 +7,7 @@ export interface Deck {
   htmlPath: string;
   htmlUrl: string;
   briefUrl?: string;
+  reviewUrl?: string;
   slideCount: number;
   lastUpdated: string;
   tags: string[];

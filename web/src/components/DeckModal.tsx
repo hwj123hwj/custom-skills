@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { X, ExternalLink, FileText } from 'lucide-react';
+import { X, ExternalLink, FileText, ClipboardList } from 'lucide-react';
 import type { Deck } from '../types/deck';
 
 interface DeckModalProps {
@@ -80,6 +80,17 @@ export function DeckModal({ deck, isOpen, onClose }: DeckModalProps) {
         </div>
 
         <div className="p-4 border-t border-white/5 bg-white/5 flex justify-end gap-3">
+          {deck.reviewUrl && (
+            <a
+              href={deck.reviewUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-sm font-medium transition-colors"
+            >
+              {t('deck.view_review')}
+              <ClipboardList className="w-4 h-4" />
+            </a>
+          )}
           {deck.briefUrl && (
             <a
               href={deck.briefUrl}

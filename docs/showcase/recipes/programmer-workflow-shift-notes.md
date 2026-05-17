@@ -8,6 +8,8 @@ style: swiss
 audience: 程序员 / 产品经理
 sourceType: bilibili
 contentChars: 900
+reviewMinScore: 4
+requireAiSummary: true
 category: workflow-notes
 sourceAgent: knowledge-to-deck-agent
 tags:
