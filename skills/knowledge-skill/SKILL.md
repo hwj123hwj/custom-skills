@@ -32,6 +32,7 @@ scenarios:
 | 搜索 | `knowledge_search.py` | 关键词 + 向量语义搜索（支持混合搜索） |
 | 导出候选 | `knowledge_export.py` | 面向 agent 导出更完整的候选知识对象，补齐 `ai_summary`、`content`、`metadata` |
 | 生成 Deck Brief | `knowledge_to_deck_brief.py` | 从导出的候选知识中筛选高价值内容，压成知识卡片，并生成可交给 PPT Skill 的结构化 brief |
+| 运行 Deck Recipe | `knowledge_deck_recipe.py` | 从 markdown recipe 复跑 deck 选题参数，生成更稳定的 brief |
 | URL入库 | `knowledge_save_from_url.py` | 从 URL 自动获取并入库（支持视频ASR转录） |
 | 夜间收割 | `nightly_harvest.py` | B站 + 小红书自动收割（含ASR），cron 定时运行 |
 | 评测 | `eval.py` | 知识库搜索质量评测 |
@@ -140,6 +141,15 @@ python skills/knowledge-skill/scripts/knowledge_to_deck_brief.py \
   --cards 2 \
   --style swiss \
   --output markdown
+
+# 从 recipe 复跑一份 deck brief
+python skills/knowledge-skill/scripts/knowledge_deck_recipe.py \
+  --recipe docs/showcase/recipes/vector-database-decision-cards.md
+
+# 输出 markdown 并写入文件
+python skills/knowledge-skill/scripts/knowledge_deck_recipe.py \
+  --recipe docs/showcase/recipes/autoresearch-knowledge-cards.md \
+  --write /tmp/autoresearch-brief.md
 ```
 
 ### 夜间自动收割
@@ -246,3 +256,4 @@ BILI_COOKIE_PATH=~/.bilibili-cookies.json
 - **Cron 环境**: 不加载 .env，脚本内需显式 `load_dotenv()`
 - **Agent 消费建议**: 如果后续要做 deck、知识卡片或结构化筛选，优先使用 `knowledge_export.py`，不要直接消费 `knowledge_search.py` 的简化结果
 - **Deck 编排建议**: 如果目标是把知识变成展示资产，先跑 `knowledge_to_deck_brief.py`，再把生成的 brief 交给 `guizang-ppt-skill`
+- **Recipe 优先**: 同一类 deck 需要反复调优时，优先沉淀为 `docs/showcase/recipes/*.md`，不要长期依赖手敲命令
