@@ -16,8 +16,16 @@ uv run skills/knowledge-skill/scripts/knowledge_candidate_review_recipe.py \
   --write docs/showcase/reviews/vector-database-decision-cards.md
 ```
 
+如果要批量看所有 recipe 的健康度：
+
+```bash
+uv run skills/knowledge-skill/scripts/knowledge_recipe_audit.py \
+  --write docs/showcase/reviews/index.md
+```
+
 ## 维护原则
 
 - review 与 recipe 一一对应
 - review 允许暴露“候选不够干净”的现实情况
 - 这层资产主要服务 deck 质量调优，而不是对外宣传
+- 如果 recipe 数量变多，优先看 `index.md`，再决定要不要下钻到单份 review
