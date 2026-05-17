@@ -57,6 +57,8 @@ def generate_from_recipe(recipe_path: str) -> dict[str, Any]:
         audience=str(recipe["audience"]) if recipe.get("audience") else None,
         source_type=str(recipe["sourceType"]) if recipe.get("sourceType") else None,
         content_chars=int(recipe.get("contentChars") or 1000),
+        required_terms=recipe.get("requiredTerms"),
+        excluded_terms=recipe.get("excludedTerms"),
     )
 
     result["recipe"] = {

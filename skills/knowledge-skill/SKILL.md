@@ -169,6 +169,18 @@ python skills/knowledge-skill/scripts/knowledge_deck_recipe.py \
   --write /tmp/autoresearch-brief.md
 ```
 
+如果某个主题容易串到不相关候选，可以在 recipe frontmatter 里补：
+
+```yaml
+requiredTerms:
+  - autoresearch
+excludedTerms:
+  - 向量数据库
+  - pgvector
+```
+
+这样 recipe runner 和 review runner 都会先按这组约束收紧候选池。
+
 ### 夜间自动收割
 
 ```bash
@@ -275,3 +287,4 @@ BILI_COOKIE_PATH=~/.bilibili-cookies.json
 - **展示前先体检**: 如果目标是做 deck 或知识精华展示，先跑 `knowledge_candidate_review.py` 看候选质量，再决定是否进入 `knowledge_to_deck_brief.py`
 - **Deck 编排建议**: 如果目标是把知识变成展示资产，先跑 `knowledge_to_deck_brief.py`，再把生成的 brief 交给 `guizang-ppt-skill`
 - **Recipe 优先**: 同一类 deck 需要反复调优时，优先沉淀为 `docs/showcase/recipes/*.md`，不要长期依赖手敲命令
+- **主题收紧**: 如果 recipe 容易串题，优先增加 `requiredTerms` / `excludedTerms`，而不是一味提高分数阈值

@@ -95,6 +95,48 @@ def extract_query_terms(query: str) -> list[str]:
     return deduped
 
 
+def normalize_recipe_terms(terms: list[str] | None) -> list[str]:
+    if not terms:
+        return []
+    normalized: list[str] = []
+    for term in terms:
+        clean = normalize_text(str(term)).lower()
+        if clean:
+            normalized.append(clean)
+    return normalized
+
+
+def filter_items_by_terms(
+    items: list[dict[str, Any]],
+    required_terms: list[str] | None = None,
+    excluded_terms: list[str] | None = None,
+) -> list[dict[str, Any]]:
+    required = normalize_recipe_terms(required_terms)
+    excluded = normalize_recipe_terms(excluded_terms)
+
+    if not required and not excluded:
+        return items
+
+    filtered: list[dict[str, Any]] = []
+    for item in items:
+        haystack = "\n".join(
+            [
+                normalize_text(item.get("title") or "").lower(),
+                normalize_text(item.get("summary") or "").lower(),
+                normalize_text(item.get("ai_summary") or "").lower(),
+                normalize_text(item.get("content") or "").lower(),
+            ]
+        )
+
+        if required and not any(term in haystack for term in required):
+            continue
+        if excluded and any(term in haystack for term in excluded):
+            continue
+        filtered.append(item)
+
+    return filtered
+
+
 def infer_slide_type(title: str, text: str) -> str:
     combined = f"{title}\n{text}".lower()
 
@@ -376,6 +418,8 @@ def generate_deck_brief(
     audience: str | None = None,
     source_type: str | None = None,
     content_chars: int = 1000,
+    required_terms: list[str] | None = None,
+    excluded_terms: list[str] | None = None,
 ) -> dict[str, Any]:
     exported = export_candidates(
         query=query,
@@ -384,7 +428,12 @@ def generate_deck_brief(
         source_type=source_type,
         content_chars=content_chars,
     )
-    selected = select_candidates(exported.get("results", []), query=query, cards=cards)
+    filtered_results = filter_items_by_terms(
+        exported.get("results", []),
+        required_terms=required_terms,
+        excluded_terms=excluded_terms,
+    )
+    selected = select_candidates(filtered_results, query=query, cards=cards)
     knowledge_cards = build_cards(selected, query=query, audience=audience)
     deck_brief = build_deck_brief(query=query, cards=knowledge_cards, style=style, audience=audience)
 
@@ -392,6 +441,7 @@ def generate_deck_brief(
         "query": query,
         "mode": mode,
         "total_candidates": exported.get("total", 0),
+        "filtered_candidates": len(filtered_results),
         "selected_count": len(knowledge_cards),
         "knowledge_cards": knowledge_cards,
         "deck_brief": deck_brief,
@@ -408,6 +458,8 @@ def main():
     parser.add_argument("--audience", help="目标受众")
     parser.add_argument("--source-type", help="筛选来源类型")
     parser.add_argument("--content-chars", type=int, default=1000, help="导出 content 截断长度")
+    parser.add_argument("--required-term", action="append", help="必须命中的关键词，可重复传入")
+    parser.add_argument("--excluded-term", action="append", help="需要排除的关键词，可重复传入")
     parser.add_argument("--output", choices=["json", "markdown"], default="json", help="输出格式")
 
     args = parser.parse_args()
@@ -421,6 +473,8 @@ def main():
         audience=args.audience,
         source_type=args.source_type,
         content_chars=args.content_chars,
+        required_terms=args.required_term,
+        excluded_terms=args.excluded_term,
     )
 
     if args.output == "markdown":

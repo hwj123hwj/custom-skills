@@ -9,6 +9,13 @@ audience: 程序员 / 产品经理
 sourceType: test
 contentChars: 800
 reviewMinScore: 4
+requiredTerms:
+  - autoresearch
+excludedTerms:
+  - 向量数据库
+  - pgvector
+  - milvus
+  - weaviate
 category: knowledge-cards
 sourceAgent: knowledge-to-deck-agent
 tags:

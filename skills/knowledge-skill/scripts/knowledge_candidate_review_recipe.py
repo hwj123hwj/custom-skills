@@ -34,6 +34,8 @@ def generate_review_from_recipe(recipe_path: str) -> dict:
         content_chars=int(recipe.get("contentChars") or 1000),
         min_score=int(min_score) if min_score is not None else None,
         require_ai_summary=bool(recipe.get("requireAiSummary")),
+        required_terms=recipe.get("requiredTerms"),
+        excluded_terms=recipe.get("excludedTerms"),
     )
 
 

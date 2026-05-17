@@ -21,6 +21,7 @@ from knowledge_to_deck_brief import (
     CLICKBAIT_PATTERNS,
     METHOD_PATTERNS,
     extract_query_terms,
+    filter_items_by_terms,
     infer_slide_type,
     normalize_text,
     score_item,
@@ -78,6 +79,8 @@ def review_candidates(
     content_chars: int = 1000,
     min_score: int | None = None,
     require_ai_summary: bool = False,
+    required_terms: list[str] | None = None,
+    excluded_terms: list[str] | None = None,
 ) -> dict[str, Any]:
     exported = export_candidates(
         query=query,
@@ -87,9 +90,14 @@ def review_candidates(
         content_chars=content_chars,
     )
     query_terms = extract_query_terms(query)
+    candidate_items = filter_items_by_terms(
+        exported.get("results", []),
+        required_terms=required_terms,
+        excluded_terms=excluded_terms,
+    )
 
     reviewed: list[dict[str, Any]] = []
-    for item in exported.get("results", []):
+    for item in candidate_items:
         deck_score = score_item(item, query_terms)
         if min_score is not None and deck_score < min_score:
             continue
@@ -126,6 +134,7 @@ def review_candidates(
         "query": query,
         "mode": mode,
         "total_exported": exported.get("total", 0),
+        "total_filtered": len(candidate_items),
         "total_reviewed": len(reviewed),
         "results": reviewed,
     }
@@ -136,6 +145,7 @@ def render_markdown(result: dict[str, Any]) -> str:
     lines.append(f"- Query: {result['query']}")
     lines.append(f"- Mode: {result['mode']}")
     lines.append(f"- Exported: {result['total_exported']}")
+    lines.append(f"- Filtered: {result['total_filtered']}")
     lines.append(f"- Reviewed: {result['total_reviewed']}")
     lines.append("")
 
@@ -166,6 +176,8 @@ def main():
     parser.add_argument("--content-chars", type=int, default=1000)
     parser.add_argument("--min-score", type=int, help="最小 deck score")
     parser.add_argument("--require-ai-summary", action="store_true", help="仅保留有 AI 摘要的条目")
+    parser.add_argument("--required-term", action="append", help="必须命中的关键词，可重复传入")
+    parser.add_argument("--excluded-term", action="append", help="需要排除的关键词，可重复传入")
     parser.add_argument("--output", choices=["json", "markdown"], default="markdown")
     args = parser.parse_args()
 
@@ -177,6 +189,8 @@ def main():
         content_chars=args.content_chars,
         min_score=args.min_score,
         require_ai_summary=args.require_ai_summary,
+        required_terms=args.required_term,
+        excluded_terms=args.excluded_term,
     )
 
     if args.output == "markdown":
