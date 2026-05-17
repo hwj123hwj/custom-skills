@@ -1,0 +1,18 @@
+[
+  {
+    "id": "autoresearch-knowledge-cards",
+    "title": "AutoResearch 知识卡片样板",
+    "summary": "这是一份由 `knowledge-to-deck-agent` 最小闭环产出的展示样板。",
+    "htmlPath": "/showcase/autoresearch-knowledge-cards.html",
+    "htmlUrl": "https://github.com/hwj123hwj/custom-skills/blob/main/docs/showcase/autoresearch-knowledge-cards.html",
+    "briefUrl": "https://github.com/hwj123hwj/custom-skills/blob/main/docs/showcase/autoresearch-knowledge-cards.md",
+    "slideCount": 5,
+    "lastUpdated": "2026-05-16T18:55:50.000Z",
+    "tags": [
+      "knowledge",
+      "swiss",
+      "showcase",
+      "autoresearch"
+    ]
+  }
+]

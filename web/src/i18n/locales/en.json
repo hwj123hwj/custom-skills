@@ -12,15 +12,18 @@
     "placeholder_skills": "Search skills...",
     "placeholder_agents": "Search agents...",
     "placeholder_stories": "Search stories, problems, or evolution notes...",
+    "placeholder_decks": "Search decks, themes, or tags...",
     "no_results_skills": "No skills found matching \"{{query}}\"",
     "no_results_agents": "No agents found matching \"{{query}}\"",
     "no_results_stories": "No stories found matching \"{{query}}\"",
+    "no_results_decks": "No decks found matching \"{{query}}\"",
     "clear": "Clear search"
   },
   "tab": {
     "skills": "Skills",
     "agents": "Agents",
-    "stories": "Stories"
+    "stories": "Stories",
+    "decks": "Decks"
   },
   "card": {
     "view_details": "View Details",
@@ -77,6 +80,21 @@
       "testing": "Testing",
       "iterating": "Iterating",
       "stable": "Stable"
+    }
+  },
+  "deck": {
+    "no_summary": "No summary provided.",
+    "updated": "Updated {{date}}",
+    "slides": "{{count}} slides",
+    "open": "Open",
+    "open_html": "Open HTML Deck",
+    "view_brief": "View Brief",
+    "meta": {
+      "updated": "Last updated",
+      "slides": "Slides",
+      "type": "Type",
+      "preview": "Preview mode",
+      "embedded": "Embedded"
     }
   }
 }
