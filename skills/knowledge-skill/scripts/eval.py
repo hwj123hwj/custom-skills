@@ -38,8 +38,8 @@ def run_script(script_name, args_str, timeout=60):
 def test_save():
     """测试1: 基本入库"""
     ok, out, err, dur = run_script("knowledge_save.py",
-        '--source-type test --source-id eval_auto '
-        '--title "AutoResearch评测条目" '
+        '--source-type test --source-id eval_auto_test '
+        '--title "AutoResearch评测测试条目" '
         '--content "Karpathy的AutoResearch核心思路：给AI目标和评判标准，让它自己迭代优化。关键：评判标准必须想清楚。" '
         '--ai-summary "AutoResearch评测用测试条目"')
     
@@ -60,8 +60,8 @@ def test_save():
 def test_ai_summary():
     """测试2: 自动AI摘要（不手动指定）"""
     ok, out, err, dur = run_script("knowledge_save.py",
-        '--source-type test --source-id eval_ai_summary '
-        '--title "向量数据库选型对比" '
+        '--source-type test --source-id eval_ai_summary_test '
+        '--title "向量数据库选型测试条目" '
         '--content "对比了pgvector、Milvus、Weaviate三个向量数据库。pgvector最轻量适合小规模，Milvus性能最好适合大规模生产，Weaviate内置AI管道但较重。对于个人知识库，pgvector足够。"')
     
     if not ok:
@@ -281,7 +281,15 @@ def test_recipe_audit():
             return False, "audit output empty"
 
         first = data[0]
-        required_fields = ["title", "health", "action", "avg_score", "ai_coverage"]
+        required_fields = [
+            "title",
+            "health",
+            "source_profile",
+            "readiness",
+            "action",
+            "avg_score",
+            "ai_coverage",
+        ]
         missing = [field for field in required_fields if field not in first]
         if missing:
             return False, f"missing audit fields: {missing}"

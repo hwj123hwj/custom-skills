@@ -30,4 +30,5 @@ uv run skills/knowledge-skill/scripts/knowledge_recipe_audit.py \
 - 这层资产主要服务 deck 质量调优，而不是对外宣传
 - 如果 recipe 数量变多，优先看 `index.md`，再决定要不要下钻到单份 review
 - `index.md` 现在除了健康度，还会给出平均分、AI 摘要覆盖率和下一步建议
+- `index.md` 现在也会标出 `source profile / readiness`，帮助区分“演示级样板”和“更接近真实来源的 deck”
 - 如果怀疑问题不在 recipe，而在知识池本身，可以额外看 `knowledge-pool.md`

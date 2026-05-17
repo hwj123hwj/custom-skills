@@ -50,7 +50,7 @@ def classify_health(result: dict[str, Any]) -> tuple[str, str]:
     return "watch", "基本可用，但仍建议继续观察候选纯度"
 
 
-def infer_action(result: dict[str, Any], health: str) -> str:
+def infer_action(result: dict[str, Any], health: str, source_profile: str) -> str:
     exported = int(result.get("total_exported", 0))
     filtered = int(result.get("total_filtered", 0))
     reviewed = int(result.get("total_reviewed", 0))
@@ -60,6 +60,13 @@ def infer_action(result: dict[str, Any], health: str) -> str:
     has_noise = any(
         any("标题疑似噪音/标题党" in reason for reason in item.get("reasons", [])) for item in items
     )
+
+    if source_profile == "demo-only":
+        if health in {"focused", "healthy"}:
+            return "当前样板已稳定，下一步应补真实知识源并逐步减少对 test 条目的依赖"
+        return "先稳定演示条目质量，再考虑迁移到真实知识源"
+    if source_profile == "mixed":
+        return "优先减少 test 条目占比，让 recipe 逐步过渡到真实知识源"
 
     if health == "focused":
         return "维持当前 recipe，优先继续补充同主题高质量知识源"
@@ -99,12 +106,44 @@ def summarize_metrics(result: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def classify_source_profile(source_types: list[str]) -> tuple[str, str]:
+    normalized = {source.lower() for source in source_types}
+    if not normalized:
+        return "unknown", "暂时无法判断来源结构"
+    if normalized == {"test"}:
+        return "demo-only", "当前主要依赖演示条目，适合样板验证，不适合长期代表真实知识池"
+    if "test" in normalized and len(normalized) > 1:
+        return "mixed", "当前混合了演示条目和真实来源，适合过渡阶段验证"
+    return "real-sources", "当前主要依赖真实来源，已经更接近长期可复用展示资产"
+
+
+def classify_readiness(health: str, source_profile: str, avg_score: float) -> tuple[str, str]:
+    if source_profile == "real-sources":
+        if health in {"focused", "healthy"} and avg_score >= 8:
+            return "production-track", "候选质量和来源结构都较健康，可以继续扩成长期 deck 资产"
+        return "stabilizing", "来源结构已经真实，但候选质量仍需继续调优"
+
+    if source_profile == "mixed":
+        if health in {"focused", "healthy"}:
+            return "transitioning", "展示链已稳定，下一步应继续减少对演示条目的依赖"
+        return "mixed-watch", "来源结构和候选质量都还需要继续观察"
+
+    if source_profile == "demo-only":
+        if health in {"focused", "healthy"}:
+            return "demo-stable", "适合作为样板，但下一步应补真实知识源，避免长期停留在演示层"
+        return "demo-fragile", "当前既依赖演示条目，候选质量也不够稳"
+
+    return "unknown", "暂时无法判断就绪度"
+
+
 def audit_recipe(recipe_path: Path) -> dict[str, Any]:
     recipe, _notes = load_recipe(str(recipe_path))
     review = generate_review_from_recipe(str(recipe_path))
     health, note = classify_health(review)
     metrics = summarize_metrics(review)
-    action = infer_action(review, health)
+    source_profile, source_note = classify_source_profile(metrics["source_types"])
+    readiness, readiness_note = classify_readiness(health, source_profile, metrics["avg_score"])
+    action = infer_action(review, health, source_profile)
     top_title = review["results"][0]["title"] if review.get("results") else ""
     top_score = review["results"][0]["deck_score"] if review.get("results") else None
 
@@ -115,6 +154,10 @@ def audit_recipe(recipe_path: Path) -> dict[str, Any]:
         "query": recipe.get("query") or "",
         "health": health,
         "health_note": note,
+        "source_profile": source_profile,
+        "source_note": source_note,
+        "readiness": readiness,
+        "readiness_note": readiness_note,
         "action": action,
         "exported": review.get("total_exported", 0),
         "filtered": review.get("total_filtered", 0),
@@ -131,14 +174,14 @@ def audit_recipe(recipe_path: Path) -> dict[str, Any]:
 def render_markdown(items: list[dict[str, Any]]) -> str:
     lines = ["# Recipe Audit", ""]
     lines.append(
-        "| Recipe | Category | Health | Exported | Filtered | Reviewed | Avg Score | AI Coverage | Top Candidate |"
+        "| Recipe | Category | Health | Source Profile | Readiness | Exported | Filtered | Reviewed | Avg Score | AI Coverage | Top Candidate |"
     )
-    lines.append("| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | --- |")
+    lines.append("| --- | --- | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | --- |")
 
     for item in items:
         top = item["top_title"] or "—"
         lines.append(
-            f"| {item['title']} | {item['category']} | {item['health']} | "
+            f"| {item['title']} | {item['category']} | {item['health']} | {item['source_profile']} | {item['readiness']} | "
             f"{item['exported']} | {item['filtered']} | {item['reviewed']} | "
             f"{item['avg_score']} | {item['ai_coverage']}% | {top} |"
         )
@@ -151,6 +194,10 @@ def render_markdown(items: list[dict[str, Any]]) -> str:
         lines.append(f"- Query: {item['query']}")
         lines.append(f"- Health: {item['health']}")
         lines.append(f"- Note: {item['health_note']}")
+        lines.append(f"- Source profile: {item['source_profile']}")
+        lines.append(f"- Source note: {item['source_note']}")
+        lines.append(f"- Readiness: {item['readiness']}")
+        lines.append(f"- Readiness note: {item['readiness_note']}")
         lines.append(f"- Avg score: {item['avg_score']}")
         lines.append(f"- AI coverage: {item['ai_coverage']}%")
         lines.append(f"- Source types: {', '.join(item['source_types']) or '—'}")
