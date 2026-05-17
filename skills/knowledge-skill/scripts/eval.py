@@ -20,7 +20,7 @@ VENV = "uv run"
 SCRIPTS = str(Path(__file__).parent)
 RESULTS_FILE = str(Path(__file__).parent.parent / "eval_results.tsv")
 
-HEADER = "timestamp\tpassed\ttotal\trate\ttest_1_save\ttest_2_ai_summary\ttest_3_vector_search\ttest_4_keyword_search\ttest_5_hybrid_search\ttest_6_export\ttest_7_deck_brief\ttest_8_candidate_review\ttest_9_recipe_audit\ttest_10_pool_report\ttest_11_backfill_ai_summary\tnotes"
+HEADER = "timestamp\tpassed\ttotal\trate\ttest_1_save\ttest_2_ai_summary\ttest_3_vector_search\ttest_4_keyword_search\ttest_5_hybrid_search\ttest_6_export\ttest_7_deck_brief\ttest_8_candidate_review\ttest_9_recipe_audit\ttest_10_pool_report\ttest_11_backfill_ai_summary\ttest_12_seed_demo_items\tnotes"
 
 
 def run_script(script_name, args_str, timeout=60):
@@ -350,6 +350,29 @@ def test_backfill_ai_summary():
         return False, f"invalid json: {out[:80]}"
 
 
+def test_seed_demo_items():
+    """测试12: 演示知识种子"""
+    ok, out, err, dur = run_script(
+        "knowledge_seed_demo_items.py",
+        "",
+        timeout=90,
+    )
+    if not ok:
+        return False, f"seed demo failed: {err[:80]}"
+
+    try:
+        data = json.loads(out)
+        results = data.get("results", [])
+        if int(data.get("seeded", 0)) < 2 or len(results) < 2:
+            return False, f"seeded too few items: {data}"
+        if not all(item.get("success") for item in results):
+            return False, f"seed failures: {results}"
+
+        return True, f"seeded={len(results)} {dur:.1f}s"
+    except json.JSONDecodeError:
+        return False, f"invalid json: {out[:80]}"
+
+
 TESTS = [
     ("test_1_save", test_save),
     ("test_2_ai_summary", test_ai_summary),
@@ -362,6 +385,7 @@ TESTS = [
     ("test_9_recipe_audit", test_recipe_audit),
     ("test_10_pool_report", test_pool_report),
     ("test_11_backfill_ai_summary", test_backfill_ai_summary),
+    ("test_12_seed_demo_items", test_seed_demo_items),
 ]
 
 
@@ -415,6 +439,7 @@ def main():
             "PASS" if results["test_9_recipe_audit"][0] else f"FAIL:{results['test_9_recipe_audit'][1][:30]}",
             "PASS" if results["test_10_pool_report"][0] else f"FAIL:{results['test_10_pool_report'][1][:30]}",
             "PASS" if results["test_11_backfill_ai_summary"][0] else f"FAIL:{results['test_11_backfill_ai_summary'][1][:30]}",
+            "PASS" if results["test_12_seed_demo_items"][0] else f"FAIL:{results['test_12_seed_demo_items'][1][:30]}",
             "",
         ]
         with open(RESULTS_FILE, "a") as f:

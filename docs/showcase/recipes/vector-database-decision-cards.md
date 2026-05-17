@@ -9,6 +9,11 @@ audience: 程序员 / 产品经理
 sourceType: test
 contentChars: 800
 reviewMinScore: 4
+requiredTerms:
+  - 向量数据库
+excludedTerms:
+  - autoresearch
+  - 摘要回填
 category: decision-decks
 sourceAgent: knowledge-to-deck-agent
 tags:

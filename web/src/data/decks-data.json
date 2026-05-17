@@ -22,7 +22,7 @@
   {
     "id": "vector-database-decision-cards",
     "title": "向量数据库决策卡片样板",
-    "summary": "这是一份围绕“向量数据库选型”整理的轻量决策 deck。",
+    "summary": "围绕 pgvector、Milvus 与 Weaviate 的取舍整理的一组轻量决策卡片，适合展示技术选型判断。",
     "category": "decision-decks",
     "sourceAgent": "knowledge-to-deck-agent",
     "htmlPath": "/showcase/vector-database-decision-cards.html",
@@ -36,14 +36,14 @@
       "vector",
       "database",
       "decision",
-      "swiss",
-      "showcase"
+      "showcase",
+      "swiss"
     ]
   },
   {
     "id": "autoresearch-knowledge-cards",
     "title": "AutoResearch 知识卡片样板",
-    "summary": "这是一份由 `knowledge-to-deck-agent` 最小闭环产出的展示样板。",
+    "summary": "围绕 AutoResearch 方法论提炼的一组高密度知识卡片，适合展示“研究闭环如何转成可复用结论”。",
     "category": "knowledge-cards",
     "sourceAgent": "knowledge-to-deck-agent",
     "htmlPath": "/showcase/autoresearch-knowledge-cards.html",

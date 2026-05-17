@@ -29,6 +29,7 @@ scenarios:
 | 功能 | 脚本 | 说明 |
 |------|------|------|
 | 入库 | `knowledge_save.py` | 保存内容到知识库，自动生成 AI 摘要和 embedding |
+| 演示知识种子 | `knowledge_seed_demo_items.py` | 写入更厚实的演示知识条目，稳定 showcase / recipe 的基础候选 |
 | 搜索 | `knowledge_search.py` | 关键词 + 向量语义搜索（支持混合搜索） |
 | 导出候选 | `knowledge_export.py` | 面向 agent 导出更完整的候选知识对象，补齐 `ai_summary`、`content`、`metadata` |
 | AI摘要回填 | `knowledge_backfill_ai_summary.py` | 为旧条目或缺失条目批量补齐 AI 摘要，优先修复知识池短板 |
@@ -151,6 +152,9 @@ python skills/knowledge-skill/scripts/knowledge_backfill_ai_summary.py \
 python skills/knowledge-skill/scripts/knowledge_backfill_ai_summary.py \
   --source-type bilibili \
   --limit 5
+
+# 重写 showcase 用的演示知识条目，让候选不再过薄
+python skills/knowledge-skill/scripts/knowledge_seed_demo_items.py
 ```
 
 ### 生成 Deck Brief（知识到展示）
@@ -310,6 +314,7 @@ BILI_COOKIE_PATH=~/.bilibili-cookies.json
 - **批量看健康度**: 如果 recipe 多起来，优先跑 `knowledge_recipe_audit.py`，先找出串题或候选过宽的 recipe，再做逐份 review
 - **先看知识池**: 如果问题不是 recipe 串题，而是“库里就没什么好条目”，优先跑 `knowledge_pool_report.py`
 - **优先补摘要**: 如果 `knowledge_pool_report.py` 显示某个来源的 AI 摘要覆盖率低，先跑 `knowledge_backfill_ai_summary.py`
+- **样板过薄时先补种子**: 如果 deck 主要依赖演示条目，优先跑 `knowledge_seed_demo_items.py`，不要让 showcase 长期建立在过薄样例上
 - **Deck 编排建议**: 如果目标是把知识变成展示资产，先跑 `knowledge_to_deck_brief.py`，再把生成的 brief 交给 `guizang-ppt-skill`
 - **Recipe 优先**: 同一类 deck 需要反复调优时，优先沉淀为 `docs/showcase/recipes/*.md`，不要长期依赖手敲命令
 - **主题收紧**: 如果 recipe 容易串题，优先增加 `requiredTerms` / `excludedTerms`，而不是一味提高分数阈值
