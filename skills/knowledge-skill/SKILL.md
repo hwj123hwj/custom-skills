@@ -33,6 +33,7 @@ scenarios:
 | 导出候选 | `knowledge_export.py` | 面向 agent 导出更完整的候选知识对象，补齐 `ai_summary`、`content`、`metadata` |
 | 候选体检 | `knowledge_candidate_review.py` | 对导出候选做 deck 适配度评分、噪音识别和版式建议，帮助判断知识池质量 |
 | Recipe Audit | `knowledge_recipe_audit.py` | 批量审阅 showcase recipes，快速看哪些 recipe 健康、哪些还在串题 |
+| Knowledge Pool Report | `knowledge_pool_report.py` | 直接体检知识池本身，统计来源分布、AI 摘要覆盖率和薄弱条目 |
 | 生成 Deck Brief | `knowledge_to_deck_brief.py` | 从导出的候选知识中筛选高价值内容，压成知识卡片，并生成可交给 PPT Skill 的结构化 brief |
 | 运行 Deck Recipe | `knowledge_deck_recipe.py` | 从 markdown recipe 复跑 deck 选题参数，生成更稳定的 brief |
 | URL入库 | `knowledge_save_from_url.py` | 从 URL 自动获取并入库（支持视频ASR转录） |
@@ -134,6 +135,11 @@ python skills/knowledge-skill/scripts/knowledge_candidate_review.py \
 # 批量审阅所有 showcase recipe 的健康度
 python skills/knowledge-skill/scripts/knowledge_recipe_audit.py \
   --write docs/showcase/reviews/index.md
+
+# 直接看知识池快照，决定下一步该补哪些内容
+python skills/knowledge-skill/scripts/knowledge_pool_report.py \
+  --days 30 \
+  --write docs/showcase/reviews/knowledge-pool.md
 ```
 
 ### 生成 Deck Brief（知识到展示）
@@ -291,6 +297,7 @@ BILI_COOKIE_PATH=~/.bilibili-cookies.json
 - **Agent 消费建议**: 如果后续要做 deck、知识卡片或结构化筛选，优先使用 `knowledge_export.py`，不要直接消费 `knowledge_search.py` 的简化结果
 - **展示前先体检**: 如果目标是做 deck 或知识精华展示，先跑 `knowledge_candidate_review.py` 看候选质量，再决定是否进入 `knowledge_to_deck_brief.py`
 - **批量看健康度**: 如果 recipe 多起来，优先跑 `knowledge_recipe_audit.py`，先找出串题或候选过宽的 recipe，再做逐份 review
+- **先看知识池**: 如果问题不是 recipe 串题，而是“库里就没什么好条目”，优先跑 `knowledge_pool_report.py`
 - **Deck 编排建议**: 如果目标是把知识变成展示资产，先跑 `knowledge_to_deck_brief.py`，再把生成的 brief 交给 `guizang-ppt-skill`
 - **Recipe 优先**: 同一类 deck 需要反复调优时，优先沉淀为 `docs/showcase/recipes/*.md`，不要长期依赖手敲命令
 - **主题收紧**: 如果 recipe 容易串题，优先增加 `requiredTerms` / `excludedTerms`，而不是一味提高分数阈值
