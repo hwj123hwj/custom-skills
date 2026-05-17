@@ -3,40 +3,47 @@
     "id": "programmer-workflow-shift-notes",
     "title": "程序员工作流变化观察",
     "summary": "这是一份围绕“AI 时代程序员工作流变化”整理的观察 deck。",
+    "category": "workflow-notes",
+    "sourceAgent": "knowledge-to-deck-agent",
     "htmlPath": "/showcase/programmer-workflow-shift-notes.html",
     "htmlUrl": "https://github.com/hwj123hwj/custom-skills/blob/main/docs/showcase/programmer-workflow-shift-notes.html",
     "briefUrl": "https://github.com/hwj123hwj/custom-skills/blob/main/docs/showcase/programmer-workflow-shift-notes.md",
     "slideCount": 5,
-    "lastUpdated": "2026-05-17T06:55:55.432Z",
+    "lastUpdated": "2026-05-17T07:01:21.000Z",
     "tags": [
       "knowledge",
-      "swiss",
-      "showcase",
       "workflow",
-      "programmer"
+      "programmer",
+      "showcase",
+      "swiss"
     ]
   },
   {
     "id": "vector-database-decision-cards",
     "title": "向量数据库决策卡片样板",
     "summary": "这是一份围绕“向量数据库选型”整理的轻量决策 deck。",
+    "category": "decision-decks",
+    "sourceAgent": "knowledge-to-deck-agent",
     "htmlPath": "/showcase/vector-database-decision-cards.html",
     "htmlUrl": "https://github.com/hwj123hwj/custom-skills/blob/main/docs/showcase/vector-database-decision-cards.html",
     "briefUrl": "https://github.com/hwj123hwj/custom-skills/blob/main/docs/showcase/vector-database-decision-cards.md",
     "slideCount": 5,
-    "lastUpdated": "2026-05-17T06:55:55.431Z",
+    "lastUpdated": "2026-05-17T07:01:21.000Z",
     "tags": [
       "knowledge",
-      "swiss",
-      "showcase",
       "vector",
-      "database"
+      "database",
+      "decision",
+      "swiss",
+      "showcase"
     ]
   },
   {
     "id": "autoresearch-knowledge-cards",
     "title": "AutoResearch 知识卡片样板",
     "summary": "这是一份由 `knowledge-to-deck-agent` 最小闭环产出的展示样板。",
+    "category": "knowledge-cards",
+    "sourceAgent": "knowledge-to-deck-agent",
     "htmlPath": "/showcase/autoresearch-knowledge-cards.html",
     "htmlUrl": "https://github.com/hwj123hwj/custom-skills/blob/main/docs/showcase/autoresearch-knowledge-cards.html",
     "briefUrl": "https://github.com/hwj123hwj/custom-skills/blob/main/docs/showcase/autoresearch-knowledge-cards.md",
@@ -44,9 +51,9 @@
     "lastUpdated": "2026-05-16T18:55:50.000Z",
     "tags": [
       "knowledge",
-      "swiss",
-      "showcase",
       "autoresearch",
+      "showcase",
+      "swiss",
       "vector"
     ]
   }

@@ -13,7 +13,13 @@ export function searchDecks(decks: Deck[], query: string): DeckSearchResult[] {
 
   for (const deck of decks) {
     let score = 0;
-    const haystacks = [deck.title, deck.summary, ...deck.tags].map((value) => value.toLowerCase());
+    const haystacks = [
+      deck.title,
+      deck.summary,
+      deck.category,
+      deck.sourceAgent ?? '',
+      ...deck.tags,
+    ].map((value) => value.toLowerCase());
 
     if (deck.title.toLowerCase() === kw) {
       score = 100;
@@ -21,6 +27,8 @@ export function searchDecks(decks: Deck[], query: string): DeckSearchResult[] {
       score = 80;
     } else if (deck.title.toLowerCase().includes(kw)) {
       score = 65;
+    } else if (deck.category.toLowerCase().includes(kw)) {
+      score = 55;
     } else if (deck.tags.some((tag) => tag.toLowerCase().includes(kw))) {
       score = 50;
     } else if (haystacks.some((value) => value.includes(kw))) {

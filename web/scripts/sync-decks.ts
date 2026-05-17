@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
+import matter from 'gray-matter';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -16,12 +17,22 @@ interface DeckData {
   id: string;
   title: string;
   summary: string;
+  category: string;
+  sourceAgent?: string;
   htmlPath: string;
   htmlUrl: string;
   briefUrl?: string;
   slideCount: number;
   lastUpdated: string;
   tags: string[];
+}
+
+interface DeckBriefMeta {
+  title?: string;
+  summary?: string;
+  category?: string;
+  sourceAgent?: string;
+  tags?: string[];
 }
 
 function getLastUpdated(filePath: string): string {
@@ -48,10 +59,23 @@ function extractSlideCount(html: string): number {
   return matches?.length || 0;
 }
 
-function extractSummary(markdownPath: string): string {
-  if (!fs.existsSync(markdownPath)) return '';
+function extractSummary(markdownPath: string): { summary: string; meta: DeckBriefMeta } {
+  if (!fs.existsSync(markdownPath)) return { summary: '', meta: {} };
   const raw = fs.readFileSync(markdownPath, 'utf-8');
-  const lines = raw
+  const { data, content } = matter(raw);
+  const meta: DeckBriefMeta = {
+    title: typeof data.title === 'string' ? data.title : undefined,
+    summary: typeof data.summary === 'string' ? data.summary : undefined,
+    category: typeof data.category === 'string' ? data.category : undefined,
+    sourceAgent: typeof data.sourceAgent === 'string' ? data.sourceAgent : undefined,
+    tags: Array.isArray(data.tags) ? data.tags.map(String) : undefined,
+  };
+
+  if (meta.summary?.trim()) {
+    return { summary: meta.summary.trim(), meta };
+  }
+
+  const lines = content
     .split('\n')
     .map((line) => line.trim())
     .filter(Boolean);
@@ -60,14 +84,14 @@ function extractSummary(markdownPath: string): string {
     if (line.startsWith('#')) continue;
     if (line.startsWith('```')) continue;
     if (line.startsWith('- ')) continue;
-    return line;
+    return { summary: line, meta };
   }
-  return '';
+  return { summary: '', meta };
 }
 
-function inferTags(filename: string, html: string): string[] {
+function inferTags(filename: string, html: string, metaTags: string[] = []): string[] {
   const lower = `${filename}\n${html}`.toLowerCase();
-  const tags = new Set<string>();
+  const tags = new Set<string>(metaTags.map((tag) => tag.toLowerCase()));
 
   if (lower.includes('knowledge')) tags.add('knowledge');
   if (lower.includes('swiss')) tags.add('swiss');
@@ -79,6 +103,11 @@ function inferTags(filename: string, html: string): string[] {
   if (lower.includes('programmer')) tags.add('programmer');
 
   return [...tags];
+}
+
+function normalizeCategory(value: string | undefined): string {
+  if (value === 'decision-decks' || value === 'workflow-notes') return value;
+  return 'knowledge-cards';
 }
 
 async function main() {
@@ -106,13 +135,16 @@ async function main() {
     const markdownPath = path.join(SHOWCASE_DIR, markdownFile);
     const id = file.replace(/\.html$/, '');
     const html = fs.readFileSync(htmlFilePath, 'utf-8');
+    const { summary, meta } = extractSummary(markdownPath);
 
     fs.copyFileSync(htmlFilePath, path.join(PUBLIC_SHOWCASE_DIR, file));
 
     decks.push({
       id,
       title: extractTitle(html, id),
-      summary: extractSummary(markdownPath),
+      summary,
+      category: normalizeCategory(meta.category),
+      sourceAgent: meta.sourceAgent,
       htmlPath: `/showcase/${file}`,
       htmlUrl: `${REPO_BASE}/blob/main/docs/showcase/${file}`,
       briefUrl: fs.existsSync(markdownPath)
@@ -120,7 +152,7 @@ async function main() {
         : undefined,
       slideCount: extractSlideCount(html),
       lastUpdated: getLastUpdated(htmlFilePath),
-      tags: inferTags(file, html),
+      tags: inferTags(file, html, meta.tags),
     });
 
     console.log(`✅ Loaded deck: ${id}`);

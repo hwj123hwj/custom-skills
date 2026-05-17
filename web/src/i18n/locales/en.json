@@ -89,12 +89,20 @@
     "open": "Open",
     "open_html": "Open HTML Deck",
     "view_brief": "View Brief",
+    "category": {
+      "all": "All",
+      "knowledge_cards": "Knowledge Cards",
+      "decision_decks": "Decision Decks",
+      "workflow_notes": "Workflow Notes"
+    },
     "meta": {
       "updated": "Last updated",
       "slides": "Slides",
       "type": "Type",
       "preview": "Preview mode",
-      "embedded": "Embedded"
+      "embedded": "Embedded",
+      "source_agent": "Source agent",
+      "unknown": "Unknown"
     }
   }
 }

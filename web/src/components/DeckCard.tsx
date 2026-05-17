@@ -26,6 +26,10 @@ export function DeckCard({ deck, onClick }: DeckCardProps) {
       <h3 className="font-semibold text-lg text-white group-hover:text-amber-300 transition-colors">
         {deck.title}
       </h3>
+      <p className="mt-1 text-xs text-gray-500 font-mono">
+        {t(`deck.category.${deck.category.replace(/-/g, '_')}`)}
+        {deck.sourceAgent ? ` · ${deck.sourceAgent}` : ''}
+      </p>
       <p className="mt-2 text-gray-400 text-sm line-clamp-2 min-h-[40px]">
         {deck.summary || t('deck.no_summary')}
       </p>

@@ -89,12 +89,20 @@
     "open": "打开",
     "open_html": "打开 HTML Deck",
     "view_brief": "查看 Brief",
+    "category": {
+      "all": "全部",
+      "knowledge_cards": "知识卡片",
+      "decision_decks": "决策卡片",
+      "workflow_notes": "工作流观察"
+    },
     "meta": {
       "updated": "最后更新",
       "slides": "页数",
       "type": "类型",
       "preview": "预览方式",
-      "embedded": "内嵌"
+      "embedded": "内嵌",
+      "source_agent": "来源 Agent",
+      "unknown": "未指定"
     }
   }
 }

@@ -27,9 +27,11 @@ import { generateOnboardingSnippet } from './lib/generate-snippet'
 
 function App() {
   const { t, i18n } = useTranslation()
+  type DeckCategory = Deck['category']
 
   const [activeTab, setActiveTab] = useState<'skills' | 'agents' | 'stories' | 'decks'>('skills')
   const [searchQuery, setSearchQuery] = useState('')
+  const [activeDeckCategory, setActiveDeckCategory] = useState<'all' | DeckCategory>('all')
 
   const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null)
   const [isSkillModalOpen, setIsSkillModalOpen] = useState(false)
@@ -64,17 +66,36 @@ function App() {
   }, [searchQuery])
 
   const filteredDecks = useMemo(() => {
+    const baseDecks = activeDeckCategory === 'all'
+      ? (decksData as Deck[])
+      : (decksData as Deck[]).filter((deck) => deck.category === activeDeckCategory)
+
     if (!searchQuery.trim()) {
-      return [...(decksData as Deck[])].sort(
+      return [...baseDecks].sort(
         (a, b) => new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime()
       )
     }
-    return searchDecks(decksData as Deck[], searchQuery).map((r) => r.deck)
-  }, [searchQuery])
+    return searchDecks(baseDecks, searchQuery).map((r) => r.deck)
+  }, [searchQuery, activeDeckCategory])
+
+  const deckCategoryCounts = useMemo(() => {
+    const counts = {
+      'knowledge-cards': 0,
+      'decision-decks': 0,
+      'workflow-notes': 0,
+    } satisfies Record<DeckCategory, number>
+
+    for (const deck of decksData as Deck[]) {
+      counts[deck.category] += 1
+    }
+
+    return counts
+  }, [])
 
   const handleTabChange = (tab: 'skills' | 'agents' | 'stories' | 'decks') => {
     setActiveTab(tab)
     setSearchQuery('')
+    if (tab !== 'decks') setActiveDeckCategory('all')
   }
 
   const handleCopySnippet = () => {
@@ -265,6 +286,35 @@ function App() {
 
       {activeTab === 'decks' && (
         <>
+          <div className="max-w-4xl mx-auto mb-8">
+            <div className="flex flex-wrap gap-3 justify-center">
+              <DeckCategoryChip
+                label={t('deck.category.all')}
+                count={(decksData as Deck[]).length}
+                active={activeDeckCategory === 'all'}
+                onClick={() => setActiveDeckCategory('all')}
+              />
+              <DeckCategoryChip
+                label={t('deck.category.knowledge_cards')}
+                count={deckCategoryCounts['knowledge-cards']}
+                active={activeDeckCategory === 'knowledge-cards'}
+                onClick={() => setActiveDeckCategory('knowledge-cards')}
+              />
+              <DeckCategoryChip
+                label={t('deck.category.decision_decks')}
+                count={deckCategoryCounts['decision-decks']}
+                active={activeDeckCategory === 'decision-decks'}
+                onClick={() => setActiveDeckCategory('decision-decks')}
+              />
+              <DeckCategoryChip
+                label={t('deck.category.workflow_notes')}
+                count={deckCategoryCounts['workflow-notes']}
+                active={activeDeckCategory === 'workflow-notes'}
+                onClick={() => setActiveDeckCategory('workflow-notes')}
+              />
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
             {filteredDecks.map((deck) => (
               <DeckCard key={deck.id} deck={deck} onClick={handleDeckClick} />
@@ -314,6 +364,31 @@ function App() {
         onClose={() => setIsDeckModalOpen(false)}
       />
     </Layout>
+  )
+}
+
+interface DeckCategoryChipProps {
+  label: string
+  count: number
+  active: boolean
+  onClick: () => void
+}
+
+function DeckCategoryChip({ label, count, active, onClick }: DeckCategoryChipProps) {
+  return (
+    <button
+      onClick={onClick}
+      className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm transition-all ${
+        active
+          ? 'border-amber-500/40 bg-amber-500/15 text-amber-200'
+          : 'border-white/10 bg-white/5 text-gray-400 hover:border-white/20 hover:text-white'
+      }`}
+    >
+      <span>{label}</span>
+      <span className={`rounded-full px-2 py-0.5 text-xs font-mono ${active ? 'bg-white/10 text-white' : 'bg-white/5 text-gray-500'}`}>
+        {count}
+      </span>
+    </button>
   )
 }
 

@@ -1,3 +1,15 @@
+---
+title: 程序员工作流变化观察
+summary: 这是一份围绕“AI 时代程序员工作流变化”整理的观察 deck。
+category: workflow-notes
+sourceAgent: knowledge-to-deck-agent
+tags:
+  - knowledge
+  - workflow
+  - programmer
+  - showcase
+---
+
 # 程序员工作流变化观察
 
 这是一份围绕“AI 时代程序员工作流变化”整理的观察 deck。

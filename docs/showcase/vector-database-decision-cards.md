@@ -1,3 +1,15 @@
+---
+title: 向量数据库决策卡片样板
+summary: 这是一份围绕“向量数据库选型”整理的轻量决策 deck。
+category: decision-decks
+sourceAgent: knowledge-to-deck-agent
+tags:
+  - knowledge
+  - vector
+  - database
+  - decision
+---
+
 # 向量数据库决策卡片样板
 
 这是一份围绕“向量数据库选型”整理的轻量决策 deck。

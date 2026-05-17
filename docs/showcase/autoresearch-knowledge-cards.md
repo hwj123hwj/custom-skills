@@ -1,3 +1,14 @@
+---
+title: AutoResearch 知识卡片样板
+summary: 这是一份由 `knowledge-to-deck-agent` 最小闭环产出的展示样板。
+category: knowledge-cards
+sourceAgent: knowledge-to-deck-agent
+tags:
+  - knowledge
+  - autoresearch
+  - showcase
+---
+
 # AutoResearch 知识卡片样板
 
 这是一份由 `knowledge-to-deck-agent` 最小闭环产出的展示样板。

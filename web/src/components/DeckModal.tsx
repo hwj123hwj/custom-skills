@@ -24,6 +24,9 @@ export function DeckModal({ deck, isOpen, onClose }: DeckModalProps) {
         <div className="flex items-start justify-between p-6 border-b border-white/5 bg-white/5 gap-4">
           <div className="min-w-0">
             <div className="flex gap-2 flex-wrap mb-3">
+              <span className="text-xs px-2 py-0.5 rounded-full border font-medium bg-amber-500/15 text-amber-200 border-amber-500/20">
+                {t(`deck.category.${deck.category.replace(/-/g, '_')}`)}
+              </span>
               {deck.tags.map((tag) => (
                 <span
                   key={tag}
@@ -62,8 +65,8 @@ export function DeckModal({ deck, isOpen, onClose }: DeckModalProps) {
               <div className="text-sm text-white">HTML Deck</div>
             </div>
             <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">{t('deck.meta.preview')}</div>
-              <div className="text-sm text-white">{t('deck.meta.embedded')}</div>
+              <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">{t('deck.meta.source_agent')}</div>
+              <div className="text-sm text-white">{deck.sourceAgent || t('deck.meta.unknown')}</div>
             </div>
           </div>
 

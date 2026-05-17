@@ -4,6 +4,23 @@
 
 当前目标不是追求数量，而是沉淀“从知识到展示资产”的最小闭环。
 
+## 文档约定
+
+- 每份 deck 对应一份同名 `.html` 展示产物
+- 可选配套一份同名 `.md` brief
+- brief 顶部建议使用 frontmatter 维护：
+  - `title`
+  - `summary`
+  - `category`
+  - `sourceAgent`
+  - `tags`
+
+当前使用的最小分类：
+
+- `knowledge-cards`
+- `decision-decks`
+- `workflow-notes`
+
 ## 当前样板
 
 - [AutoResearch 知识卡片 Brief](./autoresearch-knowledge-cards.md)
