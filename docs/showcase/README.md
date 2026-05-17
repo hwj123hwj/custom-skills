@@ -8,6 +8,10 @@
 
 - [AutoResearch 知识卡片 Brief](./autoresearch-knowledge-cards.md)
 - [AutoResearch 网页 Deck](./autoresearch-knowledge-cards.html)
+- [向量数据库决策卡片 Brief](./vector-database-decision-cards.md)
+- [向量数据库决策卡片 Deck](./vector-database-decision-cards.html)
+- [程序员工作流变化观察 Brief](./programmer-workflow-shift-notes.md)
+- [程序员工作流变化观察 Deck](./programmer-workflow-shift-notes.html)
 
 ## 维护原则
 

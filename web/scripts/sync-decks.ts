@@ -73,6 +73,10 @@ function inferTags(filename: string, html: string): string[] {
   if (lower.includes('swiss')) tags.add('swiss');
   if (lower.includes('showcase')) tags.add('showcase');
   if (lower.includes('autoresearch')) tags.add('autoresearch');
+  if (lower.includes('vector')) tags.add('vector');
+  if (lower.includes('database')) tags.add('database');
+  if (lower.includes('workflow')) tags.add('workflow');
+  if (lower.includes('programmer')) tags.add('programmer');
 
   return [...tags];
 }
