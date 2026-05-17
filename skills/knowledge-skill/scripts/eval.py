@@ -20,7 +20,7 @@ VENV = "uv run"
 SCRIPTS = str(Path(__file__).parent)
 RESULTS_FILE = str(Path(__file__).parent.parent / "eval_results.tsv")
 
-HEADER = "timestamp\tpassed\ttotal\trate\ttest_1_save\ttest_2_ai_summary\ttest_3_vector_search\ttest_4_keyword_search\ttest_5_hybrid_search\ttest_6_export\ttest_7_deck_brief\tnotes"
+HEADER = "timestamp\tpassed\ttotal\trate\ttest_1_save\ttest_2_ai_summary\ttest_3_vector_search\ttest_4_keyword_search\ttest_5_hybrid_search\ttest_6_export\ttest_7_deck_brief\ttest_8_candidate_review\tnotes"
 
 
 def run_script(script_name, args_str, timeout=60):
@@ -238,6 +238,33 @@ def test_deck_brief():
         return False, f"invalid json: {out[:80]}"
 
 
+def test_candidate_review():
+    """测试8: 候选体检结果"""
+    ok, out, err, dur = run_script(
+        "knowledge_candidate_review.py",
+        '--query "向量数据库 选型" --mode hybrid --limit 4 --min-score 4 --output json',
+    )
+
+    if not ok:
+        return False, f"candidate review failed: {err[:80]}"
+
+    try:
+        data = json.loads(out)
+        results = data.get("results", [])
+        if not results:
+            return False, "no reviewed candidates"
+
+        top = results[0]
+        if "deck_score" not in top or "reasons" not in top:
+            return False, "missing review fields"
+        if not isinstance(top["reasons"], list) or not top["reasons"]:
+            return False, "empty reasons"
+
+        return True, f"reviewed={len(results)} top_score={top['deck_score']} {dur:.1f}s"
+    except json.JSONDecodeError:
+        return False, f"invalid json: {out[:80]}"
+
+
 TESTS = [
     ("test_1_save", test_save),
     ("test_2_ai_summary", test_ai_summary),
@@ -246,6 +273,7 @@ TESTS = [
     ("test_5_hybrid_search", test_hybrid_search),
     ("test_6_export", test_export),
     ("test_7_deck_brief", test_deck_brief),
+    ("test_8_candidate_review", test_candidate_review),
 ]
 
 

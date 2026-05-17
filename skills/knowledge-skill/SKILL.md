@@ -31,6 +31,7 @@ scenarios:
 | 入库 | `knowledge_save.py` | 保存内容到知识库，自动生成 AI 摘要和 embedding |
 | 搜索 | `knowledge_search.py` | 关键词 + 向量语义搜索（支持混合搜索） |
 | 导出候选 | `knowledge_export.py` | 面向 agent 导出更完整的候选知识对象，补齐 `ai_summary`、`content`、`metadata` |
+| 候选体检 | `knowledge_candidate_review.py` | 对导出候选做 deck 适配度评分、噪音识别和版式建议，帮助判断知识池质量 |
 | 生成 Deck Brief | `knowledge_to_deck_brief.py` | 从导出的候选知识中筛选高价值内容，压成知识卡片，并生成可交给 PPT Skill 的结构化 brief |
 | 运行 Deck Recipe | `knowledge_deck_recipe.py` | 从 markdown recipe 复跑 deck 选题参数，生成更稳定的 brief |
 | URL入库 | `knowledge_save_from_url.py` | 从 URL 自动获取并入库（支持视频ASR转录） |
@@ -112,6 +113,22 @@ python skills/knowledge-skill/scripts/knowledge_export.py \
   --mode hybrid \
   --limit 8 \
   --content-chars 800
+
+# 先做候选体检，再决定要不要做 deck
+python skills/knowledge-skill/scripts/knowledge_candidate_review.py \
+  --query "Agent 基础设施" \
+  --mode hybrid \
+  --limit 8 \
+  --min-score 5 \
+  --output markdown
+
+# 只看有 AI 摘要的高质量候选
+python skills/knowledge-skill/scripts/knowledge_candidate_review.py \
+  --query "AI 编程 工作流" \
+  --mode hybrid \
+  --limit 8 \
+  --require-ai-summary \
+  --output markdown
 ```
 
 ### 生成 Deck Brief（知识到展示）
@@ -255,5 +272,6 @@ BILI_COOKIE_PATH=~/.bilibili-cookies.json
 - **多集教程过滤**: 标题含"全"、"集"、"零基础"等关键词 ≥2 个自动跳过
 - **Cron 环境**: 不加载 .env，脚本内需显式 `load_dotenv()`
 - **Agent 消费建议**: 如果后续要做 deck、知识卡片或结构化筛选，优先使用 `knowledge_export.py`，不要直接消费 `knowledge_search.py` 的简化结果
+- **展示前先体检**: 如果目标是做 deck 或知识精华展示，先跑 `knowledge_candidate_review.py` 看候选质量，再决定是否进入 `knowledge_to_deck_brief.py`
 - **Deck 编排建议**: 如果目标是把知识变成展示资产，先跑 `knowledge_to_deck_brief.py`，再把生成的 brief 交给 `guizang-ppt-skill`
 - **Recipe 优先**: 同一类 deck 需要反复调优时，优先沉淀为 `docs/showcase/recipes/*.md`，不要长期依赖手敲命令
