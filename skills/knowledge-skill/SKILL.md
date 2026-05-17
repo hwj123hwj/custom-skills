@@ -31,6 +31,7 @@ scenarios:
 | 入库 | `knowledge_save.py` | 保存内容到知识库，自动生成 AI 摘要和 embedding |
 | 搜索 | `knowledge_search.py` | 关键词 + 向量语义搜索（支持混合搜索） |
 | 导出候选 | `knowledge_export.py` | 面向 agent 导出更完整的候选知识对象，补齐 `ai_summary`、`content`、`metadata` |
+| AI摘要回填 | `knowledge_backfill_ai_summary.py` | 为旧条目或缺失条目批量补齐 AI 摘要，优先修复知识池短板 |
 | 候选体检 | `knowledge_candidate_review.py` | 对导出候选做 deck 适配度评分、噪音识别和版式建议，帮助判断知识池质量 |
 | Recipe Audit | `knowledge_recipe_audit.py` | 批量审阅 showcase recipes，快速看哪些 recipe 健康、哪些还在串题 |
 | Knowledge Pool Report | `knowledge_pool_report.py` | 直接体检知识池本身，统计来源分布、AI 摘要覆盖率和薄弱条目 |
@@ -140,6 +141,16 @@ python skills/knowledge-skill/scripts/knowledge_recipe_audit.py \
 python skills/knowledge-skill/scripts/knowledge_pool_report.py \
   --days 30 \
   --write docs/showcase/reviews/knowledge-pool.md
+
+# 先预览哪些条目缺 AI 摘要，再批量回填
+python skills/knowledge-skill/scripts/knowledge_backfill_ai_summary.py \
+  --source-type bilibili \
+  --limit 5 \
+  --dry-run
+
+python skills/knowledge-skill/scripts/knowledge_backfill_ai_summary.py \
+  --source-type bilibili \
+  --limit 5
 ```
 
 ### 生成 Deck Brief（知识到展示）
@@ -298,6 +309,7 @@ BILI_COOKIE_PATH=~/.bilibili-cookies.json
 - **展示前先体检**: 如果目标是做 deck 或知识精华展示，先跑 `knowledge_candidate_review.py` 看候选质量，再决定是否进入 `knowledge_to_deck_brief.py`
 - **批量看健康度**: 如果 recipe 多起来，优先跑 `knowledge_recipe_audit.py`，先找出串题或候选过宽的 recipe，再做逐份 review
 - **先看知识池**: 如果问题不是 recipe 串题，而是“库里就没什么好条目”，优先跑 `knowledge_pool_report.py`
+- **优先补摘要**: 如果 `knowledge_pool_report.py` 显示某个来源的 AI 摘要覆盖率低，先跑 `knowledge_backfill_ai_summary.py`
 - **Deck 编排建议**: 如果目标是把知识变成展示资产，先跑 `knowledge_to_deck_brief.py`，再把生成的 brief 交给 `guizang-ppt-skill`
 - **Recipe 优先**: 同一类 deck 需要反复调优时，优先沉淀为 `docs/showcase/recipes/*.md`，不要长期依赖手敲命令
 - **主题收紧**: 如果 recipe 容易串题，优先增加 `requiredTerms` / `excludedTerms`，而不是一味提高分数阈值

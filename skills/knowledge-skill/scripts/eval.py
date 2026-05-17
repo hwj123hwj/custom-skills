@@ -20,7 +20,7 @@ VENV = "uv run"
 SCRIPTS = str(Path(__file__).parent)
 RESULTS_FILE = str(Path(__file__).parent.parent / "eval_results.tsv")
 
-HEADER = "timestamp\tpassed\ttotal\trate\ttest_1_save\ttest_2_ai_summary\ttest_3_vector_search\ttest_4_keyword_search\ttest_5_hybrid_search\ttest_6_export\ttest_7_deck_brief\ttest_8_candidate_review\ttest_9_recipe_audit\ttest_10_pool_report\tnotes"
+HEADER = "timestamp\tpassed\ttotal\trate\ttest_1_save\ttest_2_ai_summary\ttest_3_vector_search\ttest_4_keyword_search\ttest_5_hybrid_search\ttest_6_export\ttest_7_deck_brief\ttest_8_candidate_review\ttest_9_recipe_audit\ttest_10_pool_report\ttest_11_backfill_ai_summary\tnotes"
 
 
 def run_script(script_name, args_str, timeout=60):
@@ -315,6 +315,41 @@ def test_pool_report():
         return False, f"invalid json: {out[:80]}"
 
 
+def test_backfill_ai_summary():
+    """测试11: AI 摘要回填"""
+    ok, out, err, dur = run_script(
+        "knowledge_save.py",
+        '--source-type test --source-id eval_missing_ai_summary '
+        '--title "缺失摘要回填测试" '
+        '--content "这是一条用于测试 AI 摘要回填的知识内容，它应该在回填脚本里被补上一句话摘要。" '
+        '--ai-summary ""',
+    )
+
+    if not ok:
+        return False, f"seed save failed: {err[:80]}"
+
+    ok, out, err, dur = run_script(
+        "knowledge_backfill_ai_summary.py",
+        '--source-type test --source-id eval_missing_ai_summary',
+        timeout=90,
+    )
+    if not ok:
+        return False, f"backfill failed: {err[:80]}"
+
+    try:
+        data = json.loads(out)
+        updated = int(data.get("updated", 0))
+        results = data.get("results", [])
+        if updated < 1 or not results:
+            return False, f"no items updated: {data}"
+        if not results[0].get("ai_summary"):
+            return False, "updated item missing ai_summary"
+
+        return True, f"updated={updated} title='{results[0].get('title', '')[:16]}' {dur:.1f}s"
+    except json.JSONDecodeError:
+        return False, f"invalid json: {out[:80]}"
+
+
 TESTS = [
     ("test_1_save", test_save),
     ("test_2_ai_summary", test_ai_summary),
@@ -326,6 +361,7 @@ TESTS = [
     ("test_8_candidate_review", test_candidate_review),
     ("test_9_recipe_audit", test_recipe_audit),
     ("test_10_pool_report", test_pool_report),
+    ("test_11_backfill_ai_summary", test_backfill_ai_summary),
 ]
 
 
@@ -378,6 +414,7 @@ def main():
             "PASS" if results["test_8_candidate_review"][0] else f"FAIL:{results['test_8_candidate_review'][1][:30]}",
             "PASS" if results["test_9_recipe_audit"][0] else f"FAIL:{results['test_9_recipe_audit'][1][:30]}",
             "PASS" if results["test_10_pool_report"][0] else f"FAIL:{results['test_10_pool_report'][1][:30]}",
+            "PASS" if results["test_11_backfill_ai_summary"][0] else f"FAIL:{results['test_11_backfill_ai_summary'][1][:30]}",
             "",
         ]
         with open(RESULTS_FILE, "a") as f:
