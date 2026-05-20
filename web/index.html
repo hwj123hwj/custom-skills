@@ -27,22 +27,35 @@
         }
       }
     </script>
-                                    </head>
+                                                                                                                                                                                                                                                                                                    </head>
   <body>
     <noscript>
       <h1>Custom Skills Hub - AI 技能市场</h1>
       <p>为 AI Agent 提供一键安装的自动化技能仓库。浏览以下技能列表：</p>
       <ul>
         <li><a href="/skill/academic-search">academic-search Skill</a> - 学术论文搜索、引用分析、开放获取 PDF 判定与结构化元数据提取专用 Skill。Use when the user asks to search/find papers, do literature review/survey/systematic review/PRISMA work, get citation counts, export BibTeX/RIS-style references, find papers by author, inspect PDF/open-access availability, or work with arXiv, Semantic Scholar, OpenAlex, Crossref, Unpaywall, PubMed, Google Scholar, ACM DL, IEEE Xplore, Papers with Code, CNKI, ScienceDirect, Wiley, Springer, ACS, MeSH, JEL, MSC, or ACM CCS.</li>
-        <li><a href="/skill/asr">ASR — 语音识别技能</a> - Unified ASR (Speech Recognition) skill with pluggable providers (strategy pattern). Supports: SiliconFlow (TeleAI/TeleSpeechASR). Use for transcribing audio/video files to text. Trigger: "转录", "识别语音", "语音转文字", "ASR", "transcribe", "语音识别". Auto-extracts audio from video files via ffmpeg.</li>
+        <li><a href="/skill/asr">ASR — 语音识别技能</a> - Unified ASR (Speech Recognition) skill with pluggable providers (strategy pattern).
+Supports: SiliconFlow (TeleAI/TeleSpeechASR).
+Use for transcribing audio/video files to text.
+Trigger: "转录", "识别语音", "语音转文字", "ASR", "transcribe", "语音识别".
+Auto-extracts audio from video files via ffmpeg.</li>
         <li><a href="/skill/bilibili-cli">bilibili-cli Skill</a> - CLI skill for Bilibili (哔哩哔哩, B站) with token-efficient YAML output for AI agents to browse videos, users, search, trending, dynamics, favorites, and interactions from the terminal</li>
         <li><a href="/skill/bjtuo-classroom-query">BJTU Classroom Query</a> - 北京交通大学（BJTU）教室综合查询。结合教务系统课表（判断是否有课）和实时人数接口（当前在场人数），综合评估教室空闲情况。</li>
         <li><a href="/skill/boss-cli">boss-cli — BOSS 直聘 CLI Tool</a> - Use boss-cli for ALL BOSS 直聘 operations — searching jobs, viewing recommendations, managing applications, chatting with recruiters, and batch greeting. Invoke whenever the user requests any job search or recruitment platform interaction on BOSS 直聘.</li>
         <li><a href="/skill/brainstorming">Brainstorming Ideas Into Designs</a> - You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before implementation.</li>
+        <li><a href="/skill/darwin-skill">Darwin Skill</a> - Darwin Skill (达尔文.skill): autonomous skill optimizer inspired by Karpathy's autoresearch. Evaluates SKILL.md files using an 8-dimension rubric (structure + effectiveness), runs hill-climbing with git version control, validates improvements through test prompts, and generates visual result cards. Use when user mentions "优化skill", "skill评分", "自动优化", "auto optimize", "skill质量检查", "达尔文", "darwin", "帮我改改skill", "skill怎么样", "提升skill质量", "skill review", "skill打分".</li>
         <li><a href="/skill/drawio-skill">Draw.io Diagrams</a> - Use when user requests diagrams, flowcharts, architecture charts, or visualizations. Also use proactively when explaining systems with 3+ components, complex data flows, or relationships that benefit from visual representation. Generates .drawio XML files and exports to PNG/SVG/PDF locally using the native draw.io desktop CLI.</li>
+        <li><a href="/skill/frontend-slides">Frontend Slides</a> - Create stunning, animation-rich HTML presentations from scratch or by converting PowerPoint files. Use when the user wants to build a presentation, convert a PPT/PPTX to web, or create slides for a talk/pitch. Helps non-designers discover their aesthetic through visual exploration rather than abstract choices.</li>
         <li><a href="/skill/guizang-ppt-skill">Guizang PPT Skill</a> - 生成横向翻页网页 PPT（单 HTML 文件），含 WebGL 背景、章节幕封、数据大字报、图片网格等模板。提供两种风格：① "电子杂志 × 电子墨水"（衬线 + 流体背景 + 暖色） ② "瑞士国际主义"（无衬线 + 网格点阵 + IKB/柠檬黄/柠檬绿/安全橙高亮）。当用户需要制作分享 / 演讲 / 发布会风格的网页 PPT，或提到"杂志风 PPT"、"瑞士风 PPT"、"Swiss Style"、"horizontal swipe deck"时使用。</li>
+        <li><a href="/skill/huashu-nuwa">女娲 · Skill造人术</a> - 女娲造人：输入人名/主题/甚至只是模糊需求，自动深度调研→思维框架提炼→生成可运行的人物Skill。
+两种入口：(1)明确人名→直接蒸馏 (2)模糊需求→诊断推荐→再蒸馏。
+触发词：「造skill」「蒸馏XX」「女娲」「造人」「XX的思维方式」「做个XX视角」「更新XX的skill」。
+模糊需求也触发：「我想提升决策质量」「有没有一种思维方式能帮我...」「我需要一个思维顾问」。</li>
         <li><a href="/skill/idea-incubator">Idea Incubator</a> - 专业的 CPO + 技术合伙人助手，帮助用户孵化想法、分析可行性并编写技术文档。适用于当你有新产品想法、技术方案或“灵光一现”需要结构化整理时。</li>
-        <li><a href="/skill/image-provider">Image Provider</a> - Unified image generation skill with pluggable providers (strategy pattern). Supports: Vertex AI Imagen (Google), dvcode (company tool). Use for any image generation need: article inline images, cover images, general purpose. Trigger: "生成图片", "配图", "封面图", "generate image", "create cover".</li>
+        <li><a href="/skill/image-provider">Image Provider</a> - Unified image generation skill with pluggable providers (strategy pattern).
+Supports: Vertex AI Imagen (Google), dvcode (company tool).
+Use for any image generation need: article inline images, cover images, general purpose.
+Trigger: "生成图片", "配图", "封面图", "generate image", "create cover".</li>
         <li><a href="/skill/knowledge-skill">Knowledge Skill</a> - 个人知识库技能。支持将网页、B站、微信公众号、小红书等内容入库到 PostgreSQL， 并通过关键词或语义检索找回历史知识。自动生成 AI 摘要与向量嵌入， 同时支持 URL 一键入库和夜间自动收割。</li>
         <li><a href="/skill/llm-price-tracker">LLM Price Tracker</a> - Track and compare LLM API pricing across providers. Query current prices, detect price changes, and generate comparison tables. Triggers: 查模型价格, 价格对比, llm price, model pricing, 降价, 新模型价格.</li>
         <li><a href="/skill/memory-organizer">Memory Organizer</a> - 长期记忆整理指南。使用当需要清理、组织或重构 MEMORY.md 文件时，或决策哪些信息应该/不应该存储在长期记忆中。提供区分静态知识（长期价值）vs 动态信息（可自动获取）的原则。</li>
@@ -50,12 +63,18 @@
         <li><a href="/skill/officecli-docx">OfficeCLI DOCX Skill</a> - Use this skill any time a .docx file is involved -- as input, output, or both. This includes: creating Word documents, reports, letters, memos, or proposals; reading, parsing, or extracting text from any .docx file; editing, modifying, or updating existing documents; working with templates, tracked changes, comments, headers/footers, or tables of contents. Trigger whenever the user mentions 'Word doc', 'document', 'report', 'letter', 'memo', or references a .docx filename.</li>
         <li><a href="/skill/paddleocr-doc-parsing">PaddleOCR Document Parsing Skill</a> - Use this skill to extract structured Markdown/JSON from PDFs and document images—tables with cell-level precision, formulas as LaTeX, figures, seals, charts, headers/footers, multi-column layout and correct reading order. Trigger terms: 文档解析, 版面分析, 版面还原, 表格提取, 公式识别, 多栏排版, 扫描件结构化, 发票, 财报, 复杂 PDF, PDF转Markdown, 图表, 阅读顺序; reading order, formula, LaTeX, layout parsing, structure extraction, PP-StructureV3, PaddleOCR-VL.</li>
         <li><a href="/skill/paddleocr-text-recognition">PaddleOCR Text Recognition Skill</a> - Use this skill whenever the user wants text extracted from images, photos, scans, screenshots, or scanned PDFs. Returns exact machine-readable strings with line-level text and optional bbox coordinates. Strong accuracy for CJK, small print, and handwritten text. Trigger terms: OCR, 文字识别, 图片转文字, 截图识字, 提取图中文字, 扫描识字, 识字, 纯文字, plain text extraction, 坐标, 检测框, bbox, bounding box, image to text, screenshot, photo scan, recognize text.</li>
-        <li><a href="/skill/short-drama-pipeline">short-drama-pipeline — AI 短剧/短视频全链路生产</a> - AI 短剧/短视频全链路生产技能。从选题调研、脚本撰写、视频生成到成片输出的完整工作流。 触发词：做一条短视频、做个短剧、AI短剧、帮我选题、生成视频、短视频制作、短剧制作、帮我创作。 复用 tavily（调研）、xiaohongshu-cli/bilibili-cli（平台数据）、libtv-skill（视频生成）。 所有子功能内置于 skills/ 子目录，无需单独安装。</li>
+        <li><a href="/skill/short-drama-pipeline">short-drama-pipeline — AI 短剧/短视频全链路生产</a> - AI 短剧/短视频全链路生产技能。从选题调研、脚本撰写、视频生成到成片输出的完整工作流。
+触发词：做一条短视频、做个短剧、AI短剧、帮我选题、生成视频、短视频制作、短剧制作、帮我创作。
+复用 tavily（调研）、xiaohongshu-cli/bilibili-cli（平台数据）、libtv-skill（视频生成）。
+所有子功能内置于 skills/ 子目录，无需单独安装。</li>
         <li><a href="/skill/short-video-replicator">short-video-replicator</a> - 短视频爆款复刻一站式工具。输入抖音/B站/YouTube链接或本地视频路径，自动完成： 视频下载与语音转录 → 结构化文字稿 → 三维度爆款分析 → 文案二创 → 口播脚本×3 + 小剧情脚本×3 → Viral-5D评分 → PDF报告导出（可选飞书推送）。 使用场景：拆解爆款视频、学习短视频文案技巧、生成可直接拍摄的二创脚本。 关键词：短视频复刻、爆款分析、口播脚本、小剧情、文案二创、视频转录、PDF报告、抖音、B站</li>
         <li><a href="/skill/skill-browser-crawl">Browser-Based Web Crawler</a> - 基于浏览器的轻量级网页爬虫。支持 JavaScript 渲染、Markdown 提取，并能递归爬取文档类网站。</li>
         <li><a href="/skill/skills-sh-installer">Skills.sh Installer</a> - 从 skills.sh（Cursor/Windsurf 技能市场）下载并安装技能到本地 .deepv/skills 目录。支持自动解析仓库结构、提取 .claude/skills 下的成品技能、清理构建残留。</li>
         <li><a href="/skill/tavily">tavily — Tavily CLI unified skill</a> - Unified Tavily CLI skill — web search, URL extraction, and deep research via `tvly`. Use this skill when the user wants to search the web, extract content from URLs, conduct research, find articles, look up information, or needs current information from the internet. Routes to the appropriate sub-command based on user intent.</li>
-        <li><a href="/skill/tts">TTS — 语音合成技能</a> - Unified TTS (Text-to-Speech) skill with pluggable providers (strategy pattern). Supports: Edge TTS (free, no API key), Vertex AI Gemini TTS (Google). Use for generating voiceovers, narration, dubbing. Trigger: "配音", "生成语音", "TTS", "text-to-speech", "合成语音", "语音合成".</li>
+        <li><a href="/skill/tts">TTS — 语音合成技能</a> - Unified TTS (Text-to-Speech) skill with pluggable providers (strategy pattern).
+Supports: Edge TTS (free, no API key), Vertex AI Gemini TTS (Google).
+Use for generating voiceovers, narration, dubbing.
+Trigger: "配音", "生成语音", "TTS", "text-to-speech", "合成语音", "语音合成".</li>
         <li><a href="/skill/twitter-cli">Twitter CLI</a> - Use twitter-cli for ALL Twitter/X operations — reading tweets, posting, replying, quoting, liking, retweeting, following, searching, and user lookups. Invoke whenever the user requests any Twitter/X interaction.</li>
         <li><a href="/skill/vertex-video-reader">Vertex AI Video Reader Skill</a> - Use this skill to read, analyze, and understand video files using Google Cloud Vertex AI's lightweight video model (gemini-3.1-flash-lite-preview). Use it whenever the user asks to summarize a video, extract text/actions from a video, describe what happens in an mp4/mov file, or ask questions about a specific video clip.</li>
         <li><a href="/skill/videocut">videocut — 口播视频一站式剪辑</a> - 口播视频一站式剪辑 Skill。覆盖转录、口误识别、字幕生成、高清导出的完整工作流。触发词：剪口播、处理视频、帮我剪辑、生成字幕、导出高清。从视频到成片，一步到位。</li>

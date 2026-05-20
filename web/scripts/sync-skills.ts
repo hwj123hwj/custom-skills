@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { execSync } from 'child_process';
+import matter from 'gray-matter';
 
 // Get __dirname equivalent in ESM
 const __filename = fileURLToPath(import.meta.url);
@@ -40,10 +42,6 @@ function omitLastUpdated(skill: SkillData): Omit<SkillData, 'lastUpdated'> {
   return rest;
 }
 
-function stripQuotes(value: string): string {
-  return value.replace(/^['"]|['"]$/g, '').trim();
-}
-
 function normalizeText(value: string): string {
   return value
     .replace(/\r\n/g, '\n')
@@ -51,28 +49,47 @@ function normalizeText(value: string): string {
     .trim();
 }
 
-function parseInlineList(value: string): string[] {
-  const trimmed = value.trim();
-  if (!trimmed) return [];
-
-  if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
-    try {
-      return JSON.parse(trimmed.replace(/'/g, '"'))
-        .map((item: string) => String(item).trim())
-        .filter(Boolean);
-    } catch {
-      return trimmed
-        .slice(1, -1)
-        .split(',')
-        .map((item) => stripQuotes(item))
-        .filter(Boolean);
-    }
+/**
+ * Get the last-updated timestamp for a file using git log (deterministic).
+ * Falls back to file mtime if git is unavailable.
+ */
+function getLastUpdated(filePath: string): string {
+  try {
+    const gitDate = execSync(`git log -1 --format=%ai -- "${filePath}"`, {
+      encoding: 'utf-8',
+    }).trim();
+    if (gitDate) return new Date(gitDate).toISOString();
+  } catch {
+    // ignore
   }
+  return fs.statSync(filePath).mtime.toISOString();
+}
 
-  return trimmed
-    .split(',')
-    .map((item) => stripQuotes(item))
-    .filter(Boolean);
+// Helper to safely extract a string field from gray-matter frontmatter
+function getFrontmatterString(
+  data: Record<string, unknown>,
+  key: string
+): string | null {
+  const value = data[key];
+  if (typeof value === 'string') return value.trim();
+  if (typeof value === 'number' || typeof value === 'boolean') return String(value);
+  return null;
+}
+
+// Helper to safely extract a list field from gray-matter frontmatter
+function getFrontmatterList(
+  data: Record<string, unknown>,
+  key: string
+): string[] {
+  const value = data[key];
+  if (Array.isArray(value)) {
+    return value.map((item) => String(item).trim()).filter(Boolean);
+  }
+  if (typeof value === 'string') {
+    // Handle comma-separated string as fallback
+    return value.split(',').map((item) => item.trim().replace(/^['"]|['"]$/g, '')).filter(Boolean);
+  }
+  return [];
 }
 
 // Function to extract content from markdown
@@ -99,117 +116,14 @@ function extractListSection(content: string, sectionHeaders: string[]): string[]
     .filter(Boolean);
 }
 
-// Function to extract YAML frontmatter
-function extractFrontmatter(content: string): Record<string, string | string[]> | null {
-  const normalized = content.replace(/^\uFEFF/, '');
-  const lines = normalized.split(/\r?\n/);
-  if (lines[0]?.trim() !== '---') return null;
-
-  const frontmatterLines: string[] = [];
-  let endIndex = -1;
-  for (let i = 1; i < lines.length; i += 1) {
-    if (lines[i].trim() === '---') {
-      endIndex = i;
-      break;
-    }
-    frontmatterLines.push(lines[i]);
-  }
-
-  if (endIndex === -1) return null;
-
-  const frontmatter: Record<string, string | string[]> = {};
-  let currentKey: string | null = null;
-  let currentMode: 'block' | 'list' | null = null;
-  let buffer: string[] = [];
-
-  const flush = () => {
-    if (!currentKey) return;
-    if (currentMode === 'list') {
-      frontmatter[currentKey] = buffer
-        .map((line) => line.replace(/^-\s+/, '').trim())
-        .filter(Boolean);
-    } else {
-      frontmatter[currentKey] = buffer.join(' ').trim();
-    }
-    currentKey = null;
-    currentMode = null;
-    buffer = [];
-  };
-
-  for (const rawLine of frontmatterLines) {
-    const line = rawLine.replace(/\t/g, '  ');
-
-    if (currentKey && currentMode === 'block') {
-      if (/^\s+/.test(line)) {
-        buffer.push(line.trim());
-        continue;
-      }
-      flush();
-    }
-
-    if (currentKey && currentMode === 'list') {
-      if (/^\s*-\s+/.test(line)) {
-        buffer.push(line.trim());
-        continue;
-      }
-      flush();
-    }
-
-    if (!line.trim()) continue;
-
-    const match = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
-    if (!match) continue;
-
-    const [, key, rawValue] = match;
-    const value = rawValue.trim();
-
-    if (value === '|' || value === '|-' || value === '|+' || value === '>' || value === '>-' || value === '>+') {
-      currentKey = key;
-      currentMode = 'block';
-      buffer = [];
-      continue;
-    }
-
-    if (!value) {
-      currentKey = key;
-      currentMode = 'list';
-      buffer = [];
-      continue;
-    }
-
-    frontmatter[key] = stripQuotes(value);
-  }
-
-  flush();
-  return frontmatter;
-}
-
-function stripFrontmatter(content: string): string {
-  const normalized = content.replace(/^\uFEFF/, '');
-  if (!normalized.startsWith('---')) return normalized;
-
-  const lines = normalized.split(/\r?\n/);
-  let endIndex = -1;
-  for (let i = 1; i < lines.length; i += 1) {
-    if (lines[i].trim() === '---') {
-      endIndex = i;
-      break;
-    }
-  }
-
-  if (endIndex === -1) return normalized;
-  return lines.slice(endIndex + 1).join('\n').trim();
-}
-
 // Function to extract title
 function extractTitle(content: string): string | null {
   const match = content.match(/^#\s+(.+)$/m);
   return match ? match[1].trim() : null;
 }
 
-function extractLeadParagraph(content: string): string {
-  const withoutFrontmatter = stripFrontmatter(content);
-  const lines = withoutFrontmatter.split('\n');
+function extractLeadParagraph(body: string): string {
+  const lines = body.split('\n');
   const titleIndex = lines.findIndex((line) => line.trim().startsWith('# '));
   if (titleIndex === -1) return '';
 
@@ -231,29 +145,6 @@ function extractLeadParagraph(content: string): string {
   }
 
   return paragraphs.join(' ').trim();
-}
-
-function getFrontmatterString(
-  frontmatter: Record<string, string | string[]> | null,
-  key: string
-): string | null {
-  const value = frontmatter?.[key];
-  if (typeof value === 'string') return value.trim();
-  return null;
-}
-
-function getFrontmatterList(
-  frontmatter: Record<string, string | string[]> | null,
-  key: string
-): string[] {
-  const value = frontmatter?.[key];
-  if (Array.isArray(value)) {
-    return value.map((item) => item.trim()).filter(Boolean);
-  }
-  if (typeof value === 'string') {
-    return parseInlineList(value);
-  }
-  return [];
 }
 
 function generateRobotsAndSitemap(skills: SkillData[]) {
@@ -387,17 +278,17 @@ async function main() {
 
     if (fs.statSync(skillPath).isDirectory() && fs.existsSync(skillMdPath)) {
       try {
-        const content = fs.readFileSync(skillMdPath, 'utf-8');
-        const frontmatter = extractFrontmatter(content);
+        const raw = fs.readFileSync(skillMdPath, 'utf-8');
+        const { data, content } = matter(raw);
         const title = extractTitle(content) || dir;
-        const displayName = getFrontmatterString(frontmatter, 'displayName') || title;
+        const displayName = getFrontmatterString(data, 'displayName') || title;
         const leadParagraph = extractLeadParagraph(content);
 
         // Basic Metadata
         const id = dir;
-        const name = getFrontmatterString(frontmatter, 'name') || dir;
+        const name = getFrontmatterString(data, 'name') || dir;
         const description =
-          getFrontmatterString(frontmatter, 'description') ||
+          getFrontmatterString(data, 'description') ||
           extractSection(content, ['Description', '描述']) ||
           leadParagraph ||
           '';
@@ -407,34 +298,34 @@ async function main() {
 
         // Extract Usage Scenarios
         const scenarios =
-          getFrontmatterList(frontmatter, 'scenarios').length > 0
-            ? getFrontmatterList(frontmatter, 'scenarios')
+          getFrontmatterList(data, 'scenarios').length > 0
+            ? getFrontmatterList(data, 'scenarios')
             : extractListSection(content, ['Usage Scenarios', '使用场景', '适用场景', '触发场景']);
 
         // Try to get emoji from frontmatter
-        const emoji = getFrontmatterString(frontmatter, 'emoji') || '📦';
+        const emoji = getFrontmatterString(data, 'emoji') || '📦';
 
         // Tags from frontmatter
-        const tags = getFrontmatterList(frontmatter, 'tags');
-        const aliases = getFrontmatterList(frontmatter, 'aliases');
+        const tags = getFrontmatterList(data, 'tags');
+        const aliases = getFrontmatterList(data, 'aliases');
 
-        // Last Updated: frontmatter > existing registry > now
-        // Using a fixed source makes make registry idempotent regardless of when it runs.
+        // Last Updated: frontmatter > existing registry > git date / file mtime
+        // Using a deterministic source makes registry idempotent regardless of when it runs.
         const existing = existingMap.get(id);
         const lastUpdated =
-          getFrontmatterString(frontmatter, 'lastUpdated') ||
+          getFrontmatterString(data, 'lastUpdated') ||
           existing?.lastUpdated ||
-          new Date().toISOString();
+          getLastUpdated(skillMdPath);
         const sourcePath = `skills/${id}`;
 
         // Author (for third-party contributed skills)
-        const author = getFrontmatterString(frontmatter, 'author') || undefined;
+        const author = getFrontmatterString(data, 'author') || undefined;
         // Upstream repo (format: "owner/repo"), used by sync-upstream-skills CI
-        const upstream = getFrontmatterString(frontmatter, 'upstream') || undefined;
+        const upstream = getFrontmatterString(data, 'upstream') || undefined;
         // Sub-path within the upstream repo where the skill lives (e.g. "skills/officecli-docx")
-        const upstreamPath = getFrontmatterString(frontmatter, 'upstreamPath') || undefined;
+        const upstreamPath = getFrontmatterString(data, 'upstreamPath') || undefined;
         // Last synced upstream commit SHA
-        const upstreamSha = getFrontmatterString(frontmatter, 'upstreamSha') || undefined;
+        const upstreamSha = getFrontmatterString(data, 'upstreamSha') || undefined;
 
         const skillEntry: SkillData = {
           id,
@@ -457,10 +348,11 @@ async function main() {
         if (upstreamSha) skillEntry.upstreamSha = upstreamSha;
 
         // Preserve lastUpdated from existing registry if content is unchanged
+        // Use a stable key-order-independent comparison
         if (existing) {
           const newWithout = omitLastUpdated(skillEntry);
           const existWithout = omitLastUpdated(existing);
-          if (JSON.stringify(newWithout) === JSON.stringify(existWithout)) {
+          if (JSON.stringify(newWithout, Object.keys(newWithout).sort()) === JSON.stringify(existWithout, Object.keys(existWithout).sort())) {
             skillEntry.lastUpdated = existing.lastUpdated;
           }
         }

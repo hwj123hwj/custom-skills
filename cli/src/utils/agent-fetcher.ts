@@ -20,13 +20,20 @@ export function readAgent(name: string): Agent {
   const raw = fs.readFileSync(agentPath, 'utf8');
   const { data } = matter(raw);
 
+  const skills: string[] = Array.isArray(data.skills) ? data.skills.map(String) : [];
+  const tags: string[] = Array.isArray(data.tags) ? data.tags.map(String) : [];
+
   return {
     id: String(data.id ?? name),
     name: String(data.name ?? name),
     description: String(data.description ?? ''),
     tools: Array.isArray(data.tools) ? data.tools.map(String) : [],
     model: String(data.model ?? 'sonnet'),
-    skills: Array.isArray(data.skills) ? data.skills.map(String) : undefined,
+    skills: skills.length > 0 ? skills : undefined,
+    tags: tags.length > 0 ? tags : undefined,
+    type: data.type === 'vertical' || data.type === 'general'
+      ? data.type
+      : skills.length > 0 ? 'vertical' : 'general',
   };
 }
 

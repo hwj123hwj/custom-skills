@@ -21,12 +21,18 @@ export const skillDescriptionsZh: Record<string, string> = {
     '统一语音识别（ASR）技能，基于策略模式，支持可插拔 Provider（SiliconFlow）。用于将音频/视频文件转录为文字。触发词：转录、识别语音、语音转文字、ASR。可通过 ffmpeg 自动从视频中提取音频。',
   'brainstorming':
     '创意头脑风暴与方案设计。在开发新功能、构建组件或修改行为之前必须使用。通过对话探索用户意图、厘清需求和设计方案，确保实现前已形成共识。触发词：想法讨论、方案设计、功能规划、需求分析。',
+  'darwin-skill':
+    '达尔文式 Skill 自动优化器。借鉴 Karpathy autoresearch 的实验循环，对 SKILL.md 做评估、改写、实测验证、结果对比与可视化产物生成。适用于 skill 评分、自动优化、质量检查与 prompt/触发效果提升。',
   'bilibili-cli':
     'B站（哔哩哔哩）CLI 技能，YAML 输出对 AI Agent 更高效。支持视频信息、用户主页、搜索、热门排行、动态、收藏夹以及点赞三连等互动操作。',
   'boss-cli':
     'BOSS 直聘一站式 CLI 工具。支持职位搜索、个性化推荐、申请管理、与 HR 沟通以及批量打招呼。凡涉及 BOSS 直聘的求职操作，均通过此技能完成。',
   'image-provider':
     '统一生图技能，基于策略模式，支持多个后端 Provider 自由切换（Vertex AI Imagen、dvcode）。适用于文章配图、封面图、通用图片生成等场景。触发词：生成图片、配图、封面图。',
+  'frontend-slides':
+    '前端幻灯片与网页演示生成技能。将 PPT/PPTX 转成高质量 HTML Slides，或从零创建适合演讲、分享、路演和产品展示的动画化网页演示稿，帮助非设计背景用户通过视觉探索确定审美方向。',
+  'huashu-nuwa':
+    '女娲造人式人物 Skill 蒸馏器。输入人物姓名、主题或模糊需求，自动完成深度调研、思维框架提炼与可运行人物 Skill 生成。适用于“做一个某某视角的 Skill”“蒸馏某人思维方式”这类任务。',
   'llm-price-tracker':
     '追踪并对比各大厂商的 LLM API 定价。查询当前价格、检测价格变动、生成对比表格。触发词：查模型价格、价格对比、降价、新模型价格。',
   'tavily':
