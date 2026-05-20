@@ -41,7 +41,7 @@ SILICONFLOW_API_KEY = os.getenv("SILICONFLOW_API_KEY")
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "BAAI/bge-m3")
 # AI 摘要模型（龙猫，免费）
 AI_SUMMARY_MODEL = os.getenv("AI_SUMMARY_MODEL", "LongCat-Flash-Lite")
-LONGMAO_API_KEY = os.getenv("LONGMAO_API_KEY")
+LONGMAO_API_KEY = os.getenv("LONGMAO_API_KEY") or os.getenv("LONGCAT_API_KEY")
 LONGMAO_BASE_URL = os.getenv("LONGMAO_BASE_URL", "https://api.longcat.chat/openai")
 
 
@@ -103,7 +103,7 @@ def fallback_ai_summary(title: str, content: str) -> str:
 
 def generate_ai_summary(title: str, content: str) -> str:
     """使用龙猫 API（免费）生成一句话摘要，无 fallback"""
-    LONGMAO_API_KEY = os.getenv("LONGMAO_API_KEY", "")
+    LONGMAO_API_KEY = os.getenv("LONGMAO_API_KEY", "") or os.getenv("LONGCAT_API_KEY", "")
     LONGMAO_BASE_URL = os.getenv("LONGMAO_BASE_URL", "https://api.longcat.chat/openai")
 
     if not LONGMAO_API_KEY:

@@ -7,6 +7,12 @@
       "skillPath": "skills/brainstorming/SKILL.md",
       "computedHash": "8df9b47092524833138b58682d03f2e153a242e550d1693657afdbee0cc9cdb0"
     },
+    "darwin-skill": {
+      "source": "alchaincyf/darwin-skill",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "645d7272998a01fe95c0deb826fbb311e915d15fa24442fe43702c2162a7f05c"
+    },
     "edgeone-pages-deploy": {
       "source": "TencentEdgeOne/edgeone-pages-skills",
       "sourceType": "github",
@@ -18,6 +24,18 @@
       "sourceType": "github",
       "skillPath": "skills/edgeone-pages-dev/SKILL.md",
       "computedHash": "f2f5644a4878f09c43627bc569fbe021617a978cd011c2d531d0032a9baea9fd"
+    },
+    "huashu-design": {
+      "source": "alchaincyf/huashu-design",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "e0c29db93b45ee81b1ca5e0781e2b3316596390a7b4d925703b780f46dc60482"
+    },
+    "huashu-nuwa": {
+      "source": "alchaincyf/nuwa-skill",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "4fa0a975b63981c427848f86d99bc0c3244d864e09c15ebec2a1c316019d3e02"
     }
   }
 }

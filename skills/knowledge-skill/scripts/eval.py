@@ -20,8 +20,6 @@ VENV = "uv run"
 SCRIPTS = str(Path(__file__).parent)
 RESULTS_FILE = str(Path(__file__).parent.parent / "eval_results.tsv")
 
-HEADER = "timestamp\tpassed\ttotal\trate\ttest_1_save\ttest_2_ai_summary\ttest_3_vector_search\ttest_4_keyword_search\ttest_5_hybrid_search\ttest_6_export\ttest_7_deck_brief\ttest_8_candidate_review\ttest_9_recipe_audit\ttest_10_pool_report\ttest_11_backfill_ai_summary\ttest_12_seed_demo_items\ttest_13_ingest_markdown\ttest_14_wiki_review\ttest_15_seed_wiki_docs\tnotes"
-
 
 def run_script(script_name, args_str, timeout=60):
     """运行脚本，返回 (ok, stdout, stderr, duration)"""
@@ -559,6 +557,364 @@ def test_seed_wiki_docs():
         return False, f"invalid json: {out[:80]}"
 
 
+def test_memory_migrate():
+    """测试16: memory_cards 表迁移"""
+    ok, out, err, dur = run_script("memory_migrate.py", "", timeout=30)
+
+    if not ok:
+        return False, f"migrate failed: {err[:80]}"
+
+    try:
+        data = json.loads(out)
+        if not data.get("success"):
+            return False, f"success=false: {data.get('error', '?')}"
+        columns = data.get("columns", [])
+        if len(columns) < 15:
+            return False, f"too few columns: {len(columns)}"
+        required = {"layer", "title", "summary", "keywords", "embedding", "confidence"}
+        col_names = {c["name"] for c in columns}
+        missing = required - col_names
+        if missing:
+            return False, f"missing columns: {missing}"
+        return True, f"columns={len(columns)} {dur:.1f}s"
+    except json.JSONDecodeError:
+        return False, f"invalid json: {out[:80]}"
+
+
+def test_memory_organize():
+    """测试17: 记忆整理器（dry-run）"""
+    ok, out, err, dur = run_script(
+        "memory_organize.py",
+        "--dry-run --limit 3",
+        timeout=90,
+    )
+
+    if not ok:
+        return False, f"organize failed: {err[:80]}"
+
+    try:
+        data = json.loads(out)
+        if not data.get("success"):
+            return False, f"success=false"
+        results = data.get("results", [])
+        if not results:
+            return True, f"dry_run=0 candidates (pool may be fully organized) {dur:.1f}s"
+        top = results[0]
+        if "structured_summary" not in top:
+            return False, "missing structured_summary"
+        ss = top["structured_summary"]
+        if "conclusion" not in ss or "keywords" not in ss:
+            return False, "structured_summary missing fields"
+        return True, f"candidates={data.get('candidates_found', 0)} organized={data.get('organized', 0)} {dur:.1f}s"
+    except json.JSONDecodeError:
+        return False, f"invalid json: {out[:80]}"
+
+
+def test_memory_recall():
+    """测试18: 分层记忆检索"""
+    ok, out, err, dur = run_script(
+        "memory_recall.py",
+        '--query "Agent" --mode hybrid --limit 5',
+        timeout=60,
+    )
+
+    if not ok:
+        return False, f"recall failed: {err[:80]}"
+
+    try:
+        data = json.loads(out)
+        total = data.get("total", 0)
+        if total == 0:
+            return False, "no results from memory recall"
+
+        results = data.get("results", [])
+        layers = {r.get("layer") for r in results}
+        stats = data.get("layer_stats", {})
+
+        # 至少应有 L2 结果（前面 organize 过）
+        if not layers.intersection({1, 2}):
+            return False, f"no L1/L2 hits: layers={layers}"
+
+        top = results[0]
+        required_fields = ["id", "title", "summary", "keywords", "layer", "source"]
+        missing = [f for f in required_fields if f not in top]
+        if missing:
+            return False, f"missing fields: {missing}"
+
+        return True, f"total={total} L1={stats.get('l1',0)} L2={stats.get('l2',0)} L3={stats.get('l3',0)} {dur:.1f}s"
+    except json.JSONDecodeError:
+        return False, f"invalid json: {out[:80]}"
+
+
+def test_memory_save_working():
+    """测试19: 写入 L1 工作记忆"""
+    ok, out, err, dur = run_script(
+        "memory_save_working.py",
+        '--title "Eval Test Working Memory" '
+        '--summary "This is a test working memory card for evaluation." '
+        '--keywords "test,eval" '
+        '--context-tags "project:eval" '
+        '--ttl-days 1',
+        timeout=60,
+    )
+
+    if not ok:
+        return False, f"save working failed: {err[:80]}"
+
+    try:
+        data = json.loads(out)
+        if not data.get("success"):
+            return False, f"success=false: {data.get('error', '?')}"
+        if data.get("layer") != 1:
+            return False, f"wrong layer: {data.get('layer')}"
+        if not data.get("id"):
+            return False, "missing id"
+        if not data.get("valid_until"):
+            return False, "missing valid_until"
+
+        return True, f"id={data['id'][:8]}... ttl={data['ttl_days']}d has_emb={data.get('has_embedding')} {dur:.1f}s"
+    except json.JSONDecodeError:
+        return False, f"invalid json: {out[:80]}"
+
+
+def test_memory_compress():
+    """测试20: 记忆压缩（dry-run）"""
+    ok, out, err, dur = run_script(
+        "memory_compress.py",
+        "--dry-run",
+        timeout=30,
+    )
+
+    if not ok:
+        return False, f"compress failed: {err[:80]}"
+
+    try:
+        data = json.loads(out)
+        if not data.get("success"):
+            return False, "success=false"
+        steps = data.get("steps", [])
+        if len(steps) < 3:
+            return False, f"too few steps: {len(steps)}"
+        required_actions = {"downgrade_l1_to_l2", "archive_cold_l2", "merge_similar_l2"}
+        actions = {s.get("action") for s in steps}
+        missing = required_actions - actions
+        if missing:
+            return False, f"missing steps: {missing}"
+        summary = data.get("summary", {})
+        return True, f"downgraded={summary.get('downgraded',0)} archived={summary.get('archived',0)} merged={summary.get('merged',0)} {dur:.1f}s"
+    except json.JSONDecodeError:
+        return False, f"invalid json: {out[:80]}"
+
+
+def test_memory_health():
+    """测试21: 记忆健康度报告"""
+    ok, out, err, dur = run_script(
+        "memory_health.py",
+        '--output json',
+        timeout=30,
+    )
+
+    if not ok:
+        return False, f"health failed: {err[:80]}"
+
+    try:
+        data = json.loads(out)
+        required_fields = ["summary", "layer_stats", "source_coverage", "next_actions"]
+        missing = [f for f in required_fields if f not in data]
+        if missing:
+            return False, f"missing fields: {missing}"
+
+        summary = data.get("summary", {})
+        if "total_cards" not in summary or "active_cards" not in summary:
+            return False, "summary missing metrics"
+
+        layer_stats = data.get("layer_stats", {})
+        if not layer_stats:
+            return False, "empty layer_stats"
+
+        return True, f"cards={summary.get('total_cards', 0)} coverage={summary.get('knowledge_coverage', 0)}% {dur:.1f}s"
+    except json.JSONDecodeError:
+        return False, f"invalid json: {out[:80]}"
+
+
+def test_memory_self_tune():
+    """测试22: 记忆自进化调优 dry-run"""
+    ok, out, err, dur = run_script(
+        "memory_self_tune.py",
+        "--dry-run",
+        timeout=90,
+    )
+
+    if not ok:
+        return False, f"self_tune failed: {err[:80]}"
+
+    try:
+        data = json.loads(out)
+        if not data.get("dry_run"):
+            return False, "dry_run != True"
+        if "metrics" not in data:
+            return False, "missing metrics"
+        if "composite_score" not in data:
+            return False, "missing composite_score"
+        metrics = data.get("metrics", {})
+        if len(metrics) < 6:
+            return False, f"too few metrics: {len(metrics)}"
+        return True, f"score={data['composite_score']} weakest={data.get('weakest_dimension','?')} {dur:.1f}s"
+    except json.JSONDecodeError:
+        return False, f"invalid json: {out[:80]}"
+
+
+def test_memory_self_tune_state():
+    """测试23: 记忆自进化调优实际运行并生成状态文件"""
+    ok, out, err, dur = run_script(
+        "memory_self_tune.py",
+        "",
+        timeout=120,
+    )
+
+    if not ok:
+        return False, f"self_tune failed: {err[:80]}"
+
+    try:
+        data = json.loads(out)
+        # 验证状态文件被创建
+        state_path = Path(SCRIPTS) / ".." / ".tune-state.json"
+        if not state_path.exists():
+            return False, ".tune-state.json not created"
+
+        state = json.loads(state_path.read_text())
+        if "current_params" not in state:
+            return False, "state missing current_params"
+        if "last_metrics" not in state:
+            return False, "state missing last_metrics"
+
+        action = data.get("action", "N/A")
+        score = data.get("composite_score", 0)
+        return True, f"action={action} score={score} state_ok {dur:.1f}s"
+    except json.JSONDecodeError:
+        return False, f"invalid json: {out[:80]}"
+
+
+def test_wiki_memory_link():
+    """测试24: wiki_compile → memory_cards 双向关联回归测试（调用真实实现）"""
+    import tempfile
+
+    inline_script = r'''
+# /// script
+# requires-python = ">=3.10"
+# dependencies = ["psycopg2-binary", "python-dotenv", "requests"]
+# ///
+import json, os, sys, time
+from pathlib import Path
+
+# 导入真实的 wiki_compile 模块（cwd = skills/knowledge-skill/）
+sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+import wiki_compile
+
+import psycopg2, psycopg2.extras
+from dotenv import load_dotenv
+
+load_dotenv(Path(".env"))
+psycopg2.extras.register_uuid()
+
+DB = {
+    "host": os.getenv("DB_HOST", ""),
+    "port": int(os.getenv("DB_PORT", 5433)),
+    "user": os.getenv("DB_USER", ""),
+    "password": os.getenv("DB_PASSWORD", ""),
+    "dbname": os.getenv("DB_NAME", ""),
+}
+
+conn = psycopg2.connect(**DB)
+cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+start = time.time()
+
+try:
+    # Seed: source_card — 模拟从 knowledge_item 编译来的 memory_card
+    cur.execute("""
+        INSERT INTO memory_cards (layer, title, summary, keywords, context_tags, confidence, source_item_ids)
+        VALUES (2, 'Wiki Link Test Source', 'Source card', ARRAY['Agent', 'RAG'], ARRAY['test:wiki_link'], 1.0, ARRAY['99999'])
+        RETURNING id
+    """)
+    source_id = cur.fetchone()["id"]
+
+    # Seed: match_card — 与概念关键词有交集的 memory_card
+    cur.execute("""
+        INSERT INTO memory_cards (layer, title, summary, keywords, context_tags, confidence)
+        VALUES (2, 'Wiki Link Test Match', 'Match card', ARRAY['RAG', '向量数据库'], ARRAY['test:wiki_link'], 1.0)
+        RETURNING id
+    """)
+    match_id = cur.fetchone()["id"]
+    conn.commit()
+
+    # 调用 wiki_compile.py 中的真实 link_wiki_to_memory_cards 函数
+    linked = wiki_compile.link_wiki_to_memory_cards(99999, ["RAG"], [])
+
+    # 验证双向关联
+    cur.execute("SELECT related_card_ids FROM memory_cards WHERE id = %s", [source_id])
+    source_rel = cur.fetchone()["related_card_ids"] or []
+    cur.execute("SELECT related_card_ids FROM memory_cards WHERE id = %s", [match_id])
+    match_rel = cur.fetchone()["related_card_ids"] or []
+    bidirectional = (match_id in source_rel and source_id in match_rel)
+
+    # 验证幂等：再次调用，关联不应重复
+    linked2 = wiki_compile.link_wiki_to_memory_cards(99999, ["RAG"], [])
+    cur.execute("SELECT related_card_ids FROM memory_cards WHERE id = %s", [source_id])
+    final = cur.fetchone()["related_card_ids"] or []
+    idempotent = sum(1 for x in final if x == match_id) == 1
+
+    dur = time.time() - start
+    print(json.dumps({
+        "ok": bidirectional and idempotent,
+        "detail": f"linked={linked} linked2={linked2} bidirectional={bidirectional} idempotent={idempotent} {dur:.1f}s"
+    }))
+except Exception as e:
+    print(json.dumps({"ok": False, "detail": f"error: {str(e)[:80]}"}))
+    sys.exit(0)
+finally:
+    try:
+        cur.execute("DELETE FROM memory_cards WHERE context_tags @> ARRAY['test:wiki_link']")
+        conn.commit()
+    except Exception:
+        pass
+    cur.close()
+    conn.close()
+'''
+
+    # 写入临时文件，通过 uv run 执行（eval.py 本身无 psycopg2 依赖）
+    with tempfile.NamedTemporaryFile(suffix=".py", mode="w", delete=False) as f:
+        f.write(inline_script)
+        tmp_path = f.name
+
+    try:
+        start = time.time()
+        r = subprocess.run(
+            f"{VENV} {tmp_path}",
+            shell=True, capture_output=True, text=True, timeout=30,
+            cwd=str(Path(SCRIPTS).parent),
+        )
+        dur = time.time() - start
+        out = r.stdout.strip()
+        err = r.stderr.strip()
+
+        try:
+            data = json.loads(out)
+            if not data.get("ok"):
+                return False, data.get("detail", "unknown failure")
+            return True, data.get("detail", "ok") + f" {dur:.1f}s"
+        except json.JSONDecodeError:
+            if err:
+                return False, f"json error, stderr: {err[:60]}"
+            return False, f"invalid json: {out[:80]}"
+    except subprocess.TimeoutExpired:
+        return False, "TIMEOUT"
+    finally:
+        os.unlink(tmp_path)
+
+
+# 重量级测试集合（涉及多轮 DB 采集 + 实际调优，默认跳过）
+HEAVY = {"test_22_memory_self_tune", "test_23_memory_self_tune_state"}
+
 TESTS = [
     ("test_1_save", test_save),
     ("test_2_ai_summary", test_ai_summary),
@@ -575,65 +931,77 @@ TESTS = [
     ("test_13_ingest_markdown", test_ingest_markdown),
     ("test_14_wiki_review", test_wiki_review),
     ("test_15_seed_wiki_docs", test_seed_wiki_docs),
+    ("test_16_memory_migrate", test_memory_migrate),
+    ("test_17_memory_organize", test_memory_organize),
+    ("test_18_memory_recall", test_memory_recall),
+    ("test_19_memory_save_working", test_memory_save_working),
+    ("test_20_memory_compress", test_memory_compress),
+    ("test_21_memory_health", test_memory_health),
+    ("test_22_memory_self_tune", test_memory_self_tune),
+    ("test_23_memory_self_tune_state", test_memory_self_tune_state),
+    ("test_24_wiki_memory_link", test_wiki_memory_link),
 ]
+
+
+# HEADER 由 TESTS 自动生成，保证三者始终一致
+# TSV 列数始终固定（包含全部测试），跳过的测试标记 SKIP
+HEADER = "\t".join(["timestamp", "passed", "total", "rate"] + [name for name, _ in TESTS] + ["notes"])
 
 
 def main():
     parser = argparse.ArgumentParser(description="Knowledge Skill Eval")
     parser.add_argument("--verbose", "-v", action="store_true")
     parser.add_argument("--record", "-r", action="store_true", help="Append to results.tsv")
+    parser.add_argument("--extended", "-e", action="store_true",
+                        help="Include heavy tests (self_tune, etc.). Default: skip heavy tests for fast CI.")
     args = parser.parse_args()
-    
+
     ts = datetime.now().strftime("%Y-%m-%d %H:%M")
+    mode = "extended" if args.extended else "fast"
     print(f"{'='*55}")
-    print(f"Knowledge Skill Eval — {ts}")
+    print(f"Knowledge Skill Eval — {ts} [{mode}]")
     print(f"{'='*55}")
-    
+
     results = {}
     passed = 0
-    
+
     for name, test_fn in TESTS:
+        # 默认跳过重量级测试，--extended 才运行
+        if not args.extended and name in HEAVY:
+            results[name] = (None, "SKIP")
+            print(f"  ⏭️  {name}: SKIP (use --extended to run)")
+            continue
+
         ok, detail = test_fn()
         results[name] = (ok, detail)
         if ok:
             passed += 1
         status = "✅" if ok else "❌"
         print(f"  {status} {name}: {detail}")
-    
+
     total = len(TESTS)
     rate = f"{passed}/{total} ({passed/total*100:.0f}%)"
     print(f"\n{'='*55}")
     print(f"结果: {rate}")
     print(f"{'='*55}")
-    
+
     if args.record:
-        # 写入 TSV
+        # 由 TESTS 驱动 row 生成，保证与 HEADER 一一对应
+        row = [ts, str(passed), str(total), rate]
+        for name, _ in TESTS:
+            ok, detail = results[name]
+            if ok is None:
+                row.append("SKIP")
+            elif ok:
+                row.append("PASS")
+            else:
+                row.append(f"FAIL:{detail[:30]}")
+        row.append("")  # notes 列
+
         if not os.path.exists(RESULTS_FILE):
             with open(RESULTS_FILE, "w") as f:
                 f.write(HEADER + "\n")
-        
-        row = [
-            ts,
-            str(passed),
-            str(total),
-            rate,
-            "PASS" if results["test_1_save"][0] else f"FAIL:{results['test_1_save'][1][:30]}",
-            "PASS" if results["test_2_ai_summary"][0] else f"FAIL:{results['test_2_ai_summary'][1][:30]}",
-            "PASS" if results["test_3_vector_search"][0] else f"FAIL:{results['test_3_vector_search'][1][:30]}",
-            "PASS" if results["test_4_keyword_search"][0] else f"FAIL:{results['test_4_keyword_search'][1][:30]}",
-            "PASS" if results["test_5_hybrid_search"][0] else f"FAIL:{results['test_5_hybrid_search'][1][:30]}",
-            "PASS" if results["test_6_export"][0] else f"FAIL:{results['test_6_export'][1][:30]}",
-            "PASS" if results["test_7_deck_brief"][0] else f"FAIL:{results['test_7_deck_brief'][1][:30]}",
-            "PASS" if results["test_8_candidate_review"][0] else f"FAIL:{results['test_8_candidate_review'][1][:30]}",
-            "PASS" if results["test_9_recipe_audit"][0] else f"FAIL:{results['test_9_recipe_audit'][1][:30]}",
-            "PASS" if results["test_10_pool_report"][0] else f"FAIL:{results['test_10_pool_report'][1][:30]}",
-            "PASS" if results["test_11_backfill_ai_summary"][0] else f"FAIL:{results['test_11_backfill_ai_summary'][1][:30]}",
-            "PASS" if results["test_12_seed_demo_items"][0] else f"FAIL:{results['test_12_seed_demo_items'][1][:30]}",
-            "PASS" if results["test_13_ingest_markdown"][0] else f"FAIL:{results['test_13_ingest_markdown'][1][:30]}",
-            "PASS" if results["test_14_wiki_review"][0] else f"FAIL:{results['test_14_wiki_review'][1][:30]}",
-            "PASS" if results["test_15_seed_wiki_docs"][0] else f"FAIL:{results['test_15_seed_wiki_docs'][1][:30]}",
-            "",
-        ]
+
         with open(RESULTS_FILE, "a") as f:
             f.write("\t".join(row) + "\n")
         print(f"📝 已记录到 eval_results.tsv")

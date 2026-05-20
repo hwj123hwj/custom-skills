@@ -2,21 +2,18 @@
   {
     "id": "knowledge-to-deck-pipeline-notes",
     "title": "Knowledge to Deck 流水线笔记",
-    "summary": "基于仓库内真实 spec 文档提炼的一组流程型卡片，展示知识如何从搜索结果升级成可展示的 deck 资产。",
-    "category": "workflow-notes",
-    "sourceAgent": "knowledge-to-deck-agent",
+    "summary": "",
+    "category": "knowledge-cards",
     "htmlPath": "/showcase/knowledge-to-deck-pipeline-notes.html",
     "htmlUrl": "https://github.com/hwj123hwj/custom-skills/blob/main/docs/showcase/knowledge-to-deck-pipeline-notes.html",
     "briefUrl": "https://github.com/hwj123hwj/custom-skills/blob/main/docs/showcase/knowledge-to-deck-pipeline-notes.md",
     "reviewUrl": "https://github.com/hwj123hwj/custom-skills/blob/main/docs/showcase/reviews/knowledge-to-deck-pipeline-notes.md",
     "slideCount": 5,
-    "lastUpdated": "2026-05-17T12:40:54.949Z",
+    "lastUpdated": "2026-05-17T12:48:11.000Z",
     "tags": [
       "knowledge",
-      "workflow",
-      "docs",
       "showcase",
-      "pipeline"
+      "workflow"
     ]
   },
   {

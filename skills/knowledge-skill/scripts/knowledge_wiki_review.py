@@ -71,6 +71,8 @@ def read_page(path: Path) -> dict[str, Any]:
         if entity_match and "无" not in entity_match.group(1):
             entities_count = len(re.findall(r"\[\[", entity_match.group(1)))
 
+    has_context = "## 来源语境" in body
+
     return {
         "path": str(path),
         "filename": path.name,
@@ -80,6 +82,7 @@ def read_page(path: Path) -> dict[str, Any]:
         "mentions_count": extract_mentions_count(body),
         "concepts_count": concepts_count,
         "entities_count": entities_count,
+        "has_context": has_context,
         "date": frontmatter.get("date") or "",
     }
 
@@ -118,6 +121,8 @@ def build_next_actions(
     ]
     weak_concepts = [page for page in concept_pages if page["mentions_count"] <= 1]
     weak_entities = [page for page in entity_pages if page["mentions_count"] <= 1]
+    no_context_concepts = [page for page in concept_pages if not page.get("has_context")]
+    no_context_entities = [page for page in entity_pages if not page.get("has_context")]
 
     if thin_sources:
         actions.append(
@@ -128,12 +133,29 @@ def build_next_actions(
             f"有 {len(empty_sources)} 个 source 页面没有抽出概念或实体，优先检查 wiki_compile 的提取质量。"
         )
     if weak_concepts:
+        # 生成可执行的定向编译命令
+        top_weak = [p["title"] for p in weak_concepts[:5]]
+        targets = " ".join(f"--target-concept '{t}'" for t in top_weak)
         actions.append(
-            f"有 {len(weak_concepts)} 个 concept 页面只有单一 mentions，后续可继续补同主题 raw 条目。"
+            f"有 {len(weak_concepts)} 个 concept 页面只有单一 mentions。"
+            f"建议运行: `wiki_compile.py --limit 5 {targets}`"
         )
     if weak_entities:
+        top_weak = [p["title"] for p in weak_entities[:5]]
+        targets = " ".join(f"--target-entity '{t}'" for t in top_weak)
         actions.append(
-            f"有 {len(weak_entities)} 个 entity 页面只有单一 mentions，后续可继续补同主题 raw 条目。"
+            f"有 {len(weak_entities)} 个 entity 页面只有单一 mentions。"
+            f"建议运行: `wiki_compile.py --limit 5 {targets}`"
+        )
+    if no_context_concepts:
+        actions.append(
+            f"有 {len(no_context_concepts)} 个 concept 页面缺少来源语境。"
+            f"运行 `knowledge_wiki_coverage.py` 获取更详细的覆盖率分析。"
+        )
+    if no_context_entities:
+        actions.append(
+            f"有 {len(no_context_entities)} 个 entity 页面缺少来源语境。"
+            f"后续 wiki_compile 会自动为新编译条目添加语境描述。"
         )
 
     if not actions:
@@ -196,6 +218,14 @@ def review_wiki(wiki_dir: Path) -> dict[str, Any]:
 
     next_actions = build_next_actions(source_pages, concept_pages, entity_pages)
 
+    # 生成可执行的编译目标，供 review → compile 反馈闭环使用
+    weak_concept_titles = [p["title"] for p in concept_pages if p["mentions_count"] <= 1]
+    weak_entity_titles = [p["title"] for p in entity_pages if p["mentions_count"] <= 1]
+    compile_targets = {
+        "target_concepts": weak_concept_titles[:10],
+        "target_entities": weak_entity_titles[:10],
+    }
+
     return {
         "wiki_dir": str(wiki_dir),
         "exists": True,
@@ -213,6 +243,7 @@ def review_wiki(wiki_dir: Path) -> dict[str, Any]:
         )[:10],
         "weak_pages": weak_pages[:20],
         "next_actions": next_actions,
+        "compile_targets": compile_targets,
     }
 
 
@@ -263,6 +294,24 @@ def render_markdown(result: dict[str, Any]) -> str:
     for action in result["next_actions"]:
         lines.append(f"- {action}")
     lines.append("")
+
+    # 编译目标建议（review → compile 反馈闭环）
+    compile_targets = result.get("compile_targets", {})
+    target_concepts = compile_targets.get("target_concepts", [])
+    target_entities = compile_targets.get("target_entities", [])
+    if target_concepts or target_entities:
+        lines.append("## Suggested Compile Targets")
+        if target_concepts:
+            concepts_args = " ".join(f"--target-concept '{t}'" for t in target_concepts[:5])
+            lines.append(f"```bash")
+            lines.append(f"python wiki_compile.py --limit 5 {concepts_args}")
+            lines.append(f"```")
+        if target_entities:
+            entities_args = " ".join(f"--target-entity '{t}'" for t in target_entities[:5])
+            lines.append(f"```bash")
+            lines.append(f"python wiki_compile.py --limit 5 {entities_args}")
+            lines.append(f"```")
+        lines.append("")
 
     return "\n".join(lines)
 

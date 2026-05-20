@@ -39,11 +39,20 @@ scenarios:
 | 候选体检 | `knowledge_candidate_review.py` | 对导出候选做 deck 适配度评分、噪音识别和版式建议，帮助判断知识池质量 |
 | Recipe Audit | `knowledge_recipe_audit.py` | 批量审阅 showcase recipes，快速看哪些 recipe 健康、哪些还在串题 |
 | Knowledge Pool Report | `knowledge_pool_report.py` | 直接体检知识池本身，统计来源分布、AI 摘要覆盖率和薄弱条目 |
-| Wiki Review | `knowledge_wiki_review.py` | 扫描 llm-wiki 编译结果，统计 source / concept / entity 页面，并标出偏薄页面与下一步建议 |
+| Wiki Review | `knowledge_wiki_review.py` | 扫描 llm-wiki 编译结果，统计 source / concept / entity 页面，标出偏薄页面，并输出可执行的编译目标命令 |
+| Wiki Coverage | `knowledge_wiki_coverage.py` | 桥接 raw 知识池和 wiki 编译产出的覆盖率报告，分析未编译条目、薄弱 concept/entity，生成定向编译建议 |
 | 生成 Deck Brief | `knowledge_to_deck_brief.py` | 从导出的候选知识中筛选高价值内容，压成知识卡片，并生成可交给 PPT Skill 的结构化 brief |
 | 运行 Deck Recipe | `knowledge_deck_recipe.py` | 从 markdown recipe 复跑 deck 选题参数，生成更稳定的 brief |
 | URL入库 | `knowledge_save_from_url.py` | 从 URL 自动获取并入库（支持视频ASR转录） |
 | 夜间收割 | `nightly_harvest.py` | B站 + 小红书自动收割（含ASR），cron 定时运行 |
+| **记忆表迁移** | `memory_migrate.py` | 创建 `memory_cards` 分层记忆表及索引 |
+| **记忆整理** | `memory_organize.py` | 从 `knowledge_items` 提取高质量条目，生成 L2 领域知识卡片（结构化摘要 + 去重） |
+| **分层检索** | `memory_recall.py` | L1 工作记忆 → L2 领域知识 → L3 原始存档，逐层召回 |
+| **写入工作记忆** | `memory_save_working.py` | Agent 任务中的关键决策写入 L1（自动设置 7 天有效期） |
+| **记忆压缩** | `memory_compress.py` | 定期压缩：L1→L2 降级 + L2 冷门归档 + 相似合并 |
+| **概念时间线** | `memory_timeline.py` | 按时间展示某概念的演化路径 |
+| **记忆健康度** | `memory_health.py` | 分层统计、覆盖率、冷门卡片、疑似重复、摘要质量抽检 |
+| **自进化调优** | `memory_self_tune.py` | 紫金花机制：六维指标采集 → 爬山调参 → 棘轮回退 → TSV 追踪 |
 | 评测 | `eval.py` | 知识库搜索质量评测 |
 
 ## 模型配置
@@ -106,9 +115,69 @@ python skills/knowledge-skill/scripts/knowledge_search.py \
   --limit 10
 ```
 
-### 导出候选知识（给 Agent 用）
+### 记忆层管理（L1/L2/L3 分层）
 
 ```bash
+# 初始化记忆表（首次使用）
+python skills/knowledge-skill/scripts/memory_migrate.py
+
+# 从 knowledge_items 提取 L2 领域知识卡片
+python skills/knowledge-skill/scripts/memory_organize.py --limit 10
+
+# 预览模式（不写入数据库）
+python skills/knowledge-skill/scripts/memory_organize.py --dry-run --source-type docs --limit 5
+
+# 分层检索（L1 → L2 → L3 逐层召回）
+python skills/knowledge-skill/scripts/memory_recall.py \
+  --query "Agent 基础设施" \
+  --mode hybrid \
+  --limit 5
+
+# 带 context_tags 精确检索
+python skills/knowledge-skill/scripts/memory_recall.py \
+  --query "API Key" \
+  --context-tags "project:knowledge-skill"
+
+# 写入 L1 工作记忆（Agent 任务中的关键决策）
+python skills/knowledge-skill/scripts/memory_save_working.py \
+  --title "决定使用 pgvector 而非 Milvus" \
+  --summary "pgvector 轻量、与 PostgreSQL 原生集成，适合个人知识库规模" \
+  --keywords "pgvector,选型,向量数据库" \
+  --context-tags "project:knowledge-skill"
+
+# 记忆压缩（L1降级 + L2归档 + 相似合并）
+python skills/knowledge-skill/scripts/memory_compress.py
+
+# 预览压缩效果
+python skills/knowledge-skill/scripts/memory_compress.py --dry-run
+
+# 概念时间线（展示某概念的演化路径）
+python skills/knowledge-skill/scripts/memory_timeline.py \
+  --query "Agent" \
+  --output markdown
+
+# 记忆健康度报告
+python skills/knowledge-skill/scripts/memory_health.py --output markdown
+
+# 写入报告到文件
+python skills/knowledge-skill/scripts/memory_health.py \
+  --output markdown \
+  --write docs/wiki/reviews/memory-health.md
+
+# 自进化调优（dry-run，只采集指标不调参）
+python skills/knowledge-skill/scripts/memory_self_tune.py --dry-run
+
+# 自进化调优（实际调优：采集→爬出最差维度→调参→验证→keep/revert）
+python skills/knowledge-skill/scripts/memory_self_tune.py
+
+# 强制调优（即使综合分 >= 80 也执行）
+python skills/knowledge-skill/scripts/memory_self_tune.py --force
+
+# 输出 markdown 格式的调优报告
+python skills/knowledge-skill/scripts/memory_self_tune.py --dry-run --output markdown
+```
+
+### 导出候选知识（给 Agent 用）
 # 导出更完整的候选结果（含 ai_summary / content / metadata）
 python skills/knowledge-skill/scripts/knowledge_export.py \
   --query "Agent Infrastructure" \
@@ -232,16 +301,27 @@ excludedTerms:
 # 先补更适合 wiki 的 docs 知识种子
 python skills/knowledge-skill/scripts/knowledge_seed_wiki_docs_items.py
 
-# 再执行一轮 wiki 编译
+# 再执行一轮 wiki 编译（增强版：提取关键论点+来源语境）
 python skills/knowledge-skill/scripts/wiki_compile.py --limit 5
 
-# 扫描默认 llm-wiki 目录，输出 markdown 快照
+# 重编译已有条目（用增强版 LLM prompt 覆盖旧页面，补充语境和关键论点）
+python skills/knowledge-skill/scripts/wiki_compile.py --recompile --limit 5
+
+# 定向增强特定 concept/entity（优先编译能增强薄页面的条目）
+python skills/knowledge-skill/scripts/wiki_compile.py --limit 5 \
+  --target-concept 'Agent' --target-entity 'OpenAI'
+
+# 扫描默认 llm-wiki 目录，输出 markdown 快照（含可执行编译建议）
 python skills/knowledge-skill/scripts/knowledge_wiki_review.py \
   --write docs/wiki/reviews/index.md
 
 # 输出 JSON，便于脚本消费
 python skills/knowledge-skill/scripts/knowledge_wiki_review.py \
   --output json
+
+# Wiki 覆盖率报告（桥接 raw 知识池和 wiki 编译产出）
+python skills/knowledge-skill/scripts/knowledge_wiki_coverage.py \
+  --write docs/wiki/reviews/coverage.md
 ```
 
 如果这份 review 里出现大量：
@@ -312,6 +392,25 @@ knowledge_items (
   created_at    timestamp,
   updated_at    timestamp
 )
+
+memory_cards (
+  id              uuid PRIMARY KEY,
+  layer           smallint,       -- 1=工作记忆 2=领域知识 3=原始存档
+  title           text,
+  summary         text,           -- 结构化摘要（结论 | 前提 | 时效）
+  keywords        text[],         -- 概念标签
+  context_tags    text[],         -- 上下文标签（项目名、技术栈等）
+  valid_from      timestamp,
+  valid_until     timestamp,      -- NULL = 长期有效
+  source_item_ids text[],         -- 指向 knowledge_items 原始条目
+  related_card_ids uuid[],        -- 关联的其他 memory_cards
+  embedding       vector(1024),
+  access_count    int,            -- 被召回次数
+  last_accessed   timestamp,
+  confidence      real,           -- 可信度（0 = 已归档）
+  created_at      timestamp,
+  updated_at      timestamp
+)
 ```
 
 ## 配置
@@ -365,3 +464,14 @@ BILI_COOKIE_PATH=~/.bilibili-cookies.json
 - **Deck 编排建议**: 如果目标是把知识变成展示资产，先跑 `knowledge_to_deck_brief.py`，再把生成的 brief 交给 `guizang-ppt-skill`
 - **Recipe 优先**: 同一类 deck 需要反复调优时，优先沉淀为 `docs/showcase/recipes/*.md`，不要长期依赖手敲命令
 - **主题收紧**: 如果 recipe 容易串题，优先增加 `requiredTerms` / `excludedTerms`，而不是一味提高分数阈值
+- **记忆层优先**: Agent 检索知识时，优先使用 `memory_recall.py`（L1→L2→L3 分层召回），比直接用 `knowledge_search.py` 更精准
+- **定期整理**: 建议每周运行 `memory_organize.py`，将新的高质量条目提取为 L2 卡片
+- **定期压缩**: 建议每天运行 `memory_compress.py`（可 cron），保持记忆层干净
+- **写入工作记忆**: Agent 在任务中做出关键决策时，用 `memory_save_working.py` 写入 L1，7 天内可快速召回
+- **先看健康度**: 如果不确定记忆系统状态，先跑 `memory_health.py` 看分层统计和覆盖率
+- **自进化调优**: `memory_self_tune.py` 会自动爬山调参，建议 cron 每周运行一次，参数变更记录在 `tune-results.tsv`
+- **调参安全**: 自进化使用棘轮机制——调参后指标不改善会自动回退到旧参数，不会让系统变差
+- **强制调优**: 如果综合分 >= 80 但仍想微调，使用 `--force` 标志
+- **Wiki 编译工作流**: review → coverage → compile 反馈闭环：先跑 `knowledge_wiki_review.py` 看薄弱页面，再跑 `knowledge_wiki_coverage.py` 看覆盖率，最后按建议跑 `wiki_compile.py --target-concept/entity` 定向增强
+- **Wiki 重编译**: 如果已有条目是旧版编译产物（缺少关键论点、来源语境），用 `wiki_compile.py --recompile` 重新提取，覆盖旧页面
+- **Wiki 密度优先**: wiki 编译线的目标不是页面数量，而是 concept/entity 页面的 mentions 密度和来源语境覆盖
