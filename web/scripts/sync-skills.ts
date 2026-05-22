@@ -240,10 +240,11 @@ Sitemap: https://weijian.online/sitemap.xml
     indexHtml = indexHtml.replace(/<link rel="canonical".*?\/>\n?/g, '');
     indexHtml = indexHtml.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>\n?/g, '');
 
-    // Replace the standard head section (simple heuristic replacement)
+    // Replace from <title> to </head> inclusively with fixed indentation
+    // This ensures deterministic output across different environments (local vs CI)
     indexHtml = indexHtml.replace(
-      /<title>.*?<\/title>[\s\S]*?<meta name="description".*?\/>/m,
-      headMeta.trim()
+      /<title>[\s\S]*?<\/head>/,
+      `${headMeta.trim()}\n    </head>`
     );
 
     fs.writeFileSync(indexHtmlPath, indexHtml);
