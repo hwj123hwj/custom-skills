@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { execSync } from 'child_process';
 import { buildReadmeContent } from './sync-readme.js';
 
 interface SkillRegistryItem {
@@ -85,7 +86,18 @@ function listSkillIdsFromFilesystem(): string[] {
     .readdirSync(SKILLS_DIR)
     .filter((entry) => {
       const entryPath = path.join(SKILLS_DIR, entry);
-      return fs.statSync(entryPath).isDirectory() && fs.existsSync(path.join(entryPath, 'SKILL.md'));
+      if (!fs.statSync(entryPath).isDirectory() || !fs.existsSync(path.join(entryPath, 'SKILL.md'))) {
+        return false;
+      }
+      // Exclude directories not tracked by git (e.g. gitignored external skills)
+      try {
+        const result = execSync(`git ls-files "${entryPath}"`, {
+          encoding: 'utf-8',
+        }).trim();
+        return result.length > 0;
+      } catch {
+        return true;
+      }
     })
     .sort();
 }

@@ -133,23 +133,6 @@
     "upstreamSha": "f2cbfbefebbfef77321e4c9abc9e949826bea9d7"
   },
   {
-    "id": "darwin-skill",
-    "name": "darwin-skill",
-    "displayName": "Darwin Skill",
-    "description": "Darwin Skill (达尔文.skill): autonomous skill optimizer inspired by Karpathy's autoresearch. Evaluates SKILL.md files using an 8-dimension rubric (structure + effectiveness), runs hill-climbing with git version control, validates improvements through test prompts, and generates visual result cards. Use when user mentions \"优化skill\", \"skill评分\", \"自动优化\", \"auto optimize\", \"skill质量检查\", \"达尔文\", \"darwin\", \"帮我改改skill\", \"skill怎么样\", \"提升skill质量\", \"skill review\", \"skill打分\".",
-    "detailedDescription": "> 借鉴 Karpathy autoresearch 的自主实验循环，对 skills 进行持续优化。 > 核心理念：**评估 → 改进 → 实测验证 → 人类确认 → 保留或回滚 → 生成成果卡片** > GitHub: https://github.com/alchaincyf/darwin-skill",
-    "emoji": "📦",
-    "tags": [
-      "Utility"
-    ],
-    "scenarios": [],
-    "aliases": [],
-    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill darwin-skill",
-    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/darwin-skill",
-    "sourcePath": "skills/darwin-skill",
-    "lastUpdated": "2026-05-17T20:11:26.049Z"
-  },
-  {
     "id": "drawio-skill",
     "name": "drawio-skill",
     "displayName": "Draw.io Diagrams",
@@ -168,23 +151,6 @@
     "author": "Agents365-ai",
     "upstream": "Agents365-ai/drawio-skill",
     "upstreamSha": "7b9d607d2cb343c8c8161488b4c22b238b7b8a25"
-  },
-  {
-    "id": "frontend-slides",
-    "name": "frontend-slides",
-    "displayName": "Frontend Slides",
-    "description": "Create stunning, animation-rich HTML presentations from scratch or by converting PowerPoint files. Use when the user wants to build a presentation, convert a PPT/PPTX to web, or create slides for a talk/pitch. Helps non-designers discover their aesthetic through visual exploration rather than abstract choices.",
-    "detailedDescription": "Create zero-dependency, animation-rich HTML presentations that run entirely in the browser.",
-    "emoji": "📦",
-    "tags": [
-      "Utility"
-    ],
-    "scenarios": [],
-    "aliases": [],
-    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill frontend-slides",
-    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/frontend-slides",
-    "sourcePath": "skills/frontend-slides",
-    "lastUpdated": "2026-05-17T20:10:54.013Z"
   },
   {
     "id": "guizang-ppt-skill",
@@ -216,23 +182,6 @@
     "author": "op7418",
     "upstream": "op7418/guizang-ppt-skill",
     "upstreamSha": "3d87acc6cc53d3c1573e33d5073c1ec5a5a99196"
-  },
-  {
-    "id": "huashu-nuwa",
-    "name": "huashu-nuwa",
-    "displayName": "女娲 · Skill造人术",
-    "description": "女娲造人：输入人名/主题/甚至只是模糊需求，自动深度调研→思维框架提炼→生成可运行的人物Skill。\n两种入口：(1)明确人名→直接蒸馏 (2)模糊需求→诊断推荐→再蒸馏。\n触发词：「造skill」「蒸馏XX」「女娲」「造人」「XX的思维方式」「做个XX视角」「更新XX的skill」。\n模糊需求也触发：「我想提升决策质量」「有没有一种思维方式能帮我...」「我需要一个思维顾问」。",
-    "detailedDescription": "> 「写不进去的那部分，才是你真正的护城河。」——但写得进去的部分，已经足够强大。",
-    "emoji": "📦",
-    "tags": [
-      "Utility"
-    ],
-    "scenarios": [],
-    "aliases": [],
-    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill huashu-nuwa",
-    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/huashu-nuwa",
-    "sourcePath": "skills/huashu-nuwa",
-    "lastUpdated": "2026-05-17T20:10:35.697Z"
   },
   {
     "id": "idea-incubator",

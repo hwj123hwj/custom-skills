@@ -266,13 +266,28 @@ async function main() {
   const skillDirs = fs.readdirSync(SKILLS_DIR).sort();
   const skills: SkillData[] = [];
 
+  // Filter out directories not tracked by git (e.g. gitignored external skills)
+  const trackedDirs = skillDirs.filter((dir) => {
+    const skillPath = path.join(SKILLS_DIR, dir);
+    if (!fs.statSync(skillPath).isDirectory()) return false;
+    // Check if git tracks any files in this directory
+    try {
+      const result = execSync(`git ls-files "${path.join(SKILLS_DIR, dir)}"`, {
+        encoding: 'utf-8',
+      }).trim();
+      return result.length > 0;
+    } catch {
+      return true; // If git command fails, include the directory
+    }
+  });
+
   // Load existing registry to preserve lastUpdated when content hasn't changed
   const existingRegistry: SkillData[] = fs.existsSync(REGISTRY_OUTPUT_FILE)
     ? JSON.parse(fs.readFileSync(REGISTRY_OUTPUT_FILE, 'utf-8'))
     : [];
   const existingMap = new Map(existingRegistry.map((s) => [s.id, s]));
 
-  for (const dir of skillDirs) {
+  for (const dir of trackedDirs) {
     const skillPath = path.join(SKILLS_DIR, dir);
     const skillMdPath = path.join(skillPath, 'SKILL.md');
 
