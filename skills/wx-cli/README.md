@@ -1,0 +1,359 @@
+<div align="center">
+
+# wx-cli
+
+**从命令行查询本地微信数据**
+
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows-lightgrey.svg)](#安装)
+[![Rust](https://img.shields.io/badge/built%20with-Rust-orange.svg)](https://www.rust-lang.org)
+
+会话 · 聊天记录 · 搜索 · 联系人 · 群成员 · 群昵称 · 收藏 · 统计 · 导出
+
+</div>
+
+---
+
+## AI Agent Skill
+
+通过 [skills CLI](https://github.com/vercel-labs/skills) 一键安装到 Claude Code、Cursor、Codex 等 agent：
+
+```bash
+npx skills add jackwener/wx-cli
+```
+
+或全局安装：
+
+```bash
+npx skills add jackwener/wx-cli -g
+```
+
+安装后 agent 会自动读取 `SKILL.md`，了解如何安装和调用 wx-cli。
+
+---
+
+## 特性
+
+- **零依赖安装** — 单一 Rust 二进制，一行命令装完
+- **毫秒级响应** — 后台 daemon 持久缓存解密数据库，mtime 不变则复用
+- **AI 友好** — `history` / `search` / `sessions` / `new-messages` / `stats` / `attachments` 默认返回 `{..., meta}` wrapper，agent 能直接消费 freshness / source 信息
+- **完全本地** — 数据不出本机，实时解密，无需全量预解密
+
+---
+
+## 安装
+
+**npm（推荐，全平台）**
+
+```bash
+npm install -g @jackwener/wx-cli
+```
+
+**macOS / Linux（curl）**
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/jackwener/wx-cli/main/install.sh | bash
+```
+
+**Windows**（PowerShell，以管理员身份运行）
+
+```powershell
+irm https://raw.githubusercontent.com/jackwener/wx-cli/main/install.ps1 | iex
+```
+
+<details>
+<summary>其他安装方式</summary>
+
+**手动下载**
+
+从 [Releases](https://github.com/jackwener/wx-cli/releases) 下载对应平台文件：
+
+| 平台 | 文件 |
+|------|------|
+| macOS Apple Silicon | `wx-macos-arm64` |
+| macOS Intel | `wx-macos-x86_64` |
+| Linux x86_64 | `wx-linux-x86_64` |
+| Linux arm64 | `wx-linux-arm64` |
+| Windows x86_64 | `wx-windows-x86_64.exe` |
+
+macOS / Linux：`chmod +x wx && sudo mv wx /usr/local/bin/`
+
+**从源码构建**
+
+```bash
+git clone git@github.com:jackwener/wx-cli.git && cd wx-cli
+cargo build --release
+# 产物：target/release/wx（Windows: wx.exe）
+```
+
+</details>
+
+---
+
+## 快速开始
+
+保持微信运行，然后初始化（只需一次）：
+
+**macOS**（需要先对微信做 ad-hoc 签名，才能扫描其内存）
+
+```bash
+# 1. 签名（只需做一次，WeChat 更新后重做）
+codesign --force --deep --sign - /Applications/WeChat.app
+
+# 2. 清理旧 TCC 授权记录（重签名后必做，否则微信截图/通话权限可能 silent 失效）
+for s in ScreenCapture Camera Microphone AppleEvents AddressBook \
+         SystemPolicyDocumentsFolder SystemPolicyDownloadsFolder SystemPolicyDesktopFolder; do
+  tccutil reset "$s" com.tencent.xinWeChat
+done
+
+# 3. 重启微信，等待完全登录
+killall WeChat && open /Applications/WeChat.app
+
+# 4. 初始化
+sudo wx init
+```
+
+> 如果 `codesign` 报 `signature in use`，先执行：
+> ```bash
+> codesign --remove-signature "/Applications/WeChat.app/Contents/Frameworks/vlc_plugins/librtp_mpeg4_plugin.dylib"
+> codesign --force --deep --sign - /Applications/WeChat.app
+> ```
+>
+> 重签名后 macOS 的 TCC 隐私授权按新 code signature 重新校验，旧记录会失效。如果跳过 `tccutil reset`，微信截图/视频通话/麦克风等权限可能"看起来已开启但实际拒绝"。详见 [macOS 权限与签名指南](docs/macos-permission-guide.md#五重签名后微信权限-silent-失效)。
+
+> **副作用提示**：完成上面的 ad-hoc 重签后，macOS 会比较频繁地弹 `"微信" 想访问其他 App 的数据`（在微信里打开公众号文章时尤其容易触发）。这是当前 macOS invasive init 路径的已知副作用：重签后 WeChat 的 code identity 变了，它再访问自己原来的 container / 缓存数据会被系统识别为"跨 App 访问"。点"允许"通常只是放行当前 WeChat 进程；想彻底不弹得恢复官方 WeChat——这只放弃**当前依赖重签的默认路径**，**不等于放弃 memory-scan**：在本机 GUI Terminal 下、Terminal.app 拿到「开发者工具」TCC 授权后，对 Apple 官方签名的 WeChat 应当仍可以走通（实证覆盖只有 Catalina / Big Sur，macOS 14+ 未在本项目内实测）；只有 SSH 远程 + Apple 签名 WeChat 这种组合才必须重签。详见 [macOS 权限与签名指南 §六](docs/macos-permission-guide.md#六微信-想访问其他-app-的数据-弹窗)。
+
+**Linux**
+
+```bash
+sudo wx init
+```
+
+**Windows**（以管理员身份运行 PowerShell）
+
+```powershell
+wx init
+```
+
+验证安装：
+
+```bash
+wx sessions
+```
+
+能看到最近会话即表示一切正常。daemon 在首次调用时自动启动。
+
+---
+
+## 命令
+
+### 消息
+
+```bash
+wx sessions                                      # 最近 20 个会话
+wx unread                                        # 有未读消息的会话
+wx unread --filter private,group                 # 只看真人未读（过滤公众号/折叠入口）
+wx new-messages                                  # 上次检查后的新消息（增量）
+wx history "张三"                                # 最近 50 条记录
+wx history "张三" -n 2000                        # 拉更多历史消息
+wx history "AI群" --since 2026-04-01 --until 2026-04-15
+wx search "关键词"                               # 全库搜索
+wx search "关键词" -n 500                        # 放宽搜索结果条数
+wx search "会议" --in "工作群" --since 2026-01-01
+```
+
+`history` / `search` / `export` 都支持 `-n` / `--limit` 指定条数。默认值只是为了避免一次性输出过多消息，不是硬上限。
+
+会话/消息输出里都带 `chat_type` 字段，取值为 `private` / `group` / `official_account` / `folded`。`official_account` 涵盖公众号、订阅号、服务号及 `mphelper` / `qqsafe` 等系统通知；`folded` 对应微信里的"订阅号折叠"和"折叠群聊"两个聚合入口。
+
+群聊里的 `last_sender`、`sender` 和 `stats` 的 `top_senders` 会优先使用群昵称（群名片）。如果本地数据库里没有对应群昵称，则回退到联系人备注、微信昵称或 username。
+
+`history` / `search` / `new-messages` / `attachments` 以及 `stats.top_senders`，在群聊上下文里还会附带稳定身份三件套：
+
+- `sender_username`：稳定 wxid，用来区分两个昵称同名的成员
+- `sender_contact_display`：通讯录里的显示名（备注 > 昵称 > wxid 兜底）
+- `sender_group_nickname`：群名片本身（同 `sender` 的来源，方便机器读取时不必再解析）
+
+解析不到 wxid 时（id2u 没命中且老格式 `wxid_xxx:\n...` 前缀也不存在）这三字段不会输出，避免伪造空字段污染下游过滤。
+
+`history` / `search` / `sessions` / `unread` / `new-messages` / `stats` / `attachments` 现在都会附带 `meta`：
+
+- `status`: `ok` / `possibly_stale` / `possibly_stale_unknown_shards` / `windowed`
+- `unknown_shards`: 磁盘上存在、但 daemon 当前没有 key 的 `message_N.db` 分片；非空时应先跑 `wx init --force`
+- `chat_latest_timestamp` / `chat_latest_db`: 当前命中数据里最新一条消息的时间和分片来源
+- `session_last_timestamp`: `session.db` 里 WeChat 自己记录的最新时间；如果明显领先于 `chat_latest_timestamp`，说明结果可能漏了消息
+
+默认情况下，人类用户会在 stderr 看到可执行的 warning；agent / 脚本可直接读 stdout 里的 `meta`。传 `--with-meta` 会额外返回 `per_shard_latest` / `cache_mode_per_shard`，传隐藏 flag `--debug-source` 还会带真实 `shard_paths`。
+
+引用消息会在 `history` / `search` / `new-messages` 输出中显示当前回复和被引用原文：
+
+```text
+[引用] 当前回复
+  ↳ 发送者: 被引用内容
+```
+
+`--type link` / `--type file` 会包含微信 appmsg 里的链接、文件、合并聊天记录和引用消息等变体；搜索时也会匹配解压后可见的引用原文。
+
+### 朋友圈（SNS）
+
+三个独立命令，区分"通知"和"帖子"：
+
+```bash
+wx sns-notifications                             # 点赞/评论通知（默认仅未读）
+wx sns-notifications --include-read -n 100       # 含已读
+
+wx sns-feed                                      # 近 20 条朋友圈（时间线）
+wx sns-feed --user "张三"                        # 限定作者
+wx sns-feed --since 2026-04-01 -n 100            # 按时间
+
+wx sns-search "关键词"                           # 全文搜索朋友圈正文
+wx sns-search "婚礼" --user "李四" --since 2023-01-01
+```
+
+- **sns-notifications** 返回互动通知：`type`（`like`/`comment`）、`from_nickname`、`content`（评论正文）、`feed_preview` + `feed_author`（对应原帖）
+- **sns-feed** / **sns-search** 返回朋友圈帖子：`author`、`content`（正文）、`media`、`media_count`、`location`、`timestamp`；`media` 字段含每张图的 url/thumb/key/token/md5/enc_idx/size，供下游做图片代理或离线渲染。`media_count = media.len()`，按 DOM 解析的合法 `<media>` 子节点计数（malformed XML 返回 0）
+
+朋友圈数据只覆盖你本地刷到过的帖子（微信 app 按需下载）。
+
+### 公众号文章
+
+公众号文章推送存在独立的 `biz_message_*.db` 分片，用 `biz-articles` 单独查：
+
+```bash
+wx biz-articles                                   # 最近 50 篇
+wx biz-articles -n 200                            # 更多
+wx biz-articles --account "返朴"                  # 限定公众号（名称模糊匹配）
+wx biz-articles --since 2026-05-01 --until 2026-05-10
+wx biz-articles --unread                          # 仅有未读的公众号，每号取最新 1 篇
+wx biz-articles --json | jq '.[].url'             # 下游消费 URL
+```
+
+每条返回：`account` / `account_username` / `title` / `url` / `digest` / `cover_url` / `time` / `timestamp` / `recv_time_str`。多图文推送会展开成多行。
+
+### 附件提取（图片）
+
+聊天里的附件本体存在 `xwechat_files/<wxid>/msg/attach/...` 下的 `.dat` 文件，需要按消息所在 `message_resource.db` 的 md5 + 平台相关 image key 解码才能拿到原图。
+
+```bash
+# 1) 列出会话里的图片附件，先拿到不透明的 attachment_id
+wx attachments "张三"
+wx attachments "AI群" --kind image -n 100
+wx attachments "AI群" --since 2026-04-01 --until 2026-04-15
+
+# 2) 把单个 attachment_id 解密写出去（扩展名建议保留 .jpg / .mp4 等）
+wx extract <attachment_id> -o ~/Desktop/photo.jpg
+wx extract <attachment_id> -o /tmp/x.jpg --overwrite
+```
+
+`attachments` 输出每条带：`attachment_id` / `kind` / `type` / `local_id` / `timestamp` / `time`，群聊里还有 `sender` 以及稳定身份三件套 `sender_username` / `sender_contact_display` / `sender_group_nickname`（语义同 `history` / `search` / `new-messages`：`sender_username` 是 wxid，用于两个同名成员之间的稳定区分；解析不到 wxid 时这三字段不输出）。当前 `kind` 固定为 `image`；命令名保留成 `attachments` 是为了后续扩到其他附件类型时不 break CLI。
+
+`extract` 输出报告里带：`md5` / `dat_path` / `dat_size` / `output` / `output_size` / `format`（实际识别出的图片格式：jpg / png / gif / webp / hevc 等）/ `decoder`（实际选用的解码器：`legacy_xor` / `v1_aes` / `v2`）。
+
+支持的解码档位：
+- **legacy XOR**：早期单字节 XOR，无 magic（按文件首字节探测格式自动反推）
+- **V1 fixed-AES**（`07 08 V1 08 07`）：AES-128-ECB + 固定 key `cfcd208495d565ef`
+- **V2 AES + XOR**（`07 08 V2 08 07`）：AES-128-ECB + raw + XOR；AES key 平台派生
+
+V2 image key 提取：
+- **macOS**：`kvcomm` cache（`key_<uin>_*.statistic` 文件名取 uin → `md5(str(uin) + wxid)[:16]`）+ brute-force fallback（`md5(str(uin))[:4] == wxid_suffix` 枚举 2^24）；xor_key = `uin & 0xff`，**不是硬编码 0x88**
+- **Windows**：扫 `Weixin.exe` 内存匹配 `[A-Za-z0-9]{32|16}` 候选，按 V2 template ciphertext-block 反验
+- **Linux**：上游空白，遇到 V2 .dat 会报 unsupported
+
+### 联系人 & 群组
+
+```bash
+wx contacts                  # 联系人列表
+wx contacts --query "李"     # 按名字搜索
+wx members "AI交流群"        # 群成员列表
+```
+
+`wx members --json` 返回的成员字段包括：
+
+- `username`：微信内部 username
+- `display`：用于展示的名称，优先使用群昵称
+- `contact_display`：联系人备注或微信昵称
+- `group_nickname`：群昵称；本地没有记录时为空字符串
+- `is_owner`：是否群主
+
+### 收藏 & 统计
+
+```bash
+wx favorites                          # 全部收藏
+wx favorites --type image             # 按类型筛选（text/image/article/card/video）
+wx favorites --query "关键词"         # 搜索收藏内容
+wx stats "AI群"                       # 聊天统计
+wx stats "AI群" --since 2026-01-01   # 指定时间范围
+```
+
+### 导出
+
+```bash
+wx export "张三" --format markdown -o chat.md
+wx export "张三" -n 2000 --format markdown -o chat.md
+wx export "AI群" --since 2026-01-01 --format json
+```
+
+### 输出格式
+
+默认输出 YAML；`--json` 可切换为 JSON。对 agent 而言，`history` / `search` / `sessions` / `new-messages` / `stats` / `attachments` 的 stdout 现在是 wrapper，而不是裸数组：
+
+```bash
+wx sessions --json
+wx search "关键词" --json | jq '.results[0].content'
+wx new-messages --json
+wx history "张三" --json | jq '.meta'
+wx history "张三" --json --with-meta | jq '.meta.cache_mode_per_shard'
+```
+
+### Daemon 管理
+
+```bash
+wx daemon status
+wx daemon stop
+wx daemon logs --follow
+```
+
+---
+
+## 架构
+
+```
+wx (CLI) ──Unix socket──▶ wx-daemon (后台进程)
+                              │
+                    ┌─────────┴──────────┐
+               DBCache               联系人缓存
+           (mtime 感知复用)
+```
+
+daemon 首次解密后将数据库和 mtime 持久化到 `~/.wx-cli/cache/`。重启后 mtime 未变则直接复用，无需重解密。
+
+```
+~/.wx-cli/
+├── config.json       # 配置
+├── all_keys.json     # 数据库密钥
+├── daemon.sock       # Unix socket
+├── daemon.pid / .log
+└── cache/
+    ├── _mtimes.json  # mtime 索引
+    └── *.db          # 解密后的数据库
+```
+
+---
+
+## 原理
+
+微信 4.x 使用 SQLCipher 4 加密本地数据库（AES-256-CBC + HMAC-SHA512，PBKDF2 256,000 次迭代）。WCDB 在进程内存中缓存派生后的 raw key，格式为 `x'<64hex_key><32hex_salt>'`。
+
+wx-cli 通过 macOS Mach VM API（`mach_vm_region` + `mach_vm_read`）、Linux `/proc/<pid>/mem` 或 Windows `VirtualQueryEx` + `ReadProcessMemory`（需要 `PROCESS_VM_READ | PROCESS_QUERY_INFORMATION` 权限）扫描微信进程内存，匹配该模式提取密钥，daemon 按需解密并缓存。
+
+---
+
+## 致谢
+
+本项目受 [ylytdeng/wechat-decrypt](https://github.com/ylytdeng/wechat-decrypt) 启发，在其基础上进行了重新设计与实现。感谢原作者的研究与探索。
+
+---
+
+## 免责声明
+
+本工具仅用于学习和研究目的，用于解密**自己的**微信数据。请遵守相关法律法规，不得用于未经授权的数据访问。

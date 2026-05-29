@@ -181,7 +181,7 @@
     "lastUpdated": "2026-05-16T04:00:04.426Z",
     "author": "op7418",
     "upstream": "op7418/guizang-ppt-skill",
-    "upstreamSha": "3d87acc6cc53d3c1573e33d5073c1ec5a5a99196"
+    "upstreamSha": "014c572454065e905477a7432ae331dfc0fe6070"
   },
   {
     "id": "idea-incubator",
@@ -358,7 +358,7 @@
     "author": "iOfficeAI",
     "upstream": "iOfficeAI/OfficeCLI",
     "upstreamPath": "skills/officecli-docx",
-    "upstreamSha": "06f6bf4e92711309d8a41ddb8c821e2de004aaf8"
+    "upstreamSha": "0530e0ec14c1137853a931547ea9597582aee73a"
   },
   {
     "id": "paddleocr-doc-parsing",
@@ -709,7 +709,7 @@
     "lastUpdated": "2026-05-16T02:47:52.453Z",
     "author": "jackwener",
     "upstream": "jackwener/wx-cli",
-    "upstreamSha": "739b66a4b16f93b0f2d299c1b3c7ce6f9f7e8156"
+    "upstreamSha": "08af894594b4afd468e23e17dbd783f15403f13b"
   },
   {
     "id": "xiaohongshu-cli",
