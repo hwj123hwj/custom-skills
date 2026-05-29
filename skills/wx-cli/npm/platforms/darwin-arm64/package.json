@@ -1,0 +1,10 @@
+{
+  "name": "@jackwener/wx-cli-darwin-arm64",
+  "version": "0.3.0",
+  "description": "wx-cli binary for macOS arm64",
+  "os": ["darwin"],
+  "cpu": ["arm64"],
+  "files": ["bin/"],
+  "license": "Apache-2.0",
+  "publishConfig": { "access": "public" }
+}

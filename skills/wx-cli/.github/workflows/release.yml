@@ -1,0 +1,160 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-unknown-linux-gnu
+
+      - name: cargo check linux target
+        run: cargo check --target x86_64-unknown-linux-gnu
+
+  build:
+    needs: check
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            target: aarch64-apple-darwin
+            asset: wx-macos-arm64
+            npm_dir: darwin-arm64
+            bin: wx
+          - os: macos-latest
+            target: x86_64-apple-darwin
+            asset: wx-macos-x86_64
+            npm_dir: darwin-x64
+            bin: wx
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            asset: wx-linux-x86_64
+            npm_dir: linux-x64
+            bin: wx
+          - os: ubuntu-latest
+            target: aarch64-unknown-linux-gnu
+            asset: wx-linux-arm64
+            npm_dir: linux-arm64
+            bin: wx
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            asset: wx-windows-x86_64.exe
+            npm_dir: win32-x64
+            bin: wx.exe
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - name: Install cross-compile tools (Linux arm64)
+        if: matrix.target == 'aarch64-unknown-linux-gnu'
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y gcc-aarch64-linux-gnu
+          echo "CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc" >> $GITHUB_ENV
+
+      - name: Cache cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-${{ matrix.target }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-${{ matrix.target }}-cargo-
+
+      - name: Build release
+        run: cargo build --release --locked --target ${{ matrix.target }}
+
+      - name: Copy binary (Unix)
+        if: matrix.os != 'windows-latest'
+        run: |
+          cp target/${{ matrix.target }}/release/wx ${{ matrix.asset }}
+          mkdir -p npm/platforms/${{ matrix.npm_dir }}/bin
+          cp target/${{ matrix.target }}/release/wx npm/platforms/${{ matrix.npm_dir }}/bin/wx
+
+      - name: Copy binary (Windows)
+        if: matrix.os == 'windows-latest'
+        shell: pwsh
+        run: |
+          Copy-Item "target\${{ matrix.target }}\release\wx.exe" "${{ matrix.asset }}"
+          New-Item -ItemType Directory -Force -Path "npm\platforms\${{ matrix.npm_dir }}\bin" | Out-Null
+          Copy-Item "target\${{ matrix.target }}\release\wx.exe" "npm\platforms\${{ matrix.npm_dir }}\bin\wx.exe"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.asset }}
+          path: ${{ matrix.asset }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: npm-${{ matrix.npm_dir }}
+          path: npm/platforms/${{ matrix.npm_dir }}/bin/
+
+      - name: Upload to GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: ${{ matrix.asset }}
+
+  publish-npm:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Download all platform binaries
+        uses: actions/download-artifact@v4
+        with:
+          pattern: npm-*
+          path: npm-bins/
+
+      - name: Place binaries into platform packages
+        run: |
+          for dir in darwin-arm64 darwin-x64 linux-x64 linux-arm64; do
+            mkdir -p npm/platforms/$dir/bin
+            cp npm-bins/npm-$dir/wx npm/platforms/$dir/bin/wx
+            chmod +x npm/platforms/$dir/bin/wx
+          done
+          mkdir -p npm/platforms/win32-x64/bin
+          cp npm-bins/npm-win32-x64/wx.exe npm/platforms/win32-x64/bin/wx.exe
+
+      - name: Publish platform packages
+        run: |
+          for dir in darwin-arm64 darwin-x64 linux-x64 linux-arm64 win32-x64; do
+            cd npm/platforms/$dir
+            npm publish 2>&1 | tee /tmp/npm-out.txt || grep -q "previously published" /tmp/npm-out.txt || exit 1
+            cd ../../..
+          done
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish main package
+        run: |
+          cd npm/wx-cli
+          npm publish 2>&1 | tee /tmp/npm-out.txt || grep -q "previously published" /tmp/npm-out.txt || exit 1
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
