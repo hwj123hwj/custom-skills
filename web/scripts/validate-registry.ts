@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
+import matter from 'gray-matter';
 import { buildReadmeContent } from './sync-readme.js';
 
 interface SkillRegistryItem {
@@ -167,6 +168,23 @@ function validateSkill(skill: SkillRegistryItem): void {
   if (Number.isNaN(Date.parse(skill.lastUpdated))) {
     fail(`${skill.id}.lastUpdated 不是合法日期`);
   }
+
+  // ── Enhanced checks ──
+
+  // Description should be substantive (not just "TODO" or single word)
+  if (skill.description.length < 20) {
+    console.warn(`⚠️  ${skill.id}.description 太短 (${skill.description.length} chars)，建议至少 20 字符`);
+  }
+
+  // Name must be kebab-case
+  if (!/^[a-z][a-z0-9]*(-[a-z0-9]+)*$/.test(skill.id)) {
+    fail(`${skill.id}.id 必须是 kebab-case 格式`);
+  }
+
+  // Tags count: 1-5
+  if (tags.length > 5) {
+    fail(`${skill.id}.tags 最多 5 个，当前 ${tags.length} 个`);
+  }
 }
 
 function main(): void {
@@ -230,6 +248,45 @@ function main(): void {
     }
     console.log(`✅ Agent validation passed for ${agents.length} agents`);
   }
+
+  // ── SKILL.md frontmatter 验证 ────────────────────────────────────────────
+  let frontmatterWarnings = 0;
+  for (const skillId of diskSkillIds) {
+    const skillMdPath = path.join(SKILLS_DIR, skillId, 'SKILL.md');
+    if (!fs.existsSync(skillMdPath)) continue;
+    const raw = fs.readFileSync(skillMdPath, 'utf-8');
+    const { data } = matter(raw);
+
+    // Required fields in source SKILL.md
+    if (!data.name) fail(`skills/${skillId}/SKILL.md 缺少 name 字段`);
+    if (!data.description) fail(`skills/${skillId}/SKILL.md 缺少 description 字段`);
+    // tags are optional in source — sync-skills.ts falls back to ['Utility']
+    // but warn if missing so authors know to add them
+    if (!data.tags || !Array.isArray(data.tags) || data.tags.length === 0) {
+      console.warn(`⚠️  skills/${skillId}/SKILL.md 缺少 tags 字段（将使用默认值 ['Utility']）`);
+      frontmatterWarnings++;
+    }
+
+    // Name must match directory
+    if (data.name !== skillId) {
+      fail(`skills/${skillId}/SKILL.md name (${data.name}) 与目录名 (${skillId}) 不一致`);
+    }
+
+    // Upstream metadata completeness
+    if (data.upstream) {
+      if (!data.upstreamSha) {
+        fail(`skills/${skillId}/SKILL.md 有 upstream 但缺少 upstreamSha`);
+      }
+      if (!data.author) {
+        console.warn(`⚠️  skills/${skillId}/SKILL.md 有 upstream 但缺少 author（建议补充）`);
+        frontmatterWarnings++;
+      }
+    }
+  }
+  if (frontmatterWarnings > 0) {
+    console.log(`⚠️  ${frontmatterWarnings} frontmatter warning(s)`);
+  }
+  console.log(`✅ SKILL.md frontmatter validation passed for ${diskSkillIds.length} skills`);
 }
 
 // ── Agent 类型与校验函数 ──────────────────────────────────────────────────────

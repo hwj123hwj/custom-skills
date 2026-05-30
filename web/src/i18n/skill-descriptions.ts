@@ -101,6 +101,12 @@ export const skillDescriptionsZh: Record<string, string> = {
     '将计划/PRD/规格拆成可独立领取的 Issue，使用纵向切片（tracer bullet）方式，每个 Issue 贯穿所有集成层。适用于任务拆解、Issue 创建、工作分解。',
   'git-guardrails-claude-code':
     '为 Claude Code 设置 Git 安全钩子，拦截危险命令（push、reset --hard、clean、branch -D 等）。当用户想防止破坏性 Git 操作、添加安全钩子时使用。',
+
+  // ── 元技能 ──
+  'skill-scout':
+    '新增技能前的查重检查。搜索现有技能避免命名冲突、tag 重叠和功能重复，给出创建/扩展/复用建议。在创建任何新技能之前必须使用。',
+  'skill-create':
+    '模板化技能创建工具。生成合规的 SKILL.md frontmatter、i18n 条目并触发 registry 同步。确保新技能一次性通过所有验证检查。',
 };
 
 export const agentDescriptionsZh: Record<string, string> = {

@@ -645,6 +645,42 @@
     "lastUpdated": "2026-05-02T08:29:23.000Z"
   },
   {
+    "id": "skill-create",
+    "name": "skill-create",
+    "displayName": "Skill Create",
+    "description": "Template-driven skill creation. Generates a compliant SKILL.md with correct frontmatter, adds i18n entries, and triggers registry sync. Use when creating a new skill to ensure it passes all validation checks.",
+    "detailedDescription": "A template-driven process for creating new skills that pass all validation checks on the first try.",
+    "emoji": "📦",
+    "tags": [
+      "Automation",
+      "Utility"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill skill-create",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/skill-create",
+    "sourcePath": "skills/skill-create",
+    "lastUpdated": "2026-05-30T12:03:03.147Z"
+  },
+  {
+    "id": "skill-scout",
+    "name": "skill-scout",
+    "displayName": "Skill Scout",
+    "description": "Search existing skills before creating a new one. Checks for naming conflicts, tag overlap, and functional duplication. Use BEFORE creating any new skill to prevent wasted effort and registry bloat.",
+    "detailedDescription": "Use this skill **before** creating a new skill. It checks whether an existing skill already covers the intended capability.",
+    "emoji": "📦",
+    "tags": [
+      "Automation",
+      "Utility"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill skill-scout",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/skill-scout",
+    "sourcePath": "skills/skill-scout",
+    "lastUpdated": "2026-05-30T12:02:32.833Z"
+  },
+  {
     "id": "skills-sh-installer",
     "name": "skills-sh-installer",
     "displayName": "Skills.sh Installer",
