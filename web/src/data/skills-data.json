@@ -713,11 +713,11 @@
     "lastUpdated": "2026-05-02T08:29:23.000Z"
   },
   {
-    "id": "skill-create",
-    "name": "skill-create",
-    "displayName": "Skill Create",
-    "description": "Template-driven skill creation. Generates a compliant SKILL.md with correct frontmatter, adds i18n entries, and triggers registry sync. Use when creating a new skill to ensure it passes all validation checks.",
-    "detailedDescription": "A template-driven process for creating new skills that pass all validation checks on the first try.",
+    "id": "skill-creator",
+    "name": "skill-creator",
+    "displayName": "Skill Creator",
+    "description": "Create new skills, modify and improve existing skills, and measure skill performance. Use when users want to create a skill from scratch, edit, or optimize an existing skill, run evals to test a skill, benchmark skill performance with variance analysis, or optimize a skill's description for better triggering accuracy.",
+    "detailedDescription": "A skill for creating new skills and iteratively improving them.",
     "emoji": "📦",
     "tags": [
       "Automation",
@@ -725,10 +725,14 @@
     ],
     "scenarios": [],
     "aliases": [],
-    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill skill-create",
-    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/skill-create",
-    "sourcePath": "skills/skill-create",
-    "lastUpdated": "2026-05-30T12:03:03.147Z"
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill skill-creator",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/skill-creator",
+    "sourcePath": "skills/skill-creator",
+    "lastUpdated": "2026-05-30T00:00:00.000Z",
+    "author": "anthropics",
+    "upstream": "anthropics/skills",
+    "upstreamPath": "skills/skill-creator",
+    "upstreamSha": "da20c92503b2e8ff1cf28ca81a0df4673debdbf7"
   },
   {
     "id": "skill-scout",

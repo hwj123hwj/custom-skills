@@ -105,8 +105,8 @@ export const skillDescriptionsZh: Record<string, string> = {
   // ── 元技能 ──
   'skill-scout':
     '新增技能前的查重检查。搜索现有技能避免命名冲突、tag 重叠和功能重复，给出创建/扩展/复用建议。在创建任何新技能之前必须使用。',
-  'skill-create':
-    '模板化技能创建工具。生成合规的 SKILL.md frontmatter、i18n 条目并触发 registry 同步。确保新技能一次性通过所有验证检查。',
+  'skill-creator':
+    'Claude 官方技能创建器。从零创建新技能、修改优化已有技能、运行 eval 测试技能性能、基准测试与方差分析。触发词：创建技能、写技能、优化技能、测试技能、eval。',
 
   // ── 设计能力 ──
   'huashu-design':
