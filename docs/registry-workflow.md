@@ -10,11 +10,13 @@ cd web && npm run generate:registry
 
 会更新：
 
-- `registry/skills.json`
-- `web/src/data/skills-data.json`
-- `README.md`
-- `web/public/sitemap.xml`
-- 通过 agent 同步脚本生成的 Agent 镜像数据
+- `registry/skills.json` — 技能索引
+- `registry/agents.json` — Agent 索引
+- `web/src/data/skills-data.json` — Web 端技能数据
+- `web/src/data/agents-data.json` — Web 端 Agent 数据
+- `README.md` — 技能表（自动注入到 `SKILL_TABLE` 标记之间）
+- `web/public/sitemap.xml` — SEO 站点地图
+- `web/index.html` — SEO meta 标签
 
 ## 校验
 

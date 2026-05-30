@@ -37,6 +37,10 @@ skills/*/SKILL.md
 - React Router
 - i18next
 
+## Web 分类筛选
+
+Skills tab 通过 `web/src/lib/skill-categories.ts` 定义的 6 个高层分组（编程开发、内容创作、平台工具、效率工具、知识搜索、数据处理）进行分类筛选，每个分组映射到一组底层 tag。Decks tab 有独立的分类体系。两者共享 `CategoryChip` 组件。
+
 ## CLI 技术栈
 
 - TypeScript

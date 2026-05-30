@@ -16,7 +16,7 @@
 |------|------|------|
 | `name` | 是 | kebab-case，必须与目录名一致 |
 | `description` | 是 | 触发描述，是 Agent 自动识别最重要的字段 |
-| `tags` | 是 | 1-3 个，必须来自白名单 |
+| `tags` | 是 | 1-5 个，必须来自白名单 |
 | `displayName` | 否 | 展示名，默认取正文 H1 |
 | `aliases` | 否 | 别名，用于模糊匹配 |
 | `scenarios` | 否 | 触发场景列表 |
@@ -31,10 +31,11 @@
 当前允许的 tag：
 
 ```text
-Analysis, Audio, Automation, CLI, Content, Crawler, Education,
-Forensics, Installer, Knowledge, LocalData, Marketplace, Media,
-Monitoring, Planning, Product, Productivity, Recruitment,
-Research, Search, Social, Summary, Utility, Video, Web, Writing,
+Analysis, Architecture, Audio, Automation, CLI, Coding, Content,
+Crawler, Debugging, Education, Forensics, Installer, Knowledge,
+LocalData, Marketplace, Media, Monitoring, Planning, Product,
+Productivity, Recruitment, Research, Search, Security, Social,
+Summary, Testing, Utility, Video, Web, Writing,
 Bilibili, WeChat, Weibo, Xiaohongshu
 ```
 
