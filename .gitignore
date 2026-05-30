@@ -29,14 +29,16 @@ skills/knowledge-skill/.venv
 skills/short-drama-pipeline/output/
 **/drafts/
 
-# 其他工具缓存的技能（symlink 或内嵌 git 仓库）
-.agents/
+# 其他工具缓存目录
 .trae/
 tests/
-**/.claude/skills/
-skills/darwin-skill
-skills/frontend-slides
-skills/huashu-nuwa
+
+# 内嵌 git 仓库的技能（有独立 .git，不应提交其内部对象）
+skills/frontend-slides/.git/
+skills/frontend-slides/node_modules/
+
+# Skill 运行时生成的 .venv
+skills/skill-browser-crawl/.venv/
 
 # Knowledge skill 调优运行时状态（不应提交）
 skills/knowledge-skill/.tune-state.json

@@ -51,12 +51,16 @@ npx skills add https://github.com/hwj123hwj/custom-skills --skill <skill-id>
 | [boss-cli](./skills/boss-cli) | Use boss-cli for ALL BOSS 直聘 operations — searching jobs, viewing recommendations, managing appli... |
 | [brainstorming](./skills/brainstorming) | You MUST use this before any creative work - creating features, building components, adding funct... |
 | [caveman](./skills/caveman) | Ultra-compressed communication mode. |
+| [darwin-skill](./skills/darwin-skill) | Darwin Skill (达尔文.skill): autonomous skill optimizer inspired by Karpathy's autoresearch. |
 | [diagnose](./skills/diagnose) | Disciplined diagnosis loop for hard bugs and performance regressions. |
 | [drawio-skill](./skills/drawio-skill) | Use when user requests diagrams, flowcharts, architecture charts, or visualizations. |
+| [frontend-slides](./skills/frontend-slides) | Create stunning, animation-rich HTML presentations from scratch or by converting PowerPoint files. |
 | [git-guardrails-claude-code](./skills/git-guardrails-claude-code) | Set up Claude Code hooks to block dangerous git commands (push, reset --hard, clean, branch -D, e... |
 | [grill-me](./skills/grill-me) | Interview the user relentlessly about a plan or design until reaching shared understanding, resol... |
 | [guizang-ppt-skill](./skills/guizang-ppt-skill) | 生成横向翻页网页 PPT（单 HTML 文件），含 WebGL 背景、章节幕封、数据大字报、图片网格等模板。 |
 | [handoff](./skills/handoff) | Compact the current conversation into a handoff document for another agent to pick up. |
+| [huashu-design](./skills/huashu-design) | 花叔Design（Huashu-Design）——用HTML做高保真原型、交互Demo、幻灯片、动画、设计变体探索+设计方向顾问+专家评审的一体化设计能力。 |
+| [huashu-nuwa](./skills/huashu-nuwa) | 女娲造人：输入人名/主题/甚至只是模糊需求，自动深度调研→思维框架提炼→生成可运行的人物Skill。 |
 | [idea-incubator](./skills/idea-incubator) | 专业的 CPO + 技术合伙人助手，帮助用户孵化想法、分析可行性并编写技术文档。 |
 | [image-provider](./skills/image-provider) | Unified image generation skill with pluggable providers (strategy pattern). |
 | [improve-codebase-architecture](./skills/improve-codebase-architecture) | Find deepening opportunities in a codebase, informed by the domain language in CONTEXT.md and the... |

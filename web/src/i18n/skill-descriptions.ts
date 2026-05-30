@@ -107,6 +107,10 @@ export const skillDescriptionsZh: Record<string, string> = {
     '新增技能前的查重检查。搜索现有技能避免命名冲突、tag 重叠和功能重复，给出创建/扩展/复用建议。在创建任何新技能之前必须使用。',
   'skill-create':
     '模板化技能创建工具。生成合规的 SKILL.md frontmatter、i18n 条目并触发 registry 同步。确保新技能一次性通过所有验证检查。',
+
+  // ── 设计能力 ──
+  'huashu-design':
+    '花叔Design —— 用 HTML 做高保真原型、交互 Demo、幻灯片、动画、设计变体探索和专家评审的一体化设计能力。支持 HTML 动画导出 MP4/GIF、带解说的长动画 pipeline。触发词：做原型、设计Demo、交互原型、动画Demo、设计变体、UI mockup。',
 };
 
 export const agentDescriptionsZh: Record<string, string> = {
