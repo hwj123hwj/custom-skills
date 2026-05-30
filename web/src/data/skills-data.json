@@ -713,46 +713,6 @@
     "lastUpdated": "2026-05-02T08:29:23.000Z"
   },
   {
-    "id": "skill-creator",
-    "name": "skill-creator",
-    "displayName": "Skill Creator",
-    "description": "Create new skills, modify and improve existing skills, and measure skill performance. Use when users want to create a skill from scratch, edit, or optimize an existing skill, run evals to test a skill, benchmark skill performance with variance analysis, or optimize a skill's description for better triggering accuracy.",
-    "detailedDescription": "A skill for creating new skills and iteratively improving them.",
-    "emoji": "📦",
-    "tags": [
-      "Automation",
-      "Utility"
-    ],
-    "scenarios": [],
-    "aliases": [],
-    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill skill-creator",
-    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/skill-creator",
-    "sourcePath": "skills/skill-creator",
-    "lastUpdated": "2026-05-30T00:00:00.000Z",
-    "author": "anthropics",
-    "upstream": "anthropics/skills",
-    "upstreamPath": "skills/skill-creator",
-    "upstreamSha": "da20c92503b2e8ff1cf28ca81a0df4673debdbf7"
-  },
-  {
-    "id": "skill-scout",
-    "name": "skill-scout",
-    "displayName": "Skill Scout",
-    "description": "Search existing skills before creating a new one. Checks for naming conflicts, tag overlap, and functional duplication. Use BEFORE creating any new skill to prevent wasted effort and registry bloat.",
-    "detailedDescription": "Use this skill **before** creating a new skill. It checks whether an existing skill already covers the intended capability.",
-    "emoji": "📦",
-    "tags": [
-      "Automation",
-      "Utility"
-    ],
-    "scenarios": [],
-    "aliases": [],
-    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill skill-scout",
-    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/skill-scout",
-    "sourcePath": "skills/skill-scout",
-    "lastUpdated": "2026-05-30T12:02:32.833Z"
-  },
-  {
     "id": "skills-sh-installer",
     "name": "skills-sh-installer",
     "displayName": "Skills.sh Installer",

@@ -102,12 +102,6 @@ export const skillDescriptionsZh: Record<string, string> = {
   'git-guardrails-claude-code':
     '为 Claude Code 设置 Git 安全钩子，拦截危险命令（push、reset --hard、clean、branch -D 等）。当用户想防止破坏性 Git 操作、添加安全钩子时使用。',
 
-  // ── 元技能 ──
-  'skill-scout':
-    '新增技能前的查重检查。搜索现有技能避免命名冲突、tag 重叠和功能重复，给出创建/扩展/复用建议。在创建任何新技能之前必须使用。',
-  'skill-creator':
-    'Claude 官方技能创建器。从零创建新技能、修改优化已有技能、运行 eval 测试技能性能、基准测试与方差分析。触发词：创建技能、写技能、优化技能、测试技能、eval。',
-
   // ── 设计能力 ──
   'huashu-design':
     '花叔Design —— 用 HTML 做高保真原型、交互 Demo、幻灯片、动画、设计变体探索和专家评审的一体化设计能力。支持 HTML 动画导出 MP4/GIF、带解说的长动画 pipeline。触发词：做原型、设计Demo、交互原型、动画Demo、设计变体、UI mockup。',

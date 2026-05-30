@@ -199,18 +199,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://weijian.online/skill/skill-creator</loc>
-    <lastmod>2026-05-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://weijian.online/skill/skill-scout</loc>
-    <lastmod>2026-05-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://weijian.online/skill/skills-sh-installer</loc>
     <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>

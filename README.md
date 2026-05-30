@@ -76,8 +76,6 @@ npx skills add https://github.com/hwj123hwj/custom-skills --skill <skill-id>
 | [short-drama-pipeline](./skills/short-drama-pipeline) | AI 短剧/短视频全链路生产技能。 |
 | [short-video-replicator](./skills/short-video-replicator) | 短视频爆款复刻一站式工具。 |
 | [skill-browser-crawl](./skills/skill-browser-crawl) | 基于浏览器的轻量级网页爬虫。 |
-| [skill-creator](./skills/skill-creator) | Create new skills, modify and improve existing skills, and measure skill performance. |
-| [skill-scout](./skills/skill-scout) | Search existing skills before creating a new one. |
 | [skills-sh-installer](./skills/skills-sh-installer) | 从 skills.sh（Cursor/Windsurf 技能市场）下载并安装技能到本地 .deepv/skills 目录。 |
 | [tavily](./skills/tavily) | Unified Tavily CLI skill — web search, URL extraction, and deep research via `tvly`. |
 | [tdd](./skills/tdd) | Test-driven development with red-green-refactor loop. |
