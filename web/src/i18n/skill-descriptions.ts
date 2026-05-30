@@ -103,6 +103,8 @@ export const skillDescriptionsZh: Record<string, string> = {
     '为 Claude Code 设置 Git 安全钩子，拦截危险命令（push、reset --hard、clean、branch -D 等）。当用户想防止破坏性 Git 操作、添加安全钩子时使用。',
 
   // ── 设计能力 ──
+  'ui-ux-pro-max':
+    'UI/UX 设计智能技能。50+ 设计风格、161 套配色方案、57 种字体搭配、161 种产品类型、99 条 UX 准则、25 种图表类型，覆盖 React/Next.js/Vue/Svelte/SwiftUI 等 10 大技术栈。触发词：设计 UI、美化页面、配色、字体、组件设计。',
   'huashu-design':
     '花叔Design —— 用 HTML 做高保真原型、交互 Demo、幻灯片、动画、设计变体探索和专家评审的一体化设计能力。支持 HTML 动画导出 MP4/GIF、带解说的长动画 pipeline。触发词：做原型、设计Demo、交互原型、动画Demo、设计变体、UI mockup。',
 };

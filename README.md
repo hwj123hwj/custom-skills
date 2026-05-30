@@ -83,6 +83,7 @@ npx skills add https://github.com/hwj123hwj/custom-skills --skill <skill-id>
 | [to-prd](./skills/to-prd) | Turn the current conversation context into a PRD (Product Requirements Document). |
 | [tts](./skills/tts) | Unified TTS (Text-to-Speech) skill with pluggable providers (strategy pattern). |
 | [twitter-cli](./skills/twitter-cli) | Use twitter-cli for ALL Twitter/X operations — reading tweets, posting, replying, quoting, liking... |
+| [ui-ux-pro-max](./skills/ui-ux-pro-max) | UI/UX design intelligence for web and mobile. |
 | [vertex-video-reader](./skills/vertex-video-reader) | Use this skill to read, analyze, and understand video files using Google Cloud Vertex AI's lightw... |
 | [videocut](./skills/videocut) | 口播视频一站式剪辑 Skill。 |
 | [wechat-decrypt](./skills/wechat-decrypt) | 用于解密、同步、查询和导出本机微信 macOS 聊天数据的 CLI-first 技能。 |
