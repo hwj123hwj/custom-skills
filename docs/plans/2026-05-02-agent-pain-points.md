@@ -1,3 +1,5 @@
+> **归档说明**：本计划已于 2026-05-20 前执行完毕，Web 广场和 CLI 功能均已上线。保留供历史参考。
+
 # Agent 使用痛点分析 — Claude Code 视角
 
 > 以 Claude Code（Agent）的第一人称视角，分析使用 Custom Skills Hub 时的实际困难。

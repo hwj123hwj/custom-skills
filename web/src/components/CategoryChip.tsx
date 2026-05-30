@@ -7,37 +7,53 @@ interface CategoryChipProps {
   count: number;
   active: boolean;
   onClick: () => void;
-  colorScheme?: 'purple' | 'amber';
+  colorScheme?: 'green' | 'amber';
 }
 
-const schemes = {
-  purple: {
-    active: 'border-purple-500/40 bg-purple-500/15 text-purple-200',
-    badge: 'bg-white/10 text-white',
-  },
-  amber: {
-    active: 'border-amber-500/40 bg-amber-500/15 text-amber-200',
-    badge: 'bg-white/10 text-white',
-  },
-};
-
-export function CategoryChip({ label, count, active, onClick, colorScheme = 'purple' }: CategoryChipProps) {
-  const scheme = schemes[colorScheme];
+export function CategoryChip({ label, count, active, onClick, colorScheme = 'green' }: CategoryChipProps) {
+  const isAmber = colorScheme === 'amber';
+  const accentColor = isAmber ? '#f59e0b' : '#22C55E';
+  const accentBg = isAmber ? 'rgba(245, 158, 11, 0.12)' : 'rgba(34, 197, 94, 0.12)';
+  const accentBorder = isAmber ? 'rgba(245, 158, 11, 0.25)' : 'rgba(34, 197, 94, 0.25)';
 
   return (
     <button
       onClick={onClick}
-      className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm transition-all ${
+      className="flex items-center gap-2 rounded-full px-4 py-2 text-sm transition-all duration-200"
+      style={
         active
-          ? scheme.active
-          : 'border-white/10 bg-white/5 text-gray-400 hover:border-white/20 hover:text-white'
-      }`}
+          ? {
+              background: accentBg,
+              color: accentColor,
+              border: `1px solid ${accentBorder}`,
+            }
+          : {
+              background: 'var(--bg-card)',
+              color: 'var(--text-muted)',
+              border: '1px solid var(--border-default)',
+            }
+      }
+      onMouseEnter={(e) => {
+        if (!active) {
+          e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)';
+          e.currentTarget.style.color = 'var(--text-secondary)';
+        }
+      }}
+      onMouseLeave={(e) => {
+        if (!active) {
+          e.currentTarget.style.borderColor = 'var(--border-default)';
+          e.currentTarget.style.color = 'var(--text-muted)';
+        }
+      }}
     >
       <span>{label}</span>
       <span
-        className={`rounded-full px-2 py-0.5 text-xs font-mono ${
-          active ? scheme.badge : 'bg-white/5 text-gray-500'
-        }`}
+        className="rounded-full px-2 py-0.5 text-xs font-mono"
+        style={
+          active
+            ? { background: 'rgba(255,255,255,0.1)', color: accentColor }
+            : { background: 'var(--bg-elevated)', color: 'var(--text-muted)' }
+        }
       >
         {count}
       </span>

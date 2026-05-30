@@ -158,44 +158,83 @@ function App() {
 
   return (
     <Layout>
-      <div className="max-w-2xl mx-auto text-center mb-12 space-y-4">
-        <h2 className="text-4xl sm:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-gray-500">
+      {/* Hero */}
+      <div className="max-w-2xl mx-auto text-center mb-14 space-y-5 animate-slide-up">
+        <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-gradient">
           {t('hero.title')}
         </h2>
-        <p className="text-gray-400 text-lg">
+        <p className="text-lg leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
           {t('hero.subtitle')}
         </p>
 
+        {/* Search */}
         <div className="relative max-w-md mx-auto mt-8 group">
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-full blur-xl group-hover:blur-2xl transition-all opacity-50" />
-          <div className="relative flex items-center bg-white/5 border border-white/10 rounded-full px-4 py-3 backdrop-blur-xl focus-within:border-purple-500/50 focus-within:bg-white/10 transition-all">
-            <Search className="w-5 h-5 text-gray-400 mr-3" />
+          <div
+            className="absolute inset-0 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500"
+            style={{ background: 'radial-gradient(ellipse, rgba(34,197,94,0.15) 0%, transparent 70%)' }}
+          />
+          <div
+            className="relative flex items-center rounded-2xl px-5 py-3.5 transition-all duration-300"
+            style={{
+              background: 'var(--bg-card)',
+              border: '1px solid var(--border-default)',
+            }}
+          >
+            <Search className="w-4 h-4 mr-3 shrink-0" style={{ color: 'var(--text-muted)' }} />
             <input
               type="text"
               placeholder={placeholder}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="bg-transparent border-none outline-none text-white placeholder-gray-500 w-full"
+              className="bg-transparent border-none outline-none w-full text-sm placeholder-opacity-50"
+              style={{ color: 'var(--text-primary)' }}
+              onFocus={(e) => {
+                const parent = e.currentTarget.parentElement!;
+                parent.style.borderColor = 'var(--border-hover)';
+                parent.style.background = 'var(--bg-card-hover)';
+              }}
+              onBlur={(e) => {
+                const parent = e.currentTarget.parentElement!;
+                parent.style.borderColor = 'var(--border-default)';
+                parent.style.background = 'var(--bg-card)';
+              }}
             />
           </div>
         </div>
       </div>
 
-      {/* Onboarding snippet — global CLAUDE.md setup */}
-      <div className="max-w-2xl mx-auto mb-10">
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-5 backdrop-blur-xl">
+      {/* Onboarding snippet */}
+      <div className="max-w-2xl mx-auto mb-10 animate-fade-in">
+        <div
+          className="rounded-2xl p-5"
+          style={{
+            background: 'var(--bg-card)',
+            border: '1px solid var(--border-accent)',
+          }}
+        >
           <div className="flex items-start justify-between gap-4">
             <div>
-              <h3 className="text-sm font-semibold text-white mb-1">
+              <h3 className="text-sm font-semibold mb-1" style={{ color: 'var(--accent)' }}>
                 {t('onboarding.title')}
               </h3>
-              <p className="text-xs text-gray-400">
+              <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
                 {t('onboarding.description')}
               </p>
             </div>
             <button
               onClick={handleCopySnippet}
-              className="shrink-0 flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 hover:text-purple-200 border border-purple-500/30 text-sm font-medium transition-all"
+              className="shrink-0 flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200"
+              style={{
+                background: 'var(--accent-soft)',
+                color: 'var(--accent)',
+                border: '1px solid var(--border-accent)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(34,197,94,0.25)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'var(--accent-soft)';
+              }}
             >
               {snippetCopied
                 ? <><Check className="w-4 h-4" />{t('onboarding.copied')}</>
@@ -276,7 +315,8 @@ function App() {
               </p>
               <button
                 onClick={() => setSearchQuery('')}
-                className="mt-4 text-purple-400 hover:text-purple-300 font-medium"
+                className="mt-4 font-medium transition-colors"
+                style={{ color: 'var(--accent)' }}
               >
                 {t('search.clear')}
               </button>
@@ -294,12 +334,13 @@ function App() {
           </div>
           {filteredAgents.length === 0 && (
             <div className="text-center py-20">
-              <p className="text-gray-500 text-lg">
+              <p className="text-lg" style={{ color: 'var(--text-muted)' }}>
                 {t('search.no_results_agents', { query: searchQuery })}
               </p>
               <button
                 onClick={() => setSearchQuery('')}
-                className="mt-4 text-purple-400 hover:text-purple-300 font-medium"
+                className="mt-4 font-medium transition-colors"
+                style={{ color: 'var(--accent)' }}
               >
                 {t('search.clear')}
               </button>
@@ -311,11 +352,11 @@ function App() {
       {activeTab === 'stories' && (
         <>
           <div className="max-w-3xl mx-auto mb-8">
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-5 backdrop-blur-xl">
-              <h3 className="text-sm font-semibold text-white mb-2">
+            <div className="rounded-2xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-default)' }}>
+              <h3 className="text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
                 {t('story.banner_title')}
               </h3>
-              <p className="text-sm text-gray-400 leading-relaxed">
+              <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
                 {t('story.banner_description')}
               </p>
             </div>
@@ -333,7 +374,8 @@ function App() {
               </p>
               <button
                 onClick={() => setSearchQuery('')}
-                className="mt-4 text-purple-400 hover:text-purple-300 font-medium"
+                className="mt-4 font-medium transition-colors"
+                style={{ color: 'var(--accent)' }}
               >
                 {t('search.clear')}
               </button>
@@ -384,12 +426,13 @@ function App() {
           </div>
           {filteredDecks.length === 0 && (
             <div className="text-center py-20">
-              <p className="text-gray-500 text-lg">
+              <p className="text-lg" style={{ color: 'var(--text-muted)' }}>
                 {t('search.no_results_decks', { query: searchQuery })}
               </p>
               <button
                 onClick={() => setSearchQuery('')}
-                className="mt-4 text-amber-300 hover:text-amber-200 font-medium"
+                className="mt-4 font-medium transition-colors"
+                style={{ color: '#f59e0b' }}
               >
                 {t('search.clear')}
               </button>

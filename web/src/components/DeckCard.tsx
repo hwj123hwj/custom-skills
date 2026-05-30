@@ -1,4 +1,4 @@
-import { ChevronRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import type { Deck } from '../types/deck';
 
@@ -13,9 +13,24 @@ export function DeckCard({ deck, onClick }: DeckCardProps) {
   return (
     <div
       onClick={() => onClick(deck)}
-      className="group relative w-full overflow-hidden rounded-xl border border-white/10 bg-white/5 p-5 hover:border-amber-500/50 hover:bg-white/10 transition-all duration-300 cursor-pointer"
+      className="group relative w-full overflow-hidden rounded-xl p-5 cursor-pointer transition-all duration-300 animate-fade-in"
+      style={{
+        background: 'var(--bg-card)',
+        border: '1px solid var(--border-default)',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.background = 'var(--bg-card-hover)';
+        e.currentTarget.style.borderColor = 'rgba(245, 158, 11, 0.3)';
+        e.currentTarget.style.boxShadow = '0 8px 32px rgba(245, 158, 11, 0.06)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.background = 'var(--bg-card)';
+        e.currentTarget.style.borderColor = 'var(--border-default)';
+        e.currentTarget.style.boxShadow = 'none';
+      }}
     >
-      <div className="rounded-2xl overflow-hidden border border-white/10 bg-[#050505] mb-4">
+      {/* Preview */}
+      <div className="rounded-xl overflow-hidden mb-4" style={{ border: '1px solid var(--border-subtle)', background: 'var(--bg-primary)' }}>
         <iframe
           src={deck.htmlPath}
           title={deck.title}
@@ -23,35 +38,40 @@ export function DeckCard({ deck, onClick }: DeckCardProps) {
         />
       </div>
 
-      <h3 className="font-semibold text-lg text-white group-hover:text-amber-300 transition-colors">
-        {deck.title}
-      </h3>
-      <p className="mt-1 text-xs text-gray-500 font-mono">
-        {t(`deck.category.${deck.category.replace(/-/g, '_')}`)}
-        {deck.sourceAgent ? ` · ${deck.sourceAgent}` : ''}
-      </p>
-      <p className="mt-2 text-gray-400 text-sm line-clamp-2 min-h-[40px]">
+      <div className="flex items-start justify-between">
+        <div>
+          <h3 className="font-semibold text-lg transition-colors duration-200 group-hover:text-[#f59e0b]"
+            style={{ color: 'var(--text-primary)' }}
+          >
+            {deck.title}
+          </h3>
+          <p className="mt-1 text-xs font-mono" style={{ color: 'var(--text-muted)' }}>
+            {t(`deck.category.${deck.category.replace(/-/g, '_')}`)}
+            {deck.sourceAgent ? ` · ${deck.sourceAgent}` : ''}
+          </p>
+        </div>
+        <ArrowUpRight className="w-4 h-4 mt-1 opacity-0 group-hover:opacity-60 transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" style={{ color: '#f59e0b' }} />
+      </div>
+
+      <p className="mt-2 text-sm line-clamp-2 min-h-[40px] leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
         {deck.summary || t('deck.no_summary')}
       </p>
 
-      <div className="flex gap-2 flex-wrap mt-4">
+      <div className="flex gap-1.5 flex-wrap mt-4">
         {deck.tags.map((tag) => (
           <span
             key={tag}
-            className="text-xs px-2 py-0.5 rounded-full bg-white/5 text-gray-400 border border-white/5"
+            className="text-[10px] px-2 py-0.5 rounded-full font-medium tracking-wide uppercase"
+            style={{ background: 'rgba(245, 158, 11, 0.08)', color: '#f59e0b', border: '1px solid rgba(245, 158, 11, 0.2)' }}
           >
             {tag}
           </span>
         ))}
       </div>
 
-      <div className="flex items-center justify-between pt-4 mt-4 border-t border-white/5">
-        <div className="text-xs text-gray-500">
+      <div className="flex items-center justify-between pt-3 mt-4" style={{ borderTop: '1px solid var(--border-subtle)' }}>
+        <div className="text-xs" style={{ color: 'var(--text-muted)' }}>
           {t('deck.updated', { date: new Date(deck.lastUpdated).toLocaleDateString() })} · {t('deck.slides', { count: deck.slideCount })}
-        </div>
-        <div className="flex items-center gap-1 text-xs text-amber-300 opacity-0 group-hover:opacity-100 transition-opacity">
-          <span>{t('deck.open')}</span>
-          <ChevronRight className="w-3 h-3" />
         </div>
       </div>
     </div>

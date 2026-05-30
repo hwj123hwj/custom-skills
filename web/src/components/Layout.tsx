@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { LangSwitch } from './LangSwitch';
+import { Github } from 'lucide-react';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -10,36 +11,58 @@ export function Layout({ children }: LayoutProps) {
   const { t } = useTranslation();
 
   return (
-    <div className="min-h-screen bg-black text-white selection:bg-purple-500/30">
-      <div className="fixed inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
+    <div className="min-h-screen text-white selection:bg-[rgba(34,197,94,0.25)]">
+      {/* Subtle grid background */}
+      <div className="fixed inset-0 pointer-events-none" style={{ backgroundColor: 'var(--bg-primary)' }}>
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage:
+              'linear-gradient(to right, rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.5) 1px, transparent 1px)',
+            backgroundSize: '64px 64px',
+          }}
+        />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] rounded-full opacity-[0.07]"
+          style={{ background: 'radial-gradient(ellipse, rgba(34,197,94,0.3) 0%, transparent 70%)' }}
+        />
+      </div>
 
-      <header className="fixed top-0 w-full z-50 border-b border-white/10 bg-black/50 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+      {/* Header */}
+      <header className="fixed top-0 w-full z-50 glass border-b" style={{ borderColor: 'var(--border-default)' }}>
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-blue-600 flex items-center justify-center text-white font-bold">
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold text-black"
+              style={{ background: 'linear-gradient(135deg, #22C55E 0%, #16a34a 100%)' }}
+            >
               CS
             </div>
-            <h1 className="font-semibold text-lg tracking-tight">{t('layout.title')}</h1>
+            <h1 className="font-semibold text-base tracking-tight" style={{ color: 'var(--text-primary)' }}>
+              {t('layout.title')}
+            </h1>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-5">
             <LangSwitch />
             <a
               href="https://github.com/hwj123hwj/custom-skills"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-gray-400 hover:text-white transition-colors"
+              className="flex items-center gap-2 text-sm transition-colors hover:text-white"
+              style={{ color: 'var(--text-muted)' }}
             >
-              {t('layout.github')}
+              <Github className="w-4 h-4" />
+              <span className="hidden sm:inline">{t('layout.github')}</span>
             </a>
           </div>
         </div>
       </header>
 
-      <main className="relative pt-24 pb-12 max-w-6xl mx-auto px-6">
+      {/* Main */}
+      <main className="relative pt-28 pb-16 max-w-6xl mx-auto px-6">
         {children}
       </main>
 
-      <footer className="border-t border-white/10 py-8 text-center text-sm text-gray-500">
+      {/* Footer */}
+      <footer className="relative py-10 text-center text-sm" style={{ color: 'var(--text-muted)', borderTop: '1px solid var(--border-default)' }}>
         <p>{t('layout.footer', { year: new Date().getFullYear() })}</p>
       </footer>
     </div>

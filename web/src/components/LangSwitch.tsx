@@ -13,18 +13,22 @@ export function LangSwitch() {
     <div className="flex items-center gap-1 text-sm select-none">
       <button
         onClick={() => setLang('zh')}
-        className={`transition-colors ${
-          current === 'zh' ? 'text-white font-medium' : 'text-gray-500 hover:text-gray-300'
-        }`}
+        className="px-1.5 py-0.5 rounded transition-all duration-200"
+        style={{
+          color: current === 'zh' ? '#22C55E' : 'var(--text-muted)',
+          fontWeight: current === 'zh' ? 600 : 400,
+        }}
       >
         中文
       </button>
-      <span className="text-gray-600">/</span>
+      <span style={{ color: 'var(--text-muted)' }}>/</span>
       <button
         onClick={() => setLang('en')}
-        className={`transition-colors ${
-          current === 'en' ? 'text-white font-medium' : 'text-gray-500 hover:text-gray-300'
-        }`}
+        className="px-1.5 py-0.5 rounded transition-all duration-200"
+        style={{
+          color: current === 'en' ? '#22C55E' : 'var(--text-muted)',
+          fontWeight: current === 'en' ? 600 : 400,
+        }}
       >
         EN
       </button>

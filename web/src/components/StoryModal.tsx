@@ -19,7 +19,7 @@ function renderBlocks(content: string) {
   return blocks.map((block, index) => {
     if (block.startsWith('### ')) {
       return (
-        <h4 key={index} className="text-base font-semibold text-white mt-1">
+        <h4 key={index} className="text-base font-semibold mt-1" style={{ color: 'var(--text-primary)' }}>
           {block.replace(/^###\s+/, '')}
         </h4>
       );
@@ -29,8 +29,8 @@ function renderBlocks(content: string) {
       return (
         <ul key={index} className="space-y-2">
           {block.split('\n').map((line) => (
-            <li key={line} className="flex items-start gap-3 text-sm text-gray-300">
-              <div className="w-1.5 h-1.5 rounded-full bg-purple-500 mt-1.5 shrink-0" />
+            <li key={line} className="flex items-start gap-3 text-sm" style={{ color: 'var(--text-secondary)' }}>
+              <div className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style={{ background: 'var(--accent)' }} />
               <span>{line.replace(/^- /, '').replace(/`([^`]+)`/g, '$1')}</span>
             </li>
           ))}
@@ -39,25 +39,25 @@ function renderBlocks(content: string) {
     }
 
     return (
-      <p key={index} className="text-sm text-gray-300 leading-7 whitespace-pre-wrap">
+      <p key={index} className="text-sm leading-7 whitespace-pre-wrap" style={{ color: 'var(--text-secondary)' }}>
         {block}
       </p>
     );
   });
 }
 
-const STATUS_STYLES: Record<Story['status'], string> = {
-  active: 'bg-green-500/20 text-green-300 border-green-500/30',
-  paused: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
-  archived: 'bg-white/10 text-gray-400 border-white/10',
+const STATUS_STYLES: Record<Story['status'], { bg: string; color: string; border: string }> = {
+  active: { bg: 'rgba(34, 197, 94, 0.12)', color: '#22C55E', border: 'rgba(34, 197, 94, 0.25)' },
+  paused: { bg: 'rgba(245, 158, 11, 0.12)', color: '#f59e0b', border: 'rgba(245, 158, 11, 0.25)' },
+  archived: { bg: 'var(--bg-elevated)', color: 'var(--text-muted)', border: 'var(--border-default)' },
 };
 
-const STAGE_STYLES: Record<Story['stage'], string> = {
-  idea: 'bg-fuchsia-500/20 text-fuchsia-300 border-fuchsia-500/30',
-  building: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
-  testing: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30',
-  iterating: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
-  stable: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
+const STAGE_STYLES: Record<Story['stage'], { bg: string; color: string; border: string }> = {
+  idea: { bg: 'rgba(217, 70, 239, 0.12)', color: '#d946ef', border: 'rgba(217, 70, 239, 0.25)' },
+  building: { bg: 'rgba(34, 197, 94, 0.12)', color: '#22C55E', border: 'rgba(34, 197, 94, 0.25)' },
+  testing: { bg: 'rgba(56, 189, 248, 0.12)', color: '#38bdf8', border: 'rgba(56, 189, 248, 0.25)' },
+  iterating: { bg: 'rgba(168, 85, 247, 0.12)', color: '#a855f7', border: 'rgba(168, 85, 247, 0.25)' },
+  stable: { bg: 'rgba(52, 211, 153, 0.12)', color: '#34d399', border: 'rgba(52, 211, 153, 0.25)' },
 };
 
 export function StoryModal({ story, isOpen, onClose, linkedAgent }: StoryModalProps) {
@@ -65,34 +65,53 @@ export function StoryModal({ story, isOpen, onClose, linkedAgent }: StoryModalPr
 
   if (!isOpen || !story) return null;
 
+  const statusStyle = STATUS_STYLES[story.status];
+  const stageStyle = STAGE_STYLES[story.stage];
+
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
       <div
-        className="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity"
+        className="absolute inset-0 transition-opacity"
+        style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)' }}
         onClick={onClose}
       />
 
-      <div className="relative w-full max-w-3xl bg-[#0a0a0a] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-        <div className="flex items-start justify-between p-6 border-b border-white/5 bg-white/5 gap-4">
+      <div
+        className="relative w-full max-w-3xl overflow-hidden flex flex-col max-h-[90vh] rounded-2xl animate-scale-in"
+        style={{
+          background: 'var(--bg-secondary)',
+          border: '1px solid var(--border-default)',
+          boxShadow: '0 25px 60px rgba(0,0,0,0.5)',
+        }}
+      >
+        {/* Header */}
+        <div className="flex items-start justify-between p-6 gap-4" style={{ borderBottom: '1px solid var(--border-default)', background: 'var(--bg-card)' }}>
           <div className="min-w-0">
-            <div className="flex gap-2 flex-wrap mb-3">
-              <span className={`text-xs px-2 py-0.5 rounded-full border font-medium ${STATUS_STYLES[story.status]}`}>
+            <div className="flex gap-1.5 flex-wrap mb-3">
+              <span className="text-[10px] px-2 py-0.5 rounded-full border font-medium uppercase tracking-wide"
+                style={{ background: statusStyle.bg, color: statusStyle.color, borderColor: statusStyle.border }}
+              >
                 {t(`story.status.${story.status}`)}
               </span>
-              <span className={`text-xs px-2 py-0.5 rounded-full border font-medium ${STAGE_STYLES[story.stage]}`}>
+              <span className="text-[10px] px-2 py-0.5 rounded-full border font-medium uppercase tracking-wide"
+                style={{ background: stageStyle.bg, color: stageStyle.color, borderColor: stageStyle.border }}
+              >
                 {t(`story.stage.${story.stage}`)}
               </span>
-              <span className="text-xs px-2 py-0.5 rounded-full border font-medium bg-white/10 text-gray-400 border-white/10 font-mono">
+              <span className="text-[10px] px-2 py-0.5 rounded-full border font-medium font-mono"
+                style={{ background: 'var(--bg-elevated)', color: 'var(--text-muted)', borderColor: 'var(--border-default)' }}
+              >
                 {story.agent}
               </span>
             </div>
-            <h2 className="text-2xl font-bold text-white">{story.title}</h2>
-            <p className="mt-2 text-sm text-gray-400 leading-relaxed">{story.summary}</p>
-            <div className="flex gap-2 mt-3 flex-wrap">
+            <h2 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{story.title}</h2>
+            <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{story.summary}</p>
+            <div className="flex gap-1.5 mt-3 flex-wrap">
               {story.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="text-xs px-2 py-0.5 rounded-full bg-white/10 text-gray-300 border border-white/10"
+                  className="text-[10px] px-2 py-0.5 rounded-full font-medium tracking-wide uppercase"
+                  style={{ background: 'var(--accent-muted)', color: 'var(--accent)', border: '1px solid var(--border-accent)' }}
                 >
                   {tag}
                 </span>
@@ -102,33 +121,35 @@ export function StoryModal({ story, isOpen, onClose, linkedAgent }: StoryModalPr
 
           <button
             onClick={onClose}
-            className="p-2 hover:bg-white/10 rounded-full transition-colors text-gray-400 hover:text-white"
+            className="p-2 rounded-lg transition-colors"
+            style={{ color: 'var(--text-muted)' }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--bg-elevated)'; e.currentTarget.style.color = 'var(--text-primary)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-muted)'; }}
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
+        {/* Content */}
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">{t('story.meta.updated')}</div>
-              <div className="text-sm text-white">{new Date(story.lastUpdated).toLocaleDateString()}</div>
-            </div>
-            <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">{t('story.meta.owner')}</div>
-              <div className="text-sm text-white">{story.owner || t('story.unknown_owner')}</div>
-            </div>
-            <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-              <div className="text-xs text-gray-500 uppercase tracking-wider mb-2">{t('story.meta.linked_agent')}</div>
-              <div className="text-sm text-white">{linkedAgent?.name || story.agent}</div>
-            </div>
+            {[
+              { label: t('story.meta.updated'), value: new Date(story.lastUpdated).toLocaleDateString() },
+              { label: t('story.meta.owner'), value: story.owner || t('story.unknown_owner') },
+              { label: t('story.meta.linked_agent'), value: linkedAgent?.name || story.agent },
+            ].map((item) => (
+              <div key={item.label} className="rounded-xl p-4" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-default)' }}>
+                <div className="text-xs uppercase tracking-widest mb-2" style={{ color: 'var(--text-muted)' }}>{item.label}</div>
+                <div className="text-sm" style={{ color: 'var(--text-primary)' }}>{item.value}</div>
+              </div>
+            ))}
           </div>
 
           {story.sections.map((section) => (
-            <section key={section.title} className="rounded-xl border border-white/10 bg-white/5 p-5 space-y-4">
+            <section key={section.title} className="rounded-xl p-5 space-y-4" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-default)' }}>
               <div className="flex items-center gap-2">
-                <FileText className="w-4 h-4 text-purple-400" />
-                <h3 className="text-lg font-semibold text-white">{section.title}</h3>
+                <FileText className="w-4 h-4" style={{ color: 'var(--accent)' }} />
+                <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>{section.title}</h3>
               </div>
               <div className="space-y-3">
                 {renderBlocks(section.content)}
@@ -137,12 +158,16 @@ export function StoryModal({ story, isOpen, onClose, linkedAgent }: StoryModalPr
           ))}
         </div>
 
-        <div className="p-4 border-t border-white/5 bg-white/5 flex justify-end">
+        {/* Footer */}
+        <div className="p-4 flex justify-end" style={{ borderTop: '1px solid var(--border-default)', background: 'var(--bg-card)' }}>
           <a
             href={story.githubUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-sm font-medium transition-colors"
+            className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200"
+            style={{ background: 'var(--bg-elevated)', color: 'var(--text-primary)', border: '1px solid var(--border-default)' }}
+            onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--border-hover)'; e.currentTarget.style.color = '#22C55E'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-default)'; e.currentTarget.style.color = 'var(--text-primary)'; }}
           >
             {t('story.view_source')}
             <ExternalLink className="w-4 h-4" />

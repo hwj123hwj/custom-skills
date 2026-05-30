@@ -13,8 +13,14 @@ export function TabBar({ activeTab, skillCount, agentCount, storyCount, deckCoun
   const { t } = useTranslation();
 
   return (
-    <div className="flex justify-center mb-8">
-      <div className="flex gap-1 p-1 bg-white/5 border border-white/10 rounded-xl backdrop-blur-sm">
+    <div className="flex justify-center mb-10">
+      <div
+        className="flex gap-0.5 p-1 rounded-xl"
+        style={{
+          background: 'var(--bg-secondary)',
+          border: '1px solid var(--border-default)',
+        }}
+      >
         <TabButton
           label={t('tab.skills')}
           count={skillCount}
@@ -55,17 +61,33 @@ function TabButton({ label, count, active, onClick }: TabButtonProps) {
   return (
     <button
       onClick={onClick}
-      className={`flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+      className="flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200"
+      style={
         active
-          ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/20'
-          : 'text-gray-400 hover:text-white hover:bg-white/5'
-      }`}
+          ? {
+              background: 'var(--accent)',
+              color: '#000',
+              boxShadow: '0 2px 8px rgba(34, 197, 94, 0.3)',
+            }
+          : {
+              color: 'var(--text-muted)',
+            }
+      }
+      onMouseEnter={(e) => {
+        if (!active) e.currentTarget.style.color = 'var(--text-primary)';
+      }}
+      onMouseLeave={(e) => {
+        if (!active) e.currentTarget.style.color = 'var(--text-muted)';
+      }}
     >
       {label}
       <span
-        className={`text-xs px-1.5 py-0.5 rounded-full font-mono ${
-          active ? 'bg-white/20 text-white' : 'bg-white/10 text-gray-500'
-        }`}
+        className="text-xs px-1.5 py-0.5 rounded-full font-mono"
+        style={
+          active
+            ? { background: 'rgba(0,0,0,0.2)', color: '#000' }
+            : { background: 'var(--bg-elevated)', color: 'var(--text-muted)' }
+        }
       >
         {count}
       </span>

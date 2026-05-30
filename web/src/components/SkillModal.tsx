@@ -42,22 +42,34 @@ export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, z
 
   return (
     <div className={`fixed inset-0 ${zIndex} flex items-center justify-center p-4 sm:p-6`}>
+      {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity"
+        className="absolute inset-0 transition-opacity"
+        style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)' }}
         onClick={onClose}
       />
 
-      <div className="relative w-full max-w-2xl bg-[#0a0a0a] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+      {/* Modal */}
+      <div
+        className="relative w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh] rounded-2xl animate-scale-in"
+        style={{
+          background: 'var(--bg-secondary)',
+          border: '1px solid var(--border-default)',
+          boxShadow: '0 25px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(34,197,94,0.05)',
+        }}
+      >
         {/* Header */}
-        <div className="flex items-start justify-between p-6 border-b border-white/5 bg-white/5">
+        <div className="flex items-start justify-between p-6" style={{ borderBottom: '1px solid var(--border-default)', background: 'var(--bg-card)' }}>
           <div className="flex items-center gap-4">
             <span className="text-4xl">{skill.emoji}</span>
             <div>
-              <h2 className="text-2xl font-bold text-white">{skill.displayName}</h2>
-              <p className="mt-1 text-sm text-gray-400">{skill.id}</p>
-              <div className="flex gap-2 mt-2">
+              <h2 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{skill.displayName}</h2>
+              <p className="mt-0.5 text-sm font-mono" style={{ color: 'var(--text-muted)' }}>{skill.id}</p>
+              <div className="flex gap-1.5 mt-2">
                 {skill.tags.map(tag => (
-                  <span key={tag} className="text-xs px-2 py-0.5 rounded-full bg-white/10 text-gray-300 border border-white/10">
+                  <span key={tag} className="text-[10px] px-2 py-0.5 rounded-full font-medium tracking-wide uppercase"
+                    style={{ background: 'var(--accent-muted)', color: 'var(--accent)', border: '1px solid var(--border-accent)' }}
+                  >
                     {tag}
                   </span>
                 ))}
@@ -66,7 +78,10 @@ export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, z
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-white/10 rounded-full transition-colors text-gray-400 hover:text-white"
+            className="p-2 rounded-lg transition-colors"
+            style={{ color: 'var(--text-muted)' }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--bg-elevated)'; e.currentTarget.style.color = 'var(--text-primary)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-muted)'; }}
           >
             <X className="w-5 h-5" />
           </button>
@@ -76,30 +91,33 @@ export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, z
         <div className="flex-1 overflow-y-auto p-6 space-y-8">
           {/* Description */}
           <div>
-            <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-3">
+            <h3 className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--accent)' }}>
               {t('modal.description')}
             </h3>
-            <p className="text-gray-200 leading-relaxed">
+            <p className="leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
               {detailedDesc || t('modal.no_description_skill')}
             </p>
           </div>
 
           {/* Installation */}
           <div>
-            <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-3">
+            <h3 className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--accent)' }}>
               {t('modal.installation')}
             </h3>
-            <div className="bg-black/50 rounded-lg border border-white/10 overflow-hidden">
+            <div className="rounded-xl overflow-hidden" style={{ background: 'var(--bg-primary)', border: '1px solid var(--border-default)' }}>
               <div className="p-4">
                 <div className="group relative">
-                  <div className="font-mono text-sm text-green-400 bg-black/50 p-4 rounded-lg border border-white/5 overflow-x-auto">
+                  <div className="font-mono text-sm p-4 rounded-lg overflow-x-auto" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', color: '#22C55E' }}>
                     {skill.installCommand}
                   </div>
                   <button
                     onClick={() => handleCopy(skill.installCommand)}
-                    className="absolute right-2 top-2 p-2 rounded-md bg-white/10 text-gray-400 hover:text-white hover:bg-white/20 transition-all opacity-0 group-hover:opacity-100"
+                    className="absolute right-2 top-2 p-2 rounded-md transition-all opacity-0 group-hover:opacity-100"
+                    style={{ background: 'var(--bg-elevated)', color: 'var(--text-muted)' }}
+                    onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--accent)'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-muted)'; }}
                   >
-                    {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+                    {copied ? <Check className="w-4 h-4" style={{ color: '#22C55E' }} /> : <Copy className="w-4 h-4" />}
                   </button>
                 </div>
               </div>
@@ -109,13 +127,13 @@ export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, z
           {/* Scenarios */}
           {skill.scenarios.length > 0 && (
             <div>
-              <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-3">
+              <h3 className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--accent)' }}>
                 {t('modal.usage_scenarios')}
               </h3>
-              <ul className="space-y-2">
+              <ul className="space-y-2.5">
                 {skill.scenarios.map((scenario, index) => (
-                  <li key={index} className="flex items-start gap-3 text-gray-300 text-sm">
-                    <div className="w-1.5 h-1.5 rounded-full bg-purple-500 mt-1.5 shrink-0" />
+                  <li key={index} className="flex items-start gap-3 text-sm" style={{ color: 'var(--text-secondary)' }}>
+                    <div className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style={{ background: 'var(--accent)' }} />
                     {scenario}
                   </li>
                 ))}
@@ -126,7 +144,7 @@ export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, z
           {/* Used by Agents */}
           {usedByAgents.length > 0 && (
             <div>
-              <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-3">
+              <h3 className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--accent)' }}>
                 {t('modal.used_by_agents')}
               </h3>
               <div className="flex flex-wrap gap-2">
@@ -134,7 +152,10 @@ export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, z
                   <button
                     key={agent.id}
                     onClick={() => handleAgentClick(agent.id)}
-                    className="text-xs px-3 py-1.5 rounded-full bg-purple-500/10 text-purple-300 border border-purple-500/20 hover:bg-purple-500/20 hover:border-purple-500/40 transition-all font-medium"
+                    className="text-xs px-3 py-1.5 rounded-full font-medium transition-all duration-200"
+                    style={{ background: 'var(--accent-soft)', color: '#22C55E', border: '1px solid var(--border-accent)' }}
+                    onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(34,197,94,0.25)'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--accent-soft)'; }}
                   >
                     {agent.name}
                   </button>
@@ -145,12 +166,15 @@ export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, z
         </div>
 
         {/* Footer */}
-        <div className="p-4 border-t border-white/5 bg-white/5 flex justify-end">
+        <div className="p-4 flex justify-end" style={{ borderTop: '1px solid var(--border-default)', background: 'var(--bg-card)' }}>
           <a
             href={skill.githubUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-sm font-medium transition-colors"
+            className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200"
+            style={{ background: 'var(--bg-elevated)', color: 'var(--text-primary)', border: '1px solid var(--border-default)' }}
+            onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--border-hover)'; e.currentTarget.style.color = '#22C55E'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-default)'; e.currentTarget.style.color = 'var(--text-primary)'; }}
           >
             {t('modal.view_source')}
             <ExternalLink className="w-4 h-4" />

@@ -1,3 +1,5 @@
+> **归档说明**：本计划已于 2026-05-20 前执行完毕，Agents Tab 已上线。保留供历史参考。
+
 # Web Agent Plaza Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.

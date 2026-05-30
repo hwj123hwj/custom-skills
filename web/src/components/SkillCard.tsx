@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import type { Skill } from '../types/skill';
-import { Calendar, ChevronRight } from 'lucide-react';
+import { Calendar, ArrowUpRight } from 'lucide-react';
 import { pickDescription } from '../lib/i18n-utils';
 
 interface SkillCardProps {
@@ -14,44 +14,71 @@ export function SkillCard({ skill, onClick }: SkillCardProps) {
   return (
     <div
       onClick={() => onClick(skill)}
-      className="group relative w-full overflow-hidden rounded-xl border border-white/10 bg-white/5 p-6 hover:border-purple-500/50 hover:bg-white/10 transition-all duration-300 cursor-pointer"
+      className="group relative w-full rounded-xl p-5 cursor-pointer transition-all duration-300 animate-fade-in"
+      style={{
+        background: 'var(--bg-card)',
+        border: '1px solid var(--border-default)',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.background = 'var(--bg-card-hover)';
+        e.currentTarget.style.borderColor = 'var(--border-hover)';
+        e.currentTarget.style.boxShadow = '0 8px 32px rgba(34, 197, 94, 0.08), 0 0 0 1px rgba(34, 197, 94, 0.1)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.background = 'var(--bg-card)';
+        e.currentTarget.style.borderColor = 'var(--border-default)';
+        e.currentTarget.style.boxShadow = 'none';
+      }}
     >
-      <div className="flex items-start justify-between mb-4">
+      {/* Accent line on top */}
+      <div className="absolute top-0 left-4 right-4 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        style={{ background: 'linear-gradient(90deg, transparent, var(--accent), transparent)' }}
+      />
+
+      {/* Header */}
+      <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-3">
-          <span className="text-3xl filter grayscale group-hover:grayscale-0 transition-all duration-300">
+          <span className="text-2xl filter grayscale-[0.3] group-hover:grayscale-0 transition-all duration-300 group-hover:scale-110 transform">
             {skill.emoji}
           </span>
           <div>
-            <h3 className="font-semibold text-lg text-white group-hover:text-purple-400 transition-colors">
+            <h3 className="font-semibold text-[15px] transition-colors duration-200 group-hover:text-[#22C55E]"
+              style={{ color: 'var(--text-primary)' }}
+            >
               {skill.displayName}
             </h3>
-            <div className="flex gap-2 mt-1">
+            <div className="flex gap-1.5 mt-1.5">
               {skill.tags.map(tag => (
-                <span key={tag} className="text-xs px-2 py-0.5 rounded-full bg-white/5 text-gray-400 border border-white/5">
+                <span key={tag} className="text-[10px] px-2 py-0.5 rounded-full font-medium tracking-wide uppercase"
+                  style={{
+                    background: 'var(--accent-muted)',
+                    color: 'var(--accent)',
+                    border: '1px solid var(--border-accent)',
+                  }}
+                >
                   {tag}
                 </span>
               ))}
             </div>
           </div>
         </div>
+        <ArrowUpRight className="w-4 h-4 mt-1 opacity-0 group-hover:opacity-60 transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" style={{ color: 'var(--accent)' }} />
       </div>
 
-      <p className="text-gray-400 text-sm line-clamp-2 mb-4 min-h-[40px]">
+      {/* Description */}
+      <p className="text-sm line-clamp-2 mb-4 min-h-[40px] leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
         {pickDescription(skill.id, skill.description, i18n.language) || t('card.no_description')}
       </p>
 
-      <div className="flex items-center justify-between pt-4 border-t border-white/5">
-        <div className="flex items-center gap-2 text-xs text-gray-500">
+      {/* Footer */}
+      <div className="flex items-center justify-between pt-3" style={{ borderTop: '1px solid var(--border-subtle)' }}>
+        <div className="flex items-center gap-1.5 text-xs" style={{ color: 'var(--text-muted)' }}>
           <Calendar className="w-3 h-3" />
           <span>
             {skill.lastUpdated
               ? new Date(skill.lastUpdated).toLocaleDateString(i18n.language)
               : 'Unknown'}
           </span>
-        </div>
-        <div className="flex items-center gap-1 text-xs text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity">
-          <span>{t('card.view_details')}</span>
-          <ChevronRight className="w-3 h-3" />
         </div>
       </div>
     </div>
