@@ -25,20 +25,21 @@ export function AgentCard({ agent, onClick }: AgentCardProps) {
   return (
     <div
       onClick={() => onClick(agent)}
-      className="group relative w-full overflow-hidden rounded-xl p-6 cursor-pointer transition-all duration-300 animate-fade-in"
+      className="group card-tap relative w-full overflow-hidden rounded-xl p-5 sm:p-6 cursor-pointer transition-all duration-300 animate-fade-in"
       style={{
         background: 'var(--bg-card)',
         border: '1px solid var(--border-default)',
+        boxShadow: 'var(--shadow-card)',
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.background = 'var(--bg-card-hover)';
         e.currentTarget.style.borderColor = 'var(--border-hover)';
-        e.currentTarget.style.boxShadow = '0 8px 32px var(--accent-soft)';
+        e.currentTarget.style.boxShadow = 'var(--shadow-card-hover)';
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.background = 'var(--bg-card)';
         e.currentTarget.style.borderColor = 'var(--border-default)';
-        e.currentTarget.style.boxShadow = 'none';
+        e.currentTarget.style.boxShadow = 'var(--shadow-card)';
       }}
     >
       {/* Header */}
@@ -54,16 +55,16 @@ export function AgentCard({ agent, onClick }: AgentCardProps) {
             <span
               className="text-[10px] px-2 py-0.5 rounded-full border font-medium uppercase tracking-wide"
               style={{
-                background: agent.type === 'vertical' ? 'rgba(245, 158, 11, 0.12)' : 'var(--bg-elevated)',
-                color: agent.type === 'vertical' ? '#f59e0b' : 'var(--text-muted)',
-                borderColor: agent.type === 'vertical' ? 'rgba(245, 158, 11, 0.25)' : 'var(--border-default)',
+                background: agent.type === 'vertical' ? 'var(--accent-soft)' : 'var(--bg-elevated)',
+                color: agent.type === 'vertical' ? 'var(--accent)' : 'var(--text-muted)',
+                borderColor: agent.type === 'vertical' ? 'var(--border-accent)' : 'var(--border-default)',
               }}
             >
               {t(agent.type === 'vertical' ? 'agent_type.vertical' : 'agent_type.general')}
             </span>
           </div>
 
-          <div>
+          <div className="min-w-0">
             <h3 className="font-semibold text-lg transition-colors duration-200 group-hover:text-[var(--accent)]"
               style={{ color: 'var(--text-primary)' }}
             >

@@ -13,20 +13,21 @@ export function DeckCard({ deck, onClick }: DeckCardProps) {
   return (
     <div
       onClick={() => onClick(deck)}
-      className="group relative w-full overflow-hidden rounded-xl p-5 cursor-pointer transition-all duration-300 animate-fade-in"
+      className="group card-tap relative w-full overflow-hidden rounded-xl p-5 cursor-pointer transition-all duration-300 animate-fade-in"
       style={{
         background: 'var(--bg-card)',
         border: '1px solid var(--border-default)',
+        boxShadow: 'var(--shadow-card)',
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.background = 'var(--bg-card-hover)';
-        e.currentTarget.style.borderColor = 'rgba(245, 158, 11, 0.3)';
-        e.currentTarget.style.boxShadow = '0 8px 32px rgba(245, 158, 11, 0.06)';
+        e.currentTarget.style.borderColor = 'var(--border-hover)';
+        e.currentTarget.style.boxShadow = 'var(--shadow-card-hover)';
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.background = 'var(--bg-card)';
         e.currentTarget.style.borderColor = 'var(--border-default)';
-        e.currentTarget.style.boxShadow = 'none';
+        e.currentTarget.style.boxShadow = 'var(--shadow-card)';
       }}
     >
       {/* Preview */}
@@ -34,23 +35,23 @@ export function DeckCard({ deck, onClick }: DeckCardProps) {
         <iframe
           src={deck.htmlPath}
           title={deck.title}
-          className="w-full h-44 pointer-events-none bg-white"
+          className="w-full h-36 sm:h-44 pointer-events-none bg-white"
         />
       </div>
 
       <div className="flex items-start justify-between">
-        <div>
-          <h3 className="font-semibold text-lg transition-colors duration-200 group-hover:text-[#f59e0b]"
+        <div className="min-w-0">
+          <h3 className="font-semibold text-lg transition-colors duration-200 group-hover:text-[var(--accent)]"
             style={{ color: 'var(--text-primary)' }}
           >
             {deck.title}
           </h3>
-          <p className="mt-1 text-xs font-mono" style={{ color: 'var(--text-muted)' }}>
+          <p className="mt-1 text-xs font-mono truncate" style={{ color: 'var(--text-muted)' }}>
             {t(`deck.category.${deck.category.replace(/-/g, '_')}`)}
             {deck.sourceAgent ? ` · ${deck.sourceAgent}` : ''}
           </p>
         </div>
-        <ArrowUpRight className="w-4 h-4 mt-1 opacity-0 group-hover:opacity-60 transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" style={{ color: '#f59e0b' }} />
+        <ArrowUpRight className="w-4 h-4 mt-1 opacity-0 group-hover:opacity-60 transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" style={{ color: 'var(--accent)' }} />
       </div>
 
       <p className="mt-2 text-sm line-clamp-2 min-h-[40px] leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
@@ -62,7 +63,7 @@ export function DeckCard({ deck, onClick }: DeckCardProps) {
           <span
             key={tag}
             className="text-[10px] px-2 py-0.5 rounded-full font-medium tracking-wide uppercase"
-            style={{ background: 'rgba(245, 158, 11, 0.08)', color: '#f59e0b', border: '1px solid rgba(245, 158, 11, 0.2)' }}
+            style={{ background: 'var(--accent-muted)', color: 'var(--accent)', border: '1px solid var(--border-accent)' }}
           >
             {tag}
           </span>

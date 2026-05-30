@@ -48,7 +48,7 @@ function renderBlocks(content: string) {
 
 const STATUS_STYLES: Record<Story['status'], { bg: string; color: string; border: string }> = {
   active: { bg: 'var(--accent-soft)', color: 'var(--accent)', border: 'var(--border-accent)' },
-  paused: { bg: 'rgba(245, 158, 11, 0.12)', color: '#f59e0b', border: 'rgba(245, 158, 11, 0.25)' },
+  paused: { bg: 'var(--accent-soft)', color: 'var(--accent)', border: 'var(--border-accent)' },
   archived: { bg: 'var(--bg-elevated)', color: 'var(--text-muted)', border: 'var(--border-default)' },
 };
 
@@ -69,23 +69,23 @@ export function StoryModal({ story, isOpen, onClose, linkedAgent }: StoryModalPr
   const stageStyle = STAGE_STYLES[story.stage];
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+    <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center sm:p-6">
       <div
         className="absolute inset-0 transition-opacity"
-        style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)' }}
+        style={{ background: 'var(--modal-backdrop)', backdropFilter: 'blur(8px)' }}
         onClick={onClose}
       />
 
       <div
-        className="relative w-full max-w-3xl overflow-hidden flex flex-col max-h-[90vh] rounded-2xl animate-scale-in"
+        className="relative w-full sm:max-w-3xl overflow-hidden flex flex-col max-h-[95vh] sm:max-h-[90vh] rounded-t-2xl sm:rounded-2xl animate-slide-up-modal sm:animate-scale-in"
         style={{
           background: 'var(--bg-secondary)',
           border: '1px solid var(--border-default)',
-          boxShadow: '0 25px 60px rgba(0,0,0,0.5)',
+          boxShadow: 'var(--shadow-modal)',
         }}
       >
         {/* Header */}
-        <div className="flex items-start justify-between p-6 gap-4" style={{ borderBottom: '1px solid var(--border-default)', background: 'var(--bg-card)' }}>
+        <div className="flex items-start justify-between p-4 sm:p-6 gap-3 sm:gap-4" style={{ borderBottom: '1px solid var(--border-default)', background: 'var(--bg-card)' }}>
           <div className="min-w-0">
             <div className="flex gap-1.5 flex-wrap mb-3">
               <span className="text-[10px] px-2 py-0.5 rounded-full border font-medium uppercase tracking-wide"
@@ -104,7 +104,7 @@ export function StoryModal({ story, isOpen, onClose, linkedAgent }: StoryModalPr
                 {story.agent}
               </span>
             </div>
-            <h2 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{story.title}</h2>
+            <h2 className="text-xl sm:text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{story.title}</h2>
             <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{story.summary}</p>
             <div className="flex gap-1.5 mt-3 flex-wrap">
               {story.tags.map((tag) => (
@@ -121,7 +121,7 @@ export function StoryModal({ story, isOpen, onClose, linkedAgent }: StoryModalPr
 
           <button
             onClick={onClose}
-            className="p-2 rounded-lg transition-colors"
+            className="p-2 rounded-lg transition-colors shrink-0"
             style={{ color: 'var(--text-muted)' }}
             onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--bg-elevated)'; e.currentTarget.style.color = 'var(--text-primary)'; }}
             onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-muted)'; }}
@@ -131,25 +131,25 @@ export function StoryModal({ story, isOpen, onClose, linkedAgent }: StoryModalPr
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
             {[
               { label: t('story.meta.updated'), value: new Date(story.lastUpdated).toLocaleDateString() },
               { label: t('story.meta.owner'), value: story.owner || t('story.unknown_owner') },
               { label: t('story.meta.linked_agent'), value: linkedAgent?.name || story.agent },
             ].map((item) => (
-              <div key={item.label} className="rounded-xl p-4" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-default)' }}>
-                <div className="text-xs uppercase tracking-widest mb-2" style={{ color: 'var(--text-muted)' }}>{item.label}</div>
-                <div className="text-sm" style={{ color: 'var(--text-primary)' }}>{item.value}</div>
+              <div key={item.label} className="rounded-xl p-3 sm:p-4" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-default)' }}>
+                <div className="text-[10px] sm:text-xs uppercase tracking-widest mb-1.5 sm:mb-2" style={{ color: 'var(--text-muted)' }}>{item.label}</div>
+                <div className="text-xs sm:text-sm truncate" style={{ color: 'var(--text-primary)' }}>{item.value}</div>
               </div>
             ))}
           </div>
 
           {story.sections.map((section) => (
-            <section key={section.title} className="rounded-xl p-5 space-y-4" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-default)' }}>
+            <section key={section.title} className="rounded-xl p-4 sm:p-5 space-y-3 sm:space-y-4" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-default)' }}>
               <div className="flex items-center gap-2">
-                <FileText className="w-4 h-4" style={{ color: 'var(--accent)' }} />
-                <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>{section.title}</h3>
+                <FileText className="w-4 h-4 shrink-0" style={{ color: 'var(--accent)' }} />
+                <h3 className="text-base sm:text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>{section.title}</h3>
               </div>
               <div className="space-y-3">
                 {renderBlocks(section.content)}

@@ -2,8 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ========================================
+   Dark Theme (default)
+   ======================================== */
 :root {
-  /* Warm Design System */
   --bg-primary: #1a1714;
   --bg-secondary: #211e1a;
   --bg-card: #282420;
@@ -24,6 +26,16 @@
   --text-secondary: #a89f94;
   --text-muted: #7a7168;
 
+  --glass-bg: rgba(26, 23, 20, 0.7);
+  --glass-blur: blur(20px) saturate(1.2);
+  --modal-backdrop: rgba(0, 0, 0, 0.7);
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.2);
+  --shadow-card-hover: 0 8px 32px rgba(245, 158, 11, 0.08);
+  --shadow-modal: 0 25px 60px rgba(0, 0, 0, 0.5);
+
+  --skeleton-base: #282420;
+  --skeleton-shine: #3a3530;
+
   font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -36,6 +48,43 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========================================
+   Light Theme
+   ======================================== */
+:root[data-theme="light"] {
+  --bg-primary: #faf8f5;
+  --bg-secondary: #f0ece6;
+  --bg-card: #ffffff;
+  --bg-card-hover: #faf7f2;
+  --bg-elevated: #f5f1eb;
+
+  --accent: #d97706;
+  --accent-hover: #b45309;
+  --accent-soft: rgba(217, 119, 6, 0.1);
+  --accent-muted: rgba(217, 119, 6, 0.05);
+
+  --border-default: rgba(0, 0, 0, 0.08);
+  --border-subtle: rgba(0, 0, 0, 0.04);
+  --border-hover: rgba(217, 119, 6, 0.35);
+  --border-accent: rgba(217, 119, 6, 0.2);
+
+  --text-primary: #1c1917;
+  --text-secondary: #6b6560;
+  --text-muted: #9a9490;
+
+  --glass-bg: rgba(250, 248, 245, 0.8);
+  --glass-blur: blur(20px) saturate(1.4);
+  --modal-backdrop: rgba(0, 0, 0, 0.3);
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-card-hover: 0 8px 24px rgba(217, 119, 6, 0.1), 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-modal: 0 25px 60px rgba(0, 0, 0, 0.12);
+
+  --skeleton-base: #f0ece6;
+  --skeleton-shine: #e8e2da;
+
+  color-scheme: light;
 }
 
 body {
@@ -62,21 +111,23 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--border-default);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--text-muted);
 }
 
 /* Selection */
 ::selection {
   background: rgba(245, 158, 11, 0.25);
-  color: #fff;
+  color: inherit;
 }
 
-/* Animations */
+/* ========================================
+   Animations
+   ======================================== */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
@@ -92,7 +143,21 @@ body {
   to { opacity: 1; transform: scale(1); }
 }
 
-/* Utility Classes */
+/* Mobile modal slide-up */
+@keyframes slideUpModal {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Shimmer loading animation */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ========================================
+   Utility Classes
+   ======================================== */
 @layer utilities {
   .animate-fade-in {
     animation: fadeIn 0.4s ease-out both;
@@ -106,24 +171,41 @@ body {
     animation: scaleIn 0.3s ease-out both;
   }
 
+  .animate-slide-up-modal {
+    animation: slideUpModal 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
   .glass {
-    background: rgba(26, 23, 20, 0.7);
-    backdrop-filter: blur(20px) saturate(1.2);
-    -webkit-backdrop-filter: blur(20px) saturate(1.2);
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
   }
 
   .text-gradient {
-    background: linear-gradient(135deg, #faf5ef 0%, #a89f94 100%);
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
   .text-gradient-accent {
-    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    background: linear-gradient(135deg, var(--accent-hover) 0%, var(--accent) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+  }
+
+  /* Skeleton shimmer */
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--skeleton-base) 25%,
+      var(--skeleton-shine) 50%,
+      var(--skeleton-base) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+    border-radius: 8px;
   }
 
   .stagger-1 { animation-delay: 0.05s; }
@@ -131,4 +213,35 @@ body {
   .stagger-3 { animation-delay: 0.15s; }
   .stagger-4 { animation-delay: 0.2s; }
   .stagger-5 { animation-delay: 0.25s; }
+}
+
+/* ========================================
+   Mobile Touch Optimizations
+   ======================================== */
+@media (hover: none) and (pointer: coarse) {
+  /* Active tap feedback for cards */
+  .card-tap {
+    transition: transform 0.1s ease, opacity 0.1s ease;
+  }
+
+  .card-tap:active {
+    transform: scale(0.97);
+    opacity: 0.9;
+  }
+}
+
+/* Smooth transitions for theme switch */
+*,
+*::before,
+*::after {
+  transition-property: background-color, border-color, color, box-shadow;
+  transition-duration: 0ms;
+  transition-timing-function: ease;
+}
+
+/* Only enable transition during theme switch */
+.theme-transitioning *,
+.theme-transitioning *::before,
+.theme-transitioning *::after {
+  transition-duration: 200ms !important;
 }

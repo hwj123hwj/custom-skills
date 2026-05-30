@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Layout } from './components/Layout'
 import { SkillCard } from './components/SkillCard'
@@ -10,6 +10,8 @@ import { StoryModal } from './components/StoryModal'
 import { DeckCard } from './components/DeckCard'
 import { DeckModal } from './components/DeckModal'
 import { TabBar } from './components/TabBar'
+import { SkeletonGrid } from './components/SkeletonGrid'
+import { useTheme } from './components/ThemeToggle'
 import type { Skill } from './types/skill'
 import type { Agent } from './types/agent'
 import type { Story } from './types/story'
@@ -32,6 +34,8 @@ function App() {
   const { t, i18n } = useTranslation()
   type DeckCategory = Deck['category']
 
+  const { theme, toggleTheme } = useTheme()
+
   const [activeTab, setActiveTab] = useState<'skills' | 'agents' | 'stories' | 'decks'>('skills')
   const [searchQuery, setSearchQuery] = useState('')
   const [activeSkillCategory, setActiveSkillCategory] = useState<'all' | SkillGroupId>('all')
@@ -49,6 +53,14 @@ function App() {
   const [isDeckModalOpen, setIsDeckModalOpen] = useState(false)
 
   const [snippetCopied, setSnippetCopied] = useState(false)
+
+  // Skeleton loading state — simulates first-screen load
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 600)
+    return () => clearTimeout(timer)
+  }, [])
 
   const skillCategoryCounts = useMemo(
     () => countSkillsByCategory(skillsData as Skill[]),
@@ -101,6 +113,13 @@ function App() {
 
     return counts
   }, [])
+
+  // Lock body scroll when modal is open on mobile
+  useEffect(() => {
+    const anyModalOpen = isSkillModalOpen || isAgentModalOpen || isStoryModalOpen || isDeckModalOpen
+    document.body.style.overflow = anyModalOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [isSkillModalOpen, isAgentModalOpen, isStoryModalOpen, isDeckModalOpen])
 
   const handleTabChange = (tab: 'skills' | 'agents' | 'stories' | 'decks') => {
     setActiveTab(tab)
@@ -157,24 +176,24 @@ function App() {
   )
 
   return (
-    <Layout>
+    <Layout theme={theme} toggleTheme={toggleTheme}>
       {/* Hero */}
-      <div className="max-w-2xl mx-auto text-center mb-14 space-y-5 animate-slide-up">
-        <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-gradient">
+      <div className="max-w-2xl mx-auto text-center mb-10 sm:mb-14 space-y-4 sm:space-y-5 animate-slide-up">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-gradient">
           {t('hero.title')}
         </h2>
-        <p className="text-lg leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+        <p className="text-base sm:text-lg leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
           {t('hero.subtitle')}
         </p>
 
         {/* Search */}
-        <div className="relative max-w-md mx-auto mt-8 group">
+        <div className="relative max-w-md mx-auto mt-6 sm:mt-8 group">
           <div
             className="absolute inset-0 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500"
-            style={{ background: 'radial-gradient(ellipse, rgba(245,158,11,0.12) 0%, transparent 70%)' }}
+            style={{ background: 'radial-gradient(ellipse, var(--accent-soft) 0%, transparent 70%)' }}
           />
           <div
-            className="relative flex items-center rounded-2xl px-5 py-3.5 transition-all duration-300"
+            className="relative flex items-center rounded-2xl px-4 sm:px-5 py-3 sm:py-3.5 transition-all duration-300"
             style={{
               background: 'var(--bg-card)',
               border: '1px solid var(--border-default)',
@@ -204,16 +223,16 @@ function App() {
       </div>
 
       {/* Onboarding snippet */}
-      <div className="max-w-2xl mx-auto mb-10 animate-fade-in">
+      <div className="max-w-2xl mx-auto mb-8 sm:mb-10 animate-fade-in">
         <div
-          className="rounded-2xl p-5"
+          className="rounded-2xl p-4 sm:p-5"
           style={{
             background: 'var(--bg-card)',
             border: '1px solid var(--border-accent)',
           }}
         >
-          <div className="flex items-start justify-between gap-4">
-            <div>
+          <div className="flex items-start justify-between gap-3 sm:gap-4">
+            <div className="min-w-0">
               <h3 className="text-sm font-semibold mb-1" style={{ color: 'var(--accent)' }}>
                 {t('onboarding.title')}
               </h3>
@@ -223,7 +242,7 @@ function App() {
             </div>
             <button
               onClick={handleCopySnippet}
-              className="shrink-0 flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200"
+              className="shrink-0 flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200"
               style={{
                 background: 'var(--accent-soft)',
                 color: 'var(--accent)',
@@ -254,189 +273,196 @@ function App() {
         onTabChange={handleTabChange}
       />
 
-      {activeTab === 'skills' && (
+      {/* Skeleton Loading */}
+      {isLoading ? (
+        <SkeletonGrid type={activeTab} />
+      ) : (
         <>
-          <div className="max-w-4xl mx-auto mb-8">
-            <div className="flex flex-wrap gap-3 justify-center">
-              <CategoryChip
-                label={t('skill.category.all')}
-                count={skillCategoryCounts['all']}
-                active={activeSkillCategory === 'all'}
-                onClick={() => setActiveSkillCategory('all')}
-              />
-              <CategoryChip
-                label={t('skill.category.coding')}
-                count={skillCategoryCounts['coding']}
-                active={activeSkillCategory === 'coding'}
-                onClick={() => setActiveSkillCategory('coding')}
-              />
-              <CategoryChip
-                label={t('skill.category.content')}
-                count={skillCategoryCounts['content']}
-                active={activeSkillCategory === 'content'}
-                onClick={() => setActiveSkillCategory('content')}
-              />
-              <CategoryChip
-                label={t('skill.category.platform')}
-                count={skillCategoryCounts['platform']}
-                active={activeSkillCategory === 'platform'}
-                onClick={() => setActiveSkillCategory('platform')}
-              />
-              <CategoryChip
-                label={t('skill.category.productivity')}
-                count={skillCategoryCounts['productivity']}
-                active={activeSkillCategory === 'productivity'}
-                onClick={() => setActiveSkillCategory('productivity')}
-              />
-              <CategoryChip
-                label={t('skill.category.knowledge')}
-                count={skillCategoryCounts['knowledge']}
-                active={activeSkillCategory === 'knowledge'}
-                onClick={() => setActiveSkillCategory('knowledge')}
-              />
-              <CategoryChip
-                label={t('skill.category.data')}
-                count={skillCategoryCounts['data']}
-                active={activeSkillCategory === 'data'}
-                onClick={() => setActiveSkillCategory('data')}
-              />
-            </div>
-          </div>
+          {activeTab === 'skills' && (
+            <>
+              <div className="max-w-4xl mx-auto mb-6 sm:mb-8">
+                <div className="flex flex-wrap gap-2 sm:gap-3 justify-center">
+                  <CategoryChip
+                    label={t('skill.category.all')}
+                    count={skillCategoryCounts['all']}
+                    active={activeSkillCategory === 'all'}
+                    onClick={() => setActiveSkillCategory('all')}
+                  />
+                  <CategoryChip
+                    label={t('skill.category.coding')}
+                    count={skillCategoryCounts['coding']}
+                    active={activeSkillCategory === 'coding'}
+                    onClick={() => setActiveSkillCategory('coding')}
+                  />
+                  <CategoryChip
+                    label={t('skill.category.content')}
+                    count={skillCategoryCounts['content']}
+                    active={activeSkillCategory === 'content'}
+                    onClick={() => setActiveSkillCategory('content')}
+                  />
+                  <CategoryChip
+                    label={t('skill.category.platform')}
+                    count={skillCategoryCounts['platform']}
+                    active={activeSkillCategory === 'platform'}
+                    onClick={() => setActiveSkillCategory('platform')}
+                  />
+                  <CategoryChip
+                    label={t('skill.category.productivity')}
+                    count={skillCategoryCounts['productivity']}
+                    active={activeSkillCategory === 'productivity'}
+                    onClick={() => setActiveSkillCategory('productivity')}
+                  />
+                  <CategoryChip
+                    label={t('skill.category.knowledge')}
+                    count={skillCategoryCounts['knowledge']}
+                    active={activeSkillCategory === 'knowledge'}
+                    onClick={() => setActiveSkillCategory('knowledge')}
+                  />
+                  <CategoryChip
+                    label={t('skill.category.data')}
+                    count={skillCategoryCounts['data']}
+                    active={activeSkillCategory === 'data'}
+                    onClick={() => setActiveSkillCategory('data')}
+                  />
+                </div>
+              </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
-            {filteredSkills.map((skill) => (
-              <SkillCard key={skill.id} skill={skill} onClick={handleSkillClick} />
-            ))}
-          </div>
-          {filteredSkills.length === 0 && (
-            <div className="text-center py-20">
-              <p className="text-gray-500 text-lg">
-                {t('search.no_results_skills', { query: searchQuery })}
-              </p>
-              <button
-                onClick={() => setSearchQuery('')}
-                className="mt-4 font-medium transition-colors"
-                style={{ color: 'var(--accent)' }}
-              >
-                {t('search.clear')}
-              </button>
-            </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 justify-items-center">
+                {filteredSkills.map((skill) => (
+                  <SkillCard key={skill.id} skill={skill} onClick={handleSkillClick} />
+                ))}
+              </div>
+              {filteredSkills.length === 0 && (
+                <div className="text-center py-20">
+                  <p className="text-lg" style={{ color: 'var(--text-muted)' }}>
+                    {t('search.no_results_skills', { query: searchQuery })}
+                  </p>
+                  <button
+                    onClick={() => setSearchQuery('')}
+                    className="mt-4 font-medium transition-colors"
+                    style={{ color: 'var(--accent)' }}
+                  >
+                    {t('search.clear')}
+                  </button>
+                </div>
+              )}
+            </>
           )}
-        </>
-      )}
 
-      {activeTab === 'agents' && (
-        <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
-            {filteredAgents.map((agent) => (
-              <AgentCard key={agent.id} agent={agent} onClick={handleAgentClick} />
-            ))}
-          </div>
-          {filteredAgents.length === 0 && (
-            <div className="text-center py-20">
-              <p className="text-lg" style={{ color: 'var(--text-muted)' }}>
-                {t('search.no_results_agents', { query: searchQuery })}
-              </p>
-              <button
-                onClick={() => setSearchQuery('')}
-                className="mt-4 font-medium transition-colors"
-                style={{ color: 'var(--accent)' }}
-              >
-                {t('search.clear')}
-              </button>
-            </div>
+          {activeTab === 'agents' && (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 justify-items-center">
+                {filteredAgents.map((agent) => (
+                  <AgentCard key={agent.id} agent={agent} onClick={handleAgentClick} />
+                ))}
+              </div>
+              {filteredAgents.length === 0 && (
+                <div className="text-center py-20">
+                  <p className="text-lg" style={{ color: 'var(--text-muted)' }}>
+                    {t('search.no_results_agents', { query: searchQuery })}
+                  </p>
+                  <button
+                    onClick={() => setSearchQuery('')}
+                    className="mt-4 font-medium transition-colors"
+                    style={{ color: 'var(--accent)' }}
+                  >
+                    {t('search.clear')}
+                  </button>
+                </div>
+              )}
+            </>
           )}
-        </>
-      )}
 
-      {activeTab === 'stories' && (
-        <>
-          <div className="max-w-3xl mx-auto mb-8">
-            <div className="rounded-2xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-default)' }}>
-              <h3 className="text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
-                {t('story.banner_title')}
-              </h3>
-              <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                {t('story.banner_description')}
-              </p>
-            </div>
-          </div>
+          {activeTab === 'stories' && (
+            <>
+              <div className="max-w-3xl mx-auto mb-6 sm:mb-8">
+                <div className="rounded-2xl p-4 sm:p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-default)' }}>
+                  <h3 className="text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+                    {t('story.banner_title')}
+                  </h3>
+                  <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                    {t('story.banner_description')}
+                  </p>
+                </div>
+              </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
-            {filteredStories.map((story) => (
-              <StoryCard key={story.id} story={story} onClick={handleStoryClick} />
-            ))}
-          </div>
-          {filteredStories.length === 0 && (
-            <div className="text-center py-20">
-              <p className="text-gray-500 text-lg">
-                {t('search.no_results_stories', { query: searchQuery })}
-              </p>
-              <button
-                onClick={() => setSearchQuery('')}
-                className="mt-4 font-medium transition-colors"
-                style={{ color: 'var(--accent)' }}
-              >
-                {t('search.clear')}
-              </button>
-            </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 justify-items-center">
+                {filteredStories.map((story) => (
+                  <StoryCard key={story.id} story={story} onClick={handleStoryClick} />
+                ))}
+              </div>
+              {filteredStories.length === 0 && (
+                <div className="text-center py-20">
+                  <p className="text-lg" style={{ color: 'var(--text-muted)' }}>
+                    {t('search.no_results_stories', { query: searchQuery })}
+                  </p>
+                  <button
+                    onClick={() => setSearchQuery('')}
+                    className="mt-4 font-medium transition-colors"
+                    style={{ color: 'var(--accent)' }}
+                  >
+                    {t('search.clear')}
+                  </button>
+                </div>
+              )}
+            </>
           )}
-        </>
-      )}
 
-      {activeTab === 'decks' && (
-        <>
-          <div className="max-w-4xl mx-auto mb-8">
-            <div className="flex flex-wrap gap-3 justify-center">
-              <CategoryChip
-                label={t('deck.category.all')}
-                count={(decksData as Deck[]).length}
-                active={activeDeckCategory === 'all'}
-                onClick={() => setActiveDeckCategory('all')}
-                colorScheme="amber"
-              />
-              <CategoryChip
-                label={t('deck.category.knowledge_cards')}
-                count={deckCategoryCounts['knowledge-cards']}
-                active={activeDeckCategory === 'knowledge-cards'}
-                onClick={() => setActiveDeckCategory('knowledge-cards')}
-                colorScheme="amber"
-              />
-              <CategoryChip
-                label={t('deck.category.decision_decks')}
-                count={deckCategoryCounts['decision-decks']}
-                active={activeDeckCategory === 'decision-decks'}
-                onClick={() => setActiveDeckCategory('decision-decks')}
-                colorScheme="amber"
-              />
-              <CategoryChip
-                label={t('deck.category.workflow_notes')}
-                count={deckCategoryCounts['workflow-notes']}
-                active={activeDeckCategory === 'workflow-notes'}
-                onClick={() => setActiveDeckCategory('workflow-notes')}
-                colorScheme="amber"
-              />
-            </div>
-          </div>
+          {activeTab === 'decks' && (
+            <>
+              <div className="max-w-4xl mx-auto mb-6 sm:mb-8">
+                <div className="flex flex-wrap gap-2 sm:gap-3 justify-center">
+                  <CategoryChip
+                    label={t('deck.category.all')}
+                    count={(decksData as Deck[]).length}
+                    active={activeDeckCategory === 'all'}
+                    onClick={() => setActiveDeckCategory('all')}
+                    colorScheme="amber"
+                  />
+                  <CategoryChip
+                    label={t('deck.category.knowledge_cards')}
+                    count={deckCategoryCounts['knowledge-cards']}
+                    active={activeDeckCategory === 'knowledge-cards'}
+                    onClick={() => setActiveDeckCategory('knowledge-cards')}
+                    colorScheme="amber"
+                  />
+                  <CategoryChip
+                    label={t('deck.category.decision_decks')}
+                    count={deckCategoryCounts['decision-decks']}
+                    active={activeDeckCategory === 'decision-decks'}
+                    onClick={() => setActiveDeckCategory('decision-decks')}
+                    colorScheme="amber"
+                  />
+                  <CategoryChip
+                    label={t('deck.category.workflow_notes')}
+                    count={deckCategoryCounts['workflow-notes']}
+                    active={activeDeckCategory === 'workflow-notes'}
+                    onClick={() => setActiveDeckCategory('workflow-notes')}
+                    colorScheme="amber"
+                  />
+                </div>
+              </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
-            {filteredDecks.map((deck) => (
-              <DeckCard key={deck.id} deck={deck} onClick={handleDeckClick} />
-            ))}
-          </div>
-          {filteredDecks.length === 0 && (
-            <div className="text-center py-20">
-              <p className="text-lg" style={{ color: 'var(--text-muted)' }}>
-                {t('search.no_results_decks', { query: searchQuery })}
-              </p>
-              <button
-                onClick={() => setSearchQuery('')}
-                className="mt-4 font-medium transition-colors"
-                style={{ color: '#f59e0b' }}
-              >
-                {t('search.clear')}
-              </button>
-            </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 justify-items-center">
+                {filteredDecks.map((deck) => (
+                  <DeckCard key={deck.id} deck={deck} onClick={handleDeckClick} />
+                ))}
+              </div>
+              {filteredDecks.length === 0 && (
+                <div className="text-center py-20">
+                  <p className="text-lg" style={{ color: 'var(--text-muted)' }}>
+                    {t('search.no_results_decks', { query: searchQuery })}
+                  </p>
+                  <button
+                    onClick={() => setSearchQuery('')}
+                    className="mt-4 font-medium transition-colors"
+                    style={{ color: 'var(--accent)' }}
+                  >
+                    {t('search.clear')}
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </>
       )}

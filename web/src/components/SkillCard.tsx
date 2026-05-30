@@ -14,20 +14,21 @@ export function SkillCard({ skill, onClick }: SkillCardProps) {
   return (
     <div
       onClick={() => onClick(skill)}
-      className="group relative w-full rounded-xl p-5 cursor-pointer transition-all duration-300 animate-fade-in"
+      className="group card-tap relative w-full rounded-xl p-5 cursor-pointer transition-all duration-300 animate-fade-in"
       style={{
         background: 'var(--bg-card)',
         border: '1px solid var(--border-default)',
+        boxShadow: 'var(--shadow-card)',
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.background = 'var(--bg-card-hover)';
         e.currentTarget.style.borderColor = 'var(--border-hover)';
-        e.currentTarget.style.boxShadow = '0 8px 32px var(--accent-soft), 0 0 0 1px rgba(245, 158, 11, 0.1)';
+        e.currentTarget.style.boxShadow = 'var(--shadow-card-hover)';
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.background = 'var(--bg-card)';
         e.currentTarget.style.borderColor = 'var(--border-default)';
-        e.currentTarget.style.boxShadow = 'none';
+        e.currentTarget.style.boxShadow = 'var(--shadow-card)';
       }}
     >
       {/* Accent line on top */}

@@ -9,7 +9,7 @@ interface StoryCardProps {
 
 const STATUS_STYLES: Record<Story['status'], { bg: string; color: string; border: string }> = {
   active: { bg: 'var(--accent-soft)', color: 'var(--accent)', border: 'var(--border-accent)' },
-  paused: { bg: 'rgba(245, 158, 11, 0.12)', color: '#f59e0b', border: 'rgba(245, 158, 11, 0.25)' },
+  paused: { bg: 'var(--accent-soft)', color: 'var(--accent)', border: 'var(--border-accent)' },
   archived: { bg: 'var(--bg-elevated)', color: 'var(--text-muted)', border: 'var(--border-default)' },
 };
 
@@ -29,24 +29,25 @@ export function StoryCard({ story, onClick }: StoryCardProps) {
   return (
     <div
       onClick={() => onClick(story)}
-      className="group relative w-full overflow-hidden rounded-xl p-6 cursor-pointer transition-all duration-300 animate-fade-in"
+      className="group card-tap relative w-full overflow-hidden rounded-xl p-5 sm:p-6 cursor-pointer transition-all duration-300 animate-fade-in"
       style={{
         background: 'var(--bg-card)',
         border: '1px solid var(--border-default)',
+        boxShadow: 'var(--shadow-card)',
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.background = 'var(--bg-card-hover)';
         e.currentTarget.style.borderColor = 'var(--border-hover)';
-        e.currentTarget.style.boxShadow = '0 8px 32px var(--accent-soft)';
+        e.currentTarget.style.boxShadow = 'var(--shadow-card-hover)';
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.background = 'var(--bg-card)';
         e.currentTarget.style.borderColor = 'var(--border-default)';
-        e.currentTarget.style.boxShadow = 'none';
+        e.currentTarget.style.boxShadow = 'var(--shadow-card)';
       }}
     >
       <div className="flex items-start justify-between mb-4 gap-4">
-        <div>
+        <div className="min-w-0">
           <div className="flex gap-1.5 flex-wrap mb-3">
             <span className="text-[10px] px-2 py-0.5 rounded-full border font-medium uppercase tracking-wide"
               style={{ background: statusStyle.bg, color: statusStyle.color, borderColor: statusStyle.border }}

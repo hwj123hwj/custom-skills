@@ -13,9 +13,9 @@ export function TabBar({ activeTab, skillCount, agentCount, storyCount, deckCoun
   const { t } = useTranslation();
 
   return (
-    <div className="flex justify-center mb-10">
+    <div className="flex justify-center mb-6 sm:mb-10">
       <div
-        className="flex gap-0.5 p-1 rounded-xl"
+        className="flex gap-0.5 p-1 rounded-xl overflow-x-auto"
         style={{
           background: 'var(--bg-secondary)',
           border: '1px solid var(--border-default)',
@@ -61,13 +61,13 @@ function TabButton({ label, count, active, onClick }: TabButtonProps) {
   return (
     <button
       onClick={onClick}
-      className="flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200"
+      className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-2 sm:py-2.5 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap"
       style={
         active
           ? {
               background: 'var(--accent)',
-              color: '#000',
-              boxShadow: '0 2px 8px rgba(245, 158, 11, 0.3)',
+              color: themeTextColor(),
+              boxShadow: `0 2px 8px ${accentGlow()}`,
             }
           : {
               color: 'var(--text-muted)',
@@ -85,7 +85,7 @@ function TabButton({ label, count, active, onClick }: TabButtonProps) {
         className="text-xs px-1.5 py-0.5 rounded-full font-mono"
         style={
           active
-            ? { background: 'rgba(0,0,0,0.2)', color: '#000' }
+            ? { background: activeBg(), color: themeTextColor() }
             : { background: 'var(--bg-elevated)', color: 'var(--text-muted)' }
         }
       >
@@ -93,4 +93,17 @@ function TabButton({ label, count, active, onClick }: TabButtonProps) {
       </span>
     </button>
   );
+}
+
+function activeBg(): string {
+  return 'rgba(0,0,0,0.2)';
+}
+
+function themeTextColor(): string {
+  // Active tab text is always dark since accent is amber/orange
+  return '#000';
+}
+
+function accentGlow(): string {
+  return 'rgba(245, 158, 11, 0.3)';
 }

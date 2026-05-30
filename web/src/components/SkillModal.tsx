@@ -33,7 +33,6 @@ export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, z
     onOpenAgent?.(agentId);
   };
 
-  // Modal 详情优先显示 detailedDescription，按语言选择
   const detailedDesc = pickDescription(
     skill.id,
     skill.detailedDescription || skill.description,
@@ -41,31 +40,31 @@ export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, z
   );
 
   return (
-    <div className={`fixed inset-0 ${zIndex} flex items-center justify-center p-4 sm:p-6`}>
+    <div className={`fixed inset-0 ${zIndex} flex items-end sm:items-center justify-center sm:p-6`}>
       {/* Backdrop */}
       <div
         className="absolute inset-0 transition-opacity"
-        style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)' }}
+        style={{ background: 'var(--modal-backdrop)', backdropFilter: 'blur(8px)' }}
         onClick={onClose}
       />
 
-      {/* Modal */}
+      {/* Modal — slides up on mobile, scales in on desktop */}
       <div
-        className="relative w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh] rounded-2xl animate-scale-in"
+        className="relative w-full sm:max-w-2xl overflow-hidden flex flex-col max-h-[95vh] sm:max-h-[90vh] rounded-t-2xl sm:rounded-2xl animate-slide-up-modal sm:animate-scale-in"
         style={{
           background: 'var(--bg-secondary)',
           border: '1px solid var(--border-default)',
-          boxShadow: '0 25px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(245,158,11,0.03)',
+          boxShadow: 'var(--shadow-modal)',
         }}
       >
         {/* Header */}
-        <div className="flex items-start justify-between p-6" style={{ borderBottom: '1px solid var(--border-default)', background: 'var(--bg-card)' }}>
-          <div className="flex items-center gap-4">
-            <span className="text-4xl">{skill.emoji}</span>
-            <div>
-              <h2 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{skill.displayName}</h2>
-              <p className="mt-0.5 text-sm font-mono" style={{ color: 'var(--text-muted)' }}>{skill.id}</p>
-              <div className="flex gap-1.5 mt-2">
+        <div className="flex items-start justify-between p-4 sm:p-6" style={{ borderBottom: '1px solid var(--border-default)', background: 'var(--bg-card)' }}>
+          <div className="flex items-center gap-3 sm:gap-4">
+            <span className="text-3xl sm:text-4xl">{skill.emoji}</span>
+            <div className="min-w-0">
+              <h2 className="text-xl sm:text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{skill.displayName}</h2>
+              <p className="mt-0.5 text-sm font-mono truncate" style={{ color: 'var(--text-muted)' }}>{skill.id}</p>
+              <div className="flex gap-1.5 mt-2 flex-wrap">
                 {skill.tags.map(tag => (
                   <span key={tag} className="text-[10px] px-2 py-0.5 rounded-full font-medium tracking-wide uppercase"
                     style={{ background: 'var(--accent-muted)', color: 'var(--accent)', border: '1px solid var(--border-accent)' }}
@@ -88,13 +87,13 @@ export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, z
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-8">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 sm:space-y-8">
           {/* Description */}
           <div>
             <h3 className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--accent)' }}>
               {t('modal.description')}
             </h3>
-            <p className="leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+            <p className="leading-relaxed text-sm sm:text-base" style={{ color: 'var(--text-secondary)' }}>
               {detailedDesc || t('modal.no_description_skill')}
             </p>
           </div>
@@ -105,9 +104,9 @@ export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, z
               {t('modal.installation')}
             </h3>
             <div className="rounded-xl overflow-hidden" style={{ background: 'var(--bg-primary)', border: '1px solid var(--border-default)' }}>
-              <div className="p-4">
+              <div className="p-3 sm:p-4">
                 <div className="group relative">
-                  <div className="font-mono text-sm p-4 rounded-lg overflow-x-auto" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', color: 'var(--accent)' }}>
+                  <div className="font-mono text-sm p-3 sm:p-4 rounded-lg overflow-x-auto" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', color: 'var(--accent)' }}>
                     {skill.installCommand}
                   </div>
                   <button
@@ -154,8 +153,6 @@ export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, z
                     onClick={() => handleAgentClick(agent.id)}
                     className="text-xs px-3 py-1.5 rounded-full font-medium transition-all duration-200"
                     style={{ background: 'var(--accent-soft)', color: 'var(--accent)', border: '1px solid var(--border-accent)' }}
-                    onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--accent-soft)'; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--accent-soft)'; }}
                   >
                     {agent.name}
                   </button>

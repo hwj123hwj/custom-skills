@@ -56,26 +56,26 @@ export function AgentModal({ agent, isOpen, onClose, allSkills }: AgentModalProp
 
   return (
     <>
-      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+      <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center sm:p-6">
         {/* Backdrop */}
         <div
           className="absolute inset-0 transition-opacity"
-          style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)' }}
+          style={{ background: 'var(--modal-backdrop)', backdropFilter: 'blur(8px)' }}
           onClick={onClose}
         />
 
         {/* Modal */}
         <div
-          className="relative w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh] rounded-2xl animate-scale-in"
+          className="relative w-full sm:max-w-2xl overflow-hidden flex flex-col max-h-[95vh] sm:max-h-[90vh] rounded-t-2xl sm:rounded-2xl animate-slide-up-modal sm:animate-scale-in"
           style={{
             background: 'var(--bg-secondary)',
             border: '1px solid var(--border-default)',
-            boxShadow: '0 25px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(245,158,11,0.03)',
+            boxShadow: 'var(--shadow-modal)',
           }}
         >
           {/* Header */}
-          <div className="flex items-start justify-between p-6 gap-4" style={{ borderBottom: '1px solid var(--border-default)', background: 'var(--bg-card)' }}>
-            <div className="flex items-center gap-4">
+          <div className="flex items-start justify-between p-4 sm:p-6 gap-3 sm:gap-4" style={{ borderBottom: '1px solid var(--border-default)', background: 'var(--bg-card)' }}>
+            <div className="flex items-center gap-3 sm:gap-4">
               <div className="flex flex-col gap-1.5">
                 <span
                   className="text-[10px] px-2 py-0.5 rounded-full border font-medium uppercase tracking-wide w-fit"
@@ -86,17 +86,17 @@ export function AgentModal({ agent, isOpen, onClose, allSkills }: AgentModalProp
                 <span
                   className="text-[10px] px-2 py-0.5 rounded-full border font-medium uppercase tracking-wide w-fit"
                   style={{
-                    background: agent.type === 'vertical' ? 'rgba(245, 158, 11, 0.12)' : 'var(--bg-elevated)',
-                    color: agent.type === 'vertical' ? '#f59e0b' : 'var(--text-muted)',
-                    borderColor: agent.type === 'vertical' ? 'rgba(245, 158, 11, 0.25)' : 'var(--border-default)',
+                    background: agent.type === 'vertical' ? 'var(--accent-soft)' : 'var(--bg-elevated)',
+                    color: agent.type === 'vertical' ? 'var(--accent)' : 'var(--text-muted)',
+                    borderColor: agent.type === 'vertical' ? 'var(--border-accent)' : 'var(--border-default)',
                   }}
                 >
                   {t(agent.type === 'vertical' ? 'agent_type.vertical' : 'agent_type.general')}
                 </span>
               </div>
-              <div>
-                <h2 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{toTitleCase(agent.name)}</h2>
-                <p className="mt-0.5 text-sm font-mono" style={{ color: 'var(--text-muted)' }}>{agent.id}</p>
+              <div className="min-w-0">
+                <h2 className="text-xl sm:text-2xl font-bold truncate" style={{ color: 'var(--text-primary)' }}>{toTitleCase(agent.name)}</h2>
+                <p className="mt-0.5 text-sm font-mono truncate" style={{ color: 'var(--text-muted)' }}>{agent.id}</p>
                 <div className="flex gap-1.5 mt-2 flex-wrap">
                   {agent.tags.map((tag) => (
                     <span
@@ -112,7 +112,7 @@ export function AgentModal({ agent, isOpen, onClose, allSkills }: AgentModalProp
             </div>
             <button
               onClick={onClose}
-              className="p-2 rounded-lg transition-colors"
+              className="p-2 rounded-lg transition-colors shrink-0"
               style={{ color: 'var(--text-muted)' }}
               onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--bg-elevated)'; e.currentTarget.style.color = 'var(--text-primary)'; }}
               onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-muted)'; }}
@@ -122,13 +122,13 @@ export function AgentModal({ agent, isOpen, onClose, allSkills }: AgentModalProp
           </div>
 
           {/* Content */}
-          <div className="flex-1 overflow-y-auto p-6 space-y-8">
+          <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 sm:space-y-8">
             {/* Description */}
             <div>
               <h3 className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--accent)' }}>
                 {t('modal.description')}
               </h3>
-              <p className="leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+              <p className="leading-relaxed text-sm sm:text-base" style={{ color: 'var(--text-secondary)' }}>
                 {agentDesc || t('modal.no_description')}
               </p>
             </div>
@@ -144,7 +144,7 @@ export function AgentModal({ agent, isOpen, onClose, allSkills }: AgentModalProp
                     <button
                       key={skill.id}
                       onClick={() => handleSkillClick(skill.id)}
-                      className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left group transition-all duration-200"
+                      className="w-full flex items-center gap-3 px-3 sm:px-4 py-3 rounded-xl text-left group transition-all duration-200"
                       style={{ background: 'var(--bg-card)', border: '1px solid var(--border-default)' }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.borderColor = 'var(--border-hover)';
@@ -172,7 +172,7 @@ export function AgentModal({ agent, isOpen, onClose, allSkills }: AgentModalProp
                     .map((id) => (
                       <div
                         key={id}
-                        className="flex items-center gap-3 px-4 py-3 rounded-xl"
+                        className="flex items-center gap-3 px-3 sm:px-4 py-3 rounded-xl"
                         style={{ background: 'var(--bg-card)', border: '1px solid var(--border-default)' }}
                       >
                         <span className="text-xl">📦</span>
@@ -209,9 +209,9 @@ export function AgentModal({ agent, isOpen, onClose, allSkills }: AgentModalProp
                 {t('modal.installation')}
               </h3>
               <div className="rounded-xl overflow-hidden" style={{ background: 'var(--bg-primary)', border: '1px solid var(--border-default)' }}>
-                <div className="p-4">
+                <div className="p-3 sm:p-4">
                   <div className="group/copy relative">
-                    <div className="font-mono text-sm p-4 rounded-lg overflow-x-auto" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', color: 'var(--accent)' }}>
+                    <div className="font-mono text-sm p-3 sm:p-4 rounded-lg overflow-x-auto" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', color: 'var(--accent)' }}>
                       {installCommand}
                     </div>
                     <button
