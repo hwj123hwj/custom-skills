@@ -171,7 +171,7 @@ function App() {
         <div className="relative max-w-md mx-auto mt-8 group">
           <div
             className="absolute inset-0 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500"
-            style={{ background: 'radial-gradient(ellipse, rgba(34,197,94,0.15) 0%, transparent 70%)' }}
+            style={{ background: 'radial-gradient(ellipse, rgba(245,158,11,0.12) 0%, transparent 70%)' }}
           />
           <div
             className="relative flex items-center rounded-2xl px-5 py-3.5 transition-all duration-300"
@@ -230,7 +230,7 @@ function App() {
                 border: '1px solid var(--border-accent)',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'rgba(34,197,94,0.25)';
+                e.currentTarget.style.background = 'var(--accent-soft)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.background = 'var(--accent-soft)';

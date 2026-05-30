@@ -15,7 +15,7 @@ export function LangSwitch() {
         onClick={() => setLang('zh')}
         className="px-1.5 py-0.5 rounded transition-all duration-200"
         style={{
-          color: current === 'zh' ? '#22C55E' : 'var(--text-muted)',
+          color: current === 'zh' ? 'var(--accent)' : 'var(--text-muted)',
           fontWeight: current === 'zh' ? 600 : 400,
         }}
       >
@@ -26,7 +26,7 @@ export function LangSwitch() {
         onClick={() => setLang('en')}
         className="px-1.5 py-0.5 rounded transition-all duration-200"
         style={{
-          color: current === 'en' ? '#22C55E' : 'var(--text-muted)',
+          color: current === 'en' ? 'var(--accent)' : 'var(--text-muted)',
           fontWeight: current === 'en' ? 600 : 400,
         }}
       >

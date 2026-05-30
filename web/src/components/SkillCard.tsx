@@ -22,7 +22,7 @@ export function SkillCard({ skill, onClick }: SkillCardProps) {
       onMouseEnter={(e) => {
         e.currentTarget.style.background = 'var(--bg-card-hover)';
         e.currentTarget.style.borderColor = 'var(--border-hover)';
-        e.currentTarget.style.boxShadow = '0 8px 32px rgba(34, 197, 94, 0.08), 0 0 0 1px rgba(34, 197, 94, 0.1)';
+        e.currentTarget.style.boxShadow = '0 8px 32px var(--accent-soft), 0 0 0 1px rgba(245, 158, 11, 0.1)';
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.background = 'var(--bg-card)';
@@ -42,7 +42,7 @@ export function SkillCard({ skill, onClick }: SkillCardProps) {
             {skill.emoji}
           </span>
           <div>
-            <h3 className="font-semibold text-[15px] transition-colors duration-200 group-hover:text-[#22C55E]"
+            <h3 className="font-semibold text-[15px] transition-colors duration-200 group-hover:text-[var(--accent)]"
               style={{ color: 'var(--text-primary)' }}
             >
               {skill.displayName}

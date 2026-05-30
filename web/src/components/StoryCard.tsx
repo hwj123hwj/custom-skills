@@ -8,14 +8,14 @@ interface StoryCardProps {
 }
 
 const STATUS_STYLES: Record<Story['status'], { bg: string; color: string; border: string }> = {
-  active: { bg: 'rgba(34, 197, 94, 0.12)', color: '#22C55E', border: 'rgba(34, 197, 94, 0.25)' },
+  active: { bg: 'var(--accent-soft)', color: 'var(--accent)', border: 'var(--border-accent)' },
   paused: { bg: 'rgba(245, 158, 11, 0.12)', color: '#f59e0b', border: 'rgba(245, 158, 11, 0.25)' },
   archived: { bg: 'var(--bg-elevated)', color: 'var(--text-muted)', border: 'var(--border-default)' },
 };
 
 const STAGE_STYLES: Record<Story['stage'], { bg: string; color: string; border: string }> = {
   idea: { bg: 'rgba(217, 70, 239, 0.12)', color: '#d946ef', border: 'rgba(217, 70, 239, 0.25)' },
-  building: { bg: 'rgba(34, 197, 94, 0.12)', color: '#22C55E', border: 'rgba(34, 197, 94, 0.25)' },
+  building: { bg: 'var(--accent-soft)', color: 'var(--accent)', border: 'var(--border-accent)' },
   testing: { bg: 'rgba(56, 189, 248, 0.12)', color: '#38bdf8', border: 'rgba(56, 189, 248, 0.25)' },
   iterating: { bg: 'rgba(168, 85, 247, 0.12)', color: '#a855f7', border: 'rgba(168, 85, 247, 0.25)' },
   stable: { bg: 'rgba(52, 211, 153, 0.12)', color: '#34d399', border: 'rgba(52, 211, 153, 0.25)' },
@@ -37,7 +37,7 @@ export function StoryCard({ story, onClick }: StoryCardProps) {
       onMouseEnter={(e) => {
         e.currentTarget.style.background = 'var(--bg-card-hover)';
         e.currentTarget.style.borderColor = 'var(--border-hover)';
-        e.currentTarget.style.boxShadow = '0 8px 32px rgba(34, 197, 94, 0.08)';
+        e.currentTarget.style.boxShadow = '0 8px 32px var(--accent-soft)';
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.background = 'var(--bg-card)';
@@ -59,7 +59,7 @@ export function StoryCard({ story, onClick }: StoryCardProps) {
               {t(`story.stage.${story.stage}`)}
             </span>
           </div>
-          <h3 className="font-semibold text-lg transition-colors duration-200 group-hover:text-[#22C55E]"
+          <h3 className="font-semibold text-lg transition-colors duration-200 group-hover:text-[var(--accent)]"
             style={{ color: 'var(--text-primary)' }}
           >
             {story.title}

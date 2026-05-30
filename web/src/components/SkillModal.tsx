@@ -55,7 +55,7 @@ export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, z
         style={{
           background: 'var(--bg-secondary)',
           border: '1px solid var(--border-default)',
-          boxShadow: '0 25px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(34,197,94,0.05)',
+          boxShadow: '0 25px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(245,158,11,0.03)',
         }}
       >
         {/* Header */}
@@ -107,7 +107,7 @@ export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, z
             <div className="rounded-xl overflow-hidden" style={{ background: 'var(--bg-primary)', border: '1px solid var(--border-default)' }}>
               <div className="p-4">
                 <div className="group relative">
-                  <div className="font-mono text-sm p-4 rounded-lg overflow-x-auto" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', color: '#22C55E' }}>
+                  <div className="font-mono text-sm p-4 rounded-lg overflow-x-auto" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', color: 'var(--accent)' }}>
                     {skill.installCommand}
                   </div>
                   <button
@@ -117,7 +117,7 @@ export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, z
                     onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--accent)'; }}
                     onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-muted)'; }}
                   >
-                    {copied ? <Check className="w-4 h-4" style={{ color: '#22C55E' }} /> : <Copy className="w-4 h-4" />}
+                    {copied ? <Check className="w-4 h-4" style={{ color: 'var(--accent)' }} /> : <Copy className="w-4 h-4" />}
                   </button>
                 </div>
               </div>
@@ -153,8 +153,8 @@ export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, z
                     key={agent.id}
                     onClick={() => handleAgentClick(agent.id)}
                     className="text-xs px-3 py-1.5 rounded-full font-medium transition-all duration-200"
-                    style={{ background: 'var(--accent-soft)', color: '#22C55E', border: '1px solid var(--border-accent)' }}
-                    onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(34,197,94,0.25)'; }}
+                    style={{ background: 'var(--accent-soft)', color: 'var(--accent)', border: '1px solid var(--border-accent)' }}
+                    onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--accent-soft)'; }}
                     onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--accent-soft)'; }}
                   >
                     {agent.name}
@@ -173,7 +173,7 @@ export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, z
             rel="noopener noreferrer"
             className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200"
             style={{ background: 'var(--bg-elevated)', color: 'var(--text-primary)', border: '1px solid var(--border-default)' }}
-            onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--border-hover)'; e.currentTarget.style.color = '#22C55E'; }}
+            onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--border-hover)'; e.currentTarget.style.color = 'var(--accent)'; }}
             onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-default)'; e.currentTarget.style.color = 'var(--text-primary)'; }}
           >
             {t('modal.view_source')}

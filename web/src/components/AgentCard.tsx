@@ -14,7 +14,7 @@ function toTitleCase(str: string): string {
 
 const MODEL_STYLES: Record<Agent['model'], { bg: string; color: string; border: string }> = {
   opus: { bg: 'rgba(168, 85, 247, 0.12)', color: '#a855f7', border: 'rgba(168, 85, 247, 0.25)' },
-  sonnet: { bg: 'rgba(34, 197, 94, 0.12)', color: '#22C55E', border: 'rgba(34, 197, 94, 0.25)' },
+  sonnet: { bg: 'var(--accent-soft)', color: 'var(--accent)', border: 'var(--border-accent)' },
   haiku: { bg: 'rgba(56, 189, 248, 0.12)', color: '#38bdf8', border: 'rgba(56, 189, 248, 0.25)' },
 };
 
@@ -33,7 +33,7 @@ export function AgentCard({ agent, onClick }: AgentCardProps) {
       onMouseEnter={(e) => {
         e.currentTarget.style.background = 'var(--bg-card-hover)';
         e.currentTarget.style.borderColor = 'var(--border-hover)';
-        e.currentTarget.style.boxShadow = '0 8px 32px rgba(34, 197, 94, 0.08)';
+        e.currentTarget.style.boxShadow = '0 8px 32px var(--accent-soft)';
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.background = 'var(--bg-card)';
@@ -64,7 +64,7 @@ export function AgentCard({ agent, onClick }: AgentCardProps) {
           </div>
 
           <div>
-            <h3 className="font-semibold text-lg transition-colors duration-200 group-hover:text-[#22C55E]"
+            <h3 className="font-semibold text-lg transition-colors duration-200 group-hover:text-[var(--accent)]"
               style={{ color: 'var(--text-primary)' }}
             >
               {toTitleCase(agent.name)}

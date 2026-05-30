@@ -19,7 +19,7 @@ function toTitleCase(str: string): string {
 
 const MODEL_STYLES: Record<Agent['model'], { bg: string; color: string; border: string }> = {
   opus: { bg: 'rgba(168, 85, 247, 0.12)', color: '#a855f7', border: 'rgba(168, 85, 247, 0.25)' },
-  sonnet: { bg: 'rgba(34, 197, 94, 0.12)', color: '#22C55E', border: 'rgba(34, 197, 94, 0.25)' },
+  sonnet: { bg: 'var(--accent-soft)', color: 'var(--accent)', border: 'var(--border-accent)' },
   haiku: { bg: 'rgba(56, 189, 248, 0.12)', color: '#38bdf8', border: 'rgba(56, 189, 248, 0.25)' },
 };
 
@@ -70,7 +70,7 @@ export function AgentModal({ agent, isOpen, onClose, allSkills }: AgentModalProp
           style={{
             background: 'var(--bg-secondary)',
             border: '1px solid var(--border-default)',
-            boxShadow: '0 25px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(34,197,94,0.05)',
+            boxShadow: '0 25px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(245,158,11,0.03)',
           }}
         >
           {/* Header */}
@@ -211,7 +211,7 @@ export function AgentModal({ agent, isOpen, onClose, allSkills }: AgentModalProp
               <div className="rounded-xl overflow-hidden" style={{ background: 'var(--bg-primary)', border: '1px solid var(--border-default)' }}>
                 <div className="p-4">
                   <div className="group/copy relative">
-                    <div className="font-mono text-sm p-4 rounded-lg overflow-x-auto" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', color: '#22C55E' }}>
+                    <div className="font-mono text-sm p-4 rounded-lg overflow-x-auto" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', color: 'var(--accent)' }}>
                       {installCommand}
                     </div>
                     <button
@@ -219,7 +219,7 @@ export function AgentModal({ agent, isOpen, onClose, allSkills }: AgentModalProp
                       className="absolute right-2 top-2 p-2 rounded-md transition-all opacity-0 group-hover/copy:opacity-100"
                       style={{ background: 'var(--bg-elevated)', color: 'var(--text-muted)' }}
                     >
-                      {copied ? <Check className="w-4 h-4" style={{ color: '#22C55E' }} /> : <Copy className="w-4 h-4" />}
+                      {copied ? <Check className="w-4 h-4" style={{ color: 'var(--accent)' }} /> : <Copy className="w-4 h-4" />}
                     </button>
                   </div>
                   <p className="mt-3 text-xs leading-relaxed" style={{ color: 'var(--text-muted)' }}>
@@ -238,7 +238,7 @@ export function AgentModal({ agent, isOpen, onClose, allSkills }: AgentModalProp
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200"
               style={{ background: 'var(--bg-elevated)', color: 'var(--text-primary)', border: '1px solid var(--border-default)' }}
-              onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--border-hover)'; e.currentTarget.style.color = '#22C55E'; }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--border-hover)'; e.currentTarget.style.color = 'var(--accent)'; }}
               onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-default)'; e.currentTarget.style.color = 'var(--text-primary)'; }}
             >
               {t('modal.view_source')}

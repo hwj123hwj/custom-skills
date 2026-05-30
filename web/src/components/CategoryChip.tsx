@@ -12,9 +12,9 @@ interface CategoryChipProps {
 
 export function CategoryChip({ label, count, active, onClick, colorScheme = 'green' }: CategoryChipProps) {
   const isAmber = colorScheme === 'amber';
-  const accentColor = isAmber ? '#f59e0b' : '#22C55E';
-  const accentBg = isAmber ? 'rgba(245, 158, 11, 0.12)' : 'rgba(34, 197, 94, 0.12)';
-  const accentBorder = isAmber ? 'rgba(245, 158, 11, 0.25)' : 'rgba(34, 197, 94, 0.25)';
+  const accentColor = isAmber ? '#f59e0b' : 'var(--accent)';
+  const accentBg = isAmber ? 'rgba(245, 158, 11, 0.12)' : 'var(--accent-soft)';
+  const accentBorder = isAmber ? 'rgba(245, 158, 11, 0.25)' : 'var(--border-accent)';
 
   return (
     <button

@@ -67,7 +67,7 @@ function TabButton({ label, count, active, onClick }: TabButtonProps) {
           ? {
               background: 'var(--accent)',
               color: '#000',
-              boxShadow: '0 2px 8px rgba(34, 197, 94, 0.3)',
+              boxShadow: '0 2px 8px rgba(245, 158, 11, 0.3)',
             }
           : {
               color: 'var(--text-muted)',
