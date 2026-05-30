@@ -50,10 +50,16 @@ npx skills add https://github.com/hwj123hwj/custom-skills --skill <skill-id>
 | [bjtuo-classroom-query](./skills/bjtuo-classroom-query) | 北京交通大学（BJTU）教室综合查询。 |
 | [boss-cli](./skills/boss-cli) | Use boss-cli for ALL BOSS 直聘 operations — searching jobs, viewing recommendations, managing appli... |
 | [brainstorming](./skills/brainstorming) | You MUST use this before any creative work - creating features, building components, adding funct... |
+| [caveman](./skills/caveman) | Ultra-compressed communication mode. |
+| [diagnose](./skills/diagnose) | Disciplined diagnosis loop for hard bugs and performance regressions. |
 | [drawio-skill](./skills/drawio-skill) | Use when user requests diagrams, flowcharts, architecture charts, or visualizations. |
+| [git-guardrails-claude-code](./skills/git-guardrails-claude-code) | Set up Claude Code hooks to block dangerous git commands (push, reset --hard, clean, branch -D, e... |
+| [grill-me](./skills/grill-me) | Interview the user relentlessly about a plan or design until reaching shared understanding, resol... |
 | [guizang-ppt-skill](./skills/guizang-ppt-skill) | 生成横向翻页网页 PPT（单 HTML 文件），含 WebGL 背景、章节幕封、数据大字报、图片网格等模板。 |
+| [handoff](./skills/handoff) | Compact the current conversation into a handoff document for another agent to pick up. |
 | [idea-incubator](./skills/idea-incubator) | 专业的 CPO + 技术合伙人助手，帮助用户孵化想法、分析可行性并编写技术文档。 |
 | [image-provider](./skills/image-provider) | Unified image generation skill with pluggable providers (strategy pattern). |
+| [improve-codebase-architecture](./skills/improve-codebase-architecture) | Find deepening opportunities in a codebase, informed by the domain language in CONTEXT.md and the... |
 | [knowledge-skill](./skills/knowledge-skill) | 个人知识库技能。 |
 | [llm-price-tracker](./skills/llm-price-tracker) | Track and compare LLM API pricing across providers. |
 | [memory-organizer](./skills/memory-organizer) | 长期记忆整理指南。 |
@@ -61,11 +67,16 @@ npx skills add https://github.com/hwj123hwj/custom-skills --skill <skill-id>
 | [officecli-docx](./skills/officecli-docx) | Use this skill any time a .docx file is involved -- as input, output, or both. |
 | [paddleocr-doc-parsing](./skills/paddleocr-doc-parsing) | Use this skill to extract structured Markdown/JSON from PDFs and document images—tables with cell... |
 | [paddleocr-text-recognition](./skills/paddleocr-text-recognition) | Use this skill whenever the user wants text extracted from images, photos, scans, screenshots, or... |
+| [prototype](./skills/prototype) | Build a throwaway prototype to flesh out a design before committing to it. |
+| [review](./skills/review) | Two-axis code review — Standards (does code follow documented standards?) and Spec (does code mat... |
 | [short-drama-pipeline](./skills/short-drama-pipeline) | AI 短剧/短视频全链路生产技能。 |
 | [short-video-replicator](./skills/short-video-replicator) | 短视频爆款复刻一站式工具。 |
 | [skill-browser-crawl](./skills/skill-browser-crawl) | 基于浏览器的轻量级网页爬虫。 |
 | [skills-sh-installer](./skills/skills-sh-installer) | 从 skills.sh（Cursor/Windsurf 技能市场）下载并安装技能到本地 .deepv/skills 目录。 |
 | [tavily](./skills/tavily) | Unified Tavily CLI skill — web search, URL extraction, and deep research via `tvly`. |
+| [tdd](./skills/tdd) | Test-driven development with red-green-refactor loop. |
+| [to-issues](./skills/to-issues) | Break a plan, spec, or PRD into independently-grabbable issues on the project issue tracker using... |
+| [to-prd](./skills/to-prd) | Turn the current conversation context into a PRD (Product Requirements Document). |
 | [tts](./skills/tts) | Unified TTS (Text-to-Speech) skill with pluggable providers (strategy pattern). |
 | [twitter-cli](./skills/twitter-cli) | Use twitter-cli for ALL Twitter/X operations — reading tweets, posting, replying, quoting, liking... |
 | [vertex-video-reader](./skills/vertex-video-reader) | Use this skill to read, analyze, and understand video files using Google Cloud Vertex AI's lightw... |

@@ -16,6 +16,42 @@
     "lastUpdated": "2026-05-02T08:29:23.000Z"
   },
   {
+    "id": "coding-agent",
+    "name": "coding-agent",
+    "description": "Full-spectrum coding agent that orchestrates the entire software development lifecycle — from requirements analysis through architecture, TDD, debugging, code review, and PRD/task decomposition. Use PROACTIVELY when the user needs end-to-end coding support, wants to build a feature from scratch, debug a hard bug, review code quality, or decompose work into actionable issues.\n",
+    "tools": [
+      "Read",
+      "Write",
+      "Edit",
+      "Bash",
+      "Grep",
+      "Glob"
+    ],
+    "model": "sonnet",
+    "skills": [
+      "diagnose",
+      "tdd",
+      "review",
+      "prototype",
+      "improve-codebase-architecture",
+      "caveman",
+      "handoff",
+      "grill-me",
+      "to-prd",
+      "to-issues"
+    ],
+    "tags": [
+      "Coding",
+      "Testing",
+      "Architecture",
+      "Debugging",
+      "Productivity"
+    ],
+    "type": "vertical",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/blob/main/agents/coding-agent.md",
+    "lastUpdated": "2026-05-30T06:55:57.920Z"
+  },
+  {
     "id": "intel-agent",
     "name": "intel-agent",
     "description": "Following-first information intelligence agent for programmers and product managers. Use PROACTIVELY when the user needs high-density daily intelligence, personal following-feed synthesis, signal denoising, or a combined output of daily brief plus long-lived knowledge candidates across WeChat, Twitter/X, and Bilibili.",

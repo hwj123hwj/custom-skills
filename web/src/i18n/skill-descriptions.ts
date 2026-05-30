@@ -77,6 +77,30 @@ export const skillDescriptionsZh: Record<string, string> = {
     'PaddleOCR 文档解析技能。从 PDF 和文档图片中提取结构化 Markdown/JSON，支持表格（单元格级精度）、LaTeX 公式、图表、印章、页眉页脚、多栏排版及正确阅读顺序。触发词：文档解析、版面分析、版面还原、表格提取、公式识别、多栏排版、扫描件结构化、发票、财报、复杂 PDF、PDF转Markdown。',
   'paddleocr-text-recognition':
     'PaddleOCR 文字识别技能（OCR）。从图片、照片、扫描件、截图或扫描版 PDF 中提取机器可读文本，支持行级文字和可选坐标框输出，对中文、小字号及手写体识别精度高。触发词：OCR、文字识别、图片转文字、截图识字、提取图中文字、扫描识字、识字、bbox、bounding box。',
+
+  // ── Matt Pocock 编程技能 ──
+  'diagnose':
+    '纪律性调试循环。复现 → 缩小 → 假设 → 检测 → 修复 → 回归测试。当用户说"诊断""调试"、报告 Bug、说某个功能坏了/报错/失败，或描述性能回归时使用。',
+  'tdd':
+    '测试驱动开发（TDD）红绿重构循环。当用户想用 TDD 构建功能或修复 Bug、提到"红绿重构"、需要集成测试或要求先写测试时使用。',
+  'review':
+    '双轴代码审查：标准轴（代码是否遵循项目编码规范）+ 规格轴（代码是否忠实实现了原始需求/PRD）。两条审查线并行运行，结果并排展示。适用于审查分支、PR、进行中的变更。',
+  'prototype':
+    '快速原型构建工具。两个分支：针对逻辑/状态机问题的可运行终端应用，或可切换的多种 UI 变体。当用户想原型验证、数据模型试玩、UI 探索时使用。',
+  'improve-codebase-architecture':
+    '代码库架构改进。基于领域语言（CONTEXT.md）和架构决策记录（ADR）发现架构摩擦点，提出深模块化重构建议。适用于架构改进、重构机会挖掘、模块解耦。',
+  'caveman':
+    '超压缩沟通模式，省约 75% Token。去掉填充词、冠词和客套，保留完整技术精度。当用户说"简洁点""省 Token""caveman 模式"时激活，持续生效。',
+  'handoff':
+    '将会话压缩成交接文档，供下一个 Agent 继续。保存到系统临时目录，包含建议技能列表，自动脱敏敏感信息。适用于会话切换、工作交接。',
+  'grill-me':
+    '对计划/设计进行无情追问，逐条决策分支验证直到达成共识。当用户想压力测试方案、被拷问设计、或提到"grill me"时使用。',
+  'to-prd':
+    '将对话上下文合成 PRD（产品需求文档）。当用户想创建需求文档、写产品规格、或正式化功能定义时使用。',
+  'to-issues':
+    '将计划/PRD/规格拆成可独立领取的 Issue，使用纵向切片（tracer bullet）方式，每个 Issue 贯穿所有集成层。适用于任务拆解、Issue 创建、工作分解。',
+  'git-guardrails-claude-code':
+    '为 Claude Code 设置 Git 安全钩子，拦截危险命令（push、reset --hard、clean、branch -D 等）。当用户想防止破坏性 Git 操作、添加安全钩子时使用。',
 };
 
 export const agentDescriptionsZh: Record<string, string> = {
@@ -88,6 +112,8 @@ export const agentDescriptionsZh: Record<string, string> = {
     '知识到展示 Deck 的编排 Agent。当用户希望把知识库中的高价值内容整理成知识卡片集、专题网页 PPT，或生成可挂到网站展示的精华演示稿时主动使用。',
   'tdd-guide':
     '测试驱动开发（TDD）专家，严格执行先写测试的方法论。在新增功能、修复 Bug 或重构代码时主动使用，确保测试覆盖率 80% 以上。',
+  'coding-agent':
+    '全栈编程编排 Agent，覆盖需求分析、架构设计、TDD 编码、调试、代码审查和任务拆解全生命周期。当用户需要端到端编程支持、从零构建功能、调试顽固 Bug、审查代码质量或将工作拆解为可执行 Issue 时主动使用。',
 };
 
 /**
