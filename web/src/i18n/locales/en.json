@@ -25,6 +25,17 @@
     "stories": "Stories",
     "decks": "Decks"
   },
+  "skill": {
+    "category": {
+      "all": "All",
+      "coding": "Coding",
+      "content": "Content Creation",
+      "platform": "Platforms",
+      "productivity": "Productivity",
+      "knowledge": "Knowledge & Search",
+      "data": "Data & Tools"
+    }
+  },
   "card": {
     "view_details": "View Details",
     "general": "General",

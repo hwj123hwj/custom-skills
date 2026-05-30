@@ -24,6 +24,9 @@ import { searchAgents } from './lib/agent-search'
 import { searchStories } from './lib/story-search'
 import { searchDecks } from './lib/deck-search'
 import { generateOnboardingSnippet } from './lib/generate-snippet'
+import { CategoryChip } from './components/CategoryChip'
+import { countSkillsByCategory, filterSkillsByCategory } from './lib/skill-categories'
+import type { SkillGroupId } from './lib/skill-categories'
 
 function App() {
   const { t, i18n } = useTranslation()
@@ -31,6 +34,7 @@ function App() {
 
   const [activeTab, setActiveTab] = useState<'skills' | 'agents' | 'stories' | 'decks'>('skills')
   const [searchQuery, setSearchQuery] = useState('')
+  const [activeSkillCategory, setActiveSkillCategory] = useState<'all' | SkillGroupId>('all')
   const [activeDeckCategory, setActiveDeckCategory] = useState<'all' | DeckCategory>('all')
 
   const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null)
@@ -46,10 +50,16 @@ function App() {
 
   const [snippetCopied, setSnippetCopied] = useState(false)
 
+  const skillCategoryCounts = useMemo(
+    () => countSkillsByCategory(skillsData as Skill[]),
+    []
+  )
+
   const filteredSkills = useMemo(() => {
-    if (!searchQuery.trim()) return skillsData as Skill[]
-    return searchSkills(skillsData as Skill[], searchQuery, i18n.language).map((r) => r.skill)
-  }, [searchQuery, i18n.language])
+    const byCategory = filterSkillsByCategory(skillsData as Skill[], activeSkillCategory)
+    if (!searchQuery.trim()) return byCategory
+    return searchSkills(byCategory, searchQuery, i18n.language).map((r) => r.skill)
+  }, [searchQuery, i18n.language, activeSkillCategory])
 
   const filteredAgents = useMemo(() => {
     if (!searchQuery.trim()) return agentsData as Agent[]
@@ -95,6 +105,7 @@ function App() {
   const handleTabChange = (tab: 'skills' | 'agents' | 'stories' | 'decks') => {
     setActiveTab(tab)
     setSearchQuery('')
+    if (tab !== 'skills') setActiveSkillCategory('all')
     if (tab !== 'decks') setActiveDeckCategory('all')
   }
 
@@ -206,6 +217,53 @@ function App() {
 
       {activeTab === 'skills' && (
         <>
+          <div className="max-w-4xl mx-auto mb-8">
+            <div className="flex flex-wrap gap-3 justify-center">
+              <CategoryChip
+                label={t('skill.category.all')}
+                count={skillCategoryCounts['all']}
+                active={activeSkillCategory === 'all'}
+                onClick={() => setActiveSkillCategory('all')}
+              />
+              <CategoryChip
+                label={t('skill.category.coding')}
+                count={skillCategoryCounts['coding']}
+                active={activeSkillCategory === 'coding'}
+                onClick={() => setActiveSkillCategory('coding')}
+              />
+              <CategoryChip
+                label={t('skill.category.content')}
+                count={skillCategoryCounts['content']}
+                active={activeSkillCategory === 'content'}
+                onClick={() => setActiveSkillCategory('content')}
+              />
+              <CategoryChip
+                label={t('skill.category.platform')}
+                count={skillCategoryCounts['platform']}
+                active={activeSkillCategory === 'platform'}
+                onClick={() => setActiveSkillCategory('platform')}
+              />
+              <CategoryChip
+                label={t('skill.category.productivity')}
+                count={skillCategoryCounts['productivity']}
+                active={activeSkillCategory === 'productivity'}
+                onClick={() => setActiveSkillCategory('productivity')}
+              />
+              <CategoryChip
+                label={t('skill.category.knowledge')}
+                count={skillCategoryCounts['knowledge']}
+                active={activeSkillCategory === 'knowledge'}
+                onClick={() => setActiveSkillCategory('knowledge')}
+              />
+              <CategoryChip
+                label={t('skill.category.data')}
+                count={skillCategoryCounts['data']}
+                active={activeSkillCategory === 'data'}
+                onClick={() => setActiveSkillCategory('data')}
+              />
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
             {filteredSkills.map((skill) => (
               <SkillCard key={skill.id} skill={skill} onClick={handleSkillClick} />
@@ -288,29 +346,33 @@ function App() {
         <>
           <div className="max-w-4xl mx-auto mb-8">
             <div className="flex flex-wrap gap-3 justify-center">
-              <DeckCategoryChip
+              <CategoryChip
                 label={t('deck.category.all')}
                 count={(decksData as Deck[]).length}
                 active={activeDeckCategory === 'all'}
                 onClick={() => setActiveDeckCategory('all')}
+                colorScheme="amber"
               />
-              <DeckCategoryChip
+              <CategoryChip
                 label={t('deck.category.knowledge_cards')}
                 count={deckCategoryCounts['knowledge-cards']}
                 active={activeDeckCategory === 'knowledge-cards'}
                 onClick={() => setActiveDeckCategory('knowledge-cards')}
+                colorScheme="amber"
               />
-              <DeckCategoryChip
+              <CategoryChip
                 label={t('deck.category.decision_decks')}
                 count={deckCategoryCounts['decision-decks']}
                 active={activeDeckCategory === 'decision-decks'}
                 onClick={() => setActiveDeckCategory('decision-decks')}
+                colorScheme="amber"
               />
-              <DeckCategoryChip
+              <CategoryChip
                 label={t('deck.category.workflow_notes')}
                 count={deckCategoryCounts['workflow-notes']}
                 active={activeDeckCategory === 'workflow-notes'}
                 onClick={() => setActiveDeckCategory('workflow-notes')}
+                colorScheme="amber"
               />
             </div>
           </div>
@@ -364,31 +426,6 @@ function App() {
         onClose={() => setIsDeckModalOpen(false)}
       />
     </Layout>
-  )
-}
-
-interface DeckCategoryChipProps {
-  label: string
-  count: number
-  active: boolean
-  onClick: () => void
-}
-
-function DeckCategoryChip({ label, count, active, onClick }: DeckCategoryChipProps) {
-  return (
-    <button
-      onClick={onClick}
-      className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm transition-all ${
-        active
-          ? 'border-amber-500/40 bg-amber-500/15 text-amber-200'
-          : 'border-white/10 bg-white/5 text-gray-400 hover:border-white/20 hover:text-white'
-      }`}
-    >
-      <span>{label}</span>
-      <span className={`rounded-full px-2 py-0.5 text-xs font-mono ${active ? 'bg-white/10 text-white' : 'bg-white/5 text-gray-500'}`}>
-        {count}
-      </span>
-    </button>
   )
 }
 

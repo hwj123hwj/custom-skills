@@ -25,6 +25,17 @@
     "stories": "Stories",
     "decks": "Decks"
   },
+  "skill": {
+    "category": {
+      "all": "全部",
+      "coding": "编程开发",
+      "content": "内容创作",
+      "platform": "平台工具",
+      "productivity": "效率工具",
+      "knowledge": "知识搜索",
+      "data": "数据处理"
+    }
+  },
   "card": {
     "view_details": "查看详情",
     "general": "通用",
