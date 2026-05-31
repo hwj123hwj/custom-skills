@@ -1,14 +1,15 @@
 import { useTranslation } from 'react-i18next';
-import { X, ExternalLink, FileText, ClipboardList } from 'lucide-react';
+import { X, ExternalLink, FileText, ClipboardList, Share2 } from 'lucide-react';
 import type { Deck } from '../types/deck';
 
 interface DeckModalProps {
   deck: Deck | null;
   isOpen: boolean;
   onClose: () => void;
+  onViewDetail?: () => void;
 }
 
-export function DeckModal({ deck, isOpen, onClose }: DeckModalProps) {
+export function DeckModal({ deck, isOpen, onClose, onViewDetail }: DeckModalProps) {
   const { t } = useTranslation();
 
   if (!isOpen || !deck) return null;
@@ -91,7 +92,20 @@ export function DeckModal({ deck, isOpen, onClose }: DeckModalProps) {
         </div>
 
         {/* Footer */}
-        <div className="p-3 sm:p-4 flex flex-wrap justify-end gap-2 sm:gap-3" style={{ borderTop: '1px solid var(--border-default)', background: 'var(--bg-card)' }}>
+        <div className="p-3 sm:p-4 flex flex-wrap justify-between gap-2 sm:gap-3" style={{ borderTop: '1px solid var(--border-default)', background: 'var(--bg-card)' }}>
+          {onViewDetail && (
+            <button
+              onClick={() => { onClose(); onViewDetail(); }}
+              className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200"
+              style={{ background: 'var(--accent-soft)', color: 'var(--accent)', border: '1px solid var(--border-accent)' }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--accent-muted)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--accent-soft)'; }}
+            >
+              <Share2 className="w-4 h-4" />
+              {t('detail.share')}
+            </button>
+          )}
+          <div className="flex-1" />
           {deck.reviewUrl && (
             <a
               href={deck.reviewUrl}

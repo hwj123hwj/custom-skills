@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Skill } from '../types/skill';
 import type { Agent } from '../types/agent';
-import { X, Copy, Check, ExternalLink } from 'lucide-react';
+import { X, Copy, Check, ExternalLink, Share2 } from 'lucide-react';
 import { pickDescription } from '../lib/i18n-utils';
 
 interface SkillModalProps {
@@ -11,10 +11,11 @@ interface SkillModalProps {
   onClose: () => void;
   agents?: Agent[];
   onOpenAgent?: (agentId: string) => void;
+  onViewDetail?: () => void;
   zIndex?: string;
 }
 
-export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, zIndex = 'z-[100]' }: SkillModalProps) {
+export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, onViewDetail, zIndex = 'z-[100]' }: SkillModalProps) {
   const { t, i18n } = useTranslation();
   const [copied, setCopied] = useState(false);
 
@@ -163,7 +164,20 @@ export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, z
         </div>
 
         {/* Footer */}
-        <div className="p-4 flex justify-end" style={{ borderTop: '1px solid var(--border-default)', background: 'var(--bg-card)' }}>
+        <div className="p-4 flex justify-between" style={{ borderTop: '1px solid var(--border-default)', background: 'var(--bg-card)' }}>
+          {onViewDetail && (
+            <button
+              onClick={() => { onClose(); onViewDetail(); }}
+              className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200"
+              style={{ background: 'var(--accent-soft)', color: 'var(--accent)', border: '1px solid var(--border-accent)' }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--accent-muted)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--accent-soft)'; }}
+            >
+              <Share2 className="w-4 h-4" />
+              {t('detail.share')}
+            </button>
+          )}
+          <div className="flex-1" />
           <a
             href={skill.githubUrl}
             target="_blank"

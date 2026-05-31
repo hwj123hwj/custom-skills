@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, lazy, Suspense } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Layout } from './components/Layout'
 import { SkillCard } from './components/SkillCard'
@@ -46,6 +46,7 @@ const decks = decksData as Deck[]
 
 function HomePage() {
   const { t, i18n } = useTranslation()
+  const navigate = useNavigate()
   type DeckCategory = Deck['category']
 
   const [activeTab, setActiveTab] = useState<'skills' | 'agents' | 'stories' | 'decks'>('skills')
@@ -505,23 +506,27 @@ function HomePage() {
             setSelectedAgent(agent)
           }
         }}
+        onViewDetail={selectedSkill ? () => navigate(`/skill/${selectedSkill.id}`) : undefined}
       />
       <AgentModal
         agent={selectedAgent}
         isOpen={!!selectedAgent}
         onClose={() => setSelectedAgent(null)}
         allSkills={skills}
+        onViewDetail={selectedAgent ? () => navigate(`/agent/${selectedAgent.id}`) : undefined}
       />
       <StoryModal
         story={selectedStory}
         isOpen={!!selectedStory}
         onClose={() => setSelectedStory(null)}
         linkedAgent={selectedStory ? agents.find((a) => a.id === selectedStory.agent) : null}
+        onViewDetail={selectedStory ? () => navigate(`/story/${selectedStory.id}`) : undefined}
       />
       <DeckModal
         deck={selectedDeck}
         isOpen={!!selectedDeck}
         onClose={() => setSelectedDeck(null)}
+        onViewDetail={selectedDeck ? () => navigate(`/deck/${selectedDeck.id}`) : undefined}
       />
     </>
   )

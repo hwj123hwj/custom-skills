@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { X, ExternalLink, FileText } from 'lucide-react';
+import { X, ExternalLink, FileText, Share2 } from 'lucide-react';
 import type { Story } from '../types/story';
 import type { Agent } from '../types/agent';
 
@@ -8,6 +8,7 @@ interface StoryModalProps {
   isOpen: boolean;
   onClose: () => void;
   linkedAgent?: Agent | null;
+  onViewDetail?: () => void;
 }
 
 function renderBlocks(content: string) {
@@ -60,7 +61,7 @@ const STAGE_STYLES: Record<Story['stage'], { bg: string; color: string; border: 
   stable: { bg: 'rgba(52, 211, 153, 0.12)', color: '#34d399', border: 'rgba(52, 211, 153, 0.25)' },
 };
 
-export function StoryModal({ story, isOpen, onClose, linkedAgent }: StoryModalProps) {
+export function StoryModal({ story, isOpen, onClose, linkedAgent, onViewDetail }: StoryModalProps) {
   const { t } = useTranslation();
 
   if (!isOpen || !story) return null;
@@ -159,7 +160,20 @@ export function StoryModal({ story, isOpen, onClose, linkedAgent }: StoryModalPr
         </div>
 
         {/* Footer */}
-        <div className="p-4 flex justify-end" style={{ borderTop: '1px solid var(--border-default)', background: 'var(--bg-card)' }}>
+        <div className="p-4 flex justify-between" style={{ borderTop: '1px solid var(--border-default)', background: 'var(--bg-card)' }}>
+          {onViewDetail && (
+            <button
+              onClick={() => { onClose(); onViewDetail(); }}
+              className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200"
+              style={{ background: 'var(--accent-soft)', color: 'var(--accent)', border: '1px solid var(--border-accent)' }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--accent-muted)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--accent-soft)'; }}
+            >
+              <Share2 className="w-4 h-4" />
+              {t('detail.share')}
+            </button>
+          )}
+          <div className="flex-1" />
           <a
             href={story.githubUrl}
             target="_blank"
