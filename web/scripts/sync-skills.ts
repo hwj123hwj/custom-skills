@@ -157,7 +157,7 @@ function generateRobotsAndSitemap(skills: SkillData[]) {
   const robotsTxt = `User-agent: *
 Allow: /
 
-Sitemap: https://weijian.online/sitemap.xml
+Sitemap: https://hwj123hwj.asia/sitemap.xml
 `;
   fs.writeFileSync(path.join(publicDir, 'robots.txt'), robotsTxt);
   console.log(`🎉 Generated robots.txt`);
@@ -168,12 +168,12 @@ Sitemap: https://weijian.online/sitemap.xml
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://weijian.online/</loc>
+    <loc>https://hwj123hwj.asia/</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/?lng=en" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/?lng=en" />
   </url>
 `;
 
@@ -181,12 +181,12 @@ Sitemap: https://weijian.online/sitemap.xml
   for (const skill of skills) {
     const lastModDate = skill.lastUpdated ? skill.lastUpdated.split('T')[0] : currentDate;
     sitemapXml += `  <url>
-    <loc>https://weijian.online/skill/${skill.id}</loc>
+    <loc>https://hwj123hwj.asia/skill/${skill.id}</loc>
     <lastmod>${lastModDate}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/${skill.id}" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/${skill.id}?lng=en" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/${skill.id}" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/${skill.id}?lng=en" />
   </url>\n`;
   }
 
@@ -197,12 +197,12 @@ Sitemap: https://weijian.online/sitemap.xml
       const agents: { id: string }[] = JSON.parse(fs.readFileSync(agentsDataPath, 'utf-8'));
       for (const agent of agents) {
         sitemapXml += `  <url>
-    <loc>https://weijian.online/agent/${agent.id}</loc>
+    <loc>https://hwj123hwj.asia/agent/${agent.id}</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/agent/${agent.id}" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/agent/${agent.id}?lng=en" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/agent/${agent.id}" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/agent/${agent.id}?lng=en" />
   </url>\n`;
       }
     } catch { /* ignore */ }
@@ -216,12 +216,12 @@ Sitemap: https://weijian.online/sitemap.xml
       for (const story of stories) {
         const lastModDate = story.lastUpdated ? story.lastUpdated.split('T')[0] : currentDate;
         sitemapXml += `  <url>
-    <loc>https://weijian.online/story/${story.id}</loc>
+    <loc>https://hwj123hwj.asia/story/${story.id}</loc>
     <lastmod>${lastModDate}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/story/${story.id}" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/story/${story.id}?lng=en" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/story/${story.id}" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/story/${story.id}?lng=en" />
   </url>\n`;
       }
     } catch { /* ignore */ }
@@ -235,12 +235,12 @@ Sitemap: https://weijian.online/sitemap.xml
       for (const deck of decks) {
         const lastModDate = deck.lastUpdated ? deck.lastUpdated.split('T')[0] : currentDate;
         sitemapXml += `  <url>
-    <loc>https://weijian.online/deck/${deck.id}</loc>
+    <loc>https://hwj123hwj.asia/deck/${deck.id}</loc>
     <lastmod>${lastModDate}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/deck/${deck.id}" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/deck/${deck.id}?lng=en" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/deck/${deck.id}" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/deck/${deck.id}?lng=en" />
   </url>\n`;
       }
     } catch { /* ignore */ }
@@ -260,11 +260,11 @@ Sitemap: https://weijian.online/sitemap.xml
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "Custom Skills Hub",
-      "url": "https://weijian.online/",
+      "url": "https://hwj123hwj.asia/",
       "description": "AI 技能市场，为大模型 Agent 提供一键安装的自动化技能集合。",
       "potentialAction": {
         "@type": "SearchAction",
-        "target": "https://weijian.online/?search={search_term_string}",
+        "target": "https://hwj123hwj.asia/?search={search_term_string}",
         "query-input": "required name=search_term_string"
       }
     };
@@ -286,16 +286,16 @@ Sitemap: https://weijian.online/sitemap.xml
     const headMeta = `
     <title>Custom Skills Hub - AI 技能市场 | 一键管理 Agent 技能</title>
     <meta name="description" content="Custom Skills Hub 是一个为大语言模型和 AI Agent 打造的自动化技能集合市场。支持一键安装各种效率工具、爬虫和数据分析脚本。" />
-    <link rel="canonical" href="https://weijian.online/" />
+    <link rel="canonical" href="https://hwj123hwj.asia/" />
     <meta property="og:title" content="Custom Skills Hub - AI 技能市场" />
     <meta property="og:description" content="发现并一键安装专为 AI Agent 设计的自动化技能与效率脚本。" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://weijian.online/" />
-    <meta property="og:image" content="https://weijian.online/vite.svg" />
+    <meta property="og:url" content="https://hwj123hwj.asia/" />
+    <meta property="og:image" content="https://hwj123hwj.asia/vite.svg" />
     <meta property="og:site_name" content="Custom Skills Hub" />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="alternate" hreflang="zh" href="https://weijian.online/" />
-    <link rel="alternate" hreflang="en" href="https://weijian.online/?lng=en" />
+    <link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/" />
+    <link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/?lng=en" />
     <script type="application/ld+json">
       ${JSON.stringify(jsonLd, null, 2).replace(/\n/g, '\n      ')}
     </script>`;

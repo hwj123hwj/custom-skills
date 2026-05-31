@@ -81,21 +81,21 @@ export function AgentDetailPage({ agents, allSkills, isFavorite, toggleFavorite,
       <Helmet>
         <title>{seoTitle}</title>
         <meta name="description" content={seoDesc} />
-        <link rel="canonical" href={`https://weijian.online/agent/${agent.id}`} />
+        <link rel="canonical" href={`https://hwj123hwj.asia/agent/${agent.id}`} />
         <meta property="og:title" content={seoTitle} />
         <meta property="og:description" content={seoDesc} />
         <meta property="og:type" content="article" />
-        <meta property="og:url" content={`https://weijian.online/agent/${agent.id}`} />
+        <meta property="og:url" content={`https://hwj123hwj.asia/agent/${agent.id}`} />
         <meta property="og:site_name" content="Custom Skills Hub" />
         <meta name="twitter:card" content="summary" />
-        <link rel="alternate" hrefLang="zh" href={`https://weijian.online/agent/${agent.id}`} />
-        <link rel="alternate" hrefLang="en" href={`https://weijian.online/agent/${agent.id}?lng=en`} />
+        <link rel="alternate" hrefLang="zh" href={`https://hwj123hwj.asia/agent/${agent.id}`} />
+        <link rel="alternate" hrefLang="en" href={`https://hwj123hwj.asia/agent/${agent.id}?lng=en`} />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "SoftwareApplication",
           "name": `${agentName} Agent`,
           "description": seoDesc,
-          "url": `https://weijian.online/agent/${agent.id}`,
+          "url": `https://hwj123hwj.asia/agent/${agent.id}`,
           "applicationCategory": "DeveloperApplication",
           "operatingSystem": "Any",
         })}</script>
@@ -103,9 +103,9 @@ export function AgentDetailPage({ agents, allSkills, isFavorite, toggleFavorite,
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://weijian.online/" },
-            { "@type": "ListItem", "position": 2, "name": "Agents", "item": "https://weijian.online/" },
-            { "@type": "ListItem", "position": 3, "name": agentName, "item": `https://weijian.online/agent/${agent.id}` },
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://hwj123hwj.asia/" },
+            { "@type": "ListItem", "position": 2, "name": "Agents", "item": "https://hwj123hwj.asia/" },
+            { "@type": "ListItem", "position": 3, "name": agentName, "item": `https://hwj123hwj.asia/agent/${agent.id}` },
           ],
         })}</script>
       </Helmet>

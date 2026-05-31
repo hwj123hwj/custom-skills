@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://weijian.online/sitemap.xml
+Sitemap: https://hwj123hwj.asia/sitemap.xml
