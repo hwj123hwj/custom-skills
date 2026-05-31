@@ -1,17 +1,22 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, lazy, Suspense } from 'react'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Layout } from './components/Layout'
 import { SkillCard } from './components/SkillCard'
-import { SkillModal } from './components/SkillModal'
 import { AgentCard } from './components/AgentCard'
-import { AgentModal } from './components/AgentModal'
 import { StoryCard } from './components/StoryCard'
-import { StoryModal } from './components/StoryModal'
 import { DeckCard } from './components/DeckCard'
-import { DeckModal } from './components/DeckModal'
 import { TabBar } from './components/TabBar'
 import { SkeletonGrid } from './components/SkeletonGrid'
+import { FavoritesBar } from './components/FavoritesBar'
 import { useTheme } from './components/ThemeToggle'
+import { useFavorites, useRecentViews } from './hooks/useFavorites'
+
+// Lazy-load detail pages — they're not needed on initial page load
+const SkillDetailPage = lazy(() => import('./pages/SkillDetailPage').then(m => ({ default: m.SkillDetailPage })))
+const AgentDetailPage = lazy(() => import('./pages/AgentDetailPage').then(m => ({ default: m.AgentDetailPage })))
+const StoryDetailPage = lazy(() => import('./pages/StoryDetailPage').then(m => ({ default: m.StoryDetailPage })))
+const DeckDetailPage = lazy(() => import('./pages/DeckDetailPage').then(m => ({ default: m.DeckDetailPage })))
 import type { Skill } from './types/skill'
 import type { Agent } from './types/agent'
 import type { Story } from './types/story'
@@ -30,31 +35,28 @@ import { CategoryChip } from './components/CategoryChip'
 import { countSkillsByCategory, filterSkillsByCategory } from './lib/skill-categories'
 import type { SkillGroupId } from './lib/skill-categories'
 
-function App() {
-  const { t, i18n } = useTranslation()
-  type DeckCategory = Deck['category']
+const skills = skillsData as Skill[]
+const agents = agentsData as Agent[]
+const stories = storiesData as Story[]
+const decks = decksData as Deck[]
 
-  const { theme, toggleTheme } = useTheme()
+function HomePage() {
+  const { t, i18n } = useTranslation()
+  const navigate = useNavigate()
+  type DeckCategory = Deck['category']
 
   const [activeTab, setActiveTab] = useState<'skills' | 'agents' | 'stories' | 'decks'>('skills')
   const [searchQuery, setSearchQuery] = useState('')
   const [activeSkillCategory, setActiveSkillCategory] = useState<'all' | SkillGroupId>('all')
   const [activeDeckCategory, setActiveDeckCategory] = useState<'all' | DeckCategory>('all')
 
-  const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null)
-  const [isSkillModalOpen, setIsSkillModalOpen] = useState(false)
-
-  const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null)
-  const [isAgentModalOpen, setIsAgentModalOpen] = useState(false)
-
-  const [selectedStory, setSelectedStory] = useState<Story | null>(null)
-  const [isStoryModalOpen, setIsStoryModalOpen] = useState(false)
-  const [selectedDeck, setSelectedDeck] = useState<Deck | null>(null)
-  const [isDeckModalOpen, setIsDeckModalOpen] = useState(false)
-
   const [snippetCopied, setSnippetCopied] = useState(false)
+  const [showFavorites, setShowFavorites] = useState(false)
 
-  // Skeleton loading state — simulates first-screen load
+  const { isFavorite, toggleFavorite } = useFavorites()
+  const { addRecent } = useRecentViews()
+
+  // Skeleton loading state
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
@@ -63,42 +65,63 @@ function App() {
   }, [])
 
   const skillCategoryCounts = useMemo(
-    () => countSkillsByCategory(skillsData as Skill[]),
+    () => countSkillsByCategory(skills),
     []
   )
 
+  // Favorites filter
+  const favoriteSkillCount = useMemo(
+    () => skills.filter((s) => isFavorite(s.id)).length,
+    [isFavorite]
+  )
+
   const filteredSkills = useMemo(() => {
-    const byCategory = filterSkillsByCategory(skillsData as Skill[], activeSkillCategory)
-    if (!searchQuery.trim()) return byCategory
-    return searchSkills(byCategory, searchQuery, i18n.language).map((r) => r.skill)
-  }, [searchQuery, i18n.language, activeSkillCategory])
+    let result = filterSkillsByCategory(skills, activeSkillCategory)
+    if (showFavorites) {
+      result = result.filter((s) => isFavorite(s.id))
+    }
+    if (searchQuery.trim()) {
+      result = searchSkills(result, searchQuery, i18n.language).map((r) => r.skill)
+    }
+    return result
+  }, [searchQuery, i18n.language, activeSkillCategory, showFavorites, isFavorite])
 
   const filteredAgents = useMemo(() => {
-    if (!searchQuery.trim()) return agentsData as Agent[]
-    return searchAgents(agentsData as Agent[], searchQuery, i18n.language).map((r) => r.agent)
-  }, [searchQuery, i18n.language])
+    let result = agents as Agent[]
+    if (showFavorites) {
+      result = result.filter((a) => isFavorite(a.id))
+    }
+    if (!searchQuery.trim()) return result
+    return searchAgents(result, searchQuery, i18n.language).map((r) => r.agent)
+  }, [searchQuery, i18n.language, showFavorites, isFavorite])
 
   const filteredStories = useMemo(() => {
+    let result = [...stories] as Story[]
+    if (showFavorites) {
+      result = result.filter((s) => isFavorite(s.id))
+    }
     if (!searchQuery.trim()) {
-      return [...(storiesData as Story[])].sort(
+      return result.sort(
         (a, b) => new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime()
       )
     }
-    return searchStories(storiesData as Story[], searchQuery).map((r) => r.story)
-  }, [searchQuery])
+    return searchStories(result, searchQuery).map((r) => r.story)
+  }, [searchQuery, showFavorites, isFavorite])
 
   const filteredDecks = useMemo(() => {
-    const baseDecks = activeDeckCategory === 'all'
-      ? (decksData as Deck[])
-      : (decksData as Deck[]).filter((deck) => deck.category === activeDeckCategory)
-
+    let result = activeDeckCategory === 'all'
+      ? [...decks]
+      : decks.filter((deck) => deck.category === activeDeckCategory)
+    if (showFavorites) {
+      result = result.filter((d) => isFavorite(d.id))
+    }
     if (!searchQuery.trim()) {
-      return [...baseDecks].sort(
+      return result.sort(
         (a, b) => new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime()
       )
     }
-    return searchDecks(baseDecks, searchQuery).map((r) => r.deck)
-  }, [searchQuery, activeDeckCategory])
+    return searchDecks(result, searchQuery).map((r) => r.deck)
+  }, [searchQuery, activeDeckCategory, showFavorites, isFavorite])
 
   const deckCategoryCounts = useMemo(() => {
     const counts = {
@@ -107,23 +130,17 @@ function App() {
       'workflow-notes': 0,
     } satisfies Record<DeckCategory, number>
 
-    for (const deck of decksData as Deck[]) {
+    for (const deck of decks) {
       counts[deck.category] += 1
     }
 
     return counts
   }, [])
 
-  // Lock body scroll when modal is open on mobile
-  useEffect(() => {
-    const anyModalOpen = isSkillModalOpen || isAgentModalOpen || isStoryModalOpen || isDeckModalOpen
-    document.body.style.overflow = anyModalOpen ? 'hidden' : ''
-    return () => { document.body.style.overflow = '' }
-  }, [isSkillModalOpen, isAgentModalOpen, isStoryModalOpen, isDeckModalOpen])
-
   const handleTabChange = (tab: 'skills' | 'agents' | 'stories' | 'decks') => {
     setActiveTab(tab)
     setSearchQuery('')
+    setShowFavorites(false)
     if (tab !== 'skills') setActiveSkillCategory('all')
     if (tab !== 'decks') setActiveDeckCategory('all')
   }
@@ -135,34 +152,25 @@ function App() {
     setTimeout(() => setSnippetCopied(false), 2000)
   }
 
+  // Card click → navigate to detail page
   const handleSkillClick = (skill: Skill) => {
-    setSelectedSkill(skill)
-    setIsSkillModalOpen(true)
+    addRecent(skill.id)
+    navigate(`/skill/${skill.id}`)
   }
 
   const handleAgentClick = (agent: Agent) => {
-    setSelectedAgent(agent)
-    setIsAgentModalOpen(true)
+    addRecent(agent.id)
+    navigate(`/agent/${agent.id}`)
   }
 
   const handleStoryClick = (story: Story) => {
-    setSelectedStory(story)
-    setIsStoryModalOpen(true)
+    addRecent(story.id)
+    navigate(`/story/${story.id}`)
   }
 
   const handleDeckClick = (deck: Deck) => {
-    setSelectedDeck(deck)
-    setIsDeckModalOpen(true)
-  }
-
-  const handleOpenAgentFromSkill = (agentId: string) => {
-    const agent = (agentsData as Agent[]).find((a) => a.id === agentId)
-    if (!agent) return
-    setIsSkillModalOpen(false)
-    setActiveTab('agents')
-    setSearchQuery('')
-    setSelectedAgent(agent)
-    setIsAgentModalOpen(true)
+    addRecent(deck.id)
+    navigate(`/deck/${deck.id}`)
   }
 
   const placeholder = t(
@@ -176,7 +184,7 @@ function App() {
   )
 
   return (
-    <Layout theme={theme} toggleTheme={toggleTheme}>
+    <>
       {/* Hero */}
       <div className="max-w-2xl mx-auto text-center mb-10 sm:mb-14 space-y-4 sm:space-y-5 animate-slide-up">
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-gradient">
@@ -266,10 +274,10 @@ function App() {
 
       <TabBar
         activeTab={activeTab}
-        skillCount={(skillsData as Skill[]).length}
-        agentCount={(agentsData as Agent[]).length}
-        storyCount={(storiesData as Story[]).length}
-        deckCount={(decksData as Deck[]).length}
+        skillCount={skills.length}
+        agentCount={agents.length}
+        storyCount={stories.length}
+        deckCount={decks.length}
         onTabChange={handleTabChange}
       />
 
@@ -281,69 +289,78 @@ function App() {
           {activeTab === 'skills' && (
             <>
               <div className="max-w-4xl mx-auto mb-6 sm:mb-8">
-                <div className="flex flex-wrap gap-2 sm:gap-3 justify-center">
+                <div className="flex flex-wrap gap-2 sm:gap-3 justify-center items-center">
                   <CategoryChip
                     label={t('skill.category.all')}
                     count={skillCategoryCounts['all']}
-                    active={activeSkillCategory === 'all'}
-                    onClick={() => setActiveSkillCategory('all')}
+                    active={activeSkillCategory === 'all' && !showFavorites}
+                    onClick={() => { setActiveSkillCategory('all'); setShowFavorites(false); }}
                   />
                   <CategoryChip
                     label={t('skill.category.coding')}
                     count={skillCategoryCounts['coding']}
-                    active={activeSkillCategory === 'coding'}
-                    onClick={() => setActiveSkillCategory('coding')}
+                    active={activeSkillCategory === 'coding' && !showFavorites}
+                    onClick={() => { setActiveSkillCategory('coding'); setShowFavorites(false); }}
                   />
                   <CategoryChip
                     label={t('skill.category.content')}
                     count={skillCategoryCounts['content']}
-                    active={activeSkillCategory === 'content'}
-                    onClick={() => setActiveSkillCategory('content')}
+                    active={activeSkillCategory === 'content' && !showFavorites}
+                    onClick={() => { setActiveSkillCategory('content'); setShowFavorites(false); }}
                   />
                   <CategoryChip
                     label={t('skill.category.platform')}
                     count={skillCategoryCounts['platform']}
-                    active={activeSkillCategory === 'platform'}
-                    onClick={() => setActiveSkillCategory('platform')}
+                    active={activeSkillCategory === 'platform' && !showFavorites}
+                    onClick={() => { setActiveSkillCategory('platform'); setShowFavorites(false); }}
                   />
                   <CategoryChip
                     label={t('skill.category.productivity')}
                     count={skillCategoryCounts['productivity']}
-                    active={activeSkillCategory === 'productivity'}
-                    onClick={() => setActiveSkillCategory('productivity')}
+                    active={activeSkillCategory === 'productivity' && !showFavorites}
+                    onClick={() => { setActiveSkillCategory('productivity'); setShowFavorites(false); }}
                   />
                   <CategoryChip
                     label={t('skill.category.knowledge')}
                     count={skillCategoryCounts['knowledge']}
-                    active={activeSkillCategory === 'knowledge'}
-                    onClick={() => setActiveSkillCategory('knowledge')}
+                    active={activeSkillCategory === 'knowledge' && !showFavorites}
+                    onClick={() => { setActiveSkillCategory('knowledge'); setShowFavorites(false); }}
                   />
                   <CategoryChip
                     label={t('skill.category.data')}
                     count={skillCategoryCounts['data']}
-                    active={activeSkillCategory === 'data'}
-                    onClick={() => setActiveSkillCategory('data')}
+                    active={activeSkillCategory === 'data' && !showFavorites}
+                    onClick={() => { setActiveSkillCategory('data'); setShowFavorites(false); }}
+                  />
+                  <FavoritesBar
+                    favoriteCount={favoriteSkillCount}
+                    showFavorites={showFavorites}
+                    onToggleFavorites={() => { setShowFavorites(!showFavorites); setActiveSkillCategory('all'); }}
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 justify-items-center">
                 {filteredSkills.map((skill) => (
-                  <SkillCard key={skill.id} skill={skill} onClick={handleSkillClick} />
+                  <SkillCard key={skill.id} skill={skill} onClick={handleSkillClick} isFavorite={isFavorite(skill.id)} onToggleFavorite={toggleFavorite} />
                 ))}
               </div>
               {filteredSkills.length === 0 && (
                 <div className="text-center py-20">
                   <p className="text-lg" style={{ color: 'var(--text-muted)' }}>
-                    {t('search.no_results_skills', { query: searchQuery })}
+                    {showFavorites
+                      ? t('favorites.empty', { defaultValue: 'No favorites yet. Click the heart icon on any skill to add it.' })
+                      : t('search.no_results_skills', { query: searchQuery })}
                   </p>
-                  <button
-                    onClick={() => setSearchQuery('')}
-                    className="mt-4 font-medium transition-colors"
-                    style={{ color: 'var(--accent)' }}
-                  >
-                    {t('search.clear')}
-                  </button>
+                  {!showFavorites && (
+                    <button
+                      onClick={() => setSearchQuery('')}
+                      className="mt-4 font-medium transition-colors"
+                      style={{ color: 'var(--accent)' }}
+                    >
+                      {t('search.clear')}
+                    </button>
+                  )}
                 </div>
               )}
             </>
@@ -351,23 +368,30 @@ function App() {
 
           {activeTab === 'agents' && (
             <>
+              <div className="max-w-4xl mx-auto mb-6 sm:mb-8 flex justify-center">
+                <FavoritesBar
+                  favoriteCount={agents.filter((a) => isFavorite(a.id)).length}
+                  showFavorites={showFavorites}
+                  onToggleFavorites={() => setShowFavorites(!showFavorites)}
+                />
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 justify-items-center">
                 {filteredAgents.map((agent) => (
-                  <AgentCard key={agent.id} agent={agent} onClick={handleAgentClick} />
+                  <AgentCard key={agent.id} agent={agent} onClick={handleAgentClick} isFavorite={isFavorite(agent.id)} onToggleFavorite={toggleFavorite} />
                 ))}
               </div>
               {filteredAgents.length === 0 && (
                 <div className="text-center py-20">
                   <p className="text-lg" style={{ color: 'var(--text-muted)' }}>
-                    {t('search.no_results_agents', { query: searchQuery })}
+                    {showFavorites
+                      ? t('favorites.empty_agents', { defaultValue: 'No favorite agents yet.' })
+                      : t('search.no_results_agents', { query: searchQuery })}
                   </p>
-                  <button
-                    onClick={() => setSearchQuery('')}
-                    className="mt-4 font-medium transition-colors"
-                    style={{ color: 'var(--accent)' }}
-                  >
-                    {t('search.clear')}
-                  </button>
+                  {!showFavorites && (
+                    <button onClick={() => setSearchQuery('')} className="mt-4 font-medium transition-colors" style={{ color: 'var(--accent)' }}>
+                      {t('search.clear')}
+                    </button>
+                  )}
                 </div>
               )}
             </>
@@ -396,11 +420,7 @@ function App() {
                   <p className="text-lg" style={{ color: 'var(--text-muted)' }}>
                     {t('search.no_results_stories', { query: searchQuery })}
                   </p>
-                  <button
-                    onClick={() => setSearchQuery('')}
-                    className="mt-4 font-medium transition-colors"
-                    style={{ color: 'var(--accent)' }}
-                  >
+                  <button onClick={() => setSearchQuery('')} className="mt-4 font-medium transition-colors" style={{ color: 'var(--accent)' }}>
                     {t('search.clear')}
                   </button>
                 </div>
@@ -414,7 +434,7 @@ function App() {
                 <div className="flex flex-wrap gap-2 sm:gap-3 justify-center">
                   <CategoryChip
                     label={t('deck.category.all')}
-                    count={(decksData as Deck[]).length}
+                    count={decks.length}
                     active={activeDeckCategory === 'all'}
                     onClick={() => setActiveDeckCategory('all')}
                     colorScheme="amber"
@@ -453,11 +473,7 @@ function App() {
                   <p className="text-lg" style={{ color: 'var(--text-muted)' }}>
                     {t('search.no_results_decks', { query: searchQuery })}
                   </p>
-                  <button
-                    onClick={() => setSearchQuery('')}
-                    className="mt-4 font-medium transition-colors"
-                    style={{ color: 'var(--accent)' }}
-                  >
+                  <button onClick={() => setSearchQuery('')} className="mt-4 font-medium transition-colors" style={{ color: 'var(--accent)' }}>
                     {t('search.clear')}
                   </button>
                 </div>
@@ -466,34 +482,34 @@ function App() {
           )}
         </>
       )}
+    </>
+  )
+}
 
-      <SkillModal
-        skill={selectedSkill}
-        isOpen={isSkillModalOpen}
-        onClose={() => setIsSkillModalOpen(false)}
-        agents={agentsData as Agent[]}
-        onOpenAgent={handleOpenAgentFromSkill}
-      />
+function App() {
+  const { theme, toggleTheme } = useTheme()
+  const { isFavorite, toggleFavorite } = useFavorites()
+  const { addRecent } = useRecentViews()
 
-      <AgentModal
-        agent={selectedAgent}
-        isOpen={isAgentModalOpen}
-        onClose={() => setIsAgentModalOpen(false)}
-        allSkills={skillsData as Skill[]}
-      />
-
-      <StoryModal
-        story={selectedStory}
-        isOpen={isStoryModalOpen}
-        onClose={() => setIsStoryModalOpen(false)}
-        linkedAgent={(agentsData as Agent[]).find((agent) => agent.id === selectedStory?.agent) ?? null}
-      />
-
-      <DeckModal
-        deck={selectedDeck}
-        isOpen={isDeckModalOpen}
-        onClose={() => setIsDeckModalOpen(false)}
-      />
+  return (
+    <Layout theme={theme} toggleTheme={toggleTheme}>
+      <Suspense fallback={<SkeletonGrid type="skills" />}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/skill/:id" element={
+            <SkillDetailPage skills={skills} agents={agents} isFavorite={isFavorite} toggleFavorite={toggleFavorite} addRecent={addRecent} />
+          } />
+          <Route path="/agent/:id" element={
+            <AgentDetailPage agents={agents} allSkills={skills} isFavorite={isFavorite} toggleFavorite={toggleFavorite} addRecent={addRecent} />
+          } />
+          <Route path="/story/:id" element={
+            <StoryDetailPage stories={stories} agents={agents} isFavorite={isFavorite} toggleFavorite={toggleFavorite} addRecent={addRecent} />
+          } />
+          <Route path="/deck/:id" element={
+            <DeckDetailPage decks={decks} isFavorite={isFavorite} toggleFavorite={toggleFavorite} addRecent={addRecent} />
+          } />
+        </Routes>
+      </Suspense>
     </Layout>
   )
 }

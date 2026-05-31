@@ -1,15 +1,24 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Skill } from '../types/skill';
-import { Calendar, ArrowUpRight } from 'lucide-react';
+import { Calendar, ArrowUpRight, Heart } from 'lucide-react';
 import { pickDescription } from '../lib/i18n-utils';
 
 interface SkillCardProps {
   skill: Skill;
   onClick: (skill: Skill) => void;
+  isFavorite?: boolean;
+  onToggleFavorite?: (id: string) => void;
 }
 
-export function SkillCard({ skill, onClick }: SkillCardProps) {
+export function SkillCard({ skill, onClick, isFavorite = false, onToggleFavorite }: SkillCardProps) {
   const { t, i18n } = useTranslation();
+  const [heartHover, setHeartHover] = useState(false);
+
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onToggleFavorite?.(skill.id);
+  };
 
   return (
     <div
@@ -35,6 +44,30 @@ export function SkillCard({ skill, onClick }: SkillCardProps) {
       <div className="absolute top-0 left-4 right-4 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-300"
         style={{ background: 'linear-gradient(90deg, transparent, var(--accent), transparent)' }}
       />
+
+      {/* Favorite button */}
+      {onToggleFavorite && (
+        <button
+          onClick={handleFavoriteClick}
+          className="absolute top-3 right-3 p-1.5 rounded-lg transition-all z-10"
+          style={{
+            color: isFavorite ? 'var(--accent)' : 'var(--text-muted)',
+            opacity: isFavorite ? 1 : 0,
+          }}
+          onMouseEnter={(e) => {
+            setHeartHover(true);
+            e.currentTarget.style.opacity = '1';
+            e.currentTarget.style.background = 'var(--bg-elevated)';
+          }}
+          onMouseLeave={(e) => {
+            setHeartHover(false);
+            e.currentTarget.style.opacity = isFavorite ? '1' : '0';
+            e.currentTarget.style.background = 'transparent';
+          }}
+        >
+          <Heart className="w-3.5 h-3.5" fill={isFavorite || heartHover ? 'currentColor' : 'none'} />
+        </button>
+      )}
 
       {/* Header */}
       <div className="flex items-start justify-between mb-3">

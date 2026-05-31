@@ -59,6 +59,20 @@
     "vertical": "Vertical",
     "general": "General"
   },
+  "detail": {
+    "back": "Back",
+    "share": "Share",
+    "copied": "Copied to clipboard!",
+    "favorite": "Add to favorites",
+    "unfavorite": "Remove from favorites",
+    "aliases": "Aliases"
+  },
+  "favorites": {
+    "label": "Favorites",
+    "empty": "No favorites yet. Click the heart icon on any item to add it.",
+    "empty_agents": "No favorite agents yet.",
+    "recent": "Recently viewed"
+  },
   "onboarding": {
     "title": "Add to your CLAUDE.md",
     "description": "Copy this snippet and paste it into your project's CLAUDE.md to let Claude know about your skills.",

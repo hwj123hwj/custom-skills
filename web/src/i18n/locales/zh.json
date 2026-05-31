@@ -59,6 +59,20 @@
     "vertical": "垂直型",
     "general": "通用型"
   },
+  "detail": {
+    "back": "返回",
+    "share": "分享",
+    "copied": "已复制到剪贴板！",
+    "favorite": "收藏",
+    "unfavorite": "取消收藏",
+    "aliases": "别名"
+  },
+  "favorites": {
+    "label": "收藏",
+    "empty": "还没有收藏。点击任意项目的心形图标添加收藏。",
+    "empty_agents": "还没有收藏的 Agent。",
+    "recent": "最近浏览"
+  },
   "onboarding": {
     "title": "添加到 CLAUDE.md",
     "description": "复制以下片段粘贴到你项目的 CLAUDE.md，让 Claude 知道你的技能库。",

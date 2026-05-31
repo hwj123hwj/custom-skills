@@ -1,11 +1,14 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Agent } from '../types/agent';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Heart } from 'lucide-react';
 import { pickDescription } from '../lib/i18n-utils';
 
 interface AgentCardProps {
   agent: Agent;
   onClick: (agent: Agent) => void;
+  isFavorite?: boolean;
+  onToggleFavorite?: (id: string) => void;
 }
 
 function toTitleCase(str: string): string {
@@ -18,9 +21,15 @@ const MODEL_STYLES: Record<Agent['model'], { bg: string; color: string; border: 
   haiku: { bg: 'rgba(56, 189, 248, 0.12)', color: '#38bdf8', border: 'rgba(56, 189, 248, 0.25)' },
 };
 
-export function AgentCard({ agent, onClick }: AgentCardProps) {
+export function AgentCard({ agent, onClick, isFavorite = false, onToggleFavorite }: AgentCardProps) {
   const { t, i18n } = useTranslation();
+  const [heartHover, setHeartHover] = useState(false);
   const modelStyle = MODEL_STYLES[agent.model];
+
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onToggleFavorite?.(agent.id);
+  };
 
   return (
     <div
@@ -42,6 +51,30 @@ export function AgentCard({ agent, onClick }: AgentCardProps) {
         e.currentTarget.style.boxShadow = 'var(--shadow-card)';
       }}
     >
+      {/* Favorite button */}
+      {onToggleFavorite && (
+        <button
+          onClick={handleFavoriteClick}
+          className="absolute top-3 right-3 p-1.5 rounded-lg transition-all z-10"
+          style={{
+            color: isFavorite ? 'var(--accent)' : 'var(--text-muted)',
+            opacity: isFavorite ? 1 : 0,
+          }}
+          onMouseEnter={(e) => {
+            setHeartHover(true);
+            e.currentTarget.style.opacity = '1';
+            e.currentTarget.style.background = 'var(--bg-elevated)';
+          }}
+          onMouseLeave={(e) => {
+            setHeartHover(false);
+            e.currentTarget.style.opacity = isFavorite ? '1' : '0';
+            e.currentTarget.style.background = 'transparent';
+          }}
+        >
+          <Heart className="w-3.5 h-3.5" fill={isFavorite || heartHover ? 'currentColor' : 'none'} />
+        </button>
+      )}
+
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-start gap-3">
