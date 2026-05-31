@@ -162,18 +162,22 @@ Sitemap: https://weijian.online/sitemap.xml
   fs.writeFileSync(path.join(publicDir, 'robots.txt'), robotsTxt);
   console.log(`🎉 Generated robots.txt`);
 
-  // 2. Generate sitemap.xml
+  // 2. Generate sitemap.xml — includes skills, agents, stories, and decks
   const currentDate = new Date().toISOString().split('T')[0];
   let sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://weijian.online/</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/?lng=en" />
   </url>
 `;
 
+  // Skills
   for (const skill of skills) {
     const lastModDate = skill.lastUpdated ? skill.lastUpdated.split('T')[0] : currentDate;
     sitemapXml += `  <url>
@@ -181,8 +185,67 @@ Sitemap: https://weijian.online/sitemap.xml
     <lastmod>${lastModDate}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/${skill.id}" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/${skill.id}?lng=en" />
   </url>\n`;
   }
+
+  // Agents
+  const agentsDataPath = path.resolve(__dirname, '../src/data/agents-data.json');
+  if (fs.existsSync(agentsDataPath)) {
+    try {
+      const agents: { id: string }[] = JSON.parse(fs.readFileSync(agentsDataPath, 'utf-8'));
+      for (const agent of agents) {
+        sitemapXml += `  <url>
+    <loc>https://weijian.online/agent/${agent.id}</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/agent/${agent.id}" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/agent/${agent.id}?lng=en" />
+  </url>\n`;
+      }
+    } catch { /* ignore */ }
+  }
+
+  // Stories
+  const storiesDataPath = path.resolve(__dirname, '../src/data/stories-data.json');
+  if (fs.existsSync(storiesDataPath)) {
+    try {
+      const stories: { id: string; lastUpdated?: string }[] = JSON.parse(fs.readFileSync(storiesDataPath, 'utf-8'));
+      for (const story of stories) {
+        const lastModDate = story.lastUpdated ? story.lastUpdated.split('T')[0] : currentDate;
+        sitemapXml += `  <url>
+    <loc>https://weijian.online/story/${story.id}</loc>
+    <lastmod>${lastModDate}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/story/${story.id}" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/story/${story.id}?lng=en" />
+  </url>\n`;
+      }
+    } catch { /* ignore */ }
+  }
+
+  // Decks
+  const decksDataPath = path.resolve(__dirname, '../src/data/decks-data.json');
+  if (fs.existsSync(decksDataPath)) {
+    try {
+      const decks: { id: string; lastUpdated?: string }[] = JSON.parse(fs.readFileSync(decksDataPath, 'utf-8'));
+      for (const deck of decks) {
+        const lastModDate = deck.lastUpdated ? deck.lastUpdated.split('T')[0] : currentDate;
+        sitemapXml += `  <url>
+    <loc>https://weijian.online/deck/${deck.id}</loc>
+    <lastmod>${lastModDate}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/deck/${deck.id}" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/deck/${deck.id}?lng=en" />
+  </url>\n`;
+      }
+    } catch { /* ignore */ }
+  }
+
   sitemapXml += `</urlset>`;
   fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), sitemapXml);
   console.log(`🎉 Generated sitemap.xml`);
@@ -229,7 +292,10 @@ Sitemap: https://weijian.online/sitemap.xml
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://weijian.online/" />
     <meta property="og:image" content="https://weijian.online/vite.svg" />
+    <meta property="og:site_name" content="Custom Skills Hub" />
     <meta name="twitter:card" content="summary_large_image" />
+    <link rel="alternate" hreflang="zh" href="https://weijian.online/" />
+    <link rel="alternate" hreflang="en" href="https://weijian.online/?lng=en" />
     <script type="application/ld+json">
       ${JSON.stringify(jsonLd, null, 2).replace(/\n/g, '\n      ')}
     </script>`;

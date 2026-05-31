@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet-async';
 import { ArrowLeft, ExternalLink, FileText, Heart, Share2, Check } from 'lucide-react';
 import type { Story } from '../types/story';
 import type { Agent } from '../types/agent';
@@ -100,8 +101,42 @@ export function StoryDetailPage({ stories, agents, isFavorite, toggleFavorite, a
     setTimeout(() => setShareCopied(false), 2000);
   };
 
+  const seoTitle = `${story.title} | Custom Skills Hub`;
+  const seoDesc = story.summary || `${story.title} - AI agent development story`;
+
   return (
     <div className="max-w-3xl mx-auto animate-fade-in">
+      <Helmet>
+        <title>{seoTitle}</title>
+        <meta name="description" content={seoDesc} />
+        <link rel="canonical" href={`https://weijian.online/story/${story.id}`} />
+        <meta property="og:title" content={seoTitle} />
+        <meta property="og:description" content={seoDesc} />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={`https://weijian.online/story/${story.id}`} />
+        <meta property="og:site_name" content="Custom Skills Hub" />
+        <meta name="twitter:card" content="summary" />
+        <link rel="alternate" hrefLang="zh" href={`https://weijian.online/story/${story.id}`} />
+        <link rel="alternate" hrefLang="en" href={`https://weijian.online/story/${story.id}?lng=en`} />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": story.title,
+          "description": seoDesc,
+          "url": `https://weijian.online/story/${story.id}`,
+          "dateModified": story.lastUpdated,
+        })}</script>
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://weijian.online/" },
+            { "@type": "ListItem", "position": 2, "name": "Stories", "item": "https://weijian.online/" },
+            { "@type": "ListItem", "position": 3, "name": story.title, "item": `https://weijian.online/story/${story.id}` },
+          ],
+        })}</script>
+      </Helmet>
+
       <div className="flex items-center gap-2 mb-6">
         <button
           onClick={() => navigate('/')}

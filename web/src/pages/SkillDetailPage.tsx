@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet-async';
 import { ArrowLeft, Copy, Check, ExternalLink, Heart, Share2 } from 'lucide-react';
 import type { Skill } from '../types/skill';
 import type { Agent } from '../types/agent';
@@ -68,8 +69,44 @@ export function SkillDetailPage({ skills, agents, isFavorite, toggleFavorite, ad
   const detailedDesc = pickDescription(skill.id, skill.detailedDescription || skill.description, i18n.language);
   const shortDesc = pickDescription(skill.id, skill.description, i18n.language);
 
+  const seoTitle = `${skill.displayName} | Custom Skills Hub`;
+  const seoDesc = shortDesc || `Install ${skill.displayName} skill for AI agents`;
+
   return (
     <div className="max-w-3xl mx-auto animate-fade-in">
+      <Helmet>
+        <title>{seoTitle}</title>
+        <meta name="description" content={seoDesc} />
+        <link rel="canonical" href={`https://weijian.online/skill/${skill.id}`} />
+        <meta property="og:title" content={seoTitle} />
+        <meta property="og:description" content={seoDesc} />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={`https://weijian.online/skill/${skill.id}`} />
+        <meta property="og:site_name" content="Custom Skills Hub" />
+        <meta name="twitter:card" content="summary" />
+        <link rel="alternate" hrefLang="zh" href={`https://weijian.online/skill/${skill.id}`} />
+        <link rel="alternate" hrefLang="en" href={`https://weijian.online/skill/${skill.id}?lng=en`} />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          "name": skill.displayName,
+          "description": seoDesc,
+          "url": `https://weijian.online/skill/${skill.id}`,
+          "applicationCategory": "DeveloperApplication",
+          "operatingSystem": "Any",
+          "installUrl": skill.installCommand,
+        })}</script>
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://weijian.online/" },
+            { "@type": "ListItem", "position": 2, "name": "Skills", "item": "https://weijian.online/" },
+            { "@type": "ListItem", "position": 3, "name": skill.displayName, "item": `https://weijian.online/skill/${skill.id}` },
+          ],
+        })}</script>
+      </Helmet>
+
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 mb-6">
         <button

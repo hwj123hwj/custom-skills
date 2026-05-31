@@ -1,285 +1,460 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://weijian.online/</loc>
     <lastmod>2026-05-31</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/academic-search</loc>
     <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/academic-search" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/academic-search?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/asr</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/asr" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/asr?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/bilibili-cli</loc>
     <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/bilibili-cli" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/bilibili-cli?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/bjtuo-classroom-query</loc>
     <lastmod>2026-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/bjtuo-classroom-query" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/bjtuo-classroom-query?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/boss-cli</loc>
     <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/boss-cli" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/boss-cli?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/brainstorming</loc>
     <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/brainstorming" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/brainstorming?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/caveman</loc>
     <lastmod>2026-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/caveman" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/caveman?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/darwin-skill</loc>
     <lastmod>2026-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/darwin-skill" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/darwin-skill?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/diagnose</loc>
     <lastmod>2026-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/diagnose" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/diagnose?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/drawio-skill</loc>
     <lastmod>2026-05-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/drawio-skill" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/drawio-skill?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/frontend-slides</loc>
     <lastmod>2026-05-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/frontend-slides" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/frontend-slides?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/git-guardrails-claude-code</loc>
     <lastmod>2026-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/git-guardrails-claude-code" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/git-guardrails-claude-code?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/grill-me</loc>
     <lastmod>2026-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/grill-me" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/grill-me?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/guizang-ppt-skill</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/guizang-ppt-skill" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/guizang-ppt-skill?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/handoff</loc>
     <lastmod>2026-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/handoff" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/handoff?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/huashu-design</loc>
     <lastmod>2026-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/huashu-design" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/huashu-design?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/huashu-nuwa</loc>
     <lastmod>2026-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/huashu-nuwa" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/huashu-nuwa?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/idea-incubator</loc>
     <lastmod>2026-04-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/idea-incubator" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/idea-incubator?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/image-provider</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/image-provider" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/image-provider?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/improve-codebase-architecture</loc>
     <lastmod>2026-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/improve-codebase-architecture" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/improve-codebase-architecture?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/knowledge-skill</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/knowledge-skill" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/knowledge-skill?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/llm-price-tracker</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/llm-price-tracker" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/llm-price-tracker?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/memory-organizer</loc>
     <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/memory-organizer" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/memory-organizer?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/mp-weixin-ops</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/mp-weixin-ops" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/mp-weixin-ops?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/officecli-docx</loc>
     <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/officecli-docx" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/officecli-docx?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/paddleocr-doc-parsing</loc>
     <lastmod>2026-05-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/paddleocr-doc-parsing" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/paddleocr-doc-parsing?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/paddleocr-text-recognition</loc>
     <lastmod>2026-05-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/paddleocr-text-recognition" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/paddleocr-text-recognition?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/prototype</loc>
     <lastmod>2026-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/prototype" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/prototype?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/review</loc>
     <lastmod>2026-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/review" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/review?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/short-drama-pipeline</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/short-drama-pipeline" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/short-drama-pipeline?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/short-video-replicator</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/short-video-replicator" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/short-video-replicator?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/skill-browser-crawl</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/skill-browser-crawl" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/skill-browser-crawl?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/skills-sh-installer</loc>
     <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/skills-sh-installer" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/skills-sh-installer?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/tavily</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/tavily" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/tavily?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/tdd</loc>
     <lastmod>2026-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/tdd" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/tdd?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/to-issues</loc>
     <lastmod>2026-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/to-issues" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/to-issues?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/to-prd</loc>
     <lastmod>2026-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/to-prd" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/to-prd?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/tts</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/tts" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/tts?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/twitter-cli</loc>
     <lastmod>2026-05-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/twitter-cli" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/twitter-cli?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/ui-ux-pro-max</loc>
     <lastmod>2026-05-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/ui-ux-pro-max" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/ui-ux-pro-max?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/vertex-video-reader</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/vertex-video-reader" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/vertex-video-reader?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/videocut</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/videocut" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/videocut?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/wechat-decrypt</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/wechat-decrypt" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/wechat-decrypt?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/weibo-skill</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/weibo-skill" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/weibo-skill?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/wx-cli</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/wx-cli" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/wx-cli?lng=en" />
   </url>
   <url>
     <loc>https://weijian.online/skill/xiaohongshu-cli</loc>
     <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/skill/xiaohongshu-cli" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/skill/xiaohongshu-cli?lng=en" />
+  </url>
+  <url>
+    <loc>https://weijian.online/agent/architect</loc>
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/agent/architect" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/agent/architect?lng=en" />
+  </url>
+  <url>
+    <loc>https://weijian.online/agent/coding-agent</loc>
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/agent/coding-agent" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/agent/coding-agent?lng=en" />
+  </url>
+  <url>
+    <loc>https://weijian.online/agent/intel-agent</loc>
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/agent/intel-agent" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/agent/intel-agent?lng=en" />
+  </url>
+  <url>
+    <loc>https://weijian.online/agent/knowledge-to-deck-agent</loc>
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/agent/knowledge-to-deck-agent" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/agent/knowledge-to-deck-agent?lng=en" />
+  </url>
+  <url>
+    <loc>https://weijian.online/agent/tdd-guide</loc>
+    <lastmod>2026-05-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/agent/tdd-guide" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/agent/tdd-guide?lng=en" />
+  </url>
+  <url>
+    <loc>https://weijian.online/story/intel-agent</loc>
+    <lastmod>2026-05-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/story/intel-agent" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/story/intel-agent?lng=en" />
+  </url>
+  <url>
+    <loc>https://weijian.online/deck/knowledge-to-deck-pipeline-notes</loc>
+    <lastmod>2026-05-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/deck/knowledge-to-deck-pipeline-notes" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/deck/knowledge-to-deck-pipeline-notes?lng=en" />
+  </url>
+  <url>
+    <loc>https://weijian.online/deck/programmer-workflow-shift-notes</loc>
+    <lastmod>2026-05-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/deck/programmer-workflow-shift-notes" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/deck/programmer-workflow-shift-notes?lng=en" />
+  </url>
+  <url>
+    <loc>https://weijian.online/deck/vector-database-decision-cards</loc>
+    <lastmod>2026-05-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/deck/vector-database-decision-cards" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/deck/vector-database-decision-cards?lng=en" />
+  </url>
+  <url>
+    <loc>https://weijian.online/deck/autoresearch-knowledge-cards</loc>
+    <lastmod>2026-05-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://weijian.online/deck/autoresearch-knowledge-cards" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://weijian.online/deck/autoresearch-knowledge-cards?lng=en" />
   </url>
 </urlset>

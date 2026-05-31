@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet-async';
 import { ArrowLeft, ExternalLink, FileText, ClipboardList, Heart, Share2, Check } from 'lucide-react';
 import type { Deck } from '../types/deck';
 
@@ -44,8 +45,42 @@ export function DeckDetailPage({ decks, isFavorite, toggleFavorite, addRecent }:
     setTimeout(() => setShareCopied(false), 2000);
   };
 
+  const seoTitle = `${deck.title} | Custom Skills Hub`;
+  const seoDesc = deck.summary || `${deck.title} - Interactive HTML deck presentation`;
+
   return (
     <div className="max-w-5xl mx-auto animate-fade-in">
+      <Helmet>
+        <title>{seoTitle}</title>
+        <meta name="description" content={seoDesc} />
+        <link rel="canonical" href={`https://weijian.online/deck/${deck.id}`} />
+        <meta property="og:title" content={seoTitle} />
+        <meta property="og:description" content={seoDesc} />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={`https://weijian.online/deck/${deck.id}`} />
+        <meta property="og:site_name" content="Custom Skills Hub" />
+        <meta name="twitter:card" content="summary" />
+        <link rel="alternate" hrefLang="zh" href={`https://weijian.online/deck/${deck.id}`} />
+        <link rel="alternate" hrefLang="en" href={`https://weijian.online/deck/${deck.id}?lng=en`} />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "CreativeWork",
+          "name": deck.title,
+          "description": seoDesc,
+          "url": `https://weijian.online/deck/${deck.id}`,
+          "dateModified": deck.lastUpdated,
+        })}</script>
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://weijian.online/" },
+            { "@type": "ListItem", "position": 2, "name": "Decks", "item": "https://weijian.online/" },
+            { "@type": "ListItem", "position": 3, "name": deck.title, "item": `https://weijian.online/deck/${deck.id}` },
+          ],
+        })}</script>
+      </Helmet>
+
       <div className="flex items-center gap-2 mb-6">
         <button
           onClick={() => navigate('/')}
