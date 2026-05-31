@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, lazy, Suspense } from 'react'
-import { Routes, Route, useNavigate } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Layout } from './components/Layout'
 import { SkillCard } from './components/SkillCard'
@@ -9,10 +9,14 @@ import { DeckCard } from './components/DeckCard'
 import { TabBar } from './components/TabBar'
 import { SkeletonGrid } from './components/SkeletonGrid'
 import { FavoritesBar } from './components/FavoritesBar'
+import { SkillModal } from './components/SkillModal'
+import { AgentModal } from './components/AgentModal'
+import { StoryModal } from './components/StoryModal'
+import { DeckModal } from './components/DeckModal'
 import { useTheme } from './components/ThemeToggle'
 import { useFavorites, useRecentViews } from './hooks/useFavorites'
 
-// Lazy-load detail pages — they're not needed on initial page load
+// Lazy-load detail pages — kept for SEO and shareable URLs
 const SkillDetailPage = lazy(() => import('./pages/SkillDetailPage').then(m => ({ default: m.SkillDetailPage })))
 const AgentDetailPage = lazy(() => import('./pages/AgentDetailPage').then(m => ({ default: m.AgentDetailPage })))
 const StoryDetailPage = lazy(() => import('./pages/StoryDetailPage').then(m => ({ default: m.StoryDetailPage })))
@@ -42,7 +46,6 @@ const decks = decksData as Deck[]
 
 function HomePage() {
   const { t, i18n } = useTranslation()
-  const navigate = useNavigate()
   type DeckCategory = Deck['category']
 
   const [activeTab, setActiveTab] = useState<'skills' | 'agents' | 'stories' | 'decks'>('skills')
@@ -52,6 +55,12 @@ function HomePage() {
 
   const [snippetCopied, setSnippetCopied] = useState(false)
   const [showFavorites, setShowFavorites] = useState(false)
+
+  // Modal state — card clicks open modals for fast browsing
+  const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null)
+  const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null)
+  const [selectedStory, setSelectedStory] = useState<Story | null>(null)
+  const [selectedDeck, setSelectedDeck] = useState<Deck | null>(null)
 
   const { isFavorite, toggleFavorite } = useFavorites()
   const { addRecent } = useRecentViews()
@@ -152,25 +161,25 @@ function HomePage() {
     setTimeout(() => setSnippetCopied(false), 2000)
   }
 
-  // Card click → navigate to detail page
+  // Card click → open modal for fast browsing
   const handleSkillClick = (skill: Skill) => {
     addRecent(skill.id)
-    navigate(`/skill/${skill.id}`)
+    setSelectedSkill(skill)
   }
 
   const handleAgentClick = (agent: Agent) => {
     addRecent(agent.id)
-    navigate(`/agent/${agent.id}`)
+    setSelectedAgent(agent)
   }
 
   const handleStoryClick = (story: Story) => {
     addRecent(story.id)
-    navigate(`/story/${story.id}`)
+    setSelectedStory(story)
   }
 
   const handleDeckClick = (deck: Deck) => {
     addRecent(deck.id)
-    navigate(`/deck/${deck.id}`)
+    setSelectedDeck(deck)
   }
 
   const placeholder = t(
@@ -482,6 +491,38 @@ function HomePage() {
           )}
         </>
       )}
+
+      {/* Modals — fast browsing via overlay */}
+      <SkillModal
+        skill={selectedSkill}
+        isOpen={!!selectedSkill}
+        onClose={() => setSelectedSkill(null)}
+        agents={agents}
+        onOpenAgent={(agentId) => {
+          const agent = agents.find((a) => a.id === agentId)
+          if (agent) {
+            setSelectedSkill(null)
+            setSelectedAgent(agent)
+          }
+        }}
+      />
+      <AgentModal
+        agent={selectedAgent}
+        isOpen={!!selectedAgent}
+        onClose={() => setSelectedAgent(null)}
+        allSkills={skills}
+      />
+      <StoryModal
+        story={selectedStory}
+        isOpen={!!selectedStory}
+        onClose={() => setSelectedStory(null)}
+        linkedAgent={selectedStory ? agents.find((a) => a.id === selectedStory.agent) : null}
+      />
+      <DeckModal
+        deck={selectedDeck}
+        isOpen={!!selectedDeck}
+        onClose={() => setSelectedDeck(null)}
+      />
     </>
   )
 }
