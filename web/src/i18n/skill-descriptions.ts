@@ -77,6 +77,8 @@ export const skillDescriptionsZh: Record<string, string> = {
     'PaddleOCR 文档解析技能。从 PDF 和文档图片中提取结构化 Markdown/JSON，支持表格（单元格级精度）、LaTeX 公式、图表、印章、页眉页脚、多栏排版及正确阅读顺序。触发词：文档解析、版面分析、版面还原、表格提取、公式识别、多栏排版、扫描件结构化、发票、财报、复杂 PDF、PDF转Markdown。',
   'paddleocr-text-recognition':
     'PaddleOCR 文字识别技能（OCR）。从图片、照片、扫描件、截图或扫描版 PDF 中提取机器可读文本，支持行级文字和可选坐标框输出，对中文、小字号及手写体识别精度高。触发词：OCR、文字识别、图片转文字、截图识字、提取图中文字、扫描识字、识字、bbox、bounding box。',
+  'storage-analyzer':
+    'macOS / Windows 只读存储分析助手。扫描整机磁盘占用，找出占空间大户，把每一项分成 🟢可自动清理 / 🟡需人工判断 / 🔴谨慎清理 三级并给出可执行处置方案，生成交互式 HTML 报告，可起本地服务在网页上一键删除（移废纸篓/直接删）。扫描全程只读。触发场景：存储分析、磁盘满了、清理空间、磁盘清理。',
 
   // ── Matt Pocock 编程技能 ──
   'diagnose':

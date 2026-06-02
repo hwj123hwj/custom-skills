@@ -1061,5 +1061,24 @@
     "sourcePath": "skills/xiaohongshu-cli",
     "lastUpdated": "2026-05-06T08:13:58.000Z",
     "author": "jackwener"
+  },
+  {
+    "id": "storage-analyzer",
+    "name": "storage-analyzer",
+    "displayName": "storage-analyzer Skill",
+    "description": "macOS / Windows 只读存储分析助手。扫描整机磁盘占用，找出占空间大户，分成三级，生成交互式 HTML 报告，可网页一键删除。触发场景：存储分析、磁盘满了、清理空间。",
+    "detailedDescription": "macOS / Windows 只读存储分析助手。扫描整机磁盘占用，找出占空间大户，分成三级，生成交互式 HTML 报告，可网页一键删除。触发场景：存储分析、磁盘满了、清理空间。",
+    "emoji": "📦",
+    "tags": ["Utility"],
+    "scenarios": ["存储分析", "磁盘满了", "清理空间", "磁盘清理"],
+    "aliases": ["存储分析", "磁盘满了", "清理空间", "磁盘清理", "storage analysis", "disk cleanup"],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill storage-analyzer",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/storage-analyzer",
+    "sourcePath": "skills/storage-analyzer",
+    "lastUpdated": "2026-06-02T13:00:00.000Z",
+    "author": "KKKHazix",
+    "upstream": "KKKKhazix/khazix-skills",
+    "upstreamPath": "storage-analyzer",
+    "upstreamSha": "b429d4c769a5446971edc5b825aaf097fa143bb3"
   }
 ]
