@@ -740,6 +740,40 @@
     "lastUpdated": "2026-04-15T02:36:07.000Z"
   },
   {
+    "id": "storage-analyzer",
+    "name": "storage-analyzer",
+    "displayName": "Storage Analyzer",
+    "description": "macOS / Windows 只读存储分析助手（自动识别系统）。扫描整机磁盘占用，找出 占空间大户，把每一项分成 🟢可自动清理 / 🟡需人工判断 / 🔴谨慎清理 三级并给出 可执行处置方案，生成排版精美、可折叠、命令可一键复制的交互式 HTML 报告，并可 起本地服务在网页上一键删除（移废纸篓/直接删）。扫描全程只读。务必在以下场景 使用：用户说\"存储分析\"\"磁盘满了\"\"C盘/硬盘满了\"\"空间不够\"\"清理空间\" \"清理磁盘\"\"占空间\"\"哪些东西占地方\"\"帮我看看存储\"\"看一下电脑存储/空间\" \"存储空间\"\"电脑空间不够\"\"内存满了/不够/不足\"\"看下内存/存储\"（中文口语里 \"内存\"常指存储空间）\"storage analysis\"\"disk cleanup\"\"清缓存\"\"磁盘清理\"； 或用户抱怨电脑没空间、想知道什么东西吃硬盘、想要清理建议时。注意：若用户明确 指运行内存/RAM（如\"哪个进程吃内存\"\"内存占用高\"想看活动监视器），那是 RAM 不是存储，不属于本 skill。",
+    "detailedDescription": "对 macOS 做一次只读存储分析，产出交互式 HTML 报告。流程：扫描 → 分析分级 → 生成网页 → 打开。",
+    "emoji": "📦",
+    "tags": [
+      "Utility"
+    ],
+    "scenarios": [
+      "存储分析",
+      "磁盘满了",
+      "清理空间",
+      "磁盘清理"
+    ],
+    "aliases": [
+      "存储分析",
+      "磁盘满了",
+      "清理空间",
+      "磁盘清理",
+      "清理磁盘",
+      "storage analysis",
+      "disk cleanup"
+    ],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill storage-analyzer",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/storage-analyzer",
+    "sourcePath": "skills/storage-analyzer",
+    "lastUpdated": "2026-06-02T13:00:00.000Z",
+    "author": "KKKHazix",
+    "upstream": "KKKKhazix/khazix-skills",
+    "upstreamPath": "storage-analyzer",
+    "upstreamSha": "b429d4c769a5446971edc5b825aaf097fa143bb3"
+  },
+  {
     "id": "tavily",
     "name": "tavily",
     "displayName": "tavily — Tavily CLI unified skill",

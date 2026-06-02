@@ -3,7 +3,7 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://hwj123hwj.asia/</loc>
-    <lastmod>2026-06-01</lastmod>
+    <lastmod>2026-06-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/" />
@@ -274,6 +274,14 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/skills-sh-installer?lng=en" />
   </url>
   <url>
+    <loc>https://hwj123hwj.asia/skill/storage-analyzer</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/storage-analyzer" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/storage-analyzer?lng=en" />
+  </url>
+  <url>
     <loc>https://hwj123hwj.asia/skill/tavily</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>weekly</changefreq>
@@ -379,7 +387,7 @@
   </url>
   <url>
     <loc>https://hwj123hwj.asia/agent/architect</loc>
-    <lastmod>2026-06-01</lastmod>
+    <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/agent/architect" />
@@ -387,7 +395,7 @@
   </url>
   <url>
     <loc>https://hwj123hwj.asia/agent/coding-agent</loc>
-    <lastmod>2026-06-01</lastmod>
+    <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/agent/coding-agent" />
@@ -395,7 +403,7 @@
   </url>
   <url>
     <loc>https://hwj123hwj.asia/agent/intel-agent</loc>
-    <lastmod>2026-06-01</lastmod>
+    <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/agent/intel-agent" />
@@ -403,7 +411,7 @@
   </url>
   <url>
     <loc>https://hwj123hwj.asia/agent/knowledge-to-deck-agent</loc>
-    <lastmod>2026-06-01</lastmod>
+    <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/agent/knowledge-to-deck-agent" />
@@ -411,7 +419,7 @@
   </url>
   <url>
     <loc>https://hwj123hwj.asia/agent/tdd-guide</loc>
-    <lastmod>2026-06-01</lastmod>
+    <lastmod>2026-06-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/agent/tdd-guide" />
