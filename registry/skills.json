@@ -130,7 +130,7 @@
     "author": "obra",
     "upstream": "obra/superpowers",
     "upstreamPath": "skills/brainstorming",
-    "upstreamSha": "f2cbfbefebbfef77321e4c9abc9e949826bea9d7"
+    "upstreamSha": "6fd4507659784c351abbd2bc264c7162cfd386dc"
   },
   {
     "id": "caveman",
@@ -151,7 +151,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/productivity/caveman",
-    "upstreamSha": "e3b90b5238f38cdea5996e16861dcae28ef52eda"
+    "upstreamSha": "aaf2453fbdfe7a15c07f11d861224f34ab4b53cb"
   },
   {
     "id": "darwin-skill",
@@ -190,7 +190,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/diagnose",
-    "upstreamSha": "e3b90b5238f38cdea5996e16861dcae28ef52eda"
+    "upstreamSha": "aaf2453fbdfe7a15c07f11d861224f34ab4b53cb"
   },
   {
     "id": "drawio-skill",
@@ -249,7 +249,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/misc/git-guardrails-claude-code",
-    "upstreamSha": "e3b90b5238f38cdea5996e16861dcae28ef52eda"
+    "upstreamSha": "aaf2453fbdfe7a15c07f11d861224f34ab4b53cb"
   },
   {
     "id": "grill-me",
@@ -271,7 +271,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/productivity/grill-me",
-    "upstreamSha": "e3b90b5238f38cdea5996e16861dcae28ef52eda"
+    "upstreamSha": "aaf2453fbdfe7a15c07f11d861224f34ab4b53cb"
   },
   {
     "id": "guizang-ppt-skill",
@@ -324,7 +324,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/productivity/handoff",
-    "upstreamSha": "e3b90b5238f38cdea5996e16861dcae28ef52eda"
+    "upstreamSha": "aaf2453fbdfe7a15c07f11d861224f34ab4b53cb"
   },
   {
     "id": "huashu-design",
@@ -430,7 +430,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/improve-codebase-architecture",
-    "upstreamSha": "e3b90b5238f38cdea5996e16861dcae28ef52eda"
+    "upstreamSha": "aaf2453fbdfe7a15c07f11d861224f34ab4b53cb"
   },
   {
     "id": "knowledge-skill",
@@ -613,7 +613,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/prototype",
-    "upstreamSha": "e3b90b5238f38cdea5996e16861dcae28ef52eda"
+    "upstreamSha": "aaf2453fbdfe7a15c07f11d861224f34ab4b53cb"
   },
   {
     "id": "review",
@@ -635,7 +635,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/in-progress/review",
-    "upstreamSha": "e3b90b5238f38cdea5996e16861dcae28ef52eda"
+    "upstreamSha": "aaf2453fbdfe7a15c07f11d861224f34ab4b53cb"
   },
   {
     "id": "short-drama-pipeline",
@@ -783,7 +783,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/tdd",
-    "upstreamSha": "e3b90b5238f38cdea5996e16861dcae28ef52eda"
+    "upstreamSha": "aaf2453fbdfe7a15c07f11d861224f34ab4b53cb"
   },
   {
     "id": "to-issues",
@@ -805,7 +805,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/to-issues",
-    "upstreamSha": "e3b90b5238f38cdea5996e16861dcae28ef52eda"
+    "upstreamSha": "aaf2453fbdfe7a15c07f11d861224f34ab4b53cb"
   },
   {
     "id": "to-prd",
@@ -827,7 +827,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/to-prd",
-    "upstreamSha": "e3b90b5238f38cdea5996e16861dcae28ef52eda"
+    "upstreamSha": "aaf2453fbdfe7a15c07f11d861224f34ab4b53cb"
   },
   {
     "id": "tts",

@@ -3,7 +3,7 @@ name: brainstorming
 author: obra
 upstream: obra/superpowers
 upstreamPath: skills/brainstorming
-upstreamSha: f2cbfbefebbfef77321e4c9abc9e949826bea9d7
+upstreamSha: 6fd4507659784c351abbd2bc264c7162cfd386dc
 lastUpdated: "2026-05-06T09:00:00.000Z"
 tags:
   - Planning
