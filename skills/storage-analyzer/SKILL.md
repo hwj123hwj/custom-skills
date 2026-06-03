@@ -30,7 +30,7 @@ aliases:
 author: KKKHazix
 upstream: KKKKhazix/khazix-skills
 upstreamPath: storage-analyzer
-upstreamSha: b429d4c769a5446971edc5b825aaf097fa143bb3
+upstreamSha: f78992d0d9ea73f7844e2e27acdd5f5c5e3a13aa
 ---
 # Storage Analyzer
 对 macOS 做一次只读存储分析，产出交互式 HTML 报告。流程：扫描 → 分析分级 → 生成网页 → 打开。
