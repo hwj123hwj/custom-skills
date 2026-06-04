@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "douyin-upload"
+version = "0.1.0"
+description = "Douyin video uploader"
+requires-python = ">=3.10,<3.13"
+dependencies = [
+  "loguru==0.7.3",
+  "opencv-python>=4.13.0.92",
+  "patchright==1.58.2",
+  "qrcode==8.2",
+  "segno>=1.6.6",
+]
+
+[project.scripts]
+douyin = "cli:main"
+
+[tool.uv]
+package = true
+
+[tool.setuptools]
+py-modules = ["cli", "conf"]
+
+[tool.setuptools.packages.find]
+include = ["uploader*", "utils*"]
+
+[tool.setuptools.package-data]
+utils = ["stealth.min.js"]

@@ -120,5 +120,32 @@
     "type": "general",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/blob/main/agents/tdd-guide.md",
     "lastUpdated": "2026-05-02T08:29:23.000Z"
+  },
+  {
+    "id": "vid-publisher-agent",
+    "name": "vid-publisher-agent",
+    "description": "视频发布自动化 Agent。编排完整的抖音发布流程： 视频分析（video-analyze）→ 内容适配（content-adapt）→ 抖音上传（douyin-upload）。 适用于\"帮我发抖音\"\"上传视频到抖音\"等场景。\n",
+    "tools": [
+      "Read",
+      "Write",
+      "Edit",
+      "Bash",
+      "Grep",
+      "Glob"
+    ],
+    "model": "sonnet",
+    "skills": [
+      "video-analyze",
+      "content-adapt",
+      "douyin-upload"
+    ],
+    "tags": [
+      "Video",
+      "Social",
+      "Automation"
+    ],
+    "type": "vertical",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/blob/main/agents/vid-publisher-agent.md",
+    "lastUpdated": "2026-06-04T12:23:16.318Z"
   }
 ]
