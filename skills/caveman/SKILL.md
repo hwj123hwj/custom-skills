@@ -7,6 +7,7 @@ upstreamSha: aaf2453fbdfe7a15c07f11d861224f34ab4b53cb
 lastUpdated: "2026-05-30T00:00:00.000Z"
 tags:
   - Productivity
+  - Product
 description: "Ultra-compressed communication mode. Cuts token usage ~75% by dropping filler, articles, and pleasantries while keeping full technical accuracy. Use when user says 'caveman mode', 'talk like caveman', 'less tokens', 'be brief', or invokes /caveman."
 ---
 

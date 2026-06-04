@@ -7,12 +7,13 @@ const mockSkills = [
   { id: 'skill-3', tags: ['Bilibili', 'Social'] },
   { id: 'skill-4', tags: ['Coding', 'Architecture'] },
   { id: 'skill-5', tags: ['Search', 'Knowledge'] },
+  { id: 'skill-6', tags: ['Product', 'Planning'] },
 ]
 
 describe('filterSkillsByCategory', () => {
   it('returns all skills when category is "all"', () => {
     const result = filterSkillsByCategory(mockSkills, 'all')
-    expect(result).toHaveLength(5)
+    expect(result).toHaveLength(6)
   })
 
   it('filters skills by coding category', () => {
@@ -39,21 +40,22 @@ describe('filterSkillsByCategory', () => {
     expect(result[0].id).toBe('skill-5')
   })
 
-  it('returns empty array when no skills match', () => {
-    const result = filterSkillsByCategory(mockSkills, 'data')
-    expect(result).toHaveLength(0)
+  it('filters skills by product category', () => {
+    const result = filterSkillsByCategory(mockSkills, 'product')
+    expect(result).toHaveLength(1)
+    expect(result[0].id).toBe('skill-6')
   })
 })
 
 describe('countSkillsByCategory', () => {
   it('counts skills correctly per category', () => {
     const counts = countSkillsByCategory(mockSkills)
-    expect(counts['all']).toBe(5)
+    expect(counts['all']).toBe(6)
     expect(counts['coding']).toBe(2)
     expect(counts['content']).toBe(1)
     expect(counts['platform']).toBe(1)
     expect(counts['knowledge']).toBe(1)
-    expect(counts['data']).toBe(0)
+    expect(counts['product']).toBe(1)
   })
 
   it('counts all categories', () => {

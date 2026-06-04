@@ -7,7 +7,7 @@ upstreamSha: aaf2453fbdfe7a15c07f11d861224f34ab4b53cb
 lastUpdated: "2026-05-30T00:00:00.000Z"
 tags:
   - Productivity
-  - Automation
+  - Product
 description: "Compact the current conversation into a handoff document for another agent to pick up. Use when switching sessions, handing off work, or transitioning between agents."
 ---
 

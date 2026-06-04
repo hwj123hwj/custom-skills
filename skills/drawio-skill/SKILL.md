@@ -1,5 +1,8 @@
 ---
 name: drawio-skill
+tags:
+  - Content
+  - Architecture
 author: Agents365-ai
 upstream: Agents365-ai/drawio-skill
 upstreamSha: 7b9d607d2cb343c8c8161488b4c22b238b7b8a25

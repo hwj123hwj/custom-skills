@@ -6,9 +6,9 @@ upstreamPath: skills/officecli-docx
 upstreamSha: f2df265272030330b55f2c7bc21e9e9f17176d07
 lastUpdated: "2026-05-06T08:34:08.000Z"
 tags:
+  - Product
   - CLI
   - Automation
-  - Utility
 description: "Use this skill any time a .docx file is involved -- as input, output, or both. This includes: creating Word documents, reports, letters, memos, or proposals; reading, parsing, or extracting text from any .docx file; editing, modifying, or updating existing documents; working with templates, tracked changes, comments, headers/footers, or tables of contents. Trigger whenever the user mentions 'Word doc', 'document', 'report', 'letter', 'memo', or references a .docx filename."
 ---
 

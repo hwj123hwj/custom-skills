@@ -1,5 +1,8 @@
 ---
 name: paddleocr-doc-parsing
+tags:
+  - Analysis
+  - Research
 description: >-
   Use this skill to extract structured Markdown/JSON from PDFs and document images—tables with
   cell-level precision, formulas as LaTeX, figures, seals, charts, headers/footers, multi-column

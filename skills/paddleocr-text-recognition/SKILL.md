@@ -1,5 +1,8 @@
 ---
 name: paddleocr-text-recognition
+tags:
+  - Analysis
+  - Research
 description: >-
   Use this skill whenever the user wants text extracted from images, photos, scans, screenshots,
   or scanned PDFs. Returns exact machine-readable strings with line-level text and optional bbox

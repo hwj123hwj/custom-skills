@@ -1,11 +1,14 @@
 /**
  * Skill category definitions for the Skills tab filter UI.
  *
- * The 34 individual tags are too granular for a filter bar.
- * These 6 high-level groups map to sets of tags for broad categorisation.
+ * The individual tags are too granular for a filter bar.
+ * These 5 high-level groups map to sets of tags for broad categorisation.
+ *
+ * Design principle: each group should have a clear, distinct "why you'd pick this"
+ * so that the filter bar is useful for narrowing down results.
  */
 
-export type SkillGroupId = 'coding' | 'content' | 'platform' | 'productivity' | 'knowledge' | 'data';
+export type SkillGroupId = 'coding' | 'content' | 'platform' | 'knowledge' | 'product';
 
 export interface SkillCategoryDef {
   id: SkillGroupId;
@@ -26,16 +29,14 @@ export const SKILL_CATEGORIES: SkillCategoryDef[] = [
     tags: ['Bilibili', 'WeChat', 'Weibo', 'Xiaohongshu', 'Social'],
   },
   {
-    id: 'productivity',
-    tags: ['Productivity', 'Automation', 'Planning', 'CLI', 'Utility'],
-  },
-  {
     id: 'knowledge',
-    tags: ['Knowledge', 'Search', 'Research', 'Web', 'Crawler', 'Education'],
+    tags: ['Knowledge', 'Search', 'Research', 'Web', 'Crawler', 'Education', 'Analysis'],
   },
   {
-    id: 'data',
-    tags: ['LocalData', 'Forensics', 'Marketplace', 'Installer', 'Monitoring', 'Recruitment'],
+    // Product & workflow: planning, management, ops, meta-tools
+    // Excludes generic tags (Productivity, Automation, CLI, Utility) to avoid becoming a catch-all
+    id: 'product',
+    tags: ['Product', 'Planning', 'LocalData', 'Forensics', 'Marketplace', 'Installer', 'Monitoring', 'Recruitment', 'Summary'],
   },
 ];
 

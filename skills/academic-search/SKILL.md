@@ -1,5 +1,9 @@
 ---
 name: academic-search
+tags:
+  - Search
+  - Research
+  - Education
 author: ustc-ai4science
 upstream: ustc-ai4science/academic-search
 upstreamSha: c66c7f6ed35148b83dfde02016229603f4a20fa9

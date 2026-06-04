@@ -325,22 +325,16 @@ function HomePage() {
                     onClick={() => { setActiveSkillCategory('platform'); setShowFavorites(false); }}
                   />
                   <CategoryChip
-                    label={t('skill.category.productivity')}
-                    count={skillCategoryCounts['productivity']}
-                    active={activeSkillCategory === 'productivity' && !showFavorites}
-                    onClick={() => { setActiveSkillCategory('productivity'); setShowFavorites(false); }}
-                  />
-                  <CategoryChip
                     label={t('skill.category.knowledge')}
                     count={skillCategoryCounts['knowledge']}
                     active={activeSkillCategory === 'knowledge' && !showFavorites}
                     onClick={() => { setActiveSkillCategory('knowledge'); setShowFavorites(false); }}
                   />
                   <CategoryChip
-                    label={t('skill.category.data')}
-                    count={skillCategoryCounts['data']}
-                    active={activeSkillCategory === 'data' && !showFavorites}
-                    onClick={() => { setActiveSkillCategory('data'); setShowFavorites(false); }}
+                    label={t('skill.category.product')}
+                    count={skillCategoryCounts['product']}
+                    active={activeSkillCategory === 'product' && !showFavorites}
+                    onClick={() => { setActiveSkillCategory('product'); setShowFavorites(false); }}
                   />
                   <FavoritesBar
                     favoriteCount={favoriteSkillCount}
