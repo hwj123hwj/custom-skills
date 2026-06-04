@@ -34,11 +34,13 @@ const ALLOWED_TAGS = new Set([
   // General
   'Analysis',
   'Architecture',
+  'ASR',
   'Audio',
   'Automation',
   'CLI',
   'Coding',
   'Content',
+  'Copywriting',
   'Crawler',
   'Debugging',
   'Education',
@@ -65,6 +67,7 @@ const ALLOWED_TAGS = new Set([
   'Writing',
   // Platforms
   'Bilibili',
+  'Douyin',
   'WeChat',
   'Weibo',
   'Xiaohongshu',

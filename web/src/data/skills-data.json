@@ -157,6 +157,29 @@
     "upstreamSha": "aaf2453fbdfe7a15c07f11d861224f34ab4b53cb"
   },
   {
+    "id": "content-adapt",
+    "name": "content-adapt",
+    "displayName": "content-adapt",
+    "description": "根据视频内容分析结果，生成适合目标平台发布的标题、描述、标签等信息。纯提示驱动，无需执行脚本。",
+    "detailedDescription": "根据视频内容分析结果，生成适合目标平台发布的标题、描述、标签等信息。纯提示驱动，无需执行脚本。",
+    "emoji": "📦",
+    "tags": [
+      "Video",
+      "Content",
+      "Copywriting"
+    ],
+    "scenarios": [],
+    "aliases": [
+      "内容适配",
+      "生成标题",
+      "发布文案"
+    ],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill content-adapt",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/content-adapt",
+    "sourcePath": "skills/content-adapt",
+    "lastUpdated": "2026-06-04T12:23:42.000Z"
+  },
+  {
     "id": "darwin-skill",
     "name": "darwin-skill",
     "displayName": "Darwin Skill",
@@ -195,6 +218,29 @@
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/diagnose",
     "upstreamSha": "aaf2453fbdfe7a15c07f11d861224f34ab4b53cb"
+  },
+  {
+    "id": "douyin-upload",
+    "name": "douyin-upload",
+    "displayName": "有头模式：首次登录推荐使用（会生成二维码）",
+    "description": "当你需要登录抖音账号、检查 Cookie、上传视频或发布图文时使用本技能。基于 `uv run douyin` 执行，无需额外自定义脚本。",
+    "detailedDescription": "uv run douyin login --account <account_name> --headed",
+    "emoji": "📦",
+    "tags": [
+      "Video",
+      "Social",
+      "Douyin"
+    ],
+    "scenarios": [],
+    "aliases": [
+      "抖音上传",
+      "上传视频",
+      "发布视频"
+    ],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill douyin-upload",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/douyin-upload",
+    "sourcePath": "skills/douyin-upload",
+    "lastUpdated": "2026-06-04T12:23:42.000Z"
   },
   {
     "id": "drawio-skill",
@@ -971,6 +1017,29 @@
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/vertex-video-reader",
     "sourcePath": "skills/vertex-video-reader",
     "lastUpdated": "2026-05-02T15:49:31.000Z"
+  },
+  {
+    "id": "video-analyze",
+    "name": "video-analyze",
+    "displayName": "video-analyze",
+    "description": "当你需要分析视频内容（抽取关键帧、识别语音）时使用本技能。输出结构化素材，供 Agent 理解视频内容，并可与 content-adapt 配合生成发布文案。",
+    "detailedDescription": "当你需要分析视频内容（抽取关键帧、识别语音）时使用本技能。输出结构化素材，供 Agent 理解视频内容，并可与 content-adapt 配合生成发布文案。",
+    "emoji": "📦",
+    "tags": [
+      "Video",
+      "Media",
+      "ASR"
+    ],
+    "scenarios": [],
+    "aliases": [
+      "视频分析",
+      "分析视频",
+      "抽帧"
+    ],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill video-analyze",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/video-analyze",
+    "sourcePath": "skills/video-analyze",
+    "lastUpdated": "2026-06-04T12:23:42.000Z"
   },
   {
     "id": "videocut",

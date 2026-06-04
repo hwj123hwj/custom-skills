@@ -109,6 +109,14 @@ export const skillDescriptionsZh: Record<string, string> = {
     'UI/UX 设计智能技能。50+ 设计风格、161 套配色方案、57 种字体搭配、161 种产品类型、99 条 UX 准则、25 种图表类型，覆盖 React/Next.js/Vue/Svelte/SwiftUI 等 10 大技术栈。触发词：设计 UI、美化页面、配色、字体、组件设计。',
   'huashu-design':
     '花叔Design —— 用 HTML 做高保真原型、交互 Demo、幻灯片、动画、设计变体探索和专家评审的一体化设计能力。支持 HTML 动画导出 MP4/GIF、带解说的长动画 pipeline。触发词：做原型、设计Demo、交互原型、动画Demo、设计变体、UI mockup。',
+
+  // ── vid-publisher 系列 ──
+  'content-adapt':
+    '根据视频内容分析结果，生成适合目标平台发布的标题、描述、标签等信息。纯提示驱动，无需执行脚本。触发词：内容适配、生成标题、发布文案。',
+  'douyin-upload':
+    '抖音视频上传 CLI 工具。支持自动上传视频到抖音平台，填写标题、描述和标签。触发词：上传抖音、发布视频到抖音。',
+  'video-analyze':
+    '视频内容分析工具。自动抽帧、语音转录（ASR），生成结构化视频摘要与内容标签。触发词：分析视频、视频摘要、抽帧分析。',
 };
 
 export const agentDescriptionsZh: Record<string, string> = {

@@ -51,8 +51,10 @@ npx skills add https://github.com/hwj123hwj/custom-skills --skill <skill-id>
 | [boss-cli](./skills/boss-cli) | Use boss-cli for ALL BOSS 直聘 operations — searching jobs, viewing recommendations, managing appli... |
 | [brainstorming](./skills/brainstorming) | You MUST use this before any creative work - creating features, building components, adding funct... |
 | [caveman](./skills/caveman) | Ultra-compressed communication mode. |
+| [content-adapt](./skills/content-adapt) | 根据视频内容分析结果，生成适合目标平台发布的标题、描述、标签等信息。 |
 | [darwin-skill](./skills/darwin-skill) | Darwin Skill (达尔文.skill): autonomous skill optimizer inspired by Karpathy's autoresearch. |
 | [diagnose](./skills/diagnose) | Disciplined diagnosis loop for hard bugs and performance regressions. |
+| [douyin-upload](./skills/douyin-upload) | 当你需要登录抖音账号、检查 Cookie、上传视频或发布图文时使用本技能。 |
 | [drawio-skill](./skills/drawio-skill) | Use when user requests diagrams, flowcharts, architecture charts, or visualizations. |
 | [frontend-slides](./skills/frontend-slides) | Create stunning, animation-rich HTML presentations from scratch or by converting PowerPoint files. |
 | [git-guardrails-claude-code](./skills/git-guardrails-claude-code) | Set up Claude Code hooks to block dangerous git commands (push, reset --hard, clean, branch -D, e... |
@@ -86,6 +88,7 @@ npx skills add https://github.com/hwj123hwj/custom-skills --skill <skill-id>
 | [twitter-cli](./skills/twitter-cli) | Use twitter-cli for ALL Twitter/X operations — reading tweets, posting, replying, quoting, liking... |
 | [ui-ux-pro-max](./skills/ui-ux-pro-max) | UI/UX design intelligence for web and mobile. |
 | [vertex-video-reader](./skills/vertex-video-reader) | Use this skill to read, analyze, and understand video files using Google Cloud Vertex AI's lightw... |
+| [video-analyze](./skills/video-analyze) | 当你需要分析视频内容（抽取关键帧、识别语音）时使用本技能。 |
 | [videocut](./skills/videocut) | 口播视频一站式剪辑 Skill。 |
 | [wechat-decrypt](./skills/wechat-decrypt) | 用于解密、同步、查询和导出本机微信 macOS 聊天数据的 CLI-first 技能。 |
 | [weibo-skill](./skills/weibo-skill) | 微博内容搜索、热搜查看、用户动态及评论读取。 |

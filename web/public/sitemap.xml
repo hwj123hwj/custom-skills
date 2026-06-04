@@ -66,6 +66,14 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/caveman?lng=en" />
   </url>
   <url>
+    <loc>https://hwj123hwj.asia/skill/content-adapt</loc>
+    <lastmod>2026-06-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/content-adapt" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/content-adapt?lng=en" />
+  </url>
+  <url>
     <loc>https://hwj123hwj.asia/skill/darwin-skill</loc>
     <lastmod>2026-05-30</lastmod>
     <changefreq>weekly</changefreq>
@@ -80,6 +88,14 @@
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/diagnose" />
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/diagnose?lng=en" />
+  </url>
+  <url>
+    <loc>https://hwj123hwj.asia/skill/douyin-upload</loc>
+    <lastmod>2026-06-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/douyin-upload" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/douyin-upload?lng=en" />
   </url>
   <url>
     <loc>https://hwj123hwj.asia/skill/drawio-skill</loc>
@@ -346,6 +362,14 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/vertex-video-reader?lng=en" />
   </url>
   <url>
+    <loc>https://hwj123hwj.asia/skill/video-analyze</loc>
+    <lastmod>2026-06-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/video-analyze" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/video-analyze?lng=en" />
+  </url>
+  <url>
     <loc>https://hwj123hwj.asia/skill/videocut</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>weekly</changefreq>
@@ -424,6 +448,14 @@
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/agent/tdd-guide" />
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/agent/tdd-guide?lng=en" />
+  </url>
+  <url>
+    <loc>https://hwj123hwj.asia/agent/vid-publisher-agent</loc>
+    <lastmod>2026-06-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/agent/vid-publisher-agent" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/agent/vid-publisher-agent?lng=en" />
   </url>
   <url>
     <loc>https://hwj123hwj.asia/story/intel-agent</loc>
