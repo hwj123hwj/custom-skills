@@ -265,7 +265,7 @@ skills: []
 
 ```yaml
 name: research-agent
-skills: [skill-browser-crawl, wx-cli, tavily]
+skills: [academic-search, wx-cli, tavily]
 定位: 深度信息搜集与整理
 输入: 研究主题
 输出: 带引用来源的研究报告

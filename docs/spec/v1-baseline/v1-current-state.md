@@ -52,13 +52,11 @@ custom-skills/
 | wx-cli | CLI, WeChat, LocalData | jackwener |
 | short-drama-pipeline | Video, Media, Content | 自有 |
 | short-video-replicator | Video, Media, Content | 自有 |
-| skill-browser-crawl | Web, Crawler, Automation | 自有 |
 | skills-sh-installer | Installer, Marketplace, Automation | 自有 |
 | tavily | Search, Web, Research | 自有 |
 | tts | Audio, Utility | 自有 |
 | vertex-video-reader | Video, Media, Analysis | 自有 |
 | videocut | Video, Media, Utility | 自有 |
-| wechat-decrypt | LocalData, WeChat, Forensics | 自有 |
 | weibo-skill | Weibo, Social, Search | 自有 |
 | xiaohongshu-cli | Xiaohongshu, Social, CLI | jackwener |
 

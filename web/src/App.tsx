@@ -13,7 +13,7 @@ import { SkillModal } from './components/SkillModal'
 import { AgentModal } from './components/AgentModal'
 import { StoryModal } from './components/StoryModal'
 import { DeckModal } from './components/DeckModal'
-import { useTheme } from './components/ThemeToggle'
+import { useTheme } from './components/useTheme'
 import { useFavorites, useRecentViews } from './hooks/useFavorites'
 
 // Lazy-load detail pages — kept for SEO and shareable URLs

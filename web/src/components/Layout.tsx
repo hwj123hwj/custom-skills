@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { LangSwitch } from './LangSwitch';
 import { ThemeToggle } from './ThemeToggle';
-import type { Theme } from './ThemeToggle';
+import type { Theme } from './useTheme';
 import { Github } from 'lucide-react';
 
 interface LayoutProps {
