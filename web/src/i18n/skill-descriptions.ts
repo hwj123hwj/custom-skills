@@ -63,8 +63,6 @@ export const skillDescriptionsZh: Record<string, string> = {
     'AI 短剧/短视频全链路生产技能。从选题调研、脚本撰写、视频生成到成片输出的完整工作流。复用 tavily（调研）、xiaohongshu-cli/bilibili-cli（平台数据）、libtv-skill（视频生成）。',
   'short-video-replicator':
     '短视频爆款复刻一站式工具。输入抖音/B站/YouTube链接或本地视频路径，自动完成：视频下载与语音转录 → 结构化文字稿 → 三维度爆款分析 → 文案二创 → 口播脚本×3 + 小剧情脚本×3 → Viral-5D评分 → PDF报告导出。',
-  'skill-browser-crawl':
-    '基于浏览器的轻量级网页爬虫。支持 JavaScript 渲染、Markdown 提取，并能递归爬取文档类网站。',
   'skills-sh-installer':
     '从 skills.sh（Cursor/Windsurf 技能市场）下载并安装技能到本地 .deepv/skills 目录。支持自动解析仓库结构、提取 .claude/skills 下的成品技能、清理构建残留。',
   'videocut':
@@ -158,8 +156,6 @@ export const skillDescriptionsEn: Record<string, string> = {
     'Full-pipeline AI short drama / short video production skill. End-to-end workflow from topic research, scriptwriting, and video generation to final output. Reuses tavily (research), xiaohongshu-cli / bilibili-cli (platform data), and libtv-skill (video generation).',
   'short-video-replicator':
     'All-in-one viral short video replication tool. Input a Douyin / Bilibili / YouTube link or local video path; it automatically handles: download & transcription → structured transcript → 3-dimension viral analysis → content rewrite → 3 voiceover scripts + 3 mini-drama scripts → Viral-5D score → PDF report export.',
-  'skill-browser-crawl':
-    'Lightweight browser-based web crawler. Supports JavaScript rendering, Markdown extraction, and recursive crawling of documentation-style sites.',
   'skills-sh-installer':
     'Download and install skills from skills.sh (Cursor/Windsurf skill marketplace) into the local .deepv/skills directory. Auto-parses repository structure, extracts finished skills from .claude/skills, and cleans up build artifacts.',
   'videocut':

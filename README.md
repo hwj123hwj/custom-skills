@@ -78,7 +78,6 @@ npx skills add https://github.com/hwj123hwj/custom-skills --skill <skill-id>
 | [review](./skills/review) | Two-axis code review — Standards (does code follow documented standards?) and Spec (does code mat... |
 | [short-drama-pipeline](./skills/short-drama-pipeline) | AI 短剧/短视频全链路生产技能。 |
 | [short-video-replicator](./skills/short-video-replicator) | 短视频爆款复刻一站式工具。 |
-| [skill-browser-crawl](./skills/skill-browser-crawl) | 基于浏览器的轻量级网页爬虫。 |
 | [skills-sh-installer](./skills/skills-sh-installer) | 从 skills.sh（Cursor/Windsurf 技能市场）下载并安装技能到本地 .deepv/skills 目录。 |
 | [stock-analysis](./skills/stock-analysis) | 股票智能分析技能。 |
 | [storage-analyzer](./skills/storage-analyzer) | macOS / Windows 只读存储分析助手（自动识别系统）。 |

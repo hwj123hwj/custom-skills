@@ -770,33 +770,6 @@
     "lastUpdated": "2026-05-02T15:49:31.000Z"
   },
   {
-    "id": "skill-browser-crawl",
-    "name": "skill-browser-crawl",
-    "displayName": "Browser-Based Web Crawler",
-    "description": "基于浏览器的轻量级网页爬虫。支持 JavaScript 渲染、Markdown 提取，并能递归爬取文档类网站。",
-    "detailedDescription": "一个基于浏览器的轻量级网页爬取工具，专为实际应用场景设计。当用户需要爬取需要 JavaScript 渲染的页面、将内容提取为 Markdown 格式或递归爬取整个文档站点时，请使用此技能。",
-    "emoji": "📦",
-    "tags": [
-      "Web",
-      "Crawler",
-      "Automation"
-    ],
-    "scenarios": [
-      "抓取需要 JavaScript 渲染的网页",
-      "将网页提取为 Markdown",
-      "递归下载文档站点内容"
-    ],
-    "aliases": [
-      "网页爬虫",
-      "浏览器抓取",
-      "文档爬取"
-    ],
-    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill skill-browser-crawl",
-    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/skill-browser-crawl",
-    "sourcePath": "skills/skill-browser-crawl",
-    "lastUpdated": "2026-05-02T08:29:23.000Z"
-  },
-  {
     "id": "skills-sh-installer",
     "name": "skills-sh-installer",
     "displayName": "Skills.sh Installer",
