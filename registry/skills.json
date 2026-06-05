@@ -135,28 +135,6 @@
     "upstreamSha": "6fd4507659784c351abbd2bc264c7162cfd386dc"
   },
   {
-    "id": "caveman",
-    "name": "caveman",
-    "displayName": "caveman",
-    "description": "Ultra-compressed communication mode. Cuts token usage ~75% by dropping filler, articles, and pleasantries while keeping full technical accuracy. Use when user says 'caveman mode', 'talk like caveman', 'less tokens', 'be brief', or invokes /caveman.",
-    "detailedDescription": "Ultra-compressed communication mode. Cuts token usage ~75% by dropping filler, articles, and pleasantries while keeping full technical accuracy. Use when user says 'caveman mode', 'talk like caveman', 'less tokens', 'be brief', or invokes /caveman.",
-    "emoji": "📦",
-    "tags": [
-      "Productivity",
-      "Product"
-    ],
-    "scenarios": [],
-    "aliases": [],
-    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill caveman",
-    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/caveman",
-    "sourcePath": "skills/caveman",
-    "lastUpdated": "2026-05-30T00:00:00.000Z",
-    "author": "mattpocock",
-    "upstream": "mattpocock/skills",
-    "upstreamPath": "skills/productivity/caveman",
-    "upstreamSha": "aaf2453fbdfe7a15c07f11d861224f34ab4b53cb"
-  },
-  {
     "id": "content-adapt",
     "name": "content-adapt",
     "displayName": "content-adapt",

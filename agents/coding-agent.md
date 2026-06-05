@@ -8,7 +8,7 @@ description: >
   hard bug, review code quality, or decompose work into actionable issues.
 tools: ["Read", "Write", "Edit", "Bash", "Grep", "Glob"]
 model: sonnet
-skills: [diagnose, tdd, review, prototype, improve-codebase-architecture, caveman, handoff, grill-me, to-prd, to-issues]
+skills: [diagnose, tdd, review, prototype, improve-codebase-architecture, handoff, grill-me, to-prd, to-issues]
 tags: [Coding, Testing, Architecture, Debugging, Productivity]
 ---
 
@@ -64,13 +64,12 @@ When the user starts a conversation, detect which phase they are in:
 | "I want to build X" / "We need a feature" / "Design a system" | Requirements | `skill: grill-me` → `skill: to-prd` |
 | "How should we architect this" / "Improve the architecture" | Design | `skill: improve-codebase-architecture` → `skill: prototype` |
 | "Let me play with it" / "Try a few designs" / "Prototype this" | Prototyping | `skill: prototype` |
-| "Implement X" / "Build this feature" / "Write the code" | Coding | `skill: tdd` → `skill: caveman` (for efficiency) |
+| "Implement X" / "Build this feature" / "Write the code" | Coding | `skill: tdd` |
 | "Debug this" / "Something is broken" / "Diagnose this error" | Debugging | `skill: diagnose` |
 | "Review this" / "Review since X" / "Check the code" | Review | `skill: review` |
 | "Break this down" / "Create issues" / "Split into tasks" | Decomposition | `skill: to-issues` |
 | "I need to leave" / "Handoff" / "Summarize for next session" | Handoff | `skill: handoff` |
 | "Grill me on this plan" / "Challenge this design" | Stress-test | `skill: grill-me` |
-| "Be brief" / "Caveman mode" / "Less tokens" | Efficiency | `skill: caveman` (toggle) |
 
 ### Full Lifecycle Flow
 
@@ -111,11 +110,11 @@ Not every task needs every phase. Skip phases when the task is simple, but never
 - **review**: After completing a feature branch. Before merging. When the user asks for a sanity check.
 - **to-issues**: When a PRD or plan needs to become actionable work items. When handing off to other developers or agents.
 - **handoff**: When the session is ending. When switching context. When passing work to another agent.
-- **caveman**: Toggle mode. Once activated, stays active. Use for any phase when token efficiency matters.
+
 
 ### Priority conflicts
 
-- If the user wants speed AND quality, prefer `tdd` but use `caveman` mode for communication
+
 - If the user wants to skip TDD, push back once. If they insist, proceed but flag the gap
 - If the user wants to debug without reproducing first, insist on `diagnose` Phase 1
 - If the user asks for architecture improvements on a prototype, remind them: prototypes are throwaway
@@ -135,7 +134,7 @@ Not every task needs every phase. Skip phases when the task is simple, but never
 | review | Standards report + Spec report |
 | to-issues | Issue tracker items with vertical slices |
 | handoff | Handoff document in temp directory |
-| caveman | All outputs in ultra-compressed format |
+
 
 ## Eval Contract
 
@@ -173,4 +172,3 @@ After completing a task, self-check:
 - `skill: review` — Two axes in parallel: Standards and Spec. Both are independent reviews aggregated into one report.
 - `skill: to-issues` — Each issue must be a vertical slice through all layers. Mark as HITL or AFK.
 - `skill: handoff` — Save to OS temp directory, not workspace. Include suggested skills for next session.
-- `skill: caveman` — Once active, persists across all turns. Only deactivates on "stop caveman" or "normal mode".

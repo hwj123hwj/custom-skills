@@ -87,8 +87,6 @@ export const skillDescriptionsZh: Record<string, string> = {
     '快速原型构建工具。两个分支：针对逻辑/状态机问题的可运行终端应用，或可切换的多种 UI 变体。当用户想原型验证、数据模型试玩、UI 探索时使用。',
   'improve-codebase-architecture':
     '代码库架构改进。基于领域语言（CONTEXT.md）和架构决策记录（ADR）发现架构摩擦点，提出深模块化重构建议。适用于架构改进、重构机会挖掘、模块解耦。',
-  'caveman':
-    '超压缩沟通模式，省约 75% Token。去掉填充词、冠词和客套，保留完整技术精度。当用户说"简洁点""省 Token""caveman 模式"时激活，持续生效。',
   'handoff':
     '将会话压缩成交接文档，供下一个 Agent 继续。保存到系统临时目录，包含建议技能列表，自动脱敏敏感信息。适用于会话切换、工作交接。',
   'grill-me':
