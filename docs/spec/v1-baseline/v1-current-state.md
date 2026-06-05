@@ -19,7 +19,7 @@
 
 ```
 custom-skills/
-├── AGENTS.md             ← 给 AI 看的项目入口与核心规则
+├── .claude/CLAUDE.md     ← 给 AI 看的项目入口与核心规则
 ├── README.md             ← 面向人类的项目介绍（自动同步）
 ├── agents/               ← Agent 定义目录（v1 仅有示例，未接入 registry）
 │   ├── architect.md      ← ECC 通用型 agent 示例

@@ -114,7 +114,7 @@ Hooks 不能直接修改初始系统提示词，但可以通过 `systemMessage` 
 
 ```
 custom-skills/
-├── AGENTS.md             ← 给 AI 看的项目入口与核心规则
+├── .claude/CLAUDE.md     ← 给 AI 看的项目入口与核心规则
 ├── skills/               ← 24 个技能（能力层，已经比较完善）
 ├── registry/             ← 技能索引（自动生成）
 ├── cli/                  ← 安装工具
@@ -137,7 +137,7 @@ custom-skills/
 
 ```
 custom-skills/
-├── AGENTS.md             ← 项目级入口文档（保持轻量）
+├── .claude/CLAUDE.md     ← 项目级入口文档（保持轻量）
 ├── agents/               ← 🆕 专业 Agent 定义（人格层）
 │   ├── intel-agent.md
 │   ├── content-creator.md

@@ -98,7 +98,7 @@ npx skills add https://github.com/hwj123hwj/custom-skills --skill <skill-id>
 
 ## For AI Agents
 
-If you are an AI agent reading this, start with [AGENTS.md](./AGENTS.md) for the lightweight working rules, then see [docs/architecture.md](./docs/architecture.md), [docs/skill-spec.md](./docs/skill-spec.md), and [docs/agent-spec.md](./docs/agent-spec.md) for the detailed technical architecture and contribution guidelines.
+If you are an AI agent reading this, start with [CLAUDE.md](./.claude/CLAUDE.md) for project rules and quick commands, then see [docs/architecture.md](./docs/architecture.md), [docs/skill-spec.md](./docs/skill-spec.md), and [docs/agent-spec.md](./docs/agent-spec.md) for the detailed technical architecture and contribution guidelines.
 
 ## License
 
