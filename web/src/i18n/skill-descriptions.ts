@@ -110,6 +110,10 @@ export const skillDescriptionsZh: Record<string, string> = {
   'huashu-design':
     '花叔Design —— 用 HTML 做高保真原型、交互 Demo、幻灯片、动画、设计变体探索和专家评审的一体化设计能力。支持 HTML 动画导出 MP4/GIF、带解说的长动画 pipeline。触发词：做原型、设计Demo、交互原型、动画Demo、设计变体、UI mockup。',
 
+  // ── 新增第三方技能 ──
+  'content-repurposer':
+    'Markdown 提示工程驱动的内容复用技能，含 7 个子技能（LinkedIn/Twitter/Medium/Substack/Newsletter/GitHub Pages + 编排器）。支持语音配置系统、emoji 控制系统、正则黑名单。零依赖零修改即可用。',
+
   // ── vid-publisher 系列 ──
   'content-adapt':
     '根据视频内容分析结果，生成适合目标平台发布的标题、描述、标签等信息。纯提示驱动，无需执行脚本。触发词：内容适配、生成标题、发布文案。',
@@ -166,6 +170,10 @@ export const skillDescriptionsEn: Record<string, string> = {
     'CLI-first skill for decrypting, syncing, querying, and exporting WeChat chat data from a local macOS installation. Use whenever the user mentions WeChat chat history, the WeChat database, searching chat messages, or exporting WeChat images/files.',
   'weibo-skill':
     'Search Weibo content, view trending topics, read user posts and comments. Uses the m.weibo.cn mobile API — no account or API key required. Trigger scenarios: search Weibo content/topics, check real-time hot searches, fetch user posts, view comments.',
+  'stock-analysis':
+    'Intelligent stock analysis skill. Input a stock ticker (A-share/HK/US), auto-fetches real-time quotes + historical K-line data, calculates technical indicators (MA/MACD/RSI/volume/bias), generates a composite score (100-point scale) with buy/sell signals, searches latest news, and outputs an AI-powered decision dashboard. Python script with multi-source fallback (akshare → yfinance → Alpha Vantage), 6-dimension technical scoring.',
+  'weread-skills':
+    'WeChat Read (微信读书) assistant — search books, manage bookshelf, view notes & highlights, browse reviews, reading statistics, and discover personalized recommendations. Calls WeChat Read APIs via Agent API Gateway.',
 };
 
 /**

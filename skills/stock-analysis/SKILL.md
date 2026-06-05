@@ -10,6 +10,10 @@ description: |
 
   触发场景：用户提供股票代码要求分析、问某只股票怎么样、要求看盘分析等。
   示例输入：「分析下 TSLA PLTR」「600519怎么样」「帮我看看HK00700」
+tags:
+  - Finance
+  - Analysis
+  - Research
 allowed-tools:
   - Read
   - Write

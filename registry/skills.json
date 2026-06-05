@@ -831,7 +831,9 @@
     "detailedDescription": "你是一位专业的股票分析师，通过 Python 脚本获取真实市场数据，结合技术分析和消息面，为用户生成决策看板。",
     "emoji": "📦",
     "tags": [
-      "Utility"
+      "Finance",
+      "Analysis",
+      "Research"
     ],
     "scenarios": [],
     "aliases": [],
@@ -1176,7 +1178,9 @@
     "detailedDescription": "通过 Agent API Gateway 调用微信读书接口，提供搜索、书架、笔记、书评等能力。",
     "emoji": "📦",
     "tags": [
-      "Utility"
+      "Reading",
+      "WeChat",
+      "Knowledge"
     ],
     "scenarios": [],
     "aliases": [],
