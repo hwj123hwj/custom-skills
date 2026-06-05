@@ -180,6 +180,34 @@
     "lastUpdated": "2026-06-04T12:23:42.000Z"
   },
   {
+    "id": "content-repurposer",
+    "name": "content-repurposer",
+    "displayName": "Content Repurposer",
+    "description": "Markdown 提示工程驱动的内容复用技能，含 7 个子技能（LinkedIn/Twitter/Medium/Substack/Newsletter/GitHub Pages + 编排器）。支持语音配置系统、emoji 控制系统、正则黑名单。零依赖零修改即可用。",
+    "detailedDescription": "把一份技术文章复用为 7 个平台的原生内容。纯 Markdown 提示工程，内置语音配置、emoji 控制和正则黑名单。",
+    "emoji": "📝",
+    "tags": [
+      "Content",
+      "Writing",
+      "Social"
+    ],
+    "scenarios": [
+      "把文章复用为 LinkedIn 帖子",
+      "把技术博客转成 Twitter 推文线程",
+      "把内容适配 Medium/Substack/Newsletter 发布",
+      "生成 GitHub Pages 博客文章"
+    ],
+    "aliases": [
+      "内容复用",
+      "跨平台发布",
+      "content repurpose"
+    ],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill content-repurposer",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/content-repurposer",
+    "sourcePath": "skills/content-repurposer",
+    "lastUpdated": "2026-06-05T14:35:44.601Z"
+  },
+  {
     "id": "darwin-skill",
     "name": "darwin-skill",
     "displayName": "Darwin Skill",
@@ -796,6 +824,23 @@
     "lastUpdated": "2026-04-15T02:36:07.000Z"
   },
   {
+    "id": "stock-analysis",
+    "name": "stock-analysis",
+    "displayName": "Stock Analysis Skill",
+    "description": "股票智能分析技能。输入股票代码（A股/港股/美股），自动完成：\n1. 获取实时行情 + 历史K线数据\n2. 计算技术指标（MA/MACD/RSI/量能/乖离率）\n3. 综合评分（100分制）+ 买卖信号\n4. 搜索最新新闻消息面\n5. AI综合分析，输出决策看板\n\n触发场景：用户提供股票代码要求分析、问某只股票怎么样、要求看盘分析等。\n示例输入：「分析下 TSLA PLTR」「600519怎么样」「帮我看看HK00700」",
+    "detailedDescription": "你是一位专业的股票分析师，通过 Python 脚本获取真实市场数据，结合技术分析和消息面，为用户生成决策看板。",
+    "emoji": "📦",
+    "tags": [
+      "Utility"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill stock-analysis",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/stock-analysis",
+    "sourcePath": "skills/stock-analysis",
+    "lastUpdated": "2026-06-05T14:32:34.833Z"
+  },
+  {
     "id": "storage-analyzer",
     "name": "storage-analyzer",
     "displayName": "Storage Analyzer",
@@ -1122,6 +1167,23 @@
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/weibo-skill",
     "sourcePath": "skills/weibo-skill",
     "lastUpdated": "2026-05-02T08:29:23.000Z"
+  },
+  {
+    "id": "weread-skills",
+    "name": "weread-skills",
+    "displayName": "WeRead — 微信读书助手",
+    "description": "微信读书助手 — 搜索书籍、管理书架、查看笔记划线、浏览书评、阅读统计、发现推荐好书",
+    "detailedDescription": "通过 Agent API Gateway 调用微信读书接口，提供搜索、书架、笔记、书评等能力。",
+    "emoji": "📦",
+    "tags": [
+      "Utility"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill weread-skills",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/weread-skills",
+    "sourcePath": "skills/weread-skills",
+    "lastUpdated": "2026-06-05T14:32:34.846Z"
   },
   {
     "id": "wx-cli",

@@ -1,0 +1,15 @@
+{
+  "name": "content-repurposer",
+  "version": "0.4.0",
+  "description": "Generate technical content drafts in Anuj Sadani's voice across 6 formats (LinkedIn, Twitter/X, Newsletter, GitHub Pages, Medium, Substack) plus a repurpose-all orchestrator. Practitioner voice, no marketing fluff.",
+  "author": "Anuj Sadani",
+  "skills": [
+    "skills/linkedin-write",
+    "skills/twitter-write",
+    "skills/newsletter-write",
+    "skills/github-page-write",
+    "skills/medium-write",
+    "skills/substack-write",
+    "skills/repurpose-all"
+  ]
+}

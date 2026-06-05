@@ -52,6 +52,7 @@ npx skills add https://github.com/hwj123hwj/custom-skills --skill <skill-id>
 | [brainstorming](./skills/brainstorming) | You MUST use this before any creative work - creating features, building components, adding funct... |
 | [caveman](./skills/caveman) | Ultra-compressed communication mode. |
 | [content-adapt](./skills/content-adapt) | 根据视频内容分析结果，生成适合目标平台发布的标题、描述、标签等信息。 |
+| [content-repurposer](./skills/content-repurposer) | Markdown 提示工程驱动的内容复用技能，含 7 个子技能（LinkedIn/Twitter/Medium/Substack/Newsletter/GitHub Pages + 编排器）。 |
 | [darwin-skill](./skills/darwin-skill) | Darwin Skill (达尔文.skill): autonomous skill optimizer inspired by Karpathy's autoresearch. |
 | [diagnose](./skills/diagnose) | Disciplined diagnosis loop for hard bugs and performance regressions. |
 | [douyin-upload](./skills/douyin-upload) | 当你需要登录抖音账号、检查 Cookie、上传视频或发布图文时使用本技能。 |
@@ -79,6 +80,7 @@ npx skills add https://github.com/hwj123hwj/custom-skills --skill <skill-id>
 | [short-video-replicator](./skills/short-video-replicator) | 短视频爆款复刻一站式工具。 |
 | [skill-browser-crawl](./skills/skill-browser-crawl) | 基于浏览器的轻量级网页爬虫。 |
 | [skills-sh-installer](./skills/skills-sh-installer) | 从 skills.sh（Cursor/Windsurf 技能市场）下载并安装技能到本地 .deepv/skills 目录。 |
+| [stock-analysis](./skills/stock-analysis) | 股票智能分析技能。 |
 | [storage-analyzer](./skills/storage-analyzer) | macOS / Windows 只读存储分析助手（自动识别系统）。 |
 | [tavily](./skills/tavily) | Unified Tavily CLI skill — web search, URL extraction, and deep research via `tvly`. |
 | [tdd](./skills/tdd) | Test-driven development with red-green-refactor loop. |
@@ -92,6 +94,7 @@ npx skills add https://github.com/hwj123hwj/custom-skills --skill <skill-id>
 | [videocut](./skills/videocut) | 口播视频一站式剪辑 Skill。 |
 | [wechat-decrypt](./skills/wechat-decrypt) | 用于解密、同步、查询和导出本机微信 macOS 聊天数据的 CLI-first 技能。 |
 | [weibo-skill](./skills/weibo-skill) | 微博内容搜索、热搜查看、用户动态及评论读取。 |
+| [weread-skills](./skills/weread-skills) | 微信读书助手 — 搜索书籍、管理书架、查看笔记划线、浏览书评、阅读统计、发现推荐好书 |
 | [wx-cli](./skills/wx-cli) | 本地微信消息与公众号文章查询 CLI。 |
 | [xiaohongshu-cli](./skills/xiaohongshu-cli) | Use xiaohongshu-cli for ALL Xiaohongshu (Little Red Book, 小红书) operations — searching notes, read... |
 <!-- SKILL_TABLE:END -->

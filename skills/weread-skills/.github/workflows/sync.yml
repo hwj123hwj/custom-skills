@@ -1,0 +1,57 @@
+name: 自动同步微信读书 SKILLS
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout 仓库
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 下载并解压微信读书 SKILLS
+        run: |
+          curl -L -o weread-skills.zip "https://cdn.weread.qq.com/skills/weread-skills.zip"
+          mkdir -p weread-skills-temp
+          unzip -o weread-skills.zip -d weread-skills-temp/
+          rm weread-skills.zip
+
+      - name: 同步微信读书 skill 文件到 skills/weread/
+        run: |
+          mkdir -p skills/weread/
+          # 删除旧的 skill 文件
+          rm -f skills/weread/*.md skills/weread/metadata.json
+          # 复制新的 skill 文件
+          cp weread-skills-temp/weread-skills/*.md skills/weread/
+          rm -rf weread-skills-temp/
+          echo "同步的文件列表："
+          ls -la skills/weread/*.md
+
+      - name: 检查变更
+        id: check_changes
+        run: |
+          git add skills/
+          if git diff --cached --quiet; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "没有检测到变更"
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "检测到变更"
+          fi
+
+      - name: 提交并推送变更
+        if: steps.check_changes.outputs.has_changes == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          CURRENT_TIME=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          git commit -m "自动同步微信读书 SKILLS - ${CURRENT_TIME}"
+          git push

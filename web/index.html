@@ -48,6 +48,7 @@ Auto-extracts audio from video files via ffmpeg.</li>
         <li><a href="/skill/brainstorming">Brainstorming Ideas Into Designs</a> - You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before implementation.</li>
         <li><a href="/skill/caveman">caveman</a> - Ultra-compressed communication mode. Cuts token usage ~75% by dropping filler, articles, and pleasantries while keeping full technical accuracy. Use when user says 'caveman mode', 'talk like caveman', 'less tokens', 'be brief', or invokes /caveman.</li>
         <li><a href="/skill/content-adapt">content-adapt</a> - 根据视频内容分析结果，生成适合目标平台发布的标题、描述、标签等信息。纯提示驱动，无需执行脚本。</li>
+        <li><a href="/skill/content-repurposer">Content Repurposer</a> - Markdown 提示工程驱动的内容复用技能，含 7 个子技能（LinkedIn/Twitter/Medium/Substack/Newsletter/GitHub Pages + 编排器）。支持语音配置系统、emoji 控制系统、正则黑名单。零依赖零修改即可用。</li>
         <li><a href="/skill/darwin-skill">Darwin Skill</a> - Darwin Skill (达尔文.skill): autonomous skill optimizer inspired by Karpathy's autoresearch. Evaluates SKILL.md files using an 8-dimension rubric (structure + effectiveness), runs hill-climbing with git version control, validates improvements through test prompts, and generates visual result cards. Use when user mentions "优化skill", "skill评分", "自动优化", "auto optimize", "skill质量检查", "达尔文", "darwin", "帮我改改skill", "skill怎么样", "提升skill质量", "skill review", "skill打分".</li>
         <li><a href="/skill/diagnose">Diagnose</a> - Disciplined diagnosis loop for hard bugs and performance regressions. Reproduce → minimise → hypothesise → instrument → fix → regression-test. Use when user says 'diagnose this' / 'debug this', reports a bug, says something is broken/throwing/failing, or describes a performance regression.</li>
         <li><a href="/skill/douyin-upload">有头模式：首次登录推荐使用（会生成二维码）</a> - 当你需要登录抖音账号、检查 Cookie、上传视频或发布图文时使用本技能。基于 `uv run douyin` 执行，无需额外自定义脚本。</li>
@@ -84,6 +85,15 @@ Trigger: "生成图片", "配图", "封面图", "generate image", "create cover"
         <li><a href="/skill/short-video-replicator">short-video-replicator</a> - 短视频爆款复刻一站式工具。输入抖音/B站/YouTube链接或本地视频路径，自动完成： 视频下载与语音转录 → 结构化文字稿 → 三维度爆款分析 → 文案二创 → 口播脚本×3 + 小剧情脚本×3 → Viral-5D评分 → PDF报告导出（可选飞书推送）。 使用场景：拆解爆款视频、学习短视频文案技巧、生成可直接拍摄的二创脚本。 关键词：短视频复刻、爆款分析、口播脚本、小剧情、文案二创、视频转录、PDF报告、抖音、B站</li>
         <li><a href="/skill/skill-browser-crawl">Browser-Based Web Crawler</a> - 基于浏览器的轻量级网页爬虫。支持 JavaScript 渲染、Markdown 提取，并能递归爬取文档类网站。</li>
         <li><a href="/skill/skills-sh-installer">Skills.sh Installer</a> - 从 skills.sh（Cursor/Windsurf 技能市场）下载并安装技能到本地 .deepv/skills 目录。支持自动解析仓库结构、提取 .claude/skills 下的成品技能、清理构建残留。</li>
+        <li><a href="/skill/stock-analysis">Stock Analysis Skill</a> - 股票智能分析技能。输入股票代码（A股/港股/美股），自动完成：
+1. 获取实时行情 + 历史K线数据
+2. 计算技术指标（MA/MACD/RSI/量能/乖离率）
+3. 综合评分（100分制）+ 买卖信号
+4. 搜索最新新闻消息面
+5. AI综合分析，输出决策看板
+
+触发场景：用户提供股票代码要求分析、问某只股票怎么样、要求看盘分析等。
+示例输入：「分析下 TSLA PLTR」「600519怎么样」「帮我看看HK00700」</li>
         <li><a href="/skill/storage-analyzer">Storage Analyzer</a> - macOS / Windows 只读存储分析助手（自动识别系统）。扫描整机磁盘占用，找出 占空间大户，把每一项分成 🟢可自动清理 / 🟡需人工判断 / 🔴谨慎清理 三级并给出 可执行处置方案，生成排版精美、可折叠、命令可一键复制的交互式 HTML 报告，并可 起本地服务在网页上一键删除（移废纸篓/直接删）。扫描全程只读。务必在以下场景 使用：用户说"存储分析""磁盘满了""C盘/硬盘满了""空间不够""清理空间" "清理磁盘""占空间""哪些东西占地方""帮我看看存储""看一下电脑存储/空间" "存储空间""电脑空间不够""内存满了/不够/不足""看下内存/存储"（中文口语里 "内存"常指存储空间）"storage analysis""disk cleanup""清缓存""磁盘清理"； 或用户抱怨电脑没空间、想知道什么东西吃硬盘、想要清理建议时。注意：若用户明确 指运行内存/RAM（如"哪个进程吃内存""内存占用高"想看活动监视器），那是 RAM 不是存储，不属于本 skill。</li>
         <li><a href="/skill/tavily">tavily — Tavily CLI unified skill</a> - Unified Tavily CLI skill — web search, URL extraction, and deep research via `tvly`. Use this skill when the user wants to search the web, extract content from URLs, conduct research, find articles, look up information, or needs current information from the internet. Routes to the appropriate sub-command based on user intent.</li>
         <li><a href="/skill/tdd">Test-Driven Development</a> - Test-driven development with red-green-refactor loop. Use when user wants to build features or fix bugs using TDD, mentions 'red-green-refactor', wants integration tests, or asks for test-first development.</li>
@@ -100,6 +110,7 @@ Trigger: "配音", "生成语音", "TTS", "text-to-speech", "合成语音", "语
         <li><a href="/skill/videocut">videocut — 口播视频一站式剪辑</a> - 口播视频一站式剪辑 Skill。覆盖转录、口误识别、字幕生成、高清导出的完整工作流。触发词：剪口播、处理视频、帮我剪辑、生成字幕、导出高清。从视频到成片，一步到位。</li>
         <li><a href="/skill/wechat-decrypt">WeChat Decrypt</a> - 用于解密、同步、查询和导出本机微信 macOS 聊天数据的 CLI-first 技能。每当用户提到“微信聊天记录”“微信数据库”“查微信消息”“搜聊天记录”“导出微信图片/文件”“同步最新微信数据”“查看联系人/会话”时，都应该优先使用这个技能。日常查询优先走 `wechat-api` CLI；只有首次初始化、密钥缺失或快照过旧时，才回退到 `wechat-decrypt` 的提密钥与解密步骤。</li>
         <li><a href="/skill/weibo-skill">Weibo Skill</a> - 微博内容搜索、热搜查看、用户动态及评论读取。使用 m.weibo.cn 移动端接口，无需账号和 API Key。触发场景：(1) 用户要求搜索微博内容或话题，(2) 查看实时微博热搜榜，(3) 获取指定用户的微博动态，(4) 查看某条微博的评论，(5) 用户粘贴了 weibo.com 或 m.weibo.cn 的链接。</li>
+        <li><a href="/skill/weread-skills">WeRead — 微信读书助手</a> - 微信读书助手 — 搜索书籍、管理书架、查看笔记划线、浏览书评、阅读统计、发现推荐好书</li>
         <li><a href="/skill/wx-cli">WX CLI</a> - 本地微信消息与公众号文章查询 CLI。读取本机微信数据库，查询会话、聊天记录、联系人、群成员、朋友圈通知，以及关注公众号推送文章。适用于查看微信关注流、按关键词搜索历史消息、筛选未读公众号文章。</li>
         <li><a href="/skill/xiaohongshu-cli">xiaohongshu-cli — Xiaohongshu CLI Tool</a> - Use xiaohongshu-cli for ALL Xiaohongshu (Little Red Book, 小红书) operations — searching notes, reading content, browsing users, liking, collecting, commenting, following, and posting. Invoke whenever the user requests any Xiaohongshu interaction.</li>
       </ul>
