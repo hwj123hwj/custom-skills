@@ -1113,37 +1113,6 @@
     "lastUpdated": "2026-05-02T15:49:31.000Z"
   },
   {
-    "id": "wechat-decrypt",
-    "name": "wechat-decrypt",
-    "displayName": "WeChat Decrypt",
-    "description": "用于解密、同步、查询和导出本机微信 macOS 聊天数据的 CLI-first 技能。每当用户提到“微信聊天记录”“微信数据库”“查微信消息”“搜聊天记录”“导出微信图片/文件”“同步最新微信数据”“查看联系人/会话”时，都应该优先使用这个技能。日常查询优先走 `wechat-api` CLI；只有首次初始化、密钥缺失或快照过旧时，才回退到 `wechat-decrypt` 的提密钥与解密步骤。",
-    "detailedDescription": "这个技能覆盖两层能力：",
-    "emoji": "📦",
-    "tags": [
-      "LocalData",
-      "WeChat",
-      "Forensics"
-    ],
-    "scenarios": [
-      "同步最新微信数据库快照",
-      "查询联系人、会话、聊天记录",
-      "全局搜索微信聊天内容",
-      "导出微信图片和文件",
-      "排查图片是缩略图还是原图"
-    ],
-    "aliases": [
-      "微信解密",
-      "微信聊天记录",
-      "微信数据库",
-      "微信搜索",
-      "微信图片导出"
-    ],
-    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill wechat-decrypt",
-    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/wechat-decrypt",
-    "sourcePath": "skills/wechat-decrypt",
-    "lastUpdated": "2026-04-23T04:16:51.000Z"
-  },
-  {
     "id": "weibo-skill",
     "name": "weibo-skill",
     "displayName": "Weibo Skill",

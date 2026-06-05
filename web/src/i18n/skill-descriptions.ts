@@ -69,8 +69,6 @@ export const skillDescriptionsZh: Record<string, string> = {
     '从 skills.sh（Cursor/Windsurf 技能市场）下载并安装技能到本地 .deepv/skills 目录。支持自动解析仓库结构、提取 .claude/skills 下的成品技能、清理构建残留。',
   'videocut':
     '口播视频一站式剪辑 Skill。覆盖转录、口误识别、字幕生成、高清导出的完整工作流。触发词：剪口播、处理视频、帮我剪辑、生成字幕、导出高清。',
-  'wechat-decrypt':
-    '用于解密、同步、查询和导出本机微信 macOS 聊天数据的 CLI-first 技能。每当用户提到微信聊天记录、微信数据库、查微信消息、搜聊天记录、导出微信图片/文件时使用。',
   'weibo-skill':
     '微博内容搜索、热搜查看、用户动态及评论读取。使用 m.weibo.cn 移动端接口，无需账号和 API Key。触发场景：搜索微博内容/话题、查看实时热搜、获取用户动态、查看评论。',
   'paddleocr-doc-parsing':
@@ -166,8 +164,6 @@ export const skillDescriptionsEn: Record<string, string> = {
     'Download and install skills from skills.sh (Cursor/Windsurf skill marketplace) into the local .deepv/skills directory. Auto-parses repository structure, extracts finished skills from .claude/skills, and cleans up build artifacts.',
   'videocut':
     'All-in-one voiceover video editing skill. Full workflow covering transcription, filler-word detection, subtitle generation, and high-quality export. Trigger words: edit voiceover, process video, cut video, generate subtitles, export HD.',
-  'wechat-decrypt':
-    'CLI-first skill for decrypting, syncing, querying, and exporting WeChat chat data from a local macOS installation. Use whenever the user mentions WeChat chat history, the WeChat database, searching chat messages, or exporting WeChat images/files.',
   'weibo-skill':
     'Search Weibo content, view trending topics, read user posts and comments. Uses the m.weibo.cn mobile API — no account or API key required. Trigger scenarios: search Weibo content/topics, check real-time hot searches, fetch user posts, view comments.',
   'stock-analysis':

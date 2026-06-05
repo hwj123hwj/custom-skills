@@ -92,7 +92,6 @@ npx skills add https://github.com/hwj123hwj/custom-skills --skill <skill-id>
 | [vertex-video-reader](./skills/vertex-video-reader) | Use this skill to read, analyze, and understand video files using Google Cloud Vertex AI's lightw... |
 | [video-analyze](./skills/video-analyze) | 当你需要分析视频内容（抽取关键帧、识别语音）时使用本技能。 |
 | [videocut](./skills/videocut) | 口播视频一站式剪辑 Skill。 |
-| [wechat-decrypt](./skills/wechat-decrypt) | 用于解密、同步、查询和导出本机微信 macOS 聊天数据的 CLI-first 技能。 |
 | [weibo-skill](./skills/weibo-skill) | 微博内容搜索、热搜查看、用户动态及评论读取。 |
 | [weread-skills](./skills/weread-skills) | 微信读书助手 — 搜索书籍、管理书架、查看笔记划线、浏览书评、阅读统计、发现推荐好书 |
 | [wx-cli](./skills/wx-cli) | 本地微信消息与公众号文章查询 CLI。 |
