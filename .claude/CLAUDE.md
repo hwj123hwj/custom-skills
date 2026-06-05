@@ -44,11 +44,12 @@ skills/*/SKILL.md (唯一数据源)
 ## Critical Rules
 
 - **永远不要手动编辑** `registry/skills.json` 或 `web/src/data/skills-data.json`，它们由 `generate:registry` 自动生成
-- 修改任何 `SKILL.md` 后，提交前**必须**运行 `cd web && npm run generate:registry`，否则 CI 失败
+- 修改任何 `SKILL.md` 或 `agents/*.md` 后，提交前**必须**运行 `cd web && npm run generate:registry`，否则 CI 失败
 - 新增 tag 必须先在 `web/scripts/validate-registry.ts` 的 `ALLOWED_TAGS` 中注册
 - 技能 `name` 字段必须 kebab-case 且与目录名一致
 - Python 脚本使用 PEP 723 内联元数据，用 `uv run` 执行
 - 新增技能后，**必须**在 `web/src/i18n/skill-descriptions.ts` 中补充中文描述（CI 会校验覆盖率）
+- 每次 push 到远程仓库后，**必须**等待 CI/CD 结果确认通过再结束任务，失败则立即修复
 
 ## Upstream Sync
 

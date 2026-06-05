@@ -38,11 +38,12 @@ skills/*/SKILL.md
 ## Critical Rules
 
 - Never manually edit `registry/skills.json` or `web/src/data/skills-data.json`.
-- After changing any `SKILL.md`, run `cd web && npm run generate:registry` before finishing.
+- After changing any `SKILL.md` or `agents/*.md`, run `cd web && npm run generate:registry` before finishing.
 - New tags must be registered in `web/scripts/validate-registry.ts` before use.
 - Skill `name` must be kebab-case and match the directory name.
 - Prefer PEP 723 inline metadata for Python scripts and run them with `uv run`.
 - Keep `AGENTS.md` lightweight. Detailed rules belong in `docs/`.
+- After pushing to remote, always wait for CI/CD results before finishing. Fix failures immediately.
 
 ## Working Conventions
 
