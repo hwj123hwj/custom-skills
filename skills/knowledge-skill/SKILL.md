@@ -4,7 +4,7 @@ displayName: Knowledge Skill
 description: >
   个人知识流水线技能。将网页、B站、微信公众号、小红书、Markdown 等内容先入库到
   PostgreSQL 原料池，再编译为 Agent 友好的 Markdown / LLM Wiki 知识网络。
-  支持 URL 入库、摘要与向量、Markdown 检索、Wiki 编译、记忆层整理和夜间自动收割。
+  支持 URL 入库、摘要与向量、Markdown 检索、Wiki 编译、飞书知识库发布、记忆层整理和夜间自动收割。
 tags:
   - Knowledge
   - Search
@@ -18,6 +18,7 @@ scenarios:
   - 保存网页、视频或文章到 PostgreSQL 原料池
   - 将原料编译成 Markdown / LLM Wiki 知识网络
   - 使用 rg/Markdown 文件检索已编译知识
+  - 将本地 Markdown / LLM Wiki 发布到飞书知识库
   - 夜间自动收割 B 站或小红书内容
 ---
 
@@ -56,6 +57,7 @@ Feishu / Lark              = 人类编辑、协作、展示和长期沉淀层
 | Wiki 状态 | `knowledge_wiki_status.py` | 统计 raw 文件、wiki 页面、source 页面和最近维护日志 |
 | Wiki Review | `knowledge_wiki_review.py` | 扫描 llm-wiki 编译结果，统计 source / concept / entity 页面，标出偏薄页面，并输出可执行的编译目标命令 |
 | Wiki Coverage | `knowledge_wiki_coverage.py` | 桥接 raw 知识池和 wiki 编译产出的覆盖率报告，分析未编译条目、薄弱 concept/entity，生成定向编译建议 |
+| 发布到飞书知识库 | `knowledge_publish_feishu.py` | 直接调用飞书 OpenAPI，把本地 Markdown 导入为 docx 并迁入 Wiki 知识空间；运行时不依赖 `lark-cli` |
 | 生成 Deck Brief | `knowledge_to_deck_brief.py` | 从导出的候选知识中筛选高价值内容，压成知识卡片，并生成可交给 PPT Skill 的结构化 brief |
 | 运行 Deck Recipe | `knowledge_deck_recipe.py` | 从 markdown recipe 复跑 deck 选题参数，生成更稳定的 brief |
 | URL入库 | `knowledge_save_from_url.py` | 从 URL 自动获取并入库（支持视频ASR转录） |
@@ -161,6 +163,52 @@ LLM Wiki 维护方式：
 ```text
 skills/knowledge-skill/references/llm-wiki-workflow.md
 ```
+
+### 发布 Markdown 到飞书知识库
+
+适用于“机器人 / Agent 后端把本地编译好的 Markdown 传到飞书，作为人类可编辑的知识库页面”。脚本直接调用飞书 OpenAPI，不要求本地安装 `lark-cli`。
+
+首次运行前配置环境变量：
+
+```bash
+export FEISHU_APP_ID=cli_xxx
+export FEISHU_APP_SECRET=xxx
+export FEISHU_TARGET_SPACE_ID=spc_xxx
+# 可选：发布到某个 Wiki 父页面下
+export FEISHU_TARGET_PARENT_TOKEN=wikcn_xxx
+```
+
+应用需要具备文档导入、素材上传、Wiki 节点移动/读取等权限，并且应用或机器人需要被加入目标知识库，否则 OpenAPI 会返回权限错误。
+
+```bash
+# 预览将发布哪些 Markdown，不写入飞书
+python skills/knowledge-skill/scripts/knowledge_publish_feishu.py \
+  --source .llm-wiki/wiki
+
+# 执行发布：导入 md 为 docx，再迁入目标 Wiki 知识库
+python skills/knowledge-skill/scripts/knowledge_publish_feishu.py \
+  --source .llm-wiki/wiki \
+  --execute
+
+# 保留目录层级：子目录会变成轻量目录页，md 会挂在对应目录页下
+python skills/knowledge-skill/scripts/knowledge_publish_feishu.py \
+  --source .llm-wiki/wiki \
+  --execute
+
+# 扁平发布到目标父节点下
+python skills/knowledge-skill/scripts/knowledge_publish_feishu.py \
+  --source .llm-wiki/wiki \
+  --flat \
+  --execute
+
+# 已有映射且内容变化时，覆盖更新原 docx，而不是重新导入新文档
+python skills/knowledge-skill/scripts/knowledge_publish_feishu.py \
+  --source .llm-wiki/wiki \
+  --update-existing \
+  --execute
+```
+
+同步状态默认保存在 `.llm-wiki/feishu-sync.json`。它记录 `local path -> sha256/doc_token/wiki_token`，用于跳过未变化文件和避免重复发布。
 
 ### 记忆层管理（L1/L2/L3 分层）
 
