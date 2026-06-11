@@ -34,6 +34,15 @@ IMPORT_POLL_ATTEMPTS = 30
 IMPORT_POLL_INTERVAL = 2.0
 WIKI_MOVE_POLL_ATTEMPTS = 30
 WIKI_MOVE_POLL_INTERVAL = 2.0
+URL_OBJ_TYPES = {
+    "docx": "docx",
+    "doc": "doc",
+    "sheets": "sheet",
+    "base": "bitable",
+    "mindnote": "mindnote",
+    "slides": "slides",
+    "file": "file",
+}
 
 
 class FeishuError(RuntimeError):
@@ -176,8 +185,11 @@ class FeishuClient:
         return self.poll_wiki_move_task(task_id)
 
     def get_wiki_node(self, token_or_url: str) -> dict[str, Any]:
-        token = extract_feishu_token(token_or_url)
-        result = self._request("GET", "/open-apis/wiki/v2/spaces/get_node", params={"token": token})
+        token, obj_type = extract_feishu_ref(token_or_url)
+        params: dict[str, Any] = {"token": token}
+        if obj_type:
+            params["obj_type"] = obj_type
+        result = self._request("GET", "/open-apis/wiki/v2/spaces/get_node", params=params)
         node = result.get("node") or result
         if not node.get("space_id"):
             raise FeishuError(f"could not resolve wiki node from {token_or_url}: {result}")
@@ -301,17 +313,23 @@ def directory_chain(rel_path: str) -> list[str]:
 
 
 def extract_feishu_token(value: str) -> str:
+    return extract_feishu_ref(value)[0]
+
+
+def extract_feishu_ref(value: str) -> tuple[str, str]:
     raw = value.strip()
     if not raw:
-        return ""
+        return "", ""
     if not raw.startswith(("http://", "https://")):
-        return raw
+        return raw, ""
     parsed = urlparse(raw)
     parts = [part for part in parsed.path.split("/") if part]
     for idx, part in enumerate(parts[:-1]):
-        if part in {"wiki", "docx", "doc", "folder", "file"}:
-            return parts[idx + 1]
-    return parts[-1] if parts else raw
+        if part == "wiki":
+            return parts[idx + 1], ""
+        if part in URL_OBJ_TYPES:
+            return parts[idx + 1], URL_OBJ_TYPES[part]
+    return (parts[-1], "") if parts else (raw, "")
 
 
 def resolve_wiki_target(

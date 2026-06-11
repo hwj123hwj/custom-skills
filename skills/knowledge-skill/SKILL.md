@@ -209,6 +209,9 @@ python skills/knowledge-skill/scripts/knowledge_publish_feishu.py \
   --source .llm-wiki/wiki \
   --update-existing \
   --execute
+
+# 无凭证离线自测 OpenAPI 编排逻辑
+python skills/knowledge-skill/scripts/knowledge_publish_feishu_selftest.py
 ```
 
 同步状态默认保存在 `.llm-wiki/feishu-sync.json`。它记录 `local path -> sha256/doc_token/wiki_token`，用于跳过未变化文件和避免重复发布。
