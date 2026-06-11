@@ -31,6 +31,8 @@ export const skillDescriptionsZh: Record<string, string> = {
     '统一生图技能，基于策略模式，支持多个后端 Provider 自由切换（Vertex AI Imagen、dvcode）。适用于文章配图、封面图、通用图片生成等场景。触发词：生成图片、配图、封面图。',
   'frontend-slides':
     '前端幻灯片与网页演示生成技能。将 PPT/PPTX 转成高质量 HTML Slides，或从零创建适合演讲、分享、路演和产品展示的动画化网页演示稿，帮助非设计背景用户通过视觉探索确定审美方向。',
+  'feishu-md-exporter':
+    '飞书/Lark Markdown 导出技能。通过飞书开放平台官方 API，把单个飞书文档或整个 Drive 文件夹递归导出为本地 Markdown，保留目录结构。适合个人备份有查看权限但禁用复制/导出的文档。',
   'huashu-nuwa':
     '女娲造人式人物 Skill 蒸馏器。输入人物姓名、主题或模糊需求，自动完成深度调研、思维框架提炼与可运行人物 Skill 生成。适用于“做一个某某视角的 Skill”“蒸馏某人思维方式”这类任务。',
   'llm-price-tracker':

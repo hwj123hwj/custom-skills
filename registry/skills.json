@@ -270,6 +270,34 @@
     "upstreamSha": "7b9d607d2cb343c8c8161488b4c22b238b7b8a25"
   },
   {
+    "id": "feishu-md-exporter",
+    "name": "feishu-md-exporter",
+    "displayName": "Feishu Markdown Exporter",
+    "description": "Export Feishu/Lark docs or entire Drive folders to local Markdown using the official Open Platform APIs. Use this skill whenever the user asks to export a Feishu/Lark document, docx link, wiki/doc link, Drive folder, folder tree, or batch of Feishu docs to md/Markdown, especially for personal backups of documents that are viewable but not copy/export enabled.",
+    "detailedDescription": "Use this skill to export Feishu/Lark documents to Markdown. It supports the two common personal workflows:",
+    "emoji": "📦",
+    "tags": [
+      "Automation",
+      "Productivity",
+      "LocalData"
+    ],
+    "scenarios": [
+      "导出单个飞书文档为 Markdown",
+      "递归导出飞书 Drive 文件夹为 Markdown 目录树",
+      "备份有查看权限但禁用复制或导出的飞书文档"
+    ],
+    "aliases": [
+      "飞书文档导出",
+      "飞书转 Markdown",
+      "飞书文件夹导出",
+      "Lark 文档导出"
+    ],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill feishu-md-exporter",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/feishu-md-exporter",
+    "sourcePath": "skills/feishu-md-exporter",
+    "lastUpdated": "2026-06-11T05:23:43.524Z"
+  },
+  {
     "id": "frontend-slides",
     "name": "frontend-slides",
     "displayName": "Frontend Slides",

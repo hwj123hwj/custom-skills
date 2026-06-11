@@ -56,6 +56,7 @@ npx skills add https://github.com/hwj123hwj/custom-skills --skill <skill-id>
 | [diagnose](./skills/diagnose) | Disciplined diagnosis loop for hard bugs and performance regressions. |
 | [douyin-upload](./skills/douyin-upload) | 当你需要登录抖音账号、检查 Cookie、上传视频或发布图文时使用本技能。 |
 | [drawio-skill](./skills/drawio-skill) | Use when user requests diagrams, flowcharts, architecture charts, or visualizations. |
+| [feishu-md-exporter](./skills/feishu-md-exporter) | Export Feishu/Lark docs or entire Drive folders to local Markdown using the official Open Platfor... |
 | [frontend-slides](./skills/frontend-slides) | Create stunning, animation-rich HTML presentations from scratch or by converting PowerPoint files. |
 | [git-guardrails-claude-code](./skills/git-guardrails-claude-code) | Set up Claude Code hooks to block dangerous git commands (push, reset --hard, clean, branch -D, e... |
 | [grill-me](./skills/grill-me) | Interview the user relentlessly about a plan or design until reaching shared understanding, resol... |
