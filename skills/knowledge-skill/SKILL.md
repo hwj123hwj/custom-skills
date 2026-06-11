@@ -173,12 +173,15 @@ skills/knowledge-skill/references/llm-wiki-workflow.md
 ```bash
 export FEISHU_APP_ID=cli_xxx
 export FEISHU_APP_SECRET=xxx
+export FEISHU_TARGET_URL=https://example.feishu.cn/wiki/wikcn_xxx
+# 也可以不用 URL，改为显式传 space_id
 export FEISHU_TARGET_SPACE_ID=spc_xxx
 # 可选：发布到某个 Wiki 父页面下
 export FEISHU_TARGET_PARENT_TOKEN=wikcn_xxx
 ```
 
 应用需要具备文档导入、素材上传、Wiki 节点移动/读取等权限，并且应用或机器人需要被加入目标知识库，否则 OpenAPI 会返回权限错误。
+如果配置了 `FEISHU_TARGET_URL`，脚本会调用 Wiki `get_node` 自动解析 `space_id` 和父页面 `node_token`。
 
 ```bash
 # 预览将发布哪些 Markdown，不写入飞书

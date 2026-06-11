@@ -23,6 +23,7 @@ import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
 
 import requests
 
@@ -174,6 +175,14 @@ class FeishuClient:
             raise FeishuError(f"move_docs_to_wiki returned no wiki_token/task_id/applied: {result}")
         return self.poll_wiki_move_task(task_id)
 
+    def get_wiki_node(self, token_or_url: str) -> dict[str, Any]:
+        token = extract_feishu_token(token_or_url)
+        result = self._request("GET", "/open-apis/wiki/v2/spaces/get_node", params={"token": token})
+        node = result.get("node") or result
+        if not node.get("space_id"):
+            raise FeishuError(f"could not resolve wiki node from {token_or_url}: {result}")
+        return node
+
     def poll_wiki_move_task(self, task_id: str) -> dict[str, Any]:
         last: dict[str, Any] = {}
         for _ in range(WIKI_MOVE_POLL_ATTEMPTS):
@@ -291,6 +300,42 @@ def directory_chain(rel_path: str) -> list[str]:
     return parts
 
 
+def extract_feishu_token(value: str) -> str:
+    raw = value.strip()
+    if not raw:
+        return ""
+    if not raw.startswith(("http://", "https://")):
+        return raw
+    parsed = urlparse(raw)
+    parts = [part for part in parsed.path.split("/") if part]
+    for idx, part in enumerate(parts[:-1]):
+        if part in {"wiki", "docx", "doc", "folder", "file"}:
+            return parts[idx + 1]
+    return parts[-1] if parts else raw
+
+
+def resolve_wiki_target(
+    client: FeishuClient,
+    *,
+    target_space_id: str,
+    target_parent_token: str,
+    target_url: str,
+) -> tuple[str, str, dict[str, Any] | None]:
+    if target_url:
+        node = client.get_wiki_node(target_url)
+        return (
+            target_space_id or str(node.get("space_id") or ""),
+            target_parent_token or str(node.get("node_token") or extract_feishu_token(target_url)),
+            node,
+        )
+
+    if target_parent_token and not target_space_id:
+        node = client.get_wiki_node(target_parent_token)
+        return str(node.get("space_id") or ""), target_parent_token, node
+
+    return target_space_id, target_parent_token, None
+
+
 def ensure_directory_pages(
     client: FeishuClient,
     state: dict[str, Any],
@@ -386,6 +431,7 @@ def main() -> int:
     parser.add_argument("--app-secret", default=os.environ.get("FEISHU_APP_SECRET", ""), help="Feishu app secret; defaults to FEISHU_APP_SECRET")
     parser.add_argument("--target-space-id", default=os.environ.get("FEISHU_TARGET_SPACE_ID", ""), help="Target Wiki space_id")
     parser.add_argument("--target-parent-token", default=os.environ.get("FEISHU_TARGET_PARENT_TOKEN", ""), help="Optional target parent wiki node token")
+    parser.add_argument("--target-url", default=os.environ.get("FEISHU_TARGET_URL", ""), help="Optional target Wiki URL; resolves space_id and parent node token")
     parser.add_argument("--base-url", default=os.environ.get("FEISHU_OPENAPI_BASE_URL", DEFAULT_BASE_URL), help="OpenAPI base URL")
     parser.add_argument("--execute", action="store_true", help="Actually write to Feishu. Omit for dry-run.")
     parser.add_argument("--update-existing", action="store_true", help="Overwrite changed docs recorded in the sync state instead of re-importing")
@@ -409,7 +455,6 @@ def main() -> int:
         missing = [name for name, value in (
             ("FEISHU_APP_ID/--app-id", args.app_id),
             ("FEISHU_APP_SECRET/--app-secret", args.app_secret),
-            ("FEISHU_TARGET_SPACE_ID/--target-space-id", args.target_space_id),
         ) if not value]
         if missing:
             print(f"Missing required config for execute mode: {', '.join(missing)}", file=sys.stderr)
@@ -417,17 +462,31 @@ def main() -> int:
 
     state = load_state(state_path)
     client = FeishuClient(args.app_id, args.app_secret, base_url=args.base_url)
+    resolved_target: dict[str, Any] | None = None
+    target_space_id = args.target_space_id
+    target_parent_token = args.target_parent_token
+    if args.execute:
+        target_space_id, target_parent_token, resolved_target = resolve_wiki_target(
+            client,
+            target_space_id=args.target_space_id,
+            target_parent_token=args.target_parent_token,
+            target_url=args.target_url,
+        )
+        if not target_space_id:
+            print("Missing target Wiki space. Set FEISHU_TARGET_SPACE_ID/--target-space-id or FEISHU_TARGET_URL/--target-url.", file=sys.stderr)
+            return 2
+
     events: list[dict[str, Any]] = []
 
     for md in md_files:
-        parent_token = args.target_parent_token
+        parent_token = target_parent_token
         if not args.flat:
             parent_token = ensure_directory_pages(
                 client,
                 state,
                 directory_chain(md.rel_path),
-                target_space_id=args.target_space_id,
-                root_parent_token=args.target_parent_token,
+                target_space_id=target_space_id,
+                root_parent_token=target_parent_token,
                 execute=args.execute,
                 output_events=events,
             )
@@ -436,7 +495,7 @@ def main() -> int:
                 client,
                 md,
                 state,
-                target_space_id=args.target_space_id,
+                target_space_id=target_space_id,
                 parent_token=parent_token,
                 execute=args.execute,
                 update_existing=args.update_existing,
@@ -452,6 +511,10 @@ def main() -> int:
         "dry_run": not args.execute,
         "source": str(source.expanduser().resolve()),
         "state": str(state_path.expanduser().resolve()),
+        "target_url": args.target_url,
+        "target_space_id": target_space_id,
+        "target_parent_token": target_parent_token,
+        "resolved_target": resolved_target,
         "total_markdown_files": len(md_files),
         "events": events,
     }
@@ -463,6 +526,12 @@ def main() -> int:
         print()
         print(f"- source: `{result['source']}`")
         print(f"- state: `{result['state']}`")
+        if args.target_url:
+            print(f"- target_url: `{args.target_url}`")
+        if target_space_id:
+            print(f"- target_space_id: `{target_space_id}`")
+        if target_parent_token:
+            print(f"- target_parent_token: `{target_parent_token}`")
         print(f"- markdown files: {len(md_files)}")
         print()
         for event in events:
