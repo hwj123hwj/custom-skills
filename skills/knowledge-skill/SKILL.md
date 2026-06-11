@@ -2,9 +2,9 @@
 name: knowledge-skill
 displayName: Knowledge Skill
 description: >
-  个人知识库技能。支持将网页、B站、微信公众号、小红书等内容入库到 PostgreSQL，
-  并通过关键词或语义检索找回历史知识。自动生成 AI 摘要与向量嵌入，
-  同时支持 URL 一键入库和夜间自动收割。
+  个人知识流水线技能。将网页、B站、微信公众号、小红书、Markdown 等内容先入库到
+  PostgreSQL 原料池，再编译为 Agent 友好的 Markdown / LLM Wiki 知识网络。
+  支持 URL 入库、摘要与向量、Markdown 检索、Wiki 编译、记忆层整理和夜间自动收割。
 tags:
   - Knowledge
   - Search
@@ -15,14 +15,26 @@ aliases:
   - 搜索知识
   - 历史知识
 scenarios:
-  - 保存网页、视频或文章到个人知识库
-  - 根据关键词或语义搜索历史内容
+  - 保存网页、视频或文章到 PostgreSQL 原料池
+  - 将原料编译成 Markdown / LLM Wiki 知识网络
+  - 使用 rg/Markdown 文件检索已编译知识
   - 夜间自动收割 B 站或小红书内容
 ---
 
-# Knowledge Skill - 个人知识管理
+# Knowledge Skill - 个人知识流水线
 
-将碎片化信息转化为结构化知识库。
+将碎片化信息转化为可检索、可阅读、可沉淀的结构化知识。
+
+核心分层：
+
+```text
+PostgreSQL knowledge_items = 原料池 / 采集池 / 状态层
+memory_cards               = 结构化记忆卡 / 中间整理层
+.llm-wiki/wiki/*.md        = Agent 优先检索的 Markdown 编译层
+Feishu / Lark              = 人类编辑、协作、展示和长期沉淀层
+```
+
+当用户要“查资料、召回历史内容、找原始证据”时，用 PG / memory 脚本；当用户要“沉淀成知识库、让 Agent 以后能直接读”时，优先走 `.llm-wiki` Markdown 编译工作流。详细规则见 `references/llm-wiki-workflow.md`。
 
 ## 功能
 
@@ -34,11 +46,14 @@ scenarios:
 | Wiki Docs 种子 | `knowledge_seed_wiki_docs_items.py` | 导入更适合 wiki 编译线的 story / spec / showcase docs，提升 concept/entity 的 mentions 密度 |
 | 演示知识种子 | `knowledge_seed_demo_items.py` | 写入更厚实的演示知识条目，稳定 showcase / recipe 的基础候选 |
 | 搜索 | `knowledge_search.py` | 关键词 + 向量语义搜索（支持混合搜索） |
+| Markdown 检索 | `knowledge_md_search.py` | 用 `rg` / 文件扫描检索已编译的 Markdown 知识层 |
 | 导出候选 | `knowledge_export.py` | 面向 agent 导出更完整的候选知识对象，补齐 `ai_summary`、`content`、`metadata` |
 | AI摘要回填 | `knowledge_backfill_ai_summary.py` | 为旧条目或缺失条目批量补齐 AI 摘要，优先修复知识池短板 |
 | 候选体检 | `knowledge_candidate_review.py` | 对导出候选做 deck 适配度评分、噪音识别和版式建议，帮助判断知识池质量 |
 | Recipe Audit | `knowledge_recipe_audit.py` | 批量审阅 showcase recipes，快速看哪些 recipe 健康、哪些还在串题 |
 | Knowledge Pool Report | `knowledge_pool_report.py` | 直接体检知识池本身，统计来源分布、AI 摘要覆盖率和薄弱条目 |
+| Wiki 初始化 | `knowledge_wiki_init.py` | 初始化 DeepV-style `.llm-wiki/raw + wiki + index.md + log.md` 目录结构 |
+| Wiki 状态 | `knowledge_wiki_status.py` | 统计 raw 文件、wiki 页面、source 页面和最近维护日志 |
 | Wiki Review | `knowledge_wiki_review.py` | 扫描 llm-wiki 编译结果，统计 source / concept / entity 页面，标出偏薄页面，并输出可执行的编译目标命令 |
 | Wiki Coverage | `knowledge_wiki_coverage.py` | 桥接 raw 知识池和 wiki 编译产出的覆盖率报告，分析未编译条目、薄弱 concept/entity，生成定向编译建议 |
 | 生成 Deck Brief | `knowledge_to_deck_brief.py` | 从导出的候选知识中筛选高价值内容，压成知识卡片，并生成可交给 PPT Skill 的结构化 brief |
@@ -113,6 +128,38 @@ python skills/knowledge-skill/scripts/knowledge_search.py \
   --query "RAG 技术" \
   --mode hybrid \
   --limit 10
+```
+
+### Markdown / LLM Wiki 编译层
+
+```bash
+# 初始化当前项目的 .llm-wiki
+python skills/knowledge-skill/scripts/knowledge_wiki_init.py \
+  --root .llm-wiki \
+  --output markdown
+
+# 查看 wiki 状态
+python skills/knowledge-skill/scripts/knowledge_wiki_status.py \
+  --root .llm-wiki
+
+# 用 rg 优先检索已编译 wiki 页面
+python skills/knowledge-skill/scripts/knowledge_md_search.py \
+  --root .llm-wiki/wiki \
+  --query "Agent"
+```
+
+LLM Wiki 维护方式：
+
+1. 把原始材料放进 `.llm-wiki/raw/`，或指定任意源文件。
+2. Agent 读取源文件，提取实体、概念、事实、关系和矛盾点。
+3. Agent 在 `.llm-wiki/wiki/` 创建 `source-*`、`entity-*`、`concept-*` 页面。
+4. Agent 更新 `.llm-wiki/index.md` 和 `.llm-wiki/log.md`。
+5. 后续查询优先读 `.llm-wiki/index.md` 和 `.llm-wiki/wiki/`，不要直接把 raw 当答案来源。
+
+如果要执行 DeepV-style 的 ingest/query/lint 流程，先阅读：
+
+```text
+skills/knowledge-skill/references/llm-wiki-workflow.md
 ```
 
 ### 记忆层管理（L1/L2/L3 分层）

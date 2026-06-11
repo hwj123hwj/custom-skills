@@ -524,8 +524,8 @@
     "id": "knowledge-skill",
     "name": "knowledge-skill",
     "displayName": "Knowledge Skill",
-    "description": "个人知识库技能。支持将网页、B站、微信公众号、小红书等内容入库到 PostgreSQL， 并通过关键词或语义检索找回历史知识。自动生成 AI 摘要与向量嵌入， 同时支持 URL 一键入库和夜间自动收割。",
-    "detailedDescription": "将碎片化信息转化为结构化知识库。",
+    "description": "个人知识流水线技能。将网页、B站、微信公众号、小红书、Markdown 等内容先入库到 PostgreSQL 原料池，再编译为 Agent 友好的 Markdown / LLM Wiki 知识网络。 支持 URL 入库、摘要与向量、Markdown 检索、Wiki 编译、记忆层整理和夜间自动收割。",
+    "detailedDescription": "将碎片化信息转化为可检索、可阅读、可沉淀的结构化知识。",
     "emoji": "📦",
     "tags": [
       "Knowledge",
@@ -533,8 +533,9 @@
       "Automation"
     ],
     "scenarios": [
-      "保存网页、视频或文章到个人知识库",
-      "根据关键词或语义搜索历史内容",
+      "保存网页、视频或文章到 PostgreSQL 原料池",
+      "将原料编译成 Markdown / LLM Wiki 知识网络",
+      "使用 rg/Markdown 文件检索已编译知识",
       "夜间自动收割 B 站或小红书内容"
     ],
     "aliases": [
