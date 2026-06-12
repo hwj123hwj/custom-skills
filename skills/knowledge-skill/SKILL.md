@@ -48,7 +48,7 @@ Feishu / Lark              = 人类编辑、协作、展示和长期沉淀层
 | 演示知识种子 | `knowledge_seed_demo_items.py` | 写入更厚实的演示知识条目，稳定 showcase / recipe 的基础候选 |
 | 搜索 | `knowledge_search.py` | 关键词 + 向量语义搜索（支持混合搜索） |
 | Markdown 检索 | `knowledge_md_search.py` | 用 `rg` / 文件扫描检索已编译的 Markdown 知识层 |
-| 导出候选 | `knowledge_export.py` | 面向 agent 导出更完整的候选知识对象，补齐 `ai_summary`、`content`、`metadata` |
+| 导出候选 | `knowledge_export.py` | 自包含的 agent 导出层：混合搜索 + 补齐 `ai_summary`、`content_preview`、`metadata`，关键词搜索也匹配 `ai_summary` |
 | AI摘要回填 | `knowledge_backfill_ai_summary.py` | 为旧条目或缺失条目批量补齐 AI 摘要，优先修复知识池短板 |
 | 候选体检 | `knowledge_candidate_review.py` | 对导出候选做 deck 适配度评分、噪音识别和版式建议，帮助判断知识池质量 |
 | Recipe Audit | `knowledge_recipe_audit.py` | 批量审阅 showcase recipes，快速看哪些 recipe 健康、哪些还在串题 |
@@ -279,18 +279,18 @@ python skills/knowledge-skill/scripts/memory_self_tune.py --dry-run --output mar
 ```
 
 ### 导出候选知识（给 Agent 用）
-# 导出更完整的候选结果（含 ai_summary / content / metadata）
+
+```bash
+# 导出更完整的候选结果（含 ai_summary / content_preview / metadata）
 python skills/knowledge-skill/scripts/knowledge_export.py \
   --query "Agent Infrastructure" \
-  --mode hybrid \
-  --limit 10
+  --limit 8
 
-# 控制 content 截断长度，避免结果过长
+# 筛选特定来源
 python skills/knowledge-skill/scripts/knowledge_export.py \
   --query "个人知识管理" \
-  --mode hybrid \
   --limit 8 \
-  --content-chars 800
+  --source-type bilibili
 
 # 先做候选体检，再决定要不要做 deck
 python skills/knowledge-skill/scripts/knowledge_candidate_review.py \
