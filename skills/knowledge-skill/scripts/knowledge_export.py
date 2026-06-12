@@ -8,147 +8,187 @@
 # ]
 # ///
 """
-知识导出脚本
-面向 agent 提供更完整的候选知识结果。
+知识导出脚本 — 为 agent 提供结构化输出
+
+与 knowledge_search.py 不同，这个脚本返回完整的决策信息：
+- ai_summary（一句话总结）
+- content 截断（前 1000 字，足够判断结论和价值）
+- metadata（来源、作者等结构化信息）
+
+用法：
+    python knowledge_export.py --query "Agent Infrastructure" --limit 8
 """
 
 import argparse
 import json
-from typing import Any
+import os
+import sys
+from pathlib import Path
 
 import psycopg2
 import psycopg2.extras
+import requests
+from dotenv import load_dotenv
 
-from knowledge_search import DB_CONFIG, search_hybrid, search_keyword, search_vector
+load_dotenv(Path(__file__).parent.parent / ".env")
+
+DB_CONFIG = {
+    "host": os.getenv("DB_HOST", ""),
+    "port": int(os.getenv("DB_PORT", 5433)),
+    "user": os.getenv("DB_USER", ""),
+    "password": os.getenv("DB_PASSWORD", ""),
+    "dbname": os.getenv("DB_NAME", ""),
+}
+
+SILICONFLOW_API_KEY = os.getenv("SILICONFLOW_API_KEY")
+EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "BAAI/bge-m3")
+
+CONTENT_TRUNCATE_LEN = 1000
 
 
-def fetch_full_items(
-    ids_in_order: list[int],
-    content_chars: int = 1000,
-) -> dict[int, dict[str, Any]]:
-    """按 id 拉取完整知识条目，并截断 content 便于 agent 消费。"""
-    if not ids_in_order:
-        return {}
+def get_embedding(text: str) -> list[float]:
+    """调用 SiliconFlow API 生成 embedding"""
+    if not SILICONFLOW_API_KEY:
+        return None
+    try:
+        response = requests.post(
+            "https://api.siliconflow.cn/v1/embeddings",
+            headers={
+                "Authorization": f"Bearer {SILICONFLOW_API_KEY}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "model": EMBEDDING_MODEL,
+                "input": text[:8000],
+                "encoding_format": "float",
+            },
+            timeout=30,
+        )
+        response.raise_for_status()
+        return response.json()["data"][0]["embedding"]
+    except Exception as e:
+        print(f"Error generating embedding: {e}", file=sys.stderr)
+        return None
+
+
+def export_for_agent(query: str, limit: int = 8, source_type: str = None) -> list[dict]:
+    """
+    混合搜索 + 返回 agent 决策所需的完整字段
+    """
+    embedding = get_embedding(query)
 
     conn = psycopg2.connect(**DB_CONFIG)
     cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
     try:
-        cur.execute(
+        # 向量搜索部分
+        vector_ids = []
+        if embedding:
+            sql_vec = """
+                SELECT id, 1 - (embedding <=> %s::vector) as similarity
+                FROM knowledge_items
+                WHERE embedding IS NOT NULL AND status = 'active'
             """
-            SELECT
-                id,
-                source_type,
-                source_id,
-                source_url,
-                title,
-                summary,
-                ai_summary,
-                content,
-                metadata,
-                created_at,
-                updated_at,
-                status
+            params_vec = [str(embedding)]
+            if source_type:
+                sql_vec += " AND source_type = %s"
+                params_vec.append(source_type)
+            sql_vec += " ORDER BY embedding <=> %s::vector LIMIT %s"
+            params_vec.extend([str(embedding), limit * 2])
+            cur.execute(sql_vec, params_vec)
+            vector_ids = [(r["id"], r["similarity"]) for r in cur.fetchall()]
+
+        # 关键词搜索部分
+        words = [w.strip() for w in query.split() if len(w.strip()) >= 2]
+        if not words:
+            words = [query]
+        conditions = []
+        params_kw = []
+        for word in words:
+            conditions.append("(title ILIKE %s OR content ILIKE %s OR ai_summary ILIKE %s)")
+            params_kw.extend([f"%{word}%", f"%{word}%", f"%{word}%"])
+
+        sql_kw = f"""
+            SELECT id FROM knowledge_items
+            WHERE ({" OR ".join(conditions)}) AND status = 'active'
+        """
+        if source_type:
+            sql_kw += " AND source_type = %s"
+            params_kw.append(source_type)
+        sql_kw += " LIMIT %s"
+        params_kw.append(limit * 2)
+        cur.execute(sql_kw, params_kw)
+        keyword_ids = [r["id"] for r in cur.fetchall()]
+
+        # 合并去重，向量结果优先
+        seen = set()
+        ordered_ids = []
+        id_similarity = {}
+        for id_, sim in vector_ids:
+            if id_ not in seen:
+                ordered_ids.append(id_)
+                id_similarity[id_] = sim
+                seen.add(id_)
+        for id_ in keyword_ids:
+            if id_ not in seen:
+                ordered_ids.append(id_)
+                seen.add(id_)
+
+        # 取前 limit 个，然后批量查完整字段
+        target_ids = ordered_ids[:limit]
+        if not target_ids:
+            return []
+
+        sql_full = """
+            SELECT id, source_type, source_id, source_url, title,
+                   summary, ai_summary, content, metadata,
+                   created_at, updated_at
             FROM knowledge_items
             WHERE id = ANY(%s)
-            """,
-            [ids_in_order],
-        )
-
+        """
+        cur.execute(sql_full, [target_ids])
         rows = cur.fetchall()
-        items: dict[int, dict[str, Any]] = {}
 
-        for row in rows:
-            data = dict(row)
-            raw_content = data.get("content") or ""
-            if content_chars > 0 and len(raw_content) > content_chars:
-                data["content"] = raw_content[:content_chars] + "..."
-            items[int(data["id"])] = data
+        # 按 ordered_ids 的顺序排列
+        row_map = {r["id"]: r for r in rows}
+        results = []
+        for id_ in target_ids:
+            if id_ not in row_map:
+                continue
+            r = dict(row_map[id_])
+            # 截断 content，避免输出过长
+            if r.get("content") and len(r["content"]) > CONTENT_TRUNCATE_LEN:
+                r["content_preview"] = r["content"][:CONTENT_TRUNCATE_LEN] + "..."
+            else:
+                r["content_preview"] = r.get("content", "")
+            # 不输出完整 content 和 embedding
+            r.pop("content", None)
+            # 补上 similarity（如果有）
+            if id_ in id_similarity:
+                r["similarity"] = id_similarity[id_]
+            results.append(r)
 
-        return items
+        return results
     finally:
         cur.close()
         conn.close()
 
 
-def export_candidates(
-    query: str,
-    mode: str = "hybrid",
-    limit: int = 10,
-    source_type: str | None = None,
-    content_chars: int = 1000,
-) -> dict[str, Any]:
-    """搜索后导出更完整的候选知识对象。"""
-    if mode == "keyword":
-        search_results = search_keyword(query, limit, source_type)
-    elif mode == "vector":
-        search_results = search_vector(query, limit, source_type)
-    else:
-        search_results = search_hybrid(query, limit, source_type)
-
-    ids_in_order = [int(item["id"]) for item in search_results]
-    full_items = fetch_full_items(ids_in_order, content_chars=content_chars)
-
-    results: list[dict[str, Any]] = []
-    for item in search_results:
-        item_id = int(item["id"])
-        full_item = full_items.get(item_id)
-        if not full_item:
-            continue
-
-        merged = {
-            "id": str(item_id),
-            "title": full_item.get("title"),
-            "source_type": full_item.get("source_type"),
-            "source_id": full_item.get("source_id"),
-            "source_url": full_item.get("source_url"),
-            "summary": full_item.get("summary"),
-            "ai_summary": full_item.get("ai_summary"),
-            "content": full_item.get("content"),
-            "metadata": full_item.get("metadata") or {},
-            "created_at": full_item.get("created_at"),
-            "updated_at": full_item.get("updated_at"),
-            "status": full_item.get("status"),
-            "search_type": item.get("search_type", mode),
-            "similarity": item.get("similarity"),
-        }
-        results.append(merged)
-
-    return {
-        "query": query,
-        "mode": mode,
-        "total": len(results),
-        "results": results,
-    }
-
-
 def main():
-    parser = argparse.ArgumentParser(description="导出适合 agent 消费的知识候选结果")
+    parser = argparse.ArgumentParser(description="导出知识库内容（面向 agent 的结构化输出）")
     parser.add_argument("--query", required=True, help="搜索关键词")
-    parser.add_argument(
-        "--mode",
-        choices=["keyword", "vector", "hybrid"],
-        default="hybrid",
-        help="搜索模式",
-    )
-    parser.add_argument("--limit", type=int, default=10, help="返回数量")
+    parser.add_argument("--limit", type=int, default=8, help="返回数量（默认 8）")
     parser.add_argument("--source-type", help="筛选来源类型")
-    parser.add_argument(
-        "--content-chars",
-        type=int,
-        default=1000,
-        help="content 截断长度，默认 1000 字符",
-    )
 
     args = parser.parse_args()
 
-    output = export_candidates(
-        query=args.query,
-        mode=args.mode,
-        limit=args.limit,
-        source_type=args.source_type,
-        content_chars=args.content_chars,
-    )
+    results = export_for_agent(args.query, args.limit, args.source_type)
+
+    output = {
+        "query": args.query,
+        "total": len(results),
+        "results": results,
+    }
 
     print(json.dumps(output, ensure_ascii=False, indent=2, default=str))
 
