@@ -85,3 +85,13 @@ git push origin vx.y.z
 
 **仓库 tag：** v1.5.0
 **npm 包版本：** 1.2.0
+
+### v1.2.1 (2026-06-12)
+
+**变更内容：**
+- 更新 `SKILL.md` 中 `knowledge_export.py` 的描述和用法示例
+  - 函数表：反映自包含重写（`content_preview`、`ai_summary` 匹配）
+  - 用法示例：移除已不存在的 `--mode` 和 `--content-chars` 参数
+
+**npm 包版本：** 1.2.1
+**⚠️ npm publish 未完成** — token 过期，需手动 `npm login` 后执行 `npm publish --access public`
