@@ -13,6 +13,8 @@ tags: [release, npm, git, tag, workflow]
 1. **已推送的 commit 禁止 amend** — 需要修改就新建 commit
 2. **package.json 版本号必须 < 仓库 tag 版本号** — 仓库 tag 是整体版本（如 `v1.5.0`），npm 包版本是 CLI 子包版本（如 `1.2.0`），两者独立递增
 3. **打 tag 前本地 build 必须全绿** — `npm run build` 在 cli 目录下通过后才可发版
+4. **发版前必须重新生成 registry 并 commit** — `cd web && npm run generate:registry`，否则 CI 会因生成文件未 commit 而失败
+5. **发版前必须确认 CI 全绿** — `gh run list --limit 3` 检查最近 push 的 Registry Check 状态
 
 ## 发版步骤
 
@@ -23,20 +25,34 @@ tags: [release, npm, git, tag, workflow]
 cd cli && npm run build
 ```
 
-### Step 2: 更新版本号
+### Step 2: 重新生成 registry 文件（必须！）
+
+每次修改 skills/agents/stories/decks 内容后，必须重新生成 registry，否则 CI 会失败：
+
+```bash
+cd web && npm run generate:registry
+```
+
+然后 commit 生成的文件：
+```bash
+git add registry/ web/src/data/ web/public/ web/index.html README.md
+git commit -m "chore: regenerate registry"
+```
+
+### Step 3: 更新版本号
 
 手动修改 `cli/package.json` 的 `version` 字段。语义化版本：
 - fix / refactor → patch (+0.0.1)
 - feat → minor (+0.1.0)
 - breaking change → major (+1.0.0)
 
-### Step 3: 重新构建验证
+### Step 4: 重新构建验证
 
 ```bash
 cd cli && npm run build   # 必须 0 错误
 ```
 
-### Step 4: npm publish
+### Step 5: npm publish
 
 ```bash
 cd cli && npm publish --access public
@@ -47,7 +63,7 @@ cd cli && npm publish --access public
 npm login
 ```
 
-### Step 5: commit + push
+### Step 6: commit + push
 
 ```bash
 git add cli/package.json
@@ -55,7 +71,15 @@ git commit -m "chore: bump cli version to x.y.z"
 git push origin main
 ```
 
-### Step 6: 打仓库 tag（可选，整体版本）
+### Step 7: 确认 CI 全绿
+
+```bash
+gh run list --limit 3
+# 确认最近 push 的 Registry Check 状态为 success
+# 如果失败，先修复再继续
+```
+
+### Step 8: 打仓库 tag（可选，整体版本）
 
 ```bash
 # 仓库 tag 和 npm 包版本独立递增
