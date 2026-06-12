@@ -63,6 +63,16 @@ cd cli && npm publish --access public
 npm login
 ```
 
+如果遇到 EOTP（2FA 验证），需要用 npm automation token 或 authenticator app 的 6 位 OTP：
+```bash
+# 方式 1：用 automation token（推荐，免 OTP）
+npm config set //registry.npmjs.org/:_authToken <your-automation-token> --location=user
+npm publish --access public
+
+# 方式 2：用 OTP（每次都要新码，有效期约 30 秒）
+npm publish --access public --otp=<6位数字>
+```
+
 ### Step 6: commit + push
 
 ```bash
@@ -114,8 +124,15 @@ git push origin vx.y.z
 
 **变更内容：**
 - 更新 `SKILL.md` 中 `knowledge_export.py` 的描述和用法示例
-  - 函数表：反映自包含重写（`content_preview`、`ai_summary` 匹配）
-  - 用法示例：移除已不存在的 `--mode` 和 `--content-chars` 参数
 
 **npm 包版本：** 1.2.1
-**⚠️ npm publish 未完成** — token 过期，需手动 `npm login` 后执行 `npm publish --access public`
+
+### v1.2.2 (2026-06-12)
+
+**变更内容：**
+- 修复发版流程文档：补充 registry 生成步骤和 CI 检查步骤
+- 重新生成 sitemap.xml（日期 06-11 → 06-12），修复 CI 失败
+- CLI 版本 bump 到 1.2.2
+
+**npm 包版本：** 1.2.2
+**仓库 tag：** v1.5.1
