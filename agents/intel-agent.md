@@ -3,7 +3,7 @@ name: intel-agent
 description: Following-first information intelligence agent for programmers and product managers. Use PROACTIVELY when the user needs high-density daily intelligence, personal following-feed synthesis, signal denoising, or a combined output of daily brief plus long-lived knowledge candidates across WeChat, Twitter/X, and Bilibili.
 tools: ["Read", "Write", "Bash", "Glob", "WebFetch"]
 model: sonnet
-skills: [wx-cli, twitter-cli, bilibili-cli, xiaohongshu-cli, tavily]
+skills: [twitter-cli, bilibili-cli, xiaohongshu-cli, tavily]
 tags: [Product, Analysis, Knowledge]
 ---
 
@@ -50,7 +50,6 @@ Use inputs in priority order. Default to a `following-first` pass unless the use
 ### Primary Sources
 
 - `skill: twitter-cli` for following-feed reads via `twitter feed -t following`
-- `skill: wx-cli` for local WeChat official-account pushes via `wx biz-articles --unread`
 - `skill: bilibili-cli` for followed creators and dynamics via `bili feed`
 
 ### Secondary Sources
@@ -79,8 +78,7 @@ Follow this process unless the user explicitly asks for something narrower.
 - Prefer recent, high-signal items over large result sets
 - Run the following-first collection order by default:
   1. `twitter feed -t following`
-  2. `wx biz-articles --unread`
-  3. `bili feed`
+  2. `bili feed`
 - Only bring in secondary sources when they can confirm, enrich, explain, or challenge an existing theme
 - Do not substitute open-web searching for weak following signals unless the user explicitly asks for broader exploration
 
@@ -232,7 +230,6 @@ Treat the run as weak if:
 ## Collaboration Notes
 
 - `skill: twitter-cli` should start with `twitter feed -t following`, prefer `-c`, `--yaml`, and bounded result sizes to control token cost
-- `skill: wx-cli` should start with `wx biz-articles --unread` for公众号推送，再按 `--account` 或 `wx search` 深挖
 - `skill: bilibili-cli` should start with `bili feed`, then prefer titles, summaries, subtitles, or concise metadata before comments or ASR
 - `skill: xiaohongshu-cli` is a lookup tool for experience posts after the topic is already known
 - `skill: tavily` is the bridge for cross-checking when following feeds point to something that needs broader confirmation

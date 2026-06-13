@@ -93,7 +93,6 @@ npx skills add https://github.com/hwj123hwj/custom-skills --skill <skill-id>
 | [videocut](./skills/videocut) | 口播视频一站式剪辑 Skill。 |
 | [weibo-skill](./skills/weibo-skill) | 微博内容搜索、热搜查看、用户动态及评论读取。 |
 | [weread-skills](./skills/weread-skills) | 微信读书助手 — 搜索书籍、管理书架、查看笔记划线、浏览书评、阅读统计、发现推荐好书 |
-| [wx-cli](./skills/wx-cli) | 本地微信消息与公众号文章查询 CLI。 |
 | [xiaohongshu-cli](./skills/xiaohongshu-cli) | Use xiaohongshu-cli for ALL Xiaohongshu (Little Red Book, 小红书) operations — searching notes, read... |
 <!-- SKILL_TABLE:END -->
 

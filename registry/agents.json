@@ -63,7 +63,6 @@
     ],
     "model": "sonnet",
     "skills": [
-      "wx-cli",
       "twitter-cli",
       "bilibili-cli",
       "xiaohongshu-cli",

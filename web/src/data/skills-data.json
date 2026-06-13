@@ -1140,38 +1140,6 @@
     "lastUpdated": "2026-06-05T14:32:34.846Z"
   },
   {
-    "id": "wx-cli",
-    "name": "wx-cli",
-    "displayName": "WX CLI",
-    "description": "本地微信消息与公众号文章查询 CLI。读取本机微信数据库，查询会话、聊天记录、联系人、群成员、朋友圈通知，以及关注公众号推送文章。适用于查看微信关注流、按关键词搜索历史消息、筛选未读公众号文章。",
-    "detailedDescription": "`wx-cli` 用于从本机微信数据库读取结构化内容，重点覆盖：",
-    "emoji": "📦",
-    "tags": [
-      "CLI",
-      "WeChat",
-      "LocalData"
-    ],
-    "scenarios": [
-      "查看最近微信会话和新消息",
-      "按关键词搜索微信历史消息",
-      "拉取关注公众号最近推送的文章",
-      "按公众号筛选未读文章和消息"
-    ],
-    "aliases": [
-      "微信消息",
-      "微信公众号文章",
-      "微信关注流",
-      "WeChat"
-    ],
-    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill wx-cli",
-    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/wx-cli",
-    "sourcePath": "skills/wx-cli",
-    "lastUpdated": "2026-05-16T02:47:52.453Z",
-    "author": "jackwener",
-    "upstream": "jackwener/wx-cli",
-    "upstreamSha": "08af894594b4afd468e23e17dbd783f15403f13b"
-  },
-  {
     "id": "xiaohongshu-cli",
     "name": "xiaohongshu-cli",
     "displayName": "xiaohongshu-cli — Xiaohongshu CLI Tool",
