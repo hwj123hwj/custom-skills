@@ -6,20 +6,22 @@ import { readCache, readCacheEtag, writeCache } from './cache.js';
 
 const AGENTS_REGISTRY_URL =
   'https://raw.githubusercontent.com/hwj123hwj/custom-skills/main/registry/agents.json';
+const AGENTS_REGISTRY_MIRROR_URL =
+  'https://cdn.jsdelivr.net/gh/hwj123hwj/custom-skills@main/registry/agents.json';
 
 const CACHE_KEY = 'agents-data';
 const LOCAL_REGISTRY_PATH = path.resolve(__dirname, '../../../registry/agents.json');
 
 // ── 远程拉取 ──────────────────────────────────────────────────────────────
 
-function fetchRemoteAgents(etag?: string | null): Promise<{ agents: Agent[]; etag?: string } | null> {
+function fetchFromUrl(url: string, etag?: string | null): Promise<{ agents: Agent[]; etag?: string } | null> {
   return new Promise((resolve, reject) => {
     const headers: Record<string, string> = {};
     if (etag) headers['If-None-Match'] = etag;
 
     const request = (url: string) => {
       https
-        .get(url, { headers }, (res) => {
+        .get(url, { headers, timeout: 8000 }, (res) => {
           if (res.statusCode === 301 || res.statusCode === 302) {
             const location = res.headers.location;
             if (!location) {
@@ -52,10 +54,13 @@ function fetchRemoteAgents(etag?: string | null): Promise<{ agents: Agent[]; eta
             }
           });
         })
-        .on('error', reject);
+        .on('error', reject)
+        .on('timeout', () => {
+          reject(new Error('请求超时'));
+        });
     };
 
-    request(AGENTS_REGISTRY_URL);
+    request(url);
   });
 }
 
@@ -75,18 +80,28 @@ export async function loadAgents(forceRefresh = false): Promise<Agent[]> {
   const local = readLocalRegistry();
   if (local) return local;
 
-  // 2. 条件请求（ETag），服务端未变化则 304 直接用缓存
+  // 2. 条件请求（ETag），优先 jsdelivr CDN 镜像，失败再 fallback GitHub raw
   try {
     const cachedEtag = forceRefresh ? null : readCacheEtag(CACHE_KEY);
-    const result = await fetchRemoteAgents(cachedEtag);
 
-    if (result === null) {
-      // 304 Not Modified
-      const cached = readCache<Agent[]>(CACHE_KEY);
-      if (cached) return cached;
-    } else {
-      writeCache(result.agents, CACHE_KEY, result.etag);
-      return result.agents;
+    try {
+      const result = await fetchFromUrl(AGENTS_REGISTRY_MIRROR_URL, cachedEtag);
+      if (result === null) {
+        const cached = readCache<Agent[]>(CACHE_KEY);
+        if (cached) return cached;
+      } else {
+        writeCache(result.agents, CACHE_KEY, result.etag);
+        return result.agents;
+      }
+    } catch {
+      const result = await fetchFromUrl(AGENTS_REGISTRY_URL, cachedEtag);
+      if (result === null) {
+        const cached = readCache<Agent[]>(CACHE_KEY);
+        if (cached) return cached;
+      } else {
+        writeCache(result.agents, CACHE_KEY, result.etag);
+        return result.agents;
+      }
     }
   } catch (err) {
     // 3. 网络失败降级：使用本地缓存

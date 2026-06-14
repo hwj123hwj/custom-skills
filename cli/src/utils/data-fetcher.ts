@@ -6,6 +6,8 @@ import { readCache, readCacheEtag, hasCache, writeCache } from './cache.js';
 
 const SKILLS_DATA_URL =
   'https://raw.githubusercontent.com/hwj123hwj/custom-skills/main/registry/skills.json';
+const SKILLS_DATA_MIRROR_URL =
+  'https://cdn.jsdelivr.net/gh/hwj123hwj/custom-skills@main/registry/skills.json';
 
 const REPO_BASE = 'https://github.com/hwj123hwj/custom-skills/tree/main';
 const LOCAL_REGISTRY_PATH = path.resolve(__dirname, '../../../registry/skills.json');
@@ -22,14 +24,14 @@ function normalizeSkill(skill: Skill): NormalizedSkill {
   };
 }
 
-function fetchRemote(etag?: string | null): Promise<{ skills: Skill[]; etag?: string } | null> {
+function fetchFromUrl(url: string, etag?: string | null): Promise<{ skills: Skill[]; etag?: string } | null> {
   return new Promise((resolve, reject) => {
     const headers: Record<string, string> = {};
     if (etag) headers['If-None-Match'] = etag;
 
     const request = (url: string) => {
       https
-        .get(url, { headers }, (res) => {
+        .get(url, { headers, timeout: 8000 }, (res) => {
           if (res.statusCode === 301 || res.statusCode === 302) {
             const location = res.headers.location;
             if (!location) {
@@ -63,10 +65,13 @@ function fetchRemote(etag?: string | null): Promise<{ skills: Skill[]; etag?: st
             }
           });
         })
-        .on('error', reject);
+        .on('error', reject)
+        .on('timeout', () => {
+          reject(new Error('请求超时'));
+        });
     };
 
-    request(SKILLS_DATA_URL);
+    request(url);
   });
 }
 
@@ -88,19 +93,30 @@ export async function loadSkills(forceRefresh = false): Promise<NormalizedSkill[
     return localRegistry.map(normalizeSkill);
   }
 
-  // 2. 尝试远程拉取（携带 ETag 做条件请求，服务端未变化则返回 304 直接用缓存）
+  // 2. 尝试远程拉取（优先 jsdelivr CDN 镜像，国内可用；失败再 fallback GitHub raw）
   try {
     const cachedEtag = forceRefresh ? null : readCacheEtag();
-    const result = await fetchRemote(cachedEtag);
 
-    if (result === null) {
-      // 304 Not Modified，缓存仍有效
-      const cached = readCache<Skill[]>();
-      if (cached) return cached.map(normalizeSkill);
-    } else {
-      // 200 拿到新数据，更新缓存
-      writeCache(result.skills, 'skills-data', result.etag);
-      return result.skills.map(normalizeSkill);
+    // 先尝试 jsdelivr CDN（国内友好）
+    try {
+      const result = await fetchFromUrl(SKILLS_DATA_MIRROR_URL, cachedEtag);
+      if (result === null) {
+        const cached = readCache<Skill[]>();
+        if (cached) return cached.map(normalizeSkill);
+      } else {
+        writeCache(result.skills, 'skills-data', result.etag);
+        return result.skills.map(normalizeSkill);
+      }
+    } catch {
+      // jsdelivr 失败，fallback 到 GitHub raw
+      const result = await fetchFromUrl(SKILLS_DATA_URL, cachedEtag);
+      if (result === null) {
+        const cached = readCache<Skill[]>();
+        if (cached) return cached.map(normalizeSkill);
+      } else {
+        writeCache(result.skills, 'skills-data', result.etag);
+        return result.skills.map(normalizeSkill);
+      }
     }
   } catch (err) {
     // 3. 网络失败降级：使用本地缓存
