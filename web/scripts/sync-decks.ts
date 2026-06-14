@@ -28,6 +28,12 @@ interface DeckData {
   tags: string[];
 }
 
+function omitLastUpdated(deck: DeckData): Omit<DeckData, 'lastUpdated'> {
+  const { lastUpdated, ...rest } = deck;
+  void lastUpdated;
+  return rest;
+}
+
 interface DeckBriefMeta {
   title?: string;
   summary?: string;
@@ -130,6 +136,12 @@ async function main() {
 
   const decks: DeckData[] = [];
 
+  // Load existing registry to preserve lastUpdated when content hasn't changed
+  const existingRegistry: DeckData[] = fs.existsSync(REGISTRY_OUTPUT_FILE)
+    ? JSON.parse(fs.readFileSync(REGISTRY_OUTPUT_FILE, 'utf-8'))
+    : [];
+  const existingMap = new Map(existingRegistry.map((d) => [d.id, d]));
+
   for (const file of htmlFiles) {
     const htmlFilePath = path.join(SHOWCASE_DIR, file);
     const markdownFile = file.replace(/\.html$/, '.md');
@@ -141,7 +153,7 @@ async function main() {
 
     fs.copyFileSync(htmlFilePath, path.join(PUBLIC_SHOWCASE_DIR, file));
 
-    decks.push({
+    const deckEntry: DeckData = {
       id,
       title: extractTitle(html, id),
       summary,
@@ -158,8 +170,19 @@ async function main() {
       slideCount: extractSlideCount(html),
       lastUpdated: getLastUpdated(htmlFilePath),
       tags: inferTags(file, html, meta.tags),
-    });
+    };
 
+    // Preserve lastUpdated from existing registry if content is unchanged
+    const existing = existingMap.get(id);
+    if (existing) {
+      const newWithout = omitLastUpdated(deckEntry);
+      const existWithout = omitLastUpdated(existing);
+      if (JSON.stringify(newWithout, Object.keys(newWithout).sort()) === JSON.stringify(existWithout, Object.keys(existWithout).sort())) {
+        deckEntry.lastUpdated = existing.lastUpdated;
+      }
+    }
+
+    decks.push(deckEntry);
     console.log(`✅ Loaded deck: ${id}`);
   }
 

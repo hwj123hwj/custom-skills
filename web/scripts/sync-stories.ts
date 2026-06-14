@@ -34,6 +34,12 @@ interface StoryData {
   sections: StorySection[];
 }
 
+function omitLastUpdated(story: StoryData): Omit<StoryData, 'lastUpdated'> {
+  const { lastUpdated, ...rest } = story;
+  void lastUpdated;
+  return rest;
+}
+
 function getLastUpdated(filePath: string): string {
   try {
     const gitDate = execSync(`git log -1 --format=%ai -- "${filePath}"`, {
@@ -103,6 +109,12 @@ async function main() {
 
   const stories: StoryData[] = [];
 
+  // Load existing registry to preserve lastUpdated when content hasn't changed
+  const existingRegistry: StoryData[] = fs.existsSync(REGISTRY_OUTPUT_FILE)
+    ? JSON.parse(fs.readFileSync(REGISTRY_OUTPUT_FILE, 'utf-8'))
+    : [];
+  const existingMap = new Map(existingRegistry.map((s) => [s.id, s]));
+
   for (const file of files) {
     const filePath = path.join(STORIES_DIR, file);
     const id = file.replace(/\.md$/, '');
@@ -111,7 +123,7 @@ async function main() {
       const raw = fs.readFileSync(filePath, 'utf-8');
       const { data, content } = matter(raw);
 
-      stories.push({
+      const storyEntry: StoryData = {
         id,
         title: String(data.title ?? id),
         agent: String(data.agent ?? id),
@@ -123,8 +135,19 @@ async function main() {
         tags: Array.isArray(data.tags) ? data.tags.map(String) : [],
         githubUrl: `${REPO_BASE}/blob/main/docs/agent-stories/${file}`,
         sections: splitSections(content),
-      });
+      };
 
+      // Preserve lastUpdated from existing registry if content is unchanged
+      const existing = existingMap.get(id);
+      if (existing) {
+        const newWithout = omitLastUpdated(storyEntry);
+        const existWithout = omitLastUpdated(existing);
+        if (JSON.stringify(newWithout, Object.keys(newWithout).sort()) === JSON.stringify(existWithout, Object.keys(existWithout).sort())) {
+          storyEntry.lastUpdated = existing.lastUpdated;
+        }
+      }
+
+      stories.push(storyEntry);
       console.log(`✅ Loaded story: ${id}`);
     } catch (error) {
       console.error(`❌ Failed to process ${file}:`, error);

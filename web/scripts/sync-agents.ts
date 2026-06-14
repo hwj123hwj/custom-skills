@@ -25,6 +25,12 @@ interface AgentData {
   lastUpdated: string;
 }
 
+function omitLastUpdated(agent: AgentData): Omit<AgentData, 'lastUpdated'> {
+  const { lastUpdated, ...rest } = agent;
+  void lastUpdated;
+  return rest;
+}
+
 function getLastUpdated(filePath: string): string {
   try {
     const gitDate = execSync(`git log -1 --format=%ai -- "${filePath}"`, {
@@ -51,6 +57,12 @@ async function main() {
     .sort();
   const agents: AgentData[] = [];
 
+  // Load existing registry to preserve lastUpdated when content hasn't changed
+  const existingRegistry: AgentData[] = fs.existsSync(REGISTRY_OUTPUT_FILE)
+    ? JSON.parse(fs.readFileSync(REGISTRY_OUTPUT_FILE, 'utf-8'))
+    : [];
+  const existingMap = new Map(existingRegistry.map((a) => [a.id, a]));
+
   for (const file of files) {
     const filePath = path.join(AGENTS_DIR, file);
     const id = file.replace(/\.md$/, '');
@@ -74,7 +86,7 @@ async function main() {
         ? (data.model as AgentData['model'])
         : 'sonnet';
 
-      agents.push({
+      const agentEntry: AgentData = {
         id,
         name: String(data.name ?? id),
         description: String(data.description ?? ''),
@@ -85,7 +97,19 @@ async function main() {
         type: skills.length > 0 ? 'vertical' : 'general',
         githubUrl: `${REPO_BASE}/blob/main/agents/${file}`,
         lastUpdated: getLastUpdated(filePath),
-      });
+      };
+
+      // Preserve lastUpdated from existing registry if content is unchanged
+      const existing = existingMap.get(id);
+      if (existing) {
+        const newWithout = omitLastUpdated(agentEntry);
+        const existWithout = omitLastUpdated(existing);
+        if (JSON.stringify(newWithout, Object.keys(newWithout).sort()) === JSON.stringify(existWithout, Object.keys(existWithout).sort())) {
+          agentEntry.lastUpdated = existing.lastUpdated;
+        }
+      }
+
+      agents.push(agentEntry);
       console.log(`✅ Loaded agent: ${id}`);
     } catch (e) {
       console.error(`❌ Failed to process ${file}:`, e);
