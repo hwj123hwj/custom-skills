@@ -1,27 +1,5 @@
 [
   {
-    "id": "academic-search",
-    "name": "academic-search",
-    "displayName": "academic-search Skill",
-    "description": "学术论文搜索、引用分析、开放获取 PDF 判定与结构化元数据提取专用 Skill。Use when the user asks to search/find papers, do literature review/survey/systematic review/PRISMA work, get citation counts, export BibTeX/RIS-style references, find papers by author, inspect PDF/open-access availability, or work with arXiv, Semantic Scholar, OpenAlex, Crossref, Unpaywall, PubMed, Google Scholar, ACM DL, IEEE Xplore, Papers with Code, CNKI, ScienceDirect, Wiley, Springer, ACS, MeSH, JEL, MSC, or ACM CCS.",
-    "detailedDescription": "学术论文搜索、引用分析、开放获取 PDF 判定与结构化元数据提取专用 Skill。Use when the user asks to search/find papers, do literature review/survey/systematic review/PRISMA work, get citation counts, export BibTeX/RIS-style references, find papers by author, inspect PDF/open-access availability, or work with arXiv, Semantic Scholar, OpenAlex, Crossref, Unpaywall, PubMed, Google Scholar, ACM DL, IEEE Xplore, Papers with Code, CNKI, ScienceDirect, Wiley, Springer, ACS, MeSH, JEL, MSC, or ACM CCS.",
-    "emoji": "📦",
-    "tags": [
-      "Search",
-      "Research",
-      "Education"
-    ],
-    "scenarios": [],
-    "aliases": [],
-    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill academic-search",
-    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/academic-search",
-    "sourcePath": "skills/academic-search",
-    "lastUpdated": "2026-05-06T07:45:20.000Z",
-    "author": "ustc-ai4science",
-    "upstream": "ustc-ai4science/academic-search",
-    "upstreamSha": "c66c7f6ed35148b83dfde02016229603f4a20fa9"
-  },
-  {
     "id": "asr",
     "name": "asr",
     "displayName": "ASR — 语音识别技能",
@@ -63,33 +41,6 @@
     "sourcePath": "skills/bilibili-cli",
     "lastUpdated": "2026-05-06T08:13:58.000Z",
     "author": "jackwener"
-  },
-  {
-    "id": "bjtuo-classroom-query",
-    "name": "bjtuo-classroom-query",
-    "displayName": "BJTU Classroom Query",
-    "description": "北京交通大学（BJTU）教室综合查询。结合教务系统课表（判断是否有课）和实时人数接口（当前在场人数），综合评估教室空闲情况。",
-    "detailedDescription": "基于 Playwright 的北交大教室查询自动化工具。",
-    "emoji": "📦",
-    "tags": [
-      "Education",
-      "Search",
-      "Automation"
-    ],
-    "scenarios": [
-      "查询某教学楼某周的教室占用情况",
-      "判断某个教室当前是否空闲且是否值得去",
-      "结合课表和实时人数评估教室可用性"
-    ],
-    "aliases": [
-      "北交教室",
-      "BJTU 教室",
-      "教室查询"
-    ],
-    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill bjtuo-classroom-query",
-    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/bjtuo-classroom-query",
-    "sourcePath": "skills/bjtuo-classroom-query",
-    "lastUpdated": "2026-04-19T14:34:48.000Z"
   },
   {
     "id": "boss-cli",
@@ -464,33 +415,6 @@
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/huashu-nuwa",
     "sourcePath": "skills/huashu-nuwa",
     "lastUpdated": "2026-05-30T12:12:15.464Z"
-  },
-  {
-    "id": "idea-incubator",
-    "name": "idea-incubator",
-    "displayName": "Idea Incubator",
-    "description": "专业的 CPO + 技术合伙人助手，帮助用户孵化想法、分析可行性并编写技术文档。适用于当你有新产品想法、技术方案或“灵光一现”需要结构化整理时。",
-    "detailedDescription": "该技能将 AI 转化为你的 **产品经理 (CPO) & 技术合伙人**。它的目标是管理一个想法从模糊的念头到具体的执行计划，再到回顾学习的全生命周期。",
-    "emoji": "📦",
-    "tags": [
-      "Product",
-      "Planning",
-      "Writing"
-    ],
-    "scenarios": [
-      "把一个模糊想法拆成 MVP 和执行计划",
-      "挑战一个产品方案的可行性和边界",
-      "生成 PRD、技术文档或复盘材料"
-    ],
-    "aliases": [
-      "想法孵化",
-      "产品想法",
-      "技术方案梳理"
-    ],
-    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill idea-incubator",
-    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/idea-incubator",
-    "sourcePath": "skills/idea-incubator",
-    "lastUpdated": "2026-04-19T14:43:02.000Z"
   },
   {
     "id": "image-provider",

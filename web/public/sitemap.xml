@@ -10,14 +10,6 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/?lng=en" />
   </url>
   <url>
-    <loc>https://hwj123hwj.asia/skill/academic-search</loc>
-    <lastmod>2026-05-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/academic-search" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/academic-search?lng=en" />
-  </url>
-  <url>
     <loc>https://hwj123hwj.asia/skill/asr</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>weekly</changefreq>
@@ -32,14 +24,6 @@
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/bilibili-cli" />
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/bilibili-cli?lng=en" />
-  </url>
-  <url>
-    <loc>https://hwj123hwj.asia/skill/bjtuo-classroom-query</loc>
-    <lastmod>2026-04-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/bjtuo-classroom-query" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/bjtuo-classroom-query?lng=en" />
   </url>
   <url>
     <loc>https://hwj123hwj.asia/skill/boss-cli</loc>
@@ -176,14 +160,6 @@
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/huashu-nuwa" />
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/huashu-nuwa?lng=en" />
-  </url>
-  <url>
-    <loc>https://hwj123hwj.asia/skill/idea-incubator</loc>
-    <lastmod>2026-04-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/idea-incubator" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/idea-incubator?lng=en" />
   </url>
   <url>
     <loc>https://hwj123hwj.asia/skill/image-provider</loc>

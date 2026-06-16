@@ -44,10 +44,8 @@ npx skills add https://github.com/hwj123hwj/custom-skills --skill <skill-id>
 <!-- SKILL_TABLE:START -->
 | 技能 | 说明 |
 |------|------|
-| [academic-search](./skills/academic-search) | 学术论文搜索、引用分析、开放获取 PDF 判定与结构化元数据提取专用 Skill。 |
 | [asr](./skills/asr) | Unified ASR (Speech Recognition) skill with pluggable providers (strategy pattern). |
 | [bilibili-cli](./skills/bilibili-cli) | CLI skill for Bilibili (哔哩哔哩, B站) with token-efficient YAML output for AI agents to browse videos... |
-| [bjtuo-classroom-query](./skills/bjtuo-classroom-query) | 北京交通大学（BJTU）教室综合查询。 |
 | [boss-cli](./skills/boss-cli) | Use boss-cli for ALL BOSS 直聘 operations — searching jobs, viewing recommendations, managing appli... |
 | [brainstorming](./skills/brainstorming) | You MUST use this before any creative work - creating features, building components, adding funct... |
 | [butler](./skills/butler) | 管家技能 — 项目感知、日报分析、知识库维护。 |
@@ -65,7 +63,6 @@ npx skills add https://github.com/hwj123hwj/custom-skills --skill <skill-id>
 | [handoff](./skills/handoff) | Compact the current conversation into a handoff document for another agent to pick up. |
 | [huashu-design](./skills/huashu-design) | 花叔Design（Huashu-Design）——用HTML做高保真原型、交互Demo、幻灯片、动画、设计变体探索+设计方向顾问+专家评审的一体化设计能力。 |
 | [huashu-nuwa](./skills/huashu-nuwa) | 女娲造人：输入人名/主题/甚至只是模糊需求，自动深度调研→思维框架提炼→生成可运行的人物Skill。 |
-| [idea-incubator](./skills/idea-incubator) | 专业的 CPO + 技术合伙人助手，帮助用户孵化想法、分析可行性并编写技术文档。 |
 | [image-provider](./skills/image-provider) | Unified image generation skill with pluggable providers (strategy pattern). |
 | [improve-codebase-architecture](./skills/improve-codebase-architecture) | Find deepening opportunities in a codebase, informed by the domain language in CONTEXT.md and the... |
 | [knowledge-skill](./skills/knowledge-skill) | 个人知识流水线技能。 |
