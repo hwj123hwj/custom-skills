@@ -166,6 +166,8 @@ export const skillDescriptionsEn: Record<string, string> = {
     'Intelligent stock analysis skill. Input a stock ticker (A-share/HK/US), auto-fetches real-time quotes + historical K-line data, calculates technical indicators (MA/MACD/RSI/volume/bias), generates a composite score (100-point scale) with buy/sell signals, searches latest news, and outputs an AI-powered decision dashboard. Python script with multi-source fallback (akshare → yfinance → Alpha Vantage), 6-dimension technical scoring.',
   'weread-skills':
     'WeChat Read (微信读书) assistant — search books, manage bookshelf, view notes & highlights, browse reviews, reading statistics, and discover personalized recommendations. Calls WeChat Read APIs via Agent API Gateway.',
+  'butler':
+    '管家技能 — 项目感知、日报分析、知识库维护。自动扫描会话数据、分析每日工作、夜间维护 wiki。',
 };
 
 /**
