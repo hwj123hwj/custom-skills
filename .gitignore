@@ -44,4 +44,3 @@ skills/skill-browser-crawl/.venv/
 skills/knowledge-skill/.tune-state.json
 skills/knowledge-skill/.tune-params.env
 skills/knowledge-skill/tune-results.tsv
-.llm-wiki/

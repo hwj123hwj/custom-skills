@@ -1,0 +1,55 @@
+---
+type: entity
+date: 2026-06-14
+tags: [architecture, dataflow, modules]
+---
+
+# Architecture
+
+> 项目架构概述，来自 `docs/architecture.md`。
+
+## 总览
+
+`custom-skills` 是一个以 `SKILL.md` 为唯一事实来源的 AI 能力注册表，通过 Web 技能广场服务人类用户，通过 CLI 为 AI Agent 提供发现与安装能力。
+
+## 主要模块
+
+| 模块 | 说明 |
+|------|------|
+| `skills/` | 技能源目录，每个技能必须包含 `SKILL.md` |
+| `agents/` | 可复用的 Agent 定义，组合角色、规则与技能 |
+| `registry/` | 自动生成的机器可读索引 |
+| `web/` | React + Vite 技能与 Agent 广场 |
+| `cli/` | TypeScript 命令行工具（搜索/查看/安装） |
+| `docs/` | 详细规范与设计文档 |
+| `docs/agent-infra/` | 下一代 Agent 基础设施设计 |
+
+## 核心数据流
+
+```
+skills/*/SKILL.md
+  → web/scripts/sync-skills.ts
+  → registry/skills.json + web/src/data/skills-data.json + README.md + sitemap
+  → CLI（远程拉取）/ Web（静态导入）
+```
+
+## Web 技术栈
+
+React 19 + TypeScript 5.9 + Vite 7 + Tailwind CSS + React Router + i18next
+
+Skills tab 通过 `web/src/lib/skill-categories.ts` 的 5 个高层分组（coding/content/platform/knowledge/product）分类筛选。
+
+## CLI 技术栈
+
+TypeScript + Commander，远程 registry 拉取 + 本地缓存降级。
+
+## 演进方向
+
+正在从"技能注册表"演进为"Agent 基础设施"：
+
+- `skills` → 可复用能力
+- `agents` → 结构化编排
+- `eval cases` → 验证场景
+- `run artifacts` → 比较与优化依据
+
+相关：[[skill-spec]], [[agent-spec]], [[registry-system]], [[agent-infrastructure]], [[cli-tool]], [[web-app]]
