@@ -135,6 +135,23 @@
     "upstreamSha": "6fd4507659784c351abbd2bc264c7162cfd386dc"
   },
   {
+    "id": "butler",
+    "name": "butler",
+    "displayName": "Butler — Easy Code 管家技能",
+    "description": "管家技能 — 项目感知、日报分析、知识库维护。自动扫描会话数据、分析每日工作、夜间维护 wiki。",
+    "detailedDescription": "管家技能 — 项目感知、日报分析、知识库维护。自动扫描会话数据、分析每日工作、夜间维护 wiki。",
+    "emoji": "📦",
+    "tags": [
+      "Utility"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill butler",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/butler",
+    "sourcePath": "skills/butler",
+    "lastUpdated": "2026-06-16T07:10:28.000Z"
+  },
+  {
     "id": "content-adapt",
     "name": "content-adapt",
     "displayName": "content-adapt",
@@ -776,33 +793,6 @@
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/short-video-replicator",
     "sourcePath": "skills/short-video-replicator",
     "lastUpdated": "2026-05-02T15:49:31.000Z"
-  },
-  {
-    "id": "skills-sh-installer",
-    "name": "skills-sh-installer",
-    "displayName": "Skills.sh Installer",
-    "description": "从 skills.sh（Cursor/Windsurf 技能市场）下载并安装技能到本地 .deepv/skills 目录。支持自动解析仓库结构、提取 .claude/skills 下的成品技能、清理构建残留。",
-    "detailedDescription": "从 [skills.sh](https://skills.sh) 或 GitHub 仓库下载并安装技能到本地 `~/.deepv/skills/` 目录。",
-    "emoji": "📦",
-    "tags": [
-      "Installer",
-      "Marketplace",
-      "Automation"
-    ],
-    "scenarios": [
-      "根据 skills.sh 链接安装技能",
-      "从 GitHub 仓库提取 Cursor 或 Windsurf 成品技能",
-      "清理技能仓库中的构建残留后安装到本地"
-    ],
-    "aliases": [
-      "skills.sh",
-      "Cursor 技能安装",
-      "Windsurf 技能安装"
-    ],
-    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill skills-sh-installer",
-    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/skills-sh-installer",
-    "sourcePath": "skills/skills-sh-installer",
-    "lastUpdated": "2026-04-15T02:36:07.000Z"
   },
   {
     "id": "stock-analysis",

@@ -50,6 +50,7 @@ npx skills add https://github.com/hwj123hwj/custom-skills --skill <skill-id>
 | [bjtuo-classroom-query](./skills/bjtuo-classroom-query) | 北京交通大学（BJTU）教室综合查询。 |
 | [boss-cli](./skills/boss-cli) | Use boss-cli for ALL BOSS 直聘 operations — searching jobs, viewing recommendations, managing appli... |
 | [brainstorming](./skills/brainstorming) | You MUST use this before any creative work - creating features, building components, adding funct... |
+| [butler](./skills/butler) | 管家技能 — 项目感知、日报分析、知识库维护。 |
 | [content-adapt](./skills/content-adapt) | 根据视频内容分析结果，生成适合目标平台发布的标题、描述、标签等信息。 |
 | [content-repurposer](./skills/content-repurposer) | Markdown 提示工程驱动的内容复用技能，含 7 个子技能（LinkedIn/Twitter/Medium/Substack/Newsletter/GitHub Pages + 编排器）。 |
 | [darwin-skill](./skills/darwin-skill) | Darwin Skill (达尔文.skill): autonomous skill optimizer inspired by Karpathy's autoresearch. |
@@ -78,7 +79,6 @@ npx skills add https://github.com/hwj123hwj/custom-skills --skill <skill-id>
 | [review](./skills/review) | Two-axis code review — Standards (does code follow documented standards?) and Spec (does code mat... |
 | [short-drama-pipeline](./skills/short-drama-pipeline) | AI 短剧/短视频全链路生产技能。 |
 | [short-video-replicator](./skills/short-video-replicator) | 短视频爆款复刻一站式工具。 |
-| [skills-sh-installer](./skills/skills-sh-installer) | 从 skills.sh（Cursor/Windsurf 技能市场）下载并安装技能到本地 .deepv/skills 目录。 |
 | [stock-analysis](./skills/stock-analysis) | 股票智能分析技能。 |
 | [storage-analyzer](./skills/storage-analyzer) | macOS / Windows 只读存储分析助手（自动识别系统）。 |
 | [tavily](./skills/tavily) | Unified Tavily CLI skill — web search, URL extraction, and deep research via `tvly`. |
