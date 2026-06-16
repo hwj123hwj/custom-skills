@@ -52,4 +52,17 @@ TypeScript + Commander，远程 registry 拉取 + 本地缓存降级。
 - `eval cases` → 验证场景
 - `run artifacts` → 比较与优化依据
 
-相关：[[skill-spec]], [[agent-spec]], [[registry-system]], [[agent-infrastructure]], [[cli-tool]], [[web-app]]
+## Easy Code 集成
+
+custom-skills 通过 [[skill-hub-tool]] 与 Easy Code 集成：
+
+```
+Easy Code agent → skill_hub(action="search/install")
+  → jsdelivr CDN → registry/skills.json / skills/{id}/SKILL.md
+  → ~/.easycode-user/skills/{id}/SKILL.md
+  → SkillLoader 发现 → use_skill 加载
+```
+
+JIT 模式：启动时只消耗 ~150 tokens（一条 tool description），按需搜索安装。
+
+相关：[[skill-spec]], [[agent-spec]], [[registry-system]], [[agent-infrastructure]], [[cli-tool]], [[web-app]], [[skill-hub-tool]]

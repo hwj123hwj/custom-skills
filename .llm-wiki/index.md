@@ -5,16 +5,21 @@
 ## Source Ingests
 
 - [[source-project-overview]] — 2026-06-14 全仓库摄取
+- [[source-easycode-skill-integration]] — 2026-06-16 Easy Code 集成方案摄取
 
 ## Pages
 
 ### 架构与规范
 
-- [[architecture]] — 项目架构和数据流
+- [[architecture]] — 项目架构和数据流（含 Easy Code 集成）
 - [[skill-spec]] — SKILL.md 规范与 frontmatter 字段
 - [[agent-spec]] — Agent 定义规范与 6 个 Agent 列表
 - [[tag-system]] — Tag 白名单与分类体系
 - [[registry-system]] — Registry 生成与校验流程
+
+### 集成
+
+- [[skill-hub-tool]] — Easy Code 内置 skill_hub 工具（JIT 搜索/安装）
 
 ### 组件
 
