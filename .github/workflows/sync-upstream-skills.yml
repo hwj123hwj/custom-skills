@@ -134,6 +134,13 @@ jobs:
               # 确保目标目录存在
               mkdir -p "$(dirname "$LOCAL_FILE")"
 
+              # 检查本地文件是否已包含冲突标记（来自之前失败的同步）
+              if [ -f "$LOCAL_FILE" ] && grep -q '^<<<<<<< ' "$LOCAL_FILE" 2>/dev/null; then
+                echo "    ⚠️  $REL_FILE already contains conflict markers, skipping"
+                SKILL_CONFLICTS+=("$REL_FILE")
+                continue
+              fi
+
               # 判断是否为二进制文件（图片/字体/压缩包等不做 merge，直接用上游版本）
               case "$REL_FILE" in
                 *.png|*.jpg|*.jpeg|*.gif|*.webp|*.ico|*.svg|*.pdf|\
@@ -170,11 +177,9 @@ jobs:
                     SKILL_CHANGED=$((SKILL_CHANGED + 1))
                   fi
                 else
-                  # 有冲突：保留冲突标记写入本地，供 PR review
-                  cp "$MERGE_TMP" "$LOCAL_FILE"
+                  # 有冲突：不写入文件，保持本地原样，等用户手动解决
+                  echo "    ✗ conflict: $REL_FILE (skipped, needs manual resolution)"
                   SKILL_CONFLICTS+=("$REL_FILE")
-                  echo "    ✗ conflict: $REL_FILE"
-                  SKILL_CHANGED=$((SKILL_CHANGED + 1))
                 fi
                 rm -f "$MERGE_TMP"
               else
@@ -189,9 +194,9 @@ jobs:
               ! -path '*/.git/*' ! -name '*.pyc' ! -path '*/__pycache__/*' \
               -printf '%P\0') || true
 
-            # 更新 SKILL.md frontmatter 中的 upstreamSha
+            # 更新 SKILL.md frontmatter 中的 upstreamSha（仅当无冲突时才更新）
             SKILL_MD="$DEST/SKILL.md"
-            if [ -f "$SKILL_MD" ]; then
+            if [ ${#SKILL_CONFLICTS[@]} -eq 0 ] && [ -f "$SKILL_MD" ]; then
               if grep -q "^upstreamSha:" "$SKILL_MD"; then
                 sed -i "s|^upstreamSha:.*|upstreamSha: $UPSTREAM_HEAD|" "$SKILL_MD"
               else
@@ -199,18 +204,22 @@ jobs:
                 sed -i "0,/^---$/!{0,/^---$/s/^---$/---\nupstreamSha: $UPSTREAM_HEAD/}" "$SKILL_MD"
               fi
               echo "    ↳ Updated upstreamSha in SKILL.md → $UPSTREAM_HEAD"
+            elif [ ${#SKILL_CONFLICTS[@]} -gt 0 ]; then
+              echo "    ↳ Skipped upstreamSha update due to conflicts"
+            fi
+
+            # 报告冲突（即使没有实际文件变更）
+            if [ ${#SKILL_CONFLICTS[@]} -gt 0 ]; then
+              CONFLICTS=$((CONFLICTS + 1))
+              CONFLICT_SUMMARY="$CONFLICT_SUMMARY\n### \`$SKILL_ID\` 冲突文件（需手动解决）\n"
+              for f in "${SKILL_CONFLICTS[@]}"; do
+                CONFLICT_SUMMARY="$CONFLICT_SUMMARY- \`$f\`\n"
+              done
             fi
 
             if [ $SKILL_CHANGED -gt 0 ]; then
               CHANGED=$((CHANGED + 1))
               SUMMARY="$SUMMARY\n- \`$SKILL_ID\` synced from \`$UPSTREAM_REPO\` (\`${LAST_SHA:0:7}\` → \`${UPSTREAM_HEAD:0:7}\`)"
-              if [ ${#SKILL_CONFLICTS[@]} -gt 0 ]; then
-                CONFLICTS=$((CONFLICTS + 1))
-                CONFLICT_SUMMARY="$CONFLICT_SUMMARY\n### \`$SKILL_ID\` 冲突文件（需手动解决）\n"
-                for f in "${SKILL_CONFLICTS[@]}"; do
-                  CONFLICT_SUMMARY="$CONFLICT_SUMMARY- \`$f\`\n"
-                done
-              fi
             fi
 
             rm -rf "$TMP_NEW" "$TMP_BASE"
@@ -230,12 +239,12 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
       - name: Regenerate registry
-        if: steps.sync.outputs.changed != '0'
+        if: steps.sync.outputs.changed != '0' || steps.sync.outputs.conflicts != '0'
         working-directory: web
         run: npm run generate:registry
 
       - name: Create Pull Request
-        if: steps.sync.outputs.changed != '0'
+        if: steps.sync.outputs.changed != '0' || steps.sync.outputs.conflicts != '0'
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -247,8 +256,8 @@ jobs:
 
             ${{ steps.sync.outputs.summary }}
 
-            ${{ steps.sync.outputs.conflicts != '0' && format('## ⚠️ 需要手动解决的冲突\n\n以下文件存在三路合并冲突（已写入冲突标记），请在合并前手动解决：\n\n{0}', steps.sync.outputs.conflict_summary) || '✅ 无冲突，可直接合并。' }}
+            ${{ steps.sync.outputs.conflicts != '0' && format('## ⚠️ 需要手动解决的冲突\n\n以下技能的文件存在合并冲突，需要手动解决：\n\n{0}\n\n### 解决步骤\n1. 本地 checkout 这个 PR 分支\n2. 查看冲突文件中本地修改 vs 上游最新版本的差异\n3. 手动合并上游的变更，保留你的本地自定义修改\n4. 更新 SKILL.md 中的 `upstreamSha` 为最新版本\n5. 运行 `cd web && npm run generate:registry` 重新生成\n6. 提交并合并 PR', steps.sync.outputs.conflict_summary) || '✅ 无冲突，可直接合并。' }}
 
-            > 同步逻辑：上游新增文件直接添加；已有文件基于 `upstreamSha` 做三路合并，保留你的本地修改。
+            > 同步逻辑：上游新增文件直接添加；已有文件基于 `upstreamSha` 做三路合并。冲突时保持本地文件不变，需手动解决。
           labels: upstream-sync
           delete-branch: true
