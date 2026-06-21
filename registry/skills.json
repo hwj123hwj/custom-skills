@@ -306,6 +306,28 @@
     "upstreamSha": "6eeb81b5fcfeeb5bd531dd47ab2f9f2bbea27461"
   },
   {
+    "id": "grill-me",
+    "name": "grill-me",
+    "displayName": "grill-me",
+    "description": "Interview the user relentlessly about a plan or design until reaching shared understanding, resolving each branch of the decision tree. Use when user wants to stress-test a plan, get grilled on their design, or mentions 'grill me'.",
+    "detailedDescription": "Interview the user relentlessly about a plan or design until reaching shared understanding, resolving each branch of the decision tree. Use when user wants to stress-test a plan, get grilled on their design, or mentions 'grill me'.",
+    "emoji": "📦",
+    "tags": [
+      "Planning",
+      "Productivity"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill grill-me",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/grill-me",
+    "sourcePath": "skills/grill-me",
+    "lastUpdated": "2026-05-30T00:00:00.000Z",
+    "author": "mattpocock",
+    "upstream": "mattpocock/skills",
+    "upstreamPath": "skills/productivity/grill-me",
+    "upstreamSha": "6eeb81b5fcfeeb5bd531dd47ab2f9f2bbea27461"
+  },
+  {
     "id": "guizang-ppt-skill",
     "name": "guizang-ppt-skill",
     "displayName": "Guizang PPT Skill",
@@ -335,6 +357,28 @@
     "author": "op7418",
     "upstream": "op7418/guizang-ppt-skill",
     "upstreamSha": "82fe5ae129e8c2a12e1155fcabed6703342749d6"
+  },
+  {
+    "id": "handoff",
+    "name": "handoff",
+    "displayName": "handoff",
+    "description": "Compact the current conversation into a handoff document for another agent to pick up. Use when switching sessions, handing off work, or transitioning between agents.",
+    "detailedDescription": "Compact the current conversation into a handoff document for another agent to pick up. Use when switching sessions, handing off work, or transitioning between agents.",
+    "emoji": "📦",
+    "tags": [
+      "Productivity",
+      "Product"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill handoff",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/handoff",
+    "sourcePath": "skills/handoff",
+    "lastUpdated": "2026-05-30T00:00:00.000Z",
+    "author": "mattpocock",
+    "upstream": "mattpocock/skills",
+    "upstreamPath": "skills/productivity/handoff",
+    "upstreamSha": "6eeb81b5fcfeeb5bd531dd47ab2f9f2bbea27461"
   },
   {
     "id": "huashu-design",
@@ -394,6 +438,28 @@
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/image-provider",
     "sourcePath": "skills/image-provider",
     "lastUpdated": "2026-05-02T15:49:31.000Z"
+  },
+  {
+    "id": "improve-codebase-architecture",
+    "name": "improve-codebase-architecture",
+    "displayName": "Improve Codebase Architecture",
+    "description": "Find deepening opportunities in a codebase, informed by the domain language in CONTEXT.md and the decisions in docs/adr/. Use when the user wants to improve architecture, find refactoring opportunities, consolidate tightly-coupled modules, or make a codebase more testable and AI-navigable.",
+    "detailedDescription": "Find deepening opportunities in a codebase, informed by the domain language in CONTEXT.md and the decisions in docs/adr/. Use when the user wants to improve architecture, find refactoring opportunities, consolidate tightly-coupled modules, or make a codebase more testable and AI-navigable.",
+    "emoji": "📦",
+    "tags": [
+      "Architecture",
+      "Coding"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill improve-codebase-architecture",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/improve-codebase-architecture",
+    "sourcePath": "skills/improve-codebase-architecture",
+    "lastUpdated": "2026-05-30T00:00:00.000Z",
+    "author": "mattpocock",
+    "upstream": "mattpocock/skills",
+    "upstreamPath": "skills/engineering/improve-codebase-architecture",
+    "upstreamSha": "6eeb81b5fcfeeb5bd531dd47ab2f9f2bbea27461"
   },
   {
     "id": "knowledge-skill",
@@ -561,6 +627,28 @@
     "lastUpdated": "2026-05-09T00:00:00.000Z"
   },
   {
+    "id": "prototype",
+    "name": "prototype",
+    "displayName": "Prototype",
+    "description": "Build a throwaway prototype to flesh out a design before committing to it. Routes between two branches — a runnable terminal app for state/business-logic questions, or several radically different UI variations toggleable from one route. Use when the user wants to prototype, sanity-check a data model or state machine, mock up a UI, explore design options.",
+    "detailedDescription": "Build a throwaway prototype to flesh out a design before committing to it. Routes between two branches — a runnable terminal app for state/business-logic questions, or several radically different UI variations toggleable from one route. Use when the user wants to prototype, sanity-check a data model or state machine, mock up a UI, explore design options.",
+    "emoji": "📦",
+    "tags": [
+      "Coding",
+      "Productivity"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill prototype",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/prototype",
+    "sourcePath": "skills/prototype",
+    "lastUpdated": "2026-05-30T00:00:00.000Z",
+    "author": "mattpocock",
+    "upstream": "mattpocock/skills",
+    "upstreamPath": "skills/engineering/prototype",
+    "upstreamSha": "6eeb81b5fcfeeb5bd531dd47ab2f9f2bbea27461"
+  },
+  {
     "id": "review",
     "name": "review",
     "displayName": "review",
@@ -706,6 +794,72 @@
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/tavily",
     "sourcePath": "skills/tavily",
     "lastUpdated": "2026-05-02T15:49:31.000Z"
+  },
+  {
+    "id": "tdd",
+    "name": "tdd",
+    "displayName": "Test-Driven Development",
+    "description": "Test-driven development with red-green-refactor loop. Use when user wants to build features or fix bugs using TDD, mentions 'red-green-refactor', wants integration tests, or asks for test-first development.",
+    "detailedDescription": "Test-driven development with red-green-refactor loop. Use when user wants to build features or fix bugs using TDD, mentions 'red-green-refactor', wants integration tests, or asks for test-first development.",
+    "emoji": "📦",
+    "tags": [
+      "Testing",
+      "Coding"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill tdd",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/tdd",
+    "sourcePath": "skills/tdd",
+    "lastUpdated": "2026-05-30T00:00:00.000Z",
+    "author": "mattpocock",
+    "upstream": "mattpocock/skills",
+    "upstreamPath": "skills/engineering/tdd",
+    "upstreamSha": "6eeb81b5fcfeeb5bd531dd47ab2f9f2bbea27461"
+  },
+  {
+    "id": "to-issues",
+    "name": "to-issues",
+    "displayName": "To Issues",
+    "description": "Break a plan, spec, or PRD into independently-grabbable issues on the project issue tracker using tracer-bullet vertical slices. Use when user wants to convert a plan into issues, create implementation tickets, or break down work.",
+    "detailedDescription": "Break a plan, spec, or PRD into independently-grabbable issues on the project issue tracker using tracer-bullet vertical slices. Use when user wants to convert a plan into issues, create implementation tickets, or break down work.",
+    "emoji": "📦",
+    "tags": [
+      "Planning",
+      "Productivity"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill to-issues",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/to-issues",
+    "sourcePath": "skills/to-issues",
+    "lastUpdated": "2026-05-30T00:00:00.000Z",
+    "author": "mattpocock",
+    "upstream": "mattpocock/skills",
+    "upstreamPath": "skills/engineering/to-issues",
+    "upstreamSha": "6eeb81b5fcfeeb5bd531dd47ab2f9f2bbea27461"
+  },
+  {
+    "id": "to-prd",
+    "name": "to-prd",
+    "displayName": "to-prd",
+    "description": "Turn the current conversation context into a PRD (Product Requirements Document). Use when user wants to create a PRD, write product requirements, or formalize a feature specification.",
+    "detailedDescription": "Turn the current conversation context into a PRD (Product Requirements Document). Use when user wants to create a PRD, write product requirements, or formalize a feature specification.",
+    "emoji": "📦",
+    "tags": [
+      "Planning",
+      "Product"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill to-prd",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/to-prd",
+    "sourcePath": "skills/to-prd",
+    "lastUpdated": "2026-05-30T00:00:00.000Z",
+    "author": "mattpocock",
+    "upstream": "mattpocock/skills",
+    "upstreamPath": "skills/engineering/to-prd",
+    "upstreamSha": "6eeb81b5fcfeeb5bd531dd47ab2f9f2bbea27461"
   },
   {
     "id": "tts",

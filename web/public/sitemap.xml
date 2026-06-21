@@ -122,12 +122,28 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/git-guardrails-claude-code?lng=en" />
   </url>
   <url>
+    <loc>https://hwj123hwj.asia/skill/grill-me</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/grill-me" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/grill-me?lng=en" />
+  </url>
+  <url>
     <loc>https://hwj123hwj.asia/skill/guizang-ppt-skill</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/guizang-ppt-skill" />
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/guizang-ppt-skill?lng=en" />
+  </url>
+  <url>
+    <loc>https://hwj123hwj.asia/skill/handoff</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/handoff" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/handoff?lng=en" />
   </url>
   <url>
     <loc>https://hwj123hwj.asia/skill/huashu-design</loc>
@@ -152,6 +168,14 @@
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/image-provider" />
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/image-provider?lng=en" />
+  </url>
+  <url>
+    <loc>https://hwj123hwj.asia/skill/improve-codebase-architecture</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/improve-codebase-architecture" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/improve-codebase-architecture?lng=en" />
   </url>
   <url>
     <loc>https://hwj123hwj.asia/skill/knowledge-skill</loc>
@@ -210,6 +234,14 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/paddleocr-text-recognition?lng=en" />
   </url>
   <url>
+    <loc>https://hwj123hwj.asia/skill/prototype</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/prototype" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/prototype?lng=en" />
+  </url>
+  <url>
     <loc>https://hwj123hwj.asia/skill/review</loc>
     <lastmod>2026-05-30</lastmod>
     <changefreq>weekly</changefreq>
@@ -256,6 +288,30 @@
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/tavily" />
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/tavily?lng=en" />
+  </url>
+  <url>
+    <loc>https://hwj123hwj.asia/skill/tdd</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/tdd" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/tdd?lng=en" />
+  </url>
+  <url>
+    <loc>https://hwj123hwj.asia/skill/to-issues</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/to-issues" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/to-issues?lng=en" />
+  </url>
+  <url>
+    <loc>https://hwj123hwj.asia/skill/to-prd</loc>
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/to-prd" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/to-prd?lng=en" />
   </url>
   <url>
     <loc>https://hwj123hwj.asia/skill/tts</loc>
