@@ -1,14 +1,19 @@
 ---
 name: prototype
+<<<<<<< /tmp/tmp.tBkkwUQpOJ
 author: mattpocock
 upstream: mattpocock/skills
 upstreamPath: skills/engineering/prototype
-upstreamSha: 694fa30311e02c2639942308513555e61ee84a6f
+upstreamSha: 6eeb81b5fcfeeb5bd531dd47ab2f9f2bbea27461
 lastUpdated: "2026-05-30T00:00:00.000Z"
 tags:
   - Coding
   - Productivity
 description: "Build a throwaway prototype to flesh out a design before committing to it. Routes between two branches — a runnable terminal app for state/business-logic questions, or several radically different UI variations toggleable from one route. Use when the user wants to prototype, sanity-check a data model or state machine, mock up a UI, explore design options."
+=======
+description: Build a throwaway prototype to flesh out a design — a runnable terminal app for state/business-logic questions, or several radically different UI variations toggleable from one route.
+disable-model-invocation: true
+>>>>>>> /tmp/tmp.SoiEmT4D97/skills/engineering/prototype/SKILL.md
 ---
 
 # Prototype

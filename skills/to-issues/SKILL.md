@@ -1,14 +1,19 @@
 ---
 name: to-issues
+<<<<<<< /tmp/tmp.GK9YgMXBPt
 author: mattpocock
 upstream: mattpocock/skills
 upstreamPath: skills/engineering/to-issues
-upstreamSha: 694fa30311e02c2639942308513555e61ee84a6f
+upstreamSha: 6eeb81b5fcfeeb5bd531dd47ab2f9f2bbea27461
 lastUpdated: "2026-05-30T00:00:00.000Z"
 tags:
   - Planning
   - Productivity
 description: "Break a plan, spec, or PRD into independently-grabbable issues on the project issue tracker using tracer-bullet vertical slices. Use when user wants to convert a plan into issues, create implementation tickets, or break down work."
+=======
+description: Break a plan, spec, or PRD into independently-grabbable issues on the project issue tracker using tracer-bullet vertical slices.
+disable-model-invocation: true
+>>>>>>> /tmp/tmp.iUa2m0CUnd/skills/engineering/to-issues/SKILL.md
 ---
 
 # To Issues
@@ -27,16 +32,18 @@ Work from whatever is already in the conversation context. If the user passes an
 
 If you have not already explored the codebase, do so to understand the current state of the code. Issue titles and descriptions should use the project's domain glossary vocabulary, and respect ADRs in the area you're touching.
 
+Look for opportunities to prefactor the code to make the implementation easier. "Make the change easy, then make the easy change."
+
 ### 3. Draft vertical slices
 
 Break the plan into **tracer bullet** issues. Each issue is a thin vertical slice that cuts through ALL integration layers end-to-end, NOT a horizontal slice of one layer.
 
-Slices may be 'HITL' or 'AFK'. HITL slices require human interaction, such as an architectural decision or a design review. AFK slices can be implemented and merged without human interaction. Prefer AFK over HITL where possible.
-
 <vertical-slice-rules>
+
 - Each slice delivers a narrow but COMPLETE path through every layer (schema, API, UI, tests)
 - A completed slice is demoable or verifiable on its own
-- Prefer many thin slices over few thick ones
+- Any prefactoring should be done first
+
 </vertical-slice-rules>
 
 ### 4. Quiz the user
@@ -44,7 +51,6 @@ Slices may be 'HITL' or 'AFK'. HITL slices require human interaction, such as an
 Present the proposed breakdown as a numbered list. For each slice, show:
 
 - **Title**: short descriptive name
-- **Type**: HITL / AFK
 - **Blocked by**: which other slices (if any) must complete first
 - **User stories covered**: which user stories this addresses (if the source material has them)
 
@@ -53,7 +59,6 @@ Ask the user:
 - Does the granularity feel right? (too coarse / too fine)
 - Are the dependency relationships correct?
 - Should any slices be merged or split further?
-- Are the correct slices marked as HITL and AFK?
 
 Iterate until the user approves the breakdown.
 

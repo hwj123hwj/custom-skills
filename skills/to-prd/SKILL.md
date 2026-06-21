@@ -1,14 +1,19 @@
 ---
 name: to-prd
+<<<<<<< /tmp/tmp.BrHkzkCd30
 author: mattpocock
 upstream: mattpocock/skills
 upstreamPath: skills/engineering/to-prd
-upstreamSha: 694fa30311e02c2639942308513555e61ee84a6f
+upstreamSha: 6eeb81b5fcfeeb5bd531dd47ab2f9f2bbea27461
 lastUpdated: "2026-05-30T00:00:00.000Z"
 tags:
   - Planning
   - Product
 description: "Turn the current conversation context into a PRD (Product Requirements Document). Use when user wants to create a PRD, write product requirements, or formalize a feature specification."
+=======
+description: Turn the current conversation into a PRD and publish it to the project issue tracker — no interview, just synthesis of what you've already discussed.
+disable-model-invocation: true
+>>>>>>> /tmp/tmp.BGpN32XrEa/skills/engineering/to-prd/SKILL.md
 ---
 
 This skill takes the current conversation context and codebase understanding and produces a PRD. Do NOT interview the user — just synthesize what you already know.
@@ -19,7 +24,7 @@ The issue tracker and triage label vocabulary should be configured for your proj
 
 1. Explore the repo to understand the current state of the codebase, if you haven't already. Use the project's domain glossary vocabulary throughout the PRD, and respect any ADRs in the area you're touching.
 
-2. Sketch out the seams at which you're going to test the feature. Existing seams should be preferred to new ones. Use the highest seam possible. If new seams are needed, propose them at the highest point you can.
+2. Sketch out the seams at which you're going to test the feature. Existing seams should be preferred to new ones. Use the highest seam possible. If new seams are needed, propose them at the highest point you can. The fewer seams across the codebase, the better - the ideal number is one.
 
 Check with the user that these seams match their expectations.
 
