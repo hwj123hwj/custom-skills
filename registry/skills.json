@@ -588,7 +588,7 @@
     "author": "iOfficeAI",
     "upstream": "iOfficeAI/OfficeCLI",
     "upstreamPath": "skills/officecli-docx",
-    "upstreamSha": "cf1c8545039429fe0a5c27ee9cdef5b43026ffa9"
+    "upstreamSha": "75f31424688adedf7ae775c70e60e551e2c96525"
   },
   {
     "id": "paddleocr-doc-parsing",
@@ -935,7 +935,7 @@
     "author": "nextlevelbuilder",
     "upstream": "nextlevelbuilder/ui-ux-pro-max-skill",
     "upstreamPath": "src/ui-ux-pro-max",
-    "upstreamSha": "03e6afc908ba341c0dc11fc15b1a88d68ed23d5b"
+    "upstreamSha": "1518fec29d19ce905cd0c689255137b9dcab7ccc"
   },
   {
     "id": "vertex-video-reader",
