@@ -37,7 +37,7 @@ skills/*/SKILL.md
 
 React 19 + TypeScript 5.9 + Vite 7 + Tailwind CSS + React Router + i18next
 
-Skills tab 通过 `web/src/lib/skill-categories.ts` 的 5 个高层分组（coding/content/platform/knowledge/product）分类筛选。
+Skills tab 通过 `web/src/lib/skill-categories.ts` 的 **6 个高层分组**（编程开发/内容创作/平台工具/效率工具/知识搜索/数据处理）分类筛选。
 
 ## CLI 技术栈
 
