@@ -1,45 +1,165 @@
 # Custom Skills Hub
 
-A personal AI skill registry built around `SKILL.md` as the single source of truth. Primarily designed for **Claude Code**, with compatibility for OpenClaw and other agents.
+> 一个以 `SKILL.md` 为唯一事实来源的 AI Agent 技能注册表，同时服务人类用户（Web 技能广场）和 AI Agent（CLI 安装工具）。
 
-## Quick Install (Claude Code)
+[![CI](https://github.com/hwj123hwj/custom-skills/actions/workflows/ci.yml/badge.svg)](https://github.com/hwj123hwj/custom-skills/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+---
+
+## ✨ 核心特性
+
+- 📦 **48+ 技能**：覆盖编程开发、内容创作、平台工具、效率工具等多个领域
+- 🌐 **Web 技能广场**：基于 React 19 + Vite 的现代化界面，支持中英文双语
+- 🔧 **CLI 安装工具**：一键安装技能到 Claude Code 或其他 AI Agent
+- 🔄 **上游同步**：CI 自动同步第三方技能仓库，保持技能最新
+- 📋 **标准化规范**：统一的 SKILL.md 格式，支持 frontmatter 元数据
+- 🏷️ **智能分类**：基于标签的技能分类与筛选系统
+
+---
+
+## 🚀 快速开始
+
+### 浏览技能
+
+访问 [Web 技能广场](https://hwj123hwj.github.io/custom-skills/) 在线浏览所有技能。
+
+或使用 CLI：
 
 ```bash
-# Install to current project (.claude/skills/<id>/)
+# 列出所有技能
+npx custom-skills list
+
+# 按关键词搜索
+npx custom-skills search <keyword>
+
+# 查看技能详情
+npx custom-skills info <skill-id>
+```
+
+### 安装技能
+
+#### Claude Code
+
+```bash
+# 安装到当前项目 (.claude/skills/<id>/)
 npx custom-skills install <skill-id> --claude
 
-# Install globally (~/.claude/skills/<id>/)
+# 安装到全局 (~/.claude/skills/<id>/)
 npx custom-skills install <skill-id> --claude --global
 
-# Install an agent + all its dependent skills
+# 安装 Agent 及其依赖的所有技能
 npx custom-skills install <agent-id> --agent
 npx custom-skills install <agent-id> --agent --global
 ```
 
-## Browse & Search
+#### OpenClaw
 
 ```bash
-# List all available skills
-npx custom-skills list
-
-# Search by keyword
-npx custom-skills search <keyword>
-
-# View skill details
-npx custom-skills info <skill-id>
-```
-
-## OpenClaw Compatible
-
-```bash
-# Install to ~/.openclaw/workspace/skills/ (OpenClaw default)
+# 安装到 ~/.openclaw/workspace/skills/
 npx custom-skills install <skill-id>
 
-# Or use the standard skills CLI
+# 或使用标准 skills CLI
 npx skills add https://github.com/hwj123hwj/custom-skills --skill <skill-id>
 ```
 
-## Skill List
+---
+
+## 📁 项目结构
+
+```
+custom-skills/
+├── skills/              # 技能目录（唯一数据源）
+│   ├── <skill-id>/
+│   │   ├── SKILL.md     # 技能定义（YAML frontmatter + 使用说明）
+│   │   └── scripts/     # 可选：技能脚本
+│   └── ...
+├── agents/              # Agent 定义
+│   └── <agent-id>.md
+├── registry/            # 自动生成的注册表
+│   ├── skills.json
+│   ├── agents.json
+│   └── ...
+├── web/                 # React 技能广场
+│   ├── src/
+│   ├── scripts/         # 生成与校验脚本
+│   └── package.json
+├── cli/                 # TypeScript CLI 工具
+│   ├── src/
+│   └── package.json
+└── docs/                # 详细文档
+```
+
+---
+
+## 🛠️ 开发指南
+
+### 前置要求
+
+- Node.js 20+
+- npm 或 yarn
+
+### 常用命令
+
+```bash
+# Web 开发
+cd web && npm run dev              # 启动开发服务器
+cd web && npm run build            # 构建生产版本
+cd web && npm run lint             # ESLint 检查
+cd web && npm run validate:registry  # 验证 registry 一致性
+
+# 修改 SKILL.md 后必须运行（CI 强制）
+cd web && npm run generate:registry  # 重新生成 registry + README 技能表
+
+# CLI 开发
+cd cli && npm run dev -- <command>  # 用 ts-node 运行 CLI
+cd cli && npm run build             # TypeScript 编译
+```
+
+### 添加新技能
+
+1. 在 `skills/` 下创建目录：`skills/<skill-id>/`
+2. 创建 `SKILL.md`，包含 YAML frontmatter：
+
+```yaml
+---
+name: <skill-id>          # 必填，kebab-case，与目录名一致
+description: <触发描述>    # 必填，对 Agent 自动识别最关键
+tags:                     # 必填，1-5 个标签
+  - <tag1>
+  - <tag2>
+displayName: <展示名>      # 可选，默认取 H1 标题
+author: <作者>            # 可选
+version: <版本号>          # 可选
+---
+
+# 技能使用说明
+...
+```
+
+3. 运行 `cd web && npm run generate:registry`
+4. 在 `web/src/i18n/skill-descriptions.ts` 中添加中文描述
+5. 提交 PR
+
+### 添加第三方技能（上游同步）
+
+在 SKILL.md 中添加以下 frontmatter：
+
+```yaml
+---
+name: <skill-id>
+upstream: <owner/repo>        # 上游仓库
+upstreamPath: <path/to/skill> # 上游技能路径
+upstreamSha: <commit-sha>     # 当前同步的 commit
+author: <author-id>           # 原作者
+---
+```
+
+CI 会在每天 UTC 02:00 自动检查上游更新，如有变更会创建 PR。
+
+---
+
+## 📋 技能列表
 
 <!-- SKILL_TABLE:START -->
 | 技能 | 说明 |
@@ -93,10 +213,94 @@ npx skills add https://github.com/hwj123hwj/custom-skills --skill <skill-id>
 | [xiaohongshu-cli](./skills/xiaohongshu-cli) | Use xiaohongshu-cli for ALL Xiaohongshu (Little Red Book, 小红书) operations — searching notes, read... |
 <!-- SKILL_TABLE:END -->
 
-## For AI Agents
+---
 
-If you are an AI agent reading this, start with [CLAUDE.md](./.claude/CLAUDE.md) for project rules and quick commands, then see [docs/architecture.md](./docs/architecture.md), [docs/skill-spec.md](./docs/skill-spec.md), and [docs/agent-spec.md](./docs/agent-spec.md) for the detailed technical architecture and contribution guidelines.
+## 🤖 Agent 定义
 
-## License
+除了单个技能，本项目还支持 Agent 定义，用于组合多个技能：
 
-MIT License
+```bash
+# 安装 Agent 及其依赖的所有技能
+npx custom-skills install <agent-id> --agent
+```
+
+Agent 定义位于 `agents/` 目录，详见 [Agent 规范](./docs/agent-spec.md)。
+
+---
+
+## 📚 文档
+
+- [项目架构](./docs/architecture.md) — 模块划分、数据流、技术栈
+- [Skill 规范](./docs/skill-spec.md) — SKILL.md frontmatter、tag 白名单、命名规则
+- [Agent 规范](./docs/agent-spec.md) — Agent 定义、类型、frontmatter
+- [Registry 生成与校验](./docs/registry-workflow.md) — generate/validate 命令与提交流程
+- [上游同步机制](./docs/upstream-sync.md) — CI 自动同步第三方技能
+- [文档索引](./docs/README.md) — 所有文档的完整列表
+
+---
+
+## 🏷️ 标签分类
+
+技能通过标签进行分类，支持以下高层分组：
+
+| 分组 | 标签 |
+|------|------|
+| 编程开发 | Architecture, Backend, CLI, Coding, DevOps, Engineering, Frontend, Mobile, Testing |
+| 内容创作 | Audio, Content, Media, Publishing, Video, Writing |
+| 平台工具 | Platform, Productivity, Social, Tools |
+| 效率工具 | Automation, Planning, Workflow |
+| 知识搜索 | Knowledge, Research, Search |
+| 数据处理 | Data, Documents, OCR, PDF |
+
+---
+
+## 🔄 CI/CD
+
+本项目使用 GitHub Actions 进行自动化：
+
+- **Registry Check**：每次 PR 验证 registry 一致性
+- **Upstream Sync**：每日 UTC 02:00 检查上游技能更新
+- **Web Build**：自动构建并部署到 GitHub Pages
+
+---
+
+## 🤝 贡献
+
+欢迎贡献新技能或改进现有技能！
+
+1. Fork 本仓库
+2. 创建你的技能目录 `skills/<skill-id>/`
+3. 编写 `SKILL.md`（参考 [Skill 规范](./docs/skill-spec.md)）
+4. 运行 `cd web && npm run generate:registry`
+5. 提交 PR
+
+### 贡献指南
+
+- 技能 `name` 必须是 kebab-case，且与目录名一致
+- 新增 tag 需先在 `web/scripts/validate-registry.ts` 的 `ALLOWED_TAGS` 中注册
+- 新增技能需在 `web/src/i18n/skill-descriptions.ts` 中补充中文描述
+- 不要手动编辑 `registry/skills.json`，它由脚本自动生成
+
+---
+
+## 📄 License
+
+MIT License - 详见 [LICENSE](./LICENSE)
+
+---
+
+## 🔗 相关链接
+
+- [Web 技能广场](https://hwj123hwj.github.io/custom-skills/)
+- [GitHub 仓库](https://github.com/hwj123hwj/custom-skills)
+- [问题反馈](https://github.com/hwj123hwj/custom-skills/issues)
+
+---
+
+## 🙏 致谢
+
+感谢所有技能贡献者和上游仓库维护者！
+
+特别感谢：
+- [mattpocock/skills](https://github.com/mattpocock/skills) - 提供多个工程类技能
+- [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) - 提供 UI/UX 设计技能
