@@ -27,6 +27,8 @@ sudo apt update && sudo apt install python3
 winget install Python.Python.3.12
 ```
 
+> **Note:** On Windows, use `python` instead of `python3` to run scripts (e.g., `python scripts/search.py` instead of `python3 scripts/search.py`).
+
 ---
 
 ## How to Use This Skill
@@ -131,12 +133,12 @@ python3 skills/ui-ux-pro-max/scripts/search.py "<keyword>" --domain <domain> [-n
 | App interface a11y | `web` | `--domain web "accessibilityLabel touch safe-areas"` |
 | AI prompt / CSS keywords | `prompt` | `--domain prompt "minimalism"` |
 
-### Step 4: Stack Guidelines (React Native)
+### Step 4: Stack Guidelines
 
-Get React Native implementation-specific best practices:
+Get implementation-specific best practices for the user's stack:
 
 ```bash
-python3 skills/ui-ux-pro-max/scripts/search.py "<keyword>" --stack react-native
+python3 skills/ui-ux-pro-max/scripts/search.py "<keyword>" --stack <stack>
 ```
 
 ---
@@ -163,6 +165,14 @@ python3 skills/ui-ux-pro-max/scripts/search.py "<keyword>" --stack react-native
 | Stack | Focus |
 |-------|-------|
 | `react-native` | Components, Navigation, Lists |
+| `javafx` | Enterprise desktop apps, AtlantaFX themes, FXML, CSS, Controls, Binding, Threading, Packaging |
+
+**JavaFX enterprise examples:**
+
+```bash
+python3 skills/ui-ux-pro-max/scripts/search.py "atlantafx primer enterprise theme" --stack javafx
+python3 skills/ui-ux-pro-max/scripts/search.py "enterprise tableview density permission" --stack javafx
+```
 
 ---
 
@@ -225,7 +235,7 @@ python3 skills/ui-ux-pro-max/scripts/search.py "fintech crypto" --design-system 
 - Use **multi-dimensional keywords** — combine product + industry + tone + density: `"entertainment social vibrant content-dense"` not just `"app"`
 - Try different keywords for the same need: `"playful neon"` → `"vibrant dark"` → `"content-first minimal"`
 - Use `--design-system` first for full recommendations, then `--domain` to deep-dive any dimension you're unsure about
-- Always add `--stack react-native` for implementation-specific guidance
+- Add `--stack <stack>` for implementation-specific guidance when the target stack is known
 
 ### Common Sticking Points
 
