@@ -266,6 +266,23 @@
     "lastUpdated": "2026-06-11T05:23:43.524Z"
   },
   {
+    "id": "frontend-design",
+    "name": "frontend-design",
+    "displayName": "Frontend Design",
+    "description": "Guidance for distinctive, intentional visual design when building new UI or reshaping an existing one. Helps with aesthetic direction, typography, and making choices that don't read as templated defaults.",
+    "detailedDescription": "Approach this as the design lead at a small studio known for giving every client a visual identity that could not be mistaken for anyone else's. This client has already rejected proposals that felt templated, and is paying for a distinctive point of view: make deliberate, opinionated choices about palette, typography, and layout that are specific to this brief, and take one real aesthetic risk you can justify.",
+    "emoji": "📦",
+    "tags": [
+      "Utility"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill frontend-design",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/frontend-design",
+    "sourcePath": "skills/frontend-design",
+    "lastUpdated": "2026-06-25T15:48:06.930141+08:00"
+  },
+  {
     "id": "frontend-slides",
     "name": "frontend-slides",
     "displayName": "Frontend Slides",
