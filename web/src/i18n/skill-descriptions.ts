@@ -29,6 +29,8 @@ export const skillDescriptionsZh: Record<string, string> = {
     'BOSS 直聘一站式 CLI 工具。支持职位搜索、个性化推荐、申请管理、与 HR 沟通以及批量打招呼。凡涉及 BOSS 直聘的求职操作，均通过此技能完成。',
   'image-provider':
     '统一生图技能，基于策略模式，支持多个后端 Provider 自由切换（Vertex AI Imagen、dvcode）。适用于文章配图、封面图、通用图片生成等场景。触发词：生成图片、配图、封面图。',
+  'frontend-design':
+    'Anthropic 官方前端设计指导技能。为新 UI 或现有界面提供独特的视觉设计方案，覆盖调色板、字体排版、布局、动效和文案写作。采用头脑风暴→规划→评审→构建→自评的结构化流程，避免千篇一律的模板化 AI 设计。触发词：UI设计、前端设计、视觉设计、网页设计。',
   'frontend-slides':
     '前端幻灯片与网页演示生成技能。将 PPT/PPTX 转成高质量 HTML Slides，或从零创建适合演讲、分享、路演和产品展示的动画化网页演示稿，帮助非设计背景用户通过视觉探索确定审美方向。',
   'feishu-md-exporter':
