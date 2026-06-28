@@ -16,9 +16,17 @@ Usage:
 import csv
 import json
 import os
+import sys
+import io
 from datetime import datetime
 from pathlib import Path
 from core import search, DATA_DIR
+
+# Force UTF-8 for stdout/stderr to handle emojis/box-drawing chars on Windows (cp1252 default)
+if sys.stdout.encoding and sys.stdout.encoding.lower() != 'utf-8':
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+if sys.stderr.encoding and sys.stderr.encoding.lower() != 'utf-8':
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
 
 
 # ============ CONFIGURATION ============
@@ -573,8 +581,9 @@ def persist_design_system(design_system: dict, page: str = None, output_dir: str
     """
     base_dir = Path(output_dir) if output_dir else Path.cwd()
     
-    # Use project name for project-specific folder
-    project_name = design_system.get("project_name", "default")
+    # Use project name for project-specific folder. Coalesce falsy values
+    # (missing key, explicit None, or "") so the .lower() below can't crash.
+    project_name = design_system.get("project_name") or "default"
     project_slug = project_name.lower().replace(' ', '-')
     
     design_system_dir = base_dir / "design-system" / project_slug
