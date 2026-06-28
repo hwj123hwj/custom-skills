@@ -194,6 +194,7 @@ CI 会在每天 UTC 02:00 自动检查上游更新，如有变更会创建 PR。
 | [paddleocr-doc-parsing](./skills/paddleocr-doc-parsing) | Use this skill to extract structured Markdown/JSON from PDFs and document images—tables with cell... |
 | [paddleocr-text-recognition](./skills/paddleocr-text-recognition) | Use this skill whenever the user wants text extracted from images, photos, scans, screenshots, or... |
 | [prototype](./skills/prototype) | Build a throwaway prototype to flesh out a design before committing to it. |
+| [react-native-best-practices](./skills/react-native-best-practices) | Provides React Native performance optimization guidelines for FPS, TTI, bundle size, memory leaks... |
 | [review](./skills/review) | Two-axis code review — Standards (does code follow documented standards?) and Spec (does code mat... |
 | [short-drama-pipeline](./skills/short-drama-pipeline) | AI 短剧/短视频全链路生产技能。 |
 | [short-video-replicator](./skills/short-video-replicator) | 短视频爆款复刻一站式工具。 |

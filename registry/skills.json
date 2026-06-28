@@ -666,6 +666,29 @@
     "upstreamSha": "6eeb81b5fcfeeb5bd531dd47ab2f9f2bbea27461"
   },
   {
+    "id": "react-native-best-practices",
+    "name": "react-native-best-practices",
+    "displayName": "React Native Best Practices",
+    "description": "Provides React Native performance optimization guidelines for FPS, TTI, bundle size, memory leaks, re-renders, and animations. Applies to tasks involving Hermes optimization, JS thread blocking, bridge overhead, FlashList, native modules, or debugging jank and frame drops.",
+    "detailedDescription": "Performance optimization guide for React Native applications, covering JavaScript/React, Native (iOS/Android), and bundling optimizations. Based on Callstack's \"Ultimate Guide to React Native Optimization\".",
+    "emoji": "📦",
+    "tags": [
+      "Mobile",
+      "Coding",
+      "Debugging"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill react-native-best-practices",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/react-native-best-practices",
+    "sourcePath": "skills/react-native-best-practices",
+    "lastUpdated": "2026-06-28T12:42:00.000Z",
+    "author": "Callstack",
+    "upstream": "callstackincubator/agent-skills",
+    "upstreamPath": "skills/react-native-best-practices",
+    "upstreamSha": "2812b0fc788bdffb54c2d00bf846164c5969a4a8"
+  },
+  {
     "id": "review",
     "name": "review",
     "displayName": "review",
