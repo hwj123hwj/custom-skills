@@ -320,7 +320,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/misc/git-guardrails-claude-code",
-    "upstreamSha": "5d78bd0903420f97c791f834201e550c765699f8"
+    "upstreamSha": "43ea0884b07a3e67a5a07f025ce92aefa983177b"
   },
   {
     "id": "grill-me",
@@ -342,7 +342,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/productivity/grill-me",
-    "upstreamSha": "5d78bd0903420f97c791f834201e550c765699f8"
+    "upstreamSha": "43ea0884b07a3e67a5a07f025ce92aefa983177b"
   },
   {
     "id": "guizang-ppt-skill",
@@ -395,7 +395,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/productivity/handoff",
-    "upstreamSha": "5d78bd0903420f97c791f834201e550c765699f8"
+    "upstreamSha": "43ea0884b07a3e67a5a07f025ce92aefa983177b"
   },
   {
     "id": "huashu-design",
@@ -476,7 +476,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/improve-codebase-architecture",
-    "upstreamSha": "5d78bd0903420f97c791f834201e550c765699f8"
+    "upstreamSha": "43ea0884b07a3e67a5a07f025ce92aefa983177b"
   },
   {
     "id": "knowledge-skill",
@@ -605,7 +605,7 @@
     "author": "iOfficeAI",
     "upstream": "iOfficeAI/OfficeCLI",
     "upstreamPath": "skills/officecli-docx",
-    "upstreamSha": "8ee3afdace3eef54b3f57692e6a17afd926fba35"
+    "upstreamSha": "ef1b99a729207ddaa2ebc358379ef367cc3f3db4"
   },
   {
     "id": "paddleocr-doc-parsing",
@@ -877,7 +877,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/to-issues",
-    "upstreamSha": "5d78bd0903420f97c791f834201e550c765699f8"
+    "upstreamSha": "43ea0884b07a3e67a5a07f025ce92aefa983177b"
   },
   {
     "id": "to-prd",
@@ -899,7 +899,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/to-prd",
-    "upstreamSha": "5d78bd0903420f97c791f834201e550c765699f8"
+    "upstreamSha": "43ea0884b07a3e67a5a07f025ce92aefa983177b"
   },
   {
     "id": "tts",
@@ -975,7 +975,7 @@
     "author": "nextlevelbuilder",
     "upstream": "nextlevelbuilder/ui-ux-pro-max-skill",
     "upstreamPath": "src/ui-ux-pro-max",
-    "upstreamSha": "8a81ed60272d21d4b8808f7308d49a0b1b000555"
+    "upstreamSha": "3effe971c07a20658952e304099557523bdf9e44"
   },
   {
     "id": "vertex-video-reader",
