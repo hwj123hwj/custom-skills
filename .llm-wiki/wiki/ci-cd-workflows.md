@@ -96,8 +96,20 @@ i18n 覆盖检查失败，缺少以下技能的中文描述:
 - 提交数: 132 → 320
 - 技能数: 26 → 48
 
+### Matt Pocock 批量导入 + Merge 冲突（2026-07-01）
+
+**背景**：[[mattpocock-collection\]\] 批量导入期间，上游同步 CI 同时创建了 `chore/sync-upstream-skills` 分支，导致 merge 时有 13 个文件冲突。
+
+**冲突文件**：8 个已有 Matt Pocock 技能（grill-me, handoff, tdd, to-issues, to-prd, prototype, improve-codebase-architecture, git-guardrails-claude-code）+ 5 个生成文件（README, registry, web data, sitemap, index.html）
+
+**解决策略**：对所有冲突文件使用 `--ours`（保留本地版本含 Matt Pocock 标签和更新后的 upstreamSha），然后 re-generate registry 确保一致性。
+
+**导入所用脚本**：`scripts/import_mattpocock.py`、`scripts/update_existing.py`
+
+**最终规模**：73 个技能（+25 净增）
+
 ## 已知问题
 
 - Node.js 20 deprecated 警告：Actions 使用 Node.js 20 但被强制运行在 Node.js 24 上（不影响功能）
 
-相关：[[registry-system]], [[upstream-sync]], [[release-process]], [[source-readme-2026-06-23]], [[source-custom-skills-overview]]
+相关：[[registry-system]], [[upstream-sync]], [[release-process]], [[mattpocock-collection]], [[source-mattpocock-collection]]

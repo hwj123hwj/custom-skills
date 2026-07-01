@@ -20,7 +20,7 @@ tags: [skill, spec, frontmatter]
 |------|------|------|
 | `name` | 是 | kebab-case，必须与目录名一致 |
 | `description` | 是 | 触发描述，Agent 自动识别最重要的字段 |
-| `tags` | 是 | 1-5 个，必须来自白名单 |
+| `tags` | 是 | 1-5 个，必须来自白名单（含 `Matt Pocock` 来源标签）|
 | `displayName` | 否 | 展示名，默认取正文 H1 |
 | `aliases` | 否 | 别名，用于模糊匹配 |
 | `scenarios` | 否 | 触发场景列表 |
@@ -29,6 +29,8 @@ tags: [skill, spec, frontmatter]
 | `upstreamPath` | 否 | Skill 不在上游根目录时使用 |
 | `upstreamSha` | 否 | 上游同步基准 SHA |
 | `version` | 否 | 版本号 |
+| `disable-model-invocation` | 否 | 设为 true 时技能仅限手动 `/invoke`，不占用上下文 |
+| `argument-hint` | 否 | 用户 `/invoke` 时可传入的参数提示 |
 
 ## Python 脚本规则
 
@@ -45,4 +47,4 @@ tags: [skill, spec, frontmatter]
 
 不做完整 vendoring（不包含 `.github/`、`tests/`、`pyproject.toml` 等）。
 
-相关：[[architecture]], [[registry-system]], [[tag-system]], [[upstream-sync]]
+相关：[[architecture]], [[registry-system]], [[tag-system]], [[upstream-sync]], [[mattpocock-collection]]

@@ -8,16 +8,21 @@
 - [[source-easycode-skill-integration]] — 2026-06-16 Easy Code 集成方案摄取
 - [[source-readme-2026-06-23]] — 2026-06-23 README 重写摄取（6 组分类、贡献指南、冲突处理改进）
 - [[source-custom-skills-overview]] — 2026-06-25 全仓概览摄取（48 技能、CI/CD 修复、提交历史恢复）
+- [[source-mattpocock-collection]] — 2026-07-01 Matt Pocock 技能合集导入（24 新技能、4 个新标签）
 
 ## Pages
 
 ### 架构与规范
 
-- [[architecture]] — 项目架构和数据流（含 Easy Code 集成、6 组分类）
-- [[skill-spec]] — SKILL.md 规范与 frontmatter 字段
+- [[architecture]] — 项目架构和数据流（73 技能、含 Matt Pocock 合集、Easy Code 集成）
+- [[skill-spec]] — SKILL.md 规范与 frontmatter 字段（含 disable-model-invocation/argument-hint）
 - [[agent-spec]] — Agent 定义规范与 6 个 Agent 列表
-- [[tag-system]] — Tag 白名单与 6 组分类体系
+- [[tag-system]] — Tag 白名单（40+ 标签含 Matt Pocock）与 6 组分类体系 + 来源标签概念
 - [[registry-system]] — Registry 生成与校验流程
+
+### 技能合集
+
+- [[mattpocock-collection]] — Matt Pocock 技能合集（34 个技能，4 大领域）
 
 ### 集成
 
@@ -31,8 +36,8 @@
 ### 流程与 CI/CD
 
 - [[release-process]] — 8 步发版流程与版本号约定
-- [[ci-cd-workflows]] — Registry Check + Sync Upstream Skills（含冲突处理改进）
-- [[upstream-sync]] — 第三方 Skill 同步机制（含冲突处理改进）
+- [[ci-cd-workflows]] — Registry Check + Sync Upstream Skills（含冲突处理、Matt Pocock 导入记录）
+- [[upstream-sync]] — 第三方 Skill 同步机制（34 个 Matt Pocock 技能覆盖）
 
 ### 演进方向
 

@@ -74,7 +74,22 @@ tags: [upstream, sync, third-party, three-way-merge, conflict-handling]
 
 | 上游仓库 | 技能 |
 |----------|------|
-| mattpocock/skills | grill-me, handoff, improve-codebase-architecture, prototype, tdd, to-issues, to-prd, review |
-| nextlevelbuilder/ui-ux-pro-max-skill | ui-ux-pro-max |
+| mattpocock/skills | **34** | 全量导入（2026-07-01），详见 [[mattpocock-collection]] |
+| nextlevelbuilder/ui-ux-pro-max-skill | 1 | ui-ux-pro-max |
 
-相关：[[ci-cd-workflows]], [[skill-spec]], [[tag-system]], [[source-readme-2026-06-23]]
+## 批量导入（2026-07-01）
+
+### 导入流程
+
+使用 `scripts/import_mattpocock.py` 批量导入 24 个新技能：
+1. 克隆上游 → 读取每个 SKILL.md → 解析 frontmatter
+2. 写入 custom-skills 格式（扩展 upstream/upstreamSha/tags 等元数据）
+3. 复制配套文件（ADR-FORMAT.md, template.sh, GLOSSARY.md 等 22 个文件）
+
+使用 `scripts/update_existing.py` 更新 10 个已有技能：
+- 新增 `Matt Pocock` 标签
+- 更新 `upstreamSha` → `b38badf`
+- 修正 `diagnose` upstreamPath：`engineering/diagnose` → `engineering/diagnosing-bugs`
+- 修正 `review` upstreamPath：`in-progress/review` → `engineering/code-review`
+
+相关：[[ci-cd-workflows]], [[skill-spec]], [[tag-system]], [[mattpocock-collection]], [[source-mattpocock-collection]]

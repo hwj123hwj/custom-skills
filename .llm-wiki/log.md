@@ -69,3 +69,29 @@ Updated pages:
 3. CI/CD 修复：`frontend-design` 缺少中文描述导致验证失败，已在 `skill-descriptions.ts` 中补充
 4. 提交历史恢复：从 `chore/sync-upstream-skills` 分支恢复 320 个提交到 main
 5. 删除远程 `chore/sync-upstream-skills` 分支（内容已合入 main）
+
+## 2026-07-01 ingest | source-mattpocock-collection
+
+**Source**: 项目根目录 `.`（Matt Pocock 技能合集批量导入）
+
+Created pages:
+- [[source-mattpocock-collection]] — Matt Pocock 批量导入源概要（24 新技能、4 新标签、上游路径修正）
+- [[mattpocock-collection]] — Matt Pocock 技能合集概念页（34 个技能、4 大领域、上游同步覆盖）
+
+Updated pages:
+- [[skill-spec]] — 新增 `disable-model-invocation` 和 `argument-hint` frontmatter 字段
+- [[architecture]] — 技能数更新为 73；新增 Matt Pocock 合集引用
+- [[tag-system]] — 新增 4 个标签（DevOps/Tools/Workflow/Matt Pocock）；引入"来源标签"概念
+- [[upstream-sync]] — 更新上游覆盖表为 34 个 Matt Pocock 技能；新增批量导入流程记录
+- [[ci-cd-workflows]] — 新增 Matt Pocock 批量导入 + Merge 冲突处理记录
+- [[index.md]] — 新增 source 和合集条目；新增「技能合集」分组
+
+**Key changes documented**:
+1. 技能总数达到 73 个（+25 净增：24 Matt Pocock 新技能 + 1 个 merge 引入技能）
+2. 注册 4 个新标签: `DevOps`、`Tools`、`Workflow`、`Matt Pocock`
+3. 创建批量导入自动化脚本: `scripts/import_mattpocock.py`、`scripts/update_existing.py`
+4. 修正 `diagnose` 和 `review` 的上游路径（上游已重命名/移动）
+5. 10 个已有 Matt Pocock 技能更新 upstreamSha + 添加 Matt Pocock 标签
+6. Merge 冲突解决：与上游同步 CI 产生的 13 个冲突文件通过 `--ours` 策略解决
+7. README 更新：新增 Matt Pocock 合集专区和 4 大领域分类
+8. 22 个配套文件从 Matt Pocock 上游复制

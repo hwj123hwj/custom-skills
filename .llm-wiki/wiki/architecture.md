@@ -6,7 +6,7 @@ tags: [architecture, dataflow, modules]
 
 # Architecture
 
-> 项目架构概述，来自 `docs/architecture.md`。
+> 项目架构概述，当前规模：73 个技能，6 个 Agent。来自 `docs/architecture.md`。
 
 ## 总览
 
@@ -16,7 +16,7 @@ tags: [architecture, dataflow, modules]
 
 | 模块 | 说明 |
 |------|------|
-| `skills/` | 技能源目录，每个技能必须包含 `SKILL.md` |
+| `skills/` | 73 个技能源目录，含全量 [[mattpocock-collection\|Matt Pocock 技能合集]]（34个）|
 | `agents/` | 可复用的 Agent 定义，组合角色、规则与技能 |
 | `registry/` | 自动生成的机器可读索引 |
 | `web/` | React + Vite 技能与 Agent 广场 |
@@ -37,7 +37,7 @@ skills/*/SKILL.md
 
 React 19 + TypeScript 5.9 + Vite 7 + Tailwind CSS + React Router + i18next
 
-Skills tab 通过 `web/src/lib/skill-categories.ts` 的 **6 个高层分组**（编程开发/内容创作/平台工具/效率工具/知识搜索/数据处理）分类筛选。
+Skills tab 通过 `web/src/lib/skill-categories.ts` 的 **6 个高层分组**（编程开发/内容创作/平台工具/效率工具/知识搜索/数据处理）分类筛选。此外，[[mattpocock-collection\|Matt Pocock 合集]]通过 `Matt Pocock` 标签可实现独立筛选。
 
 ## CLI 技术栈
 
@@ -65,4 +65,4 @@ Easy Code agent → skill_hub(action="search/install")
 
 JIT 模式：启动时只消耗 ~150 tokens（一条 tool description），按需搜索安装。
 
-相关：[[skill-spec]], [[agent-spec]], [[registry-system]], [[agent-infrastructure]], [[cli-tool]], [[web-app]], [[skill-hub-tool]]
+相关：[[skill-spec]], [[agent-spec]], [[registry-system]], [[agent-infrastructure]], [[cli-tool]], [[web-app]], [[skill-hub-tool]], [[mattpocock-collection]]
