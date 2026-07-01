@@ -9,7 +9,7 @@
 
 ## ✨ 核心特性
 
-- 📦 **48+ 技能**：覆盖编程开发、内容创作、平台工具、效率工具等多个领域
+- 📦 **73 技能**：覆盖编程开发、内容创作、平台工具、效率工具等多个领域，含全量 [Matt Pocock](https://github.com/mattpocock/skills) 技能合集
 - 🌐 **Web 技能广场**：基于 React 19 + Vite 的现代化界面，支持中英文双语
 - 🔧 **CLI 安装工具**：一键安装技能到 Claude Code 或其他 AI Agent
 - 🔄 **上游同步**：CI 自动同步第三方技能仓库，保持技能最新
@@ -278,14 +278,27 @@ Agent 定义位于 `agents/` 目录，详见 [Agent 规范](./docs/agent-spec.md
 | 知识搜索 | Knowledge, Research, Search |
 | 数据处理 | Data, Documents, OCR, PDF |
 
+### 🧠 Matt Pocock 技能合集
+
+已收录 [mattpocock/skills](https://github.com/mattpocock/skills) 全部技能（34 个），通过 `Matt Pocock` 标签统一筛选。涵盖工程流程、代码设计、产品思维、写作方法论四大领域：
+
+| 领域 | 技能数 | 代表技能 |
+|------|--------|----------|
+| 工程流程 | 10 | ask-matt, triage, implement, tdd, diagnosing-bugs, code-review |
+| 代码设计 | 5 | codebase-design, domain-modeling, improve-codebase-architecture, prototype, resolving-merge-conflicts |
+| 产品思维 | 7 | grill-me, grill-with-docs, grilling, handoff, to-prd, to-issues, decision-mapping |
+| 工具 & 写作 | 12 | teach, wizard, setup-pre-commit, scaffold-exercises, writing-great-skills, writing-beats, writing-fragments, writing-shape, edit-article, migrate-to-shoehorn, setup-matt-pocock-skills, obsidian-vault |
+
+> **上游自动同步**：CI 每日 UTC 02:00 检查上游更新，自动创建 PR。所有 Matt Pocock 技能均标注 `upstream`/`upstreamSha` 元数据。
+
 ---
 
 ## 🔄 CI/CD
 
 本项目使用 GitHub Actions 进行自动化：
 
-- **Registry Check**：每次 PR 验证 registry 一致性
-- **Upstream Sync**：每日 UTC 02:00 检查上游技能更新
+- **Registry Check**：每次 PR 验证 registry 一致性（72 技能 + i18n 覆盖 + Agent 校验）
+- **Upstream Sync**：每日 UTC 02:00 检查上游技能更新（当前覆盖：Matt Pocock 34 个技能）
 - **Web Build**：自动构建并部署到 GitHub Pages
 
 ---
