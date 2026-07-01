@@ -747,8 +747,8 @@
     "id": "llm-price-tracker",
     "name": "llm-price-tracker",
     "displayName": "LLM Price Tracker",
-    "description": "Track and compare LLM API pricing across providers. Query current prices, detect price changes, and generate comparison tables. Triggers: 查模型价格, 价格对比, llm price, model pricing, 降价, 新模型价格.",
-    "detailedDescription": "Track LLM API pricing across all major providers. Detect new models, price changes, and generate comparison tables.",
+    "description": "Track and compare LLM API pricing across 147+ providers. Uses models.dev JSON API as primary source + manual scraping for uncatalogued Chinese providers. Triggers: 查模型价格, 价格对比, model pricing, 降价, 新模型, 供应商查询.",
+    "detailedDescription": "Track LLM API pricing across **147+ providers** via the [models.dev](https://models.dev) community database. Deep metadata: context limits, modalities, reasoning, tool calling, knowledge cutoff, open weights.",
     "emoji": "📦",
     "tags": [
       "Monitoring",
@@ -761,7 +761,8 @@
       "模型定价",
       "API价格",
       "降价",
-      "新模型价格"
+      "新模型价格",
+      "供应商对比"
     ],
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill llm-price-tracker",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/llm-price-tracker",

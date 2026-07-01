@@ -38,7 +38,7 @@ export const skillDescriptionsZh: Record<string, string> = {
   'huashu-nuwa':
     '女娲造人式人物 Skill 蒸馏器。输入人物姓名、主题或模糊需求，自动完成深度调研、思维框架提炼与可运行人物 Skill 生成。适用于“做一个某某视角的 Skill”“蒸馏某人思维方式”这类任务。',
   'llm-price-tracker':
-    '追踪并对比各大厂商的 LLM API 定价。查询当前价格、检测价格变动、生成对比表格。触发词：查模型价格、价格对比、降价、新模型价格。',
+    'LLM API 价格追踪 🔥 基于 models.dev 社区数据库（147+ 供应商、5200+ 模型）。支持供应商查询、跨供应商对比、能力滤镜（reasoning/vision/tool_call）、价格变动检测。触发词：查模型价格、价格对比、降价、新模型、供应商对比。',
   'tavily':
     '统一 Tavily CLI 技能，通过 `tvly` 提供网页搜索、URL 内容提取和深度研究。当用户需要搜索网页、提取 URL 内容、查阅资料、查找文章或获取最新网络信息时使用。',
   'tts':

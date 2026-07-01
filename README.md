@@ -197,7 +197,7 @@ CI 会在每天 UTC 02:00 自动检查上游更新，如有变更会创建 PR。
 | [implement](./skills/implement) | Implement a piece of work based on a PRD or set of issues. |
 | [improve-codebase-architecture](./skills/improve-codebase-architecture) | Find deepening opportunities in a codebase, informed by the domain language in CONTEXT.md and the... |
 | [knowledge-skill](./skills/knowledge-skill) | 个人知识流水线技能。 |
-| [llm-price-tracker](./skills/llm-price-tracker) | Track and compare LLM API pricing across providers. |
+| [llm-price-tracker](./skills/llm-price-tracker) | Track and compare LLM API pricing across 147+ providers. |
 | [loop-me](./skills/loop-me) | Grill me about specs for the workflows I want to build, within this workspace. |
 | [memory-organizer](./skills/memory-organizer) | 长期记忆整理指南。 |
 | [migrate-to-shoehorn](./skills/migrate-to-shoehorn) | Migrate test files from `as` type assertions to @total-typescript/shoehorn. |
