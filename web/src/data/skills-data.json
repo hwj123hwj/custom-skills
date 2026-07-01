@@ -1,5 +1,28 @@
 [
   {
+    "id": "ask-matt",
+    "name": "ask-matt",
+    "displayName": "Ask Matt",
+    "description": "Ask which skill or flow fits your situation. A router over the skills in this repo.",
+    "detailedDescription": "You don't remember every skill, so ask.",
+    "emoji": "📦",
+    "tags": [
+      "Planning",
+      "Productivity",
+      "Matt Pocock"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill ask-matt",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/ask-matt",
+    "sourcePath": "skills/ask-matt",
+    "lastUpdated": "2026-07-02T01:06:55.000Z",
+    "author": "mattpocock",
+    "upstream": "mattpocock/skills",
+    "upstreamPath": "skills/engineering/ask-matt",
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
+  },
+  {
     "id": "asr",
     "name": "asr",
     "displayName": "ASR — 语音识别技能",
@@ -103,6 +126,52 @@
     "lastUpdated": "2026-06-16T07:10:28.000Z"
   },
   {
+    "id": "code-review",
+    "name": "code-review",
+    "displayName": "code-review",
+    "description": "Review the changes since a fixed point (commit, branch, tag, or merge-base) along two axes — Standards (does the code follow this repo's documented coding standards?) and Spec (does the code match what the originating issue/PRD asked for?). Runs both reviews in parallel sub-agents and reports them side by side. Use when the user wants to review a branch, a PR, work-in-progress changes, or asks to \"review since X\".",
+    "detailedDescription": "Review the changes since a fixed point (commit, branch, tag, or merge-base) along two axes — Standards (does the code follow this repo's documented coding standards?) and Spec (does the code match what the originating issue/PRD asked for?). Runs both reviews in parallel sub-agents and reports them side by side. Use when the user wants to review a branch, a PR, work-in-progress changes, or asks to \"review since X\".",
+    "emoji": "📦",
+    "tags": [
+      "Coding",
+      "Testing",
+      "Matt Pocock"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill code-review",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/code-review",
+    "sourcePath": "skills/code-review",
+    "lastUpdated": "2026-07-02T01:06:55.000Z",
+    "author": "mattpocock",
+    "upstream": "mattpocock/skills",
+    "upstreamPath": "skills/engineering/code-review",
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
+  },
+  {
+    "id": "codebase-design",
+    "name": "codebase-design",
+    "displayName": "Codebase Design",
+    "description": "Shared vocabulary for designing deep modules. Use when the user wants to design or improve a module's interface, find deepening opportunities, decide where a seam goes, make code more testable or AI-navigable, or when another skill needs the deep-module vocabulary.",
+    "detailedDescription": "Design **deep modules**: a lot of behaviour behind a small interface, placed at a clean seam, testable through that interface. Use this language and these principles wherever code is being designed or restructured. The aim is leverage for callers, locality for maintainers, and testability for everyone.",
+    "emoji": "📦",
+    "tags": [
+      "Architecture",
+      "Coding",
+      "Matt Pocock"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill codebase-design",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/codebase-design",
+    "sourcePath": "skills/codebase-design",
+    "lastUpdated": "2026-07-02T01:06:55.000Z",
+    "author": "mattpocock",
+    "upstream": "mattpocock/skills",
+    "upstreamPath": "skills/engineering/codebase-design",
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
+  },
+  {
     "id": "content-adapt",
     "name": "content-adapt",
     "displayName": "content-adapt",
@@ -172,6 +241,29 @@
     "lastUpdated": "2026-05-30T12:12:15.258Z"
   },
   {
+    "id": "decision-mapping",
+    "name": "decision-mapping",
+    "displayName": "decision-mapping",
+    "description": "Turn a loose idea into a sequenced map of investigation tickets, then drive them to resolution one at a time.",
+    "detailedDescription": "Turn a loose idea into a sequenced map of investigation tickets, then drive them to resolution one at a time.",
+    "emoji": "📦",
+    "tags": [
+      "Planning",
+      "Workflow",
+      "Matt Pocock"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill decision-mapping",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/decision-mapping",
+    "sourcePath": "skills/decision-mapping",
+    "lastUpdated": "2026-07-02T01:06:55.000Z",
+    "author": "mattpocock",
+    "upstream": "mattpocock/skills",
+    "upstreamPath": "skills/in-progress/decision-mapping",
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
+  },
+  {
     "id": "diagnose",
     "name": "diagnose",
     "displayName": "Diagnose",
@@ -180,18 +272,65 @@
     "emoji": "📦",
     "tags": [
       "Debugging",
-      "Coding"
+      "Coding",
+      "Matt Pocock"
     ],
     "scenarios": [],
     "aliases": [],
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill diagnose",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/diagnose",
     "sourcePath": "skills/diagnose",
-    "lastUpdated": "2026-05-30T00:00:00.000Z",
+    "lastUpdated": "2026-06-25T17:00:00.000Z",
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
-    "upstreamPath": "skills/engineering/diagnose",
-    "upstreamSha": "694fa30311e02c2639942308513555e61ee84a6f"
+    "upstreamPath": "skills/engineering/diagnosing-bugs",
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
+  },
+  {
+    "id": "diagnosing-bugs",
+    "name": "diagnosing-bugs",
+    "displayName": "Diagnosing Bugs",
+    "description": "Diagnosis loop for hard bugs and performance regressions. Use when the user says \"diagnose\"/\"debug this\", or reports something broken/throwing/failing/slow.",
+    "detailedDescription": "A discipline for hard bugs. Skip phases only when explicitly justified.",
+    "emoji": "📦",
+    "tags": [
+      "Coding",
+      "Debugging",
+      "Matt Pocock"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill diagnosing-bugs",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/diagnosing-bugs",
+    "sourcePath": "skills/diagnosing-bugs",
+    "lastUpdated": "2026-07-02T01:06:55.000Z",
+    "author": "mattpocock",
+    "upstream": "mattpocock/skills",
+    "upstreamPath": "skills/engineering/diagnosing-bugs",
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
+  },
+  {
+    "id": "domain-modeling",
+    "name": "domain-modeling",
+    "displayName": "Domain Modeling",
+    "description": "Build and sharpen a project's domain model. Use when the user wants to pin down domain terminology or a ubiquitous language, record an architectural decision, or when another skill needs to maintain the domain model.",
+    "detailedDescription": "Actively build and sharpen the project's domain model as you design. This is the *active* discipline — challenging terms, inventing edge-case scenarios, and writing the glossary and decisions down the moment they crystallise. (Merely *reading* `CONTEXT.md` for vocabulary is not this skill — that's a one-line habit any skill can do. This skill is for when you're changing the model, not just consuming it.)",
+    "emoji": "📦",
+    "tags": [
+      "Architecture",
+      "Planning",
+      "Matt Pocock"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill domain-modeling",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/domain-modeling",
+    "sourcePath": "skills/domain-modeling",
+    "lastUpdated": "2026-07-02T01:06:55.000Z",
+    "author": "mattpocock",
+    "upstream": "mattpocock/skills",
+    "upstreamPath": "skills/engineering/domain-modeling",
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
   },
   {
     "id": "douyin-upload",
@@ -236,6 +375,29 @@
     "author": "Agents365-ai",
     "upstream": "Agents365-ai/drawio-skill",
     "upstreamSha": "7b9d607d2cb343c8c8161488b4c22b238b7b8a25"
+  },
+  {
+    "id": "edit-article",
+    "name": "edit-article",
+    "displayName": "edit-article",
+    "description": "Edit and improve articles by restructuring sections, improving clarity, and tightening prose. Use when user wants to edit, revise, or improve an article draft.",
+    "detailedDescription": "Edit and improve articles by restructuring sections, improving clarity, and tightening prose. Use when user wants to edit, revise, or improve an article draft.",
+    "emoji": "📦",
+    "tags": [
+      "Writing",
+      "Content",
+      "Matt Pocock"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill edit-article",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/edit-article",
+    "sourcePath": "skills/edit-article",
+    "lastUpdated": "2026-07-02T01:06:55.000Z",
+    "author": "mattpocock",
+    "upstream": "mattpocock/skills",
+    "upstreamPath": "skills/personal/edit-article",
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
   },
   {
     "id": "feishu-md-exporter",
@@ -309,18 +471,19 @@
     "emoji": "📦",
     "tags": [
       "Security",
-      "Automation"
+      "Automation",
+      "Matt Pocock"
     ],
     "scenarios": [],
     "aliases": [],
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill git-guardrails-claude-code",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/git-guardrails-claude-code",
     "sourcePath": "skills/git-guardrails-claude-code",
-    "lastUpdated": "2026-05-30T00:00:00.000Z",
+    "lastUpdated": "2026-06-25T17:00:00.000Z",
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/misc/git-guardrails-claude-code",
-    "upstreamSha": "6eeb81b5fcfeeb5bd531dd47ab2f9f2bbea27461"
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
   },
   {
     "id": "grill-me",
@@ -331,18 +494,65 @@
     "emoji": "📦",
     "tags": [
       "Planning",
-      "Productivity"
+      "Productivity",
+      "Matt Pocock"
     ],
     "scenarios": [],
     "aliases": [],
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill grill-me",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/grill-me",
     "sourcePath": "skills/grill-me",
-    "lastUpdated": "2026-05-30T00:00:00.000Z",
+    "lastUpdated": "2026-06-25T17:00:00.000Z",
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/productivity/grill-me",
-    "upstreamSha": "6eeb81b5fcfeeb5bd531dd47ab2f9f2bbea27461"
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
+  },
+  {
+    "id": "grill-with-docs",
+    "name": "grill-with-docs",
+    "displayName": "grill-with-docs",
+    "description": "A relentless interview to sharpen a plan or design, which also creates docs (ADR's and glossary) as we go.",
+    "detailedDescription": "A relentless interview to sharpen a plan or design, which also creates docs (ADR's and glossary) as we go.",
+    "emoji": "📦",
+    "tags": [
+      "Planning",
+      "Productivity",
+      "Matt Pocock"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill grill-with-docs",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/grill-with-docs",
+    "sourcePath": "skills/grill-with-docs",
+    "lastUpdated": "2026-07-02T01:06:55.000Z",
+    "author": "mattpocock",
+    "upstream": "mattpocock/skills",
+    "upstreamPath": "skills/engineering/grill-with-docs",
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
+  },
+  {
+    "id": "grilling",
+    "name": "grilling",
+    "displayName": "grilling",
+    "description": "Interview the user relentlessly about a plan or design. Use when the user wants to stress-test a plan before building, or uses any 'grill' trigger phrases.",
+    "detailedDescription": "Interview the user relentlessly about a plan or design. Use when the user wants to stress-test a plan before building, or uses any 'grill' trigger phrases.",
+    "emoji": "📦",
+    "tags": [
+      "Planning",
+      "Productivity",
+      "Matt Pocock"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill grilling",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/grilling",
+    "sourcePath": "skills/grilling",
+    "lastUpdated": "2026-07-02T01:06:55.000Z",
+    "author": "mattpocock",
+    "upstream": "mattpocock/skills",
+    "upstreamPath": "skills/productivity/grilling",
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
   },
   {
     "id": "guizang-ppt-skill",
@@ -384,18 +594,19 @@
     "emoji": "📦",
     "tags": [
       "Productivity",
-      "Product"
+      "Product",
+      "Matt Pocock"
     ],
     "scenarios": [],
     "aliases": [],
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill handoff",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/handoff",
     "sourcePath": "skills/handoff",
-    "lastUpdated": "2026-05-30T00:00:00.000Z",
+    "lastUpdated": "2026-06-25T17:00:00.000Z",
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/productivity/handoff",
-    "upstreamSha": "6eeb81b5fcfeeb5bd531dd47ab2f9f2bbea27461"
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
   },
   {
     "id": "huashu-design",
@@ -457,6 +668,29 @@
     "lastUpdated": "2026-05-02T15:49:31.000Z"
   },
   {
+    "id": "implement",
+    "name": "implement",
+    "displayName": "implement",
+    "description": "Implement a piece of work based on a PRD or set of issues.",
+    "detailedDescription": "Implement a piece of work based on a PRD or set of issues.",
+    "emoji": "📦",
+    "tags": [
+      "Coding",
+      "Workflow",
+      "Matt Pocock"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill implement",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/implement",
+    "sourcePath": "skills/implement",
+    "lastUpdated": "2026-07-02T01:06:55.000Z",
+    "author": "mattpocock",
+    "upstream": "mattpocock/skills",
+    "upstreamPath": "skills/engineering/implement",
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
+  },
+  {
     "id": "improve-codebase-architecture",
     "name": "improve-codebase-architecture",
     "displayName": "Improve Codebase Architecture",
@@ -465,18 +699,19 @@
     "emoji": "📦",
     "tags": [
       "Architecture",
-      "Coding"
+      "Coding",
+      "Matt Pocock"
     ],
     "scenarios": [],
     "aliases": [],
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill improve-codebase-architecture",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/improve-codebase-architecture",
     "sourcePath": "skills/improve-codebase-architecture",
-    "lastUpdated": "2026-05-30T00:00:00.000Z",
+    "lastUpdated": "2026-06-25T17:00:00.000Z",
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/improve-codebase-architecture",
-    "upstreamSha": "6eeb81b5fcfeeb5bd531dd47ab2f9f2bbea27461"
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
   },
   {
     "id": "knowledge-skill",
@@ -534,6 +769,29 @@
     "lastUpdated": "2026-05-02T15:49:31.000Z"
   },
   {
+    "id": "loop-me",
+    "name": "loop-me",
+    "displayName": "loop-me",
+    "description": "Grill me about specs for the workflows I want to build, within this workspace.",
+    "detailedDescription": "Grill me about specs for the workflows I want to build, within this workspace.",
+    "emoji": "📦",
+    "tags": [
+      "Planning",
+      "Productivity",
+      "Matt Pocock"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill loop-me",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/loop-me",
+    "sourcePath": "skills/loop-me",
+    "lastUpdated": "2026-07-02T01:06:55.000Z",
+    "author": "mattpocock",
+    "upstream": "mattpocock/skills",
+    "upstreamPath": "skills/in-progress/loop-me",
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
+  },
+  {
     "id": "memory-organizer",
     "name": "memory-organizer",
     "displayName": "Memory Organizer",
@@ -561,6 +819,29 @@
     "lastUpdated": "2026-04-15T02:36:07.000Z"
   },
   {
+    "id": "migrate-to-shoehorn",
+    "name": "migrate-to-shoehorn",
+    "displayName": "Migrate to Shoehorn",
+    "description": "Migrate test files from `as` type assertions to @total-typescript/shoehorn. Use when user mentions shoehorn, wants to replace `as` in tests, or needs partial test data.",
+    "detailedDescription": "Migrate test files from `as` type assertions to @total-typescript/shoehorn. Use when user mentions shoehorn, wants to replace `as` in tests, or needs partial test data.",
+    "emoji": "📦",
+    "tags": [
+      "Coding",
+      "Testing",
+      "Matt Pocock"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill migrate-to-shoehorn",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/migrate-to-shoehorn",
+    "sourcePath": "skills/migrate-to-shoehorn",
+    "lastUpdated": "2026-07-02T01:06:55.000Z",
+    "author": "mattpocock",
+    "upstream": "mattpocock/skills",
+    "upstreamPath": "skills/misc/migrate-to-shoehorn",
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
+  },
+  {
     "id": "mp-weixin-ops",
     "name": "mp-weixin-ops",
     "displayName": "mp-weixin-ops — 微信公众号一站式运营",
@@ -583,6 +864,29 @@
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/mp-weixin-ops",
     "sourcePath": "skills/mp-weixin-ops",
     "lastUpdated": "2026-05-02T15:49:31.000Z"
+  },
+  {
+    "id": "obsidian-vault",
+    "name": "obsidian-vault",
+    "displayName": "Obsidian Vault",
+    "description": "Search, create, and manage notes in the Obsidian vault with wikilinks and index notes. Use when user wants to find, create, or organize notes in Obsidian.",
+    "detailedDescription": "Search, create, and manage notes in the Obsidian vault with wikilinks and index notes. Use when user wants to find, create, or organize notes in Obsidian.",
+    "emoji": "📦",
+    "tags": [
+      "Knowledge",
+      "Tools",
+      "Matt Pocock"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill obsidian-vault",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/obsidian-vault",
+    "sourcePath": "skills/obsidian-vault",
+    "lastUpdated": "2026-07-02T01:06:55.000Z",
+    "author": "mattpocock",
+    "upstream": "mattpocock/skills",
+    "upstreamPath": "skills/personal/obsidian-vault",
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
   },
   {
     "id": "officecli-docx",
@@ -652,18 +956,42 @@
     "emoji": "📦",
     "tags": [
       "Coding",
-      "Productivity"
+      "Productivity",
+      "Matt Pocock"
     ],
     "scenarios": [],
     "aliases": [],
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill prototype",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/prototype",
     "sourcePath": "skills/prototype",
-    "lastUpdated": "2026-05-30T00:00:00.000Z",
+    "lastUpdated": "2026-06-25T17:00:00.000Z",
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/prototype",
-    "upstreamSha": "6eeb81b5fcfeeb5bd531dd47ab2f9f2bbea27461"
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
+  },
+  {
+    "id": "resolving-merge-conflicts",
+    "name": "resolving-merge-conflicts",
+    "displayName": "resolving-merge-conflicts",
+    "description": "Use when you need to resolve an in-progress git merge/rebase conflict.",
+    "detailedDescription": "Use when you need to resolve an in-progress git merge/rebase conflict.",
+    "emoji": "📦",
+    "tags": [
+      "Coding",
+      "DevOps",
+      "Matt Pocock"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill resolving-merge-conflicts",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/resolving-merge-conflicts",
+    "sourcePath": "skills/resolving-merge-conflicts",
+    "lastUpdated": "2026-07-02T01:06:55.000Z",
+    "author": "mattpocock",
+    "upstream": "mattpocock/skills",
+    "upstreamPath": "skills/engineering/resolving-merge-conflicts",
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
   },
   {
     "id": "review",
@@ -674,18 +1002,88 @@
     "emoji": "📦",
     "tags": [
       "Coding",
-      "Analysis"
+      "Analysis",
+      "Matt Pocock"
     ],
     "scenarios": [],
     "aliases": [],
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill review",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/review",
     "sourcePath": "skills/review",
-    "lastUpdated": "2026-05-30T00:00:00.000Z",
+    "lastUpdated": "2026-06-25T17:00:00.000Z",
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
-    "upstreamPath": "skills/in-progress/review",
-    "upstreamSha": "6eeb81b5fcfeeb5bd531dd47ab2f9f2bbea27461"
+    "upstreamPath": "skills/engineering/code-review",
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
+  },
+  {
+    "id": "scaffold-exercises",
+    "name": "scaffold-exercises",
+    "displayName": "Scaffold Exercises",
+    "description": "Create exercise directory structures with sections, problems, solutions, and explainers that pass linting. Use when user wants to scaffold exercises, create exercise stubs, or set up a new course section.",
+    "detailedDescription": "Create exercise directory structures that pass `pnpm ai-hero-cli internal lint`, then commit with `git commit`.",
+    "emoji": "📦",
+    "tags": [
+      "Coding",
+      "Tools",
+      "Matt Pocock"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill scaffold-exercises",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/scaffold-exercises",
+    "sourcePath": "skills/scaffold-exercises",
+    "lastUpdated": "2026-07-02T01:06:55.000Z",
+    "author": "mattpocock",
+    "upstream": "mattpocock/skills",
+    "upstreamPath": "skills/misc/scaffold-exercises",
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
+  },
+  {
+    "id": "setup-matt-pocock-skills",
+    "name": "setup-matt-pocock-skills",
+    "displayName": "Setup Matt Pocock's Skills",
+    "description": "Configure this repo for the engineering skills — set up its issue tracker, triage label vocabulary, and domain doc layout. Run once before first use of the other engineering skills.",
+    "detailedDescription": "Scaffold the per-repo configuration that the engineering skills assume:",
+    "emoji": "📦",
+    "tags": [
+      "DevOps",
+      "Tools",
+      "Matt Pocock"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill setup-matt-pocock-skills",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/setup-matt-pocock-skills",
+    "sourcePath": "skills/setup-matt-pocock-skills",
+    "lastUpdated": "2026-07-02T01:06:55.000Z",
+    "author": "mattpocock",
+    "upstream": "mattpocock/skills",
+    "upstreamPath": "skills/engineering/setup-matt-pocock-skills",
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
+  },
+  {
+    "id": "setup-pre-commit",
+    "name": "setup-pre-commit",
+    "displayName": "Setup Pre-Commit Hooks",
+    "description": "Set up Husky pre-commit hooks with lint-staged (Prettier), type checking, and tests in the current repo. Use when user wants to add pre-commit hooks, set up Husky, configure lint-staged, or add commit-time formatting/typechecking/testing.",
+    "detailedDescription": "Set up Husky pre-commit hooks with lint-staged (Prettier), type checking, and tests in the current repo. Use when user wants to add pre-commit hooks, set up Husky, configure lint-staged, or add commit-time formatting/typechecking/testing.",
+    "emoji": "📦",
+    "tags": [
+      "DevOps",
+      "Tools",
+      "Matt Pocock"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill setup-pre-commit",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/setup-pre-commit",
+    "sourcePath": "skills/setup-pre-commit",
+    "lastUpdated": "2026-07-02T01:06:55.000Z",
+    "author": "mattpocock",
+    "upstream": "mattpocock/skills",
+    "upstreamPath": "skills/misc/setup-pre-commit",
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
   },
   {
     "id": "short-drama-pipeline",
@@ -821,18 +1219,42 @@
     "emoji": "📦",
     "tags": [
       "Testing",
-      "Coding"
+      "Coding",
+      "Matt Pocock"
     ],
     "scenarios": [],
     "aliases": [],
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill tdd",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/tdd",
     "sourcePath": "skills/tdd",
-    "lastUpdated": "2026-05-30T00:00:00.000Z",
+    "lastUpdated": "2026-06-25T17:00:00.000Z",
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/tdd",
-    "upstreamSha": "6eeb81b5fcfeeb5bd531dd47ab2f9f2bbea27461"
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
+  },
+  {
+    "id": "teach",
+    "name": "teach",
+    "displayName": "teach",
+    "description": "Teach the user a new skill or concept, within this workspace.",
+    "detailedDescription": "Teach the user a new skill or concept, within this workspace.",
+    "emoji": "📦",
+    "tags": [
+      "Productivity",
+      "Education",
+      "Matt Pocock"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill teach",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/teach",
+    "sourcePath": "skills/teach",
+    "lastUpdated": "2026-07-02T01:06:55.000Z",
+    "author": "mattpocock",
+    "upstream": "mattpocock/skills",
+    "upstreamPath": "skills/productivity/teach",
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
   },
   {
     "id": "to-issues",
@@ -843,18 +1265,19 @@
     "emoji": "📦",
     "tags": [
       "Planning",
-      "Productivity"
+      "Productivity",
+      "Matt Pocock"
     ],
     "scenarios": [],
     "aliases": [],
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill to-issues",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/to-issues",
     "sourcePath": "skills/to-issues",
-    "lastUpdated": "2026-05-30T00:00:00.000Z",
+    "lastUpdated": "2026-06-25T17:00:00.000Z",
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/to-issues",
-    "upstreamSha": "6eeb81b5fcfeeb5bd531dd47ab2f9f2bbea27461"
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
   },
   {
     "id": "to-prd",
@@ -865,18 +1288,42 @@
     "emoji": "📦",
     "tags": [
       "Planning",
-      "Product"
+      "Product",
+      "Matt Pocock"
     ],
     "scenarios": [],
     "aliases": [],
     "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill to-prd",
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/to-prd",
     "sourcePath": "skills/to-prd",
-    "lastUpdated": "2026-05-30T00:00:00.000Z",
+    "lastUpdated": "2026-06-25T17:00:00.000Z",
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/to-prd",
-    "upstreamSha": "6eeb81b5fcfeeb5bd531dd47ab2f9f2bbea27461"
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
+  },
+  {
+    "id": "triage",
+    "name": "triage",
+    "displayName": "Triage",
+    "description": "Move issues and external PRs through a state machine of triage roles — categorise, verify, grill if needed, and write agent-ready briefs.",
+    "detailedDescription": "Move issues on the project issue tracker through a small state machine of triage roles.",
+    "emoji": "📦",
+    "tags": [
+      "Planning",
+      "Workflow",
+      "Matt Pocock"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill triage",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/triage",
+    "sourcePath": "skills/triage",
+    "lastUpdated": "2026-07-02T01:06:55.000Z",
+    "author": "mattpocock",
+    "upstream": "mattpocock/skills",
+    "upstreamPath": "skills/engineering/triage",
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
   },
   {
     "id": "tts",
@@ -1069,6 +1516,121 @@
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/weread-skills",
     "sourcePath": "skills/weread-skills",
     "lastUpdated": "2026-06-05T14:32:34.846Z"
+  },
+  {
+    "id": "wizard",
+    "name": "wizard",
+    "displayName": "Wizard",
+    "description": "Generate an interactive bash wizard that walks a human through a manual procedure — third-party setup, a one-off migration, an A→B state transition — opening URLs, capturing values, confirming each step, and writing .env files and GitHub Actions secrets.",
+    "detailedDescription": "A **wizard** is a bash script that walks a human, step by step, through a manual procedure that's tedious to do by hand and tedious to re-explain to an AI every time. It opens each URL, says exactly what to click and copy, captures the values, writes them where they belong (`.env`, GitHub secrets), confirms at every stage, and shows how much is left. It might configure third-party services, run a one-off migration, or move the project from one state to another.",
+    "emoji": "📦",
+    "tags": [
+      "DevOps",
+      "Tools",
+      "Matt Pocock"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill wizard",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/wizard",
+    "sourcePath": "skills/wizard",
+    "lastUpdated": "2026-07-02T01:06:55.000Z",
+    "author": "mattpocock",
+    "upstream": "mattpocock/skills",
+    "upstreamPath": "skills/in-progress/wizard",
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
+  },
+  {
+    "id": "writing-beats",
+    "name": "writing-beats",
+    "displayName": "writing-beats",
+    "description": "Writing, exploit — assemble raw material into a journey of beats, grounding each term before a beat leans on it.",
+    "detailedDescription": "Writing, exploit — assemble raw material into a journey of beats, grounding each term before a beat leans on it.",
+    "emoji": "📦",
+    "tags": [
+      "Writing",
+      "Content",
+      "Matt Pocock"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill writing-beats",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/writing-beats",
+    "sourcePath": "skills/writing-beats",
+    "lastUpdated": "2026-07-02T01:06:55.000Z",
+    "author": "mattpocock",
+    "upstream": "mattpocock/skills",
+    "upstreamPath": "skills/in-progress/writing-beats",
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
+  },
+  {
+    "id": "writing-fragments",
+    "name": "writing-fragments",
+    "displayName": "Working title",
+    "description": "Writing, explore — mine raw fragments, no structure yet.",
+    "detailedDescription": "A first fragment lives here.",
+    "emoji": "📦",
+    "tags": [
+      "Writing",
+      "Content",
+      "Matt Pocock"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill writing-fragments",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/writing-fragments",
+    "sourcePath": "skills/writing-fragments",
+    "lastUpdated": "2026-07-02T01:06:55.000Z",
+    "author": "mattpocock",
+    "upstream": "mattpocock/skills",
+    "upstreamPath": "skills/in-progress/writing-fragments",
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
+  },
+  {
+    "id": "writing-great-skills",
+    "name": "writing-great-skills",
+    "displayName": "writing-great-skills",
+    "description": "Reference for writing and editing skills well — the vocabulary and principles that make a skill predictable.",
+    "detailedDescription": "Reference for writing and editing skills well — the vocabulary and principles that make a skill predictable.",
+    "emoji": "📦",
+    "tags": [
+      "Writing",
+      "Productivity",
+      "Matt Pocock"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill writing-great-skills",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/writing-great-skills",
+    "sourcePath": "skills/writing-great-skills",
+    "lastUpdated": "2026-07-02T01:06:55.000Z",
+    "author": "mattpocock",
+    "upstream": "mattpocock/skills",
+    "upstreamPath": "skills/productivity/writing-great-skills",
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
+  },
+  {
+    "id": "writing-shape",
+    "name": "writing-shape",
+    "displayName": "writing-shape",
+    "description": "Writing, exploit — shape raw material into an article, paragraph by paragraph.",
+    "detailedDescription": "Writing, exploit — shape raw material into an article, paragraph by paragraph.",
+    "emoji": "📦",
+    "tags": [
+      "Writing",
+      "Content",
+      "Matt Pocock"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill writing-shape",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/writing-shape",
+    "sourcePath": "skills/writing-shape",
+    "lastUpdated": "2026-07-02T01:06:55.000Z",
+    "author": "mattpocock",
+    "upstream": "mattpocock/skills",
+    "upstreamPath": "skills/in-progress/writing-shape",
+    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
   },
   {
     "id": "xiaohongshu-cli",

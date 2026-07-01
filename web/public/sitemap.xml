@@ -3,11 +3,19 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://hwj123hwj.asia/</loc>
-    <lastmod>2026-06-25</lastmod>
+    <lastmod>2026-07-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/?lng=en" />
+  </url>
+  <url>
+    <loc>https://hwj123hwj.asia/skill/ask-matt</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/ask-matt" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/ask-matt?lng=en" />
   </url>
   <url>
     <loc>https://hwj123hwj.asia/skill/asr</loc>
@@ -50,6 +58,22 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/butler?lng=en" />
   </url>
   <url>
+    <loc>https://hwj123hwj.asia/skill/code-review</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/code-review" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/code-review?lng=en" />
+  </url>
+  <url>
+    <loc>https://hwj123hwj.asia/skill/codebase-design</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/codebase-design" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/codebase-design?lng=en" />
+  </url>
+  <url>
     <loc>https://hwj123hwj.asia/skill/content-adapt</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>weekly</changefreq>
@@ -74,12 +98,36 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/darwin-skill?lng=en" />
   </url>
   <url>
+    <loc>https://hwj123hwj.asia/skill/decision-mapping</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/decision-mapping" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/decision-mapping?lng=en" />
+  </url>
+  <url>
     <loc>https://hwj123hwj.asia/skill/diagnose</loc>
-    <lastmod>2026-05-30</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/diagnose" />
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/diagnose?lng=en" />
+  </url>
+  <url>
+    <loc>https://hwj123hwj.asia/skill/diagnosing-bugs</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/diagnosing-bugs" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/diagnosing-bugs?lng=en" />
+  </url>
+  <url>
+    <loc>https://hwj123hwj.asia/skill/domain-modeling</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/domain-modeling" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/domain-modeling?lng=en" />
   </url>
   <url>
     <loc>https://hwj123hwj.asia/skill/douyin-upload</loc>
@@ -96,6 +144,14 @@
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/drawio-skill" />
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/drawio-skill?lng=en" />
+  </url>
+  <url>
+    <loc>https://hwj123hwj.asia/skill/edit-article</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/edit-article" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/edit-article?lng=en" />
   </url>
   <url>
     <loc>https://hwj123hwj.asia/skill/feishu-md-exporter</loc>
@@ -123,7 +179,7 @@
   </url>
   <url>
     <loc>https://hwj123hwj.asia/skill/git-guardrails-claude-code</loc>
-    <lastmod>2026-05-30</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/git-guardrails-claude-code" />
@@ -131,11 +187,27 @@
   </url>
   <url>
     <loc>https://hwj123hwj.asia/skill/grill-me</loc>
-    <lastmod>2026-05-30</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/grill-me" />
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/grill-me?lng=en" />
+  </url>
+  <url>
+    <loc>https://hwj123hwj.asia/skill/grill-with-docs</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/grill-with-docs" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/grill-with-docs?lng=en" />
+  </url>
+  <url>
+    <loc>https://hwj123hwj.asia/skill/grilling</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/grilling" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/grilling?lng=en" />
   </url>
   <url>
     <loc>https://hwj123hwj.asia/skill/guizang-ppt-skill</loc>
@@ -147,7 +219,7 @@
   </url>
   <url>
     <loc>https://hwj123hwj.asia/skill/handoff</loc>
-    <lastmod>2026-05-30</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/handoff" />
@@ -178,8 +250,16 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/image-provider?lng=en" />
   </url>
   <url>
+    <loc>https://hwj123hwj.asia/skill/implement</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/implement" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/implement?lng=en" />
+  </url>
+  <url>
     <loc>https://hwj123hwj.asia/skill/improve-codebase-architecture</loc>
-    <lastmod>2026-05-30</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/improve-codebase-architecture" />
@@ -202,6 +282,14 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/llm-price-tracker?lng=en" />
   </url>
   <url>
+    <loc>https://hwj123hwj.asia/skill/loop-me</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/loop-me" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/loop-me?lng=en" />
+  </url>
+  <url>
     <loc>https://hwj123hwj.asia/skill/memory-organizer</loc>
     <lastmod>2026-04-15</lastmod>
     <changefreq>weekly</changefreq>
@@ -210,12 +298,28 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/memory-organizer?lng=en" />
   </url>
   <url>
+    <loc>https://hwj123hwj.asia/skill/migrate-to-shoehorn</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/migrate-to-shoehorn" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/migrate-to-shoehorn?lng=en" />
+  </url>
+  <url>
     <loc>https://hwj123hwj.asia/skill/mp-weixin-ops</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/mp-weixin-ops" />
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/mp-weixin-ops?lng=en" />
+  </url>
+  <url>
+    <loc>https://hwj123hwj.asia/skill/obsidian-vault</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/obsidian-vault" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/obsidian-vault?lng=en" />
   </url>
   <url>
     <loc>https://hwj123hwj.asia/skill/officecli-docx</loc>
@@ -243,19 +347,51 @@
   </url>
   <url>
     <loc>https://hwj123hwj.asia/skill/prototype</loc>
-    <lastmod>2026-05-30</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/prototype" />
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/prototype?lng=en" />
   </url>
   <url>
+    <loc>https://hwj123hwj.asia/skill/resolving-merge-conflicts</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/resolving-merge-conflicts" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/resolving-merge-conflicts?lng=en" />
+  </url>
+  <url>
     <loc>https://hwj123hwj.asia/skill/review</loc>
-    <lastmod>2026-05-30</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/review" />
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/review?lng=en" />
+  </url>
+  <url>
+    <loc>https://hwj123hwj.asia/skill/scaffold-exercises</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/scaffold-exercises" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/scaffold-exercises?lng=en" />
+  </url>
+  <url>
+    <loc>https://hwj123hwj.asia/skill/setup-matt-pocock-skills</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/setup-matt-pocock-skills" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/setup-matt-pocock-skills?lng=en" />
+  </url>
+  <url>
+    <loc>https://hwj123hwj.asia/skill/setup-pre-commit</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/setup-pre-commit" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/setup-pre-commit?lng=en" />
   </url>
   <url>
     <loc>https://hwj123hwj.asia/skill/short-drama-pipeline</loc>
@@ -299,15 +435,23 @@
   </url>
   <url>
     <loc>https://hwj123hwj.asia/skill/tdd</loc>
-    <lastmod>2026-05-30</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/tdd" />
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/tdd?lng=en" />
   </url>
   <url>
+    <loc>https://hwj123hwj.asia/skill/teach</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/teach" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/teach?lng=en" />
+  </url>
+  <url>
     <loc>https://hwj123hwj.asia/skill/to-issues</loc>
-    <lastmod>2026-05-30</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/to-issues" />
@@ -315,11 +459,19 @@
   </url>
   <url>
     <loc>https://hwj123hwj.asia/skill/to-prd</loc>
-    <lastmod>2026-05-30</lastmod>
+    <lastmod>2026-06-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/to-prd" />
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/to-prd?lng=en" />
+  </url>
+  <url>
+    <loc>https://hwj123hwj.asia/skill/triage</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/triage" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/triage?lng=en" />
   </url>
   <url>
     <loc>https://hwj123hwj.asia/skill/tts</loc>
@@ -386,6 +538,46 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/weread-skills?lng=en" />
   </url>
   <url>
+    <loc>https://hwj123hwj.asia/skill/wizard</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/wizard" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/wizard?lng=en" />
+  </url>
+  <url>
+    <loc>https://hwj123hwj.asia/skill/writing-beats</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/writing-beats" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/writing-beats?lng=en" />
+  </url>
+  <url>
+    <loc>https://hwj123hwj.asia/skill/writing-fragments</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/writing-fragments" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/writing-fragments?lng=en" />
+  </url>
+  <url>
+    <loc>https://hwj123hwj.asia/skill/writing-great-skills</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/writing-great-skills" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/writing-great-skills?lng=en" />
+  </url>
+  <url>
+    <loc>https://hwj123hwj.asia/skill/writing-shape</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/writing-shape" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/writing-shape?lng=en" />
+  </url>
+  <url>
     <loc>https://hwj123hwj.asia/skill/xiaohongshu-cli</loc>
     <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
@@ -395,7 +587,7 @@
   </url>
   <url>
     <loc>https://hwj123hwj.asia/agent/architect</loc>
-    <lastmod>2026-06-25</lastmod>
+    <lastmod>2026-07-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/agent/architect" />
@@ -403,7 +595,7 @@
   </url>
   <url>
     <loc>https://hwj123hwj.asia/agent/coding-agent</loc>
-    <lastmod>2026-06-25</lastmod>
+    <lastmod>2026-07-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/agent/coding-agent" />
@@ -411,7 +603,7 @@
   </url>
   <url>
     <loc>https://hwj123hwj.asia/agent/intel-agent</loc>
-    <lastmod>2026-06-25</lastmod>
+    <lastmod>2026-07-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/agent/intel-agent" />
@@ -419,7 +611,7 @@
   </url>
   <url>
     <loc>https://hwj123hwj.asia/agent/knowledge-to-deck-agent</loc>
-    <lastmod>2026-06-25</lastmod>
+    <lastmod>2026-07-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/agent/knowledge-to-deck-agent" />
@@ -427,7 +619,7 @@
   </url>
   <url>
     <loc>https://hwj123hwj.asia/agent/tdd-guide</loc>
-    <lastmod>2026-06-25</lastmod>
+    <lastmod>2026-07-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/agent/tdd-guide" />
@@ -435,7 +627,7 @@
   </url>
   <url>
     <loc>https://hwj123hwj.asia/agent/vid-publisher-agent</loc>
-    <lastmod>2026-06-25</lastmod>
+    <lastmod>2026-07-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/agent/vid-publisher-agent" />

@@ -164,45 +164,64 @@ CI 会在每天 UTC 02:00 自动检查上游更新，如有变更会创建 PR。
 <!-- SKILL_TABLE:START -->
 | 技能 | 说明 |
 |------|------|
+| [ask-matt](./skills/ask-matt) | Ask which skill or flow fits your situation. |
 | [asr](./skills/asr) | Unified ASR (Speech Recognition) skill with pluggable providers (strategy pattern). |
 | [bilibili-cli](./skills/bilibili-cli) | CLI skill for Bilibili (哔哩哔哩, B站) with token-efficient YAML output for AI agents to browse videos... |
 | [boss-cli](./skills/boss-cli) | Use boss-cli for ALL BOSS 直聘 operations — searching jobs, viewing recommendations, managing appli... |
 | [brainstorming](./skills/brainstorming) | You MUST use this before any creative work - creating features, building components, adding funct... |
 | [butler](./skills/butler) | 管家技能 — 项目感知、日报分析、知识库维护。 |
+| [code-review](./skills/code-review) | Review the changes since a fixed point (commit, branch, tag, or merge-base) along two axes — Stan... |
+| [codebase-design](./skills/codebase-design) | Shared vocabulary for designing deep modules. |
 | [content-adapt](./skills/content-adapt) | 根据视频内容分析结果，生成适合目标平台发布的标题、描述、标签等信息。 |
 | [content-repurposer](./skills/content-repurposer) | Markdown 提示工程驱动的内容复用技能，含 7 个子技能（LinkedIn/Twitter/Medium/Substack/Newsletter/GitHub Pages + 编排器）。 |
 | [darwin-skill](./skills/darwin-skill) | Darwin Skill (达尔文.skill): autonomous skill optimizer inspired by Karpathy's autoresearch. |
+| [decision-mapping](./skills/decision-mapping) | Turn a loose idea into a sequenced map of investigation tickets, then drive them to resolution on... |
 | [diagnose](./skills/diagnose) | Disciplined diagnosis loop for hard bugs and performance regressions. |
+| [diagnosing-bugs](./skills/diagnosing-bugs) | Diagnosis loop for hard bugs and performance regressions. |
+| [domain-modeling](./skills/domain-modeling) | Build and sharpen a project's domain model. |
 | [douyin-upload](./skills/douyin-upload) | 当你需要登录抖音账号、检查 Cookie、上传视频或发布图文时使用本技能。 |
 | [drawio-skill](./skills/drawio-skill) | Use when user requests diagrams, flowcharts, architecture charts, or visualizations. |
+| [edit-article](./skills/edit-article) | Edit and improve articles by restructuring sections, improving clarity, and tightening prose. |
 | [feishu-md-exporter](./skills/feishu-md-exporter) | Export Feishu/Lark docs or entire Drive folders to local Markdown using the official Open Platfor... |
 | [frontend-design](./skills/frontend-design) | Guidance for distinctive, intentional visual design when building new UI or reshaping an existing... |
 | [frontend-slides](./skills/frontend-slides) | Create stunning, animation-rich HTML presentations from scratch or by converting PowerPoint files. |
 | [git-guardrails-claude-code](./skills/git-guardrails-claude-code) | Set up Claude Code hooks to block dangerous git commands (push, reset --hard, clean, branch -D, e... |
 | [grill-me](./skills/grill-me) | Interview the user relentlessly about a plan or design until reaching shared understanding, resol... |
+| [grill-with-docs](./skills/grill-with-docs) | A relentless interview to sharpen a plan or design, which also creates docs (ADR's and glossary)... |
+| [grilling](./skills/grilling) | Interview the user relentlessly about a plan or design. |
 | [guizang-ppt-skill](./skills/guizang-ppt-skill) | 生成横向翻页网页 PPT（单 HTML 文件），含 WebGL 背景、章节幕封、数据大字报、图片网格等模板。 |
 | [handoff](./skills/handoff) | Compact the current conversation into a handoff document for another agent to pick up. |
 | [huashu-design](./skills/huashu-design) | 花叔Design（Huashu-Design）——用HTML做高保真原型、交互Demo、幻灯片、动画、设计变体探索+设计方向顾问+专家评审的一体化设计能力。 |
 | [huashu-nuwa](./skills/huashu-nuwa) | 女娲造人：输入人名/主题/甚至只是模糊需求，自动深度调研→思维框架提炼→生成可运行的人物Skill。 |
 | [image-provider](./skills/image-provider) | Unified image generation skill with pluggable providers (strategy pattern). |
+| [implement](./skills/implement) | Implement a piece of work based on a PRD or set of issues. |
 | [improve-codebase-architecture](./skills/improve-codebase-architecture) | Find deepening opportunities in a codebase, informed by the domain language in CONTEXT.md and the... |
 | [knowledge-skill](./skills/knowledge-skill) | 个人知识流水线技能。 |
 | [llm-price-tracker](./skills/llm-price-tracker) | Track and compare LLM API pricing across providers. |
+| [loop-me](./skills/loop-me) | Grill me about specs for the workflows I want to build, within this workspace. |
 | [memory-organizer](./skills/memory-organizer) | 长期记忆整理指南。 |
+| [migrate-to-shoehorn](./skills/migrate-to-shoehorn) | Migrate test files from `as` type assertions to @total-typescript/shoehorn. |
 | [mp-weixin-ops](./skills/mp-weixin-ops) | 微信公众号一站式运营 Skill。 |
+| [obsidian-vault](./skills/obsidian-vault) | Search, create, and manage notes in the Obsidian vault with wikilinks and index notes. |
 | [officecli-docx](./skills/officecli-docx) | Use this skill any time a .docx file is involved -- as input, output, or both. |
 | [paddleocr-doc-parsing](./skills/paddleocr-doc-parsing) | Use this skill to extract structured Markdown/JSON from PDFs and document images—tables with cell... |
 | [paddleocr-text-recognition](./skills/paddleocr-text-recognition) | Use this skill whenever the user wants text extracted from images, photos, scans, screenshots, or... |
 | [prototype](./skills/prototype) | Build a throwaway prototype to flesh out a design before committing to it. |
+| [resolving-merge-conflicts](./skills/resolving-merge-conflicts) | Use when you need to resolve an in-progress git merge/rebase conflict. |
 | [review](./skills/review) | Two-axis code review — Standards (does code follow documented standards?) and Spec (does code mat... |
+| [scaffold-exercises](./skills/scaffold-exercises) | Create exercise directory structures with sections, problems, solutions, and explainers that pass... |
+| [setup-matt-pocock-skills](./skills/setup-matt-pocock-skills) | Configure this repo for the engineering skills — set up its issue tracker, triage label vocabular... |
+| [setup-pre-commit](./skills/setup-pre-commit) | Set up Husky pre-commit hooks with lint-staged (Prettier), type checking, and tests in the curren... |
 | [short-drama-pipeline](./skills/short-drama-pipeline) | AI 短剧/短视频全链路生产技能。 |
 | [short-video-replicator](./skills/short-video-replicator) | 短视频爆款复刻一站式工具。 |
 | [stock-analysis](./skills/stock-analysis) | 股票智能分析技能。 |
 | [storage-analyzer](./skills/storage-analyzer) | macOS / Windows 只读存储分析助手（自动识别系统）。 |
 | [tavily](./skills/tavily) | Unified Tavily CLI skill — web search, URL extraction, and deep research via `tvly`. |
 | [tdd](./skills/tdd) | Test-driven development with red-green-refactor loop. |
+| [teach](./skills/teach) | Teach the user a new skill or concept, within this workspace. |
 | [to-issues](./skills/to-issues) | Break a plan, spec, or PRD into independently-grabbable issues on the project issue tracker using... |
 | [to-prd](./skills/to-prd) | Turn the current conversation context into a PRD (Product Requirements Document). |
+| [triage](./skills/triage) | Move issues and external PRs through a state machine of triage roles — categorise, verify, grill... |
 | [tts](./skills/tts) | Unified TTS (Text-to-Speech) skill with pluggable providers (strategy pattern). |
 | [twitter-cli](./skills/twitter-cli) | Use twitter-cli for ALL Twitter/X operations — reading tweets, posting, replying, quoting, liking... |
 | [ui-ux-pro-max](./skills/ui-ux-pro-max) | UI/UX design intelligence for web and mobile. |
@@ -211,6 +230,11 @@ CI 会在每天 UTC 02:00 自动检查上游更新，如有变更会创建 PR。
 | [videocut](./skills/videocut) | 口播视频一站式剪辑 Skill。 |
 | [weibo-skill](./skills/weibo-skill) | 微博内容搜索、热搜查看、用户动态及评论读取。 |
 | [weread-skills](./skills/weread-skills) | 微信读书助手 — 搜索书籍、管理书架、查看笔记划线、浏览书评、阅读统计、发现推荐好书 |
+| [wizard](./skills/wizard) | Generate an interactive bash wizard that walks a human through a manual procedure — third-party s... |
+| [writing-beats](./skills/writing-beats) | Writing, exploit — assemble raw material into a journey of beats, grounding each term before a be... |
+| [writing-fragments](./skills/writing-fragments) | Writing, explore — mine raw fragments, no structure yet. |
+| [writing-great-skills](./skills/writing-great-skills) | Reference for writing and editing skills well — the vocabulary and principles that make a skill p... |
+| [writing-shape](./skills/writing-shape) | Writing, exploit — shape raw material into an article, paragraph by paragraph. |
 | [xiaohongshu-cli](./skills/xiaohongshu-cli) | Use xiaohongshu-cli for ALL Xiaohongshu (Little Red Book, 小红书) operations — searching notes, read... |
 <!-- SKILL_TABLE:END -->
 
