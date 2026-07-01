@@ -185,4 +185,53 @@ export const agentDescriptionsEn: Record<string, string> = {
     'Knowledge-to-deck orchestration agent. Use proactively when turning knowledge-base entries into curated card decks, showcase-ready web presentations, or themed presentation assets.',
   'tdd-guide':
     'Test-Driven Development (TDD) expert who strictly follows a test-first methodology. Use proactively when adding features, fixing bugs, or refactoring code to ensure ≥80% test coverage.',
+  // ── Matt Pocock Skills (2026-06-25) ──
+  'ask-matt':
+    'Matt Pocock 技能仓库的导航路由器。不确定该用哪个技能时启动，根据需求自动匹配到合适的技能或流程（主流程：grill-with-docs → to-prd → to-issues → implement）。',
+  'codebase-design':
+    '深层模块设计词汇与原则。用于设计或改进模块接口、寻找深化机会、决定 Seam 位置、提高可测试性和 AI 可导航性。核心概念：深度、接口、Seam、适配器、局部性、杠杆。',
+  'code-review':
+    '双轴代码评审（Standards + Spec），并行子代理同时检查代码是否符合规范标准以及是否忠实实现了 Issue/PRD。触发词：Review 这个 PR、Review since X、代码审查。',
+  'diagnosing-bugs':
+    '硬核 Bug 诊断循环。建立了紧反馈循环才允许推理，分阶段：构建反馈循环→假设检验→定位根因→回归测试。触发词：diagnose this、debug、调试这个 bug。',
+  'domain-modeling':
+    '领域建模与通用语言构建。用于挑战模糊术语、消除一词多义、记录架构决策（ADR）、维护 CONTEXT.md 词汇表。触发词：建模、领域语言、ADR、术语冲突。',
+  'grill-with-docs':
+    '带文档输出的需求拷问。在 grilling 基础上同时运行 domain-modeling，将访谈结论实时写入 CONTEXT.md 和 ADR。适用于已有代码库的需求梳理。',
+  'implement':
+    '基于 PRD 或 Issue 的实现工作流。内部驱动 TDD 红绿重构循环，完成后运行 code-review，提交到当前分支。',
+  'resolving-merge-conflicts':
+    'Git 合并冲突解决流程。查看冲突状态→追溯每个冲突的来源意图→逐块解决→运行检查（类型/测试/格式化）→完成合并。',
+  'setup-matt-pocock-skills':
+    'Matt Pocock 工程技能初始化向导。配置 Issue 追踪器（GitHub/GitLab/本地 Markdown）、Triage 标签词汇、领域文档布局。首次使用其他工程技能前必须运行。',
+  'triage':
+    'Issue 分类状态机。将 Issue 和外链 PR 按 bug/enhancement 分类，在 needs-triage→needs-info→ready-for-agent/ready-for-human/wontfix 间流转，核实问题后根据情况撰写 Agent 简报或关闭。',
+  'grilling':
+    '需求拷问原语（grill-me 和 grill-with-docs 的底层基座）。一次一个问题，逐一穷尽决策树的每个分支，每个问题附带推荐答案。触发词：grill、拷问、反复追问。',
+  'teach':
+    '多会话教学工坊。在当前目录维护 MISSION.md、reference/、lessons/、learning-records/ 等教学文件。按最近发展区设计课程，注重知识获取与技能练习的平衡。触发词：teach me、教我、学习。',
+  'writing-great-skills':
+    'Skill 编写参考指南。涵盖可预测性的根本美德、信息层级（步骤/引用/外部引用）、拆分原则、编写描述、前置词技巧、故障模式（提前完成、重复、沉积、膨胀、空操作）。所有 Skill 编写和编辑的权威参考。',
+  'migrate-to-shoehorn':
+    '将测试文件中的 as 类型断言迁移到 @total-typescript/shoehorn。fromPartial() 替代 as Type，fromAny() 替代 as unknown as Type。仅测试代码，不用于生产。触发词：shochorn、migrate as assertions。',
+  'scaffold-exercises':
+    '练习目录脚手架生成。创建 XX-section/XX.YY-exercise/ 结构，含 problem/solution/explainer 子目录和 readme.md，通过 lint 检查。触发词：scaffold exercises、创建练习、搭课纲。',
+  'setup-pre-commit':
+    '预提交钩子一键配置。安装 Husky + lint-staged + Prettier，自动检测包管理器，配置 typecheck 和 test 脚本。触发词：setup pre-commit、配置 husky、添加提交钩子。',
+  'edit-article':
+    '文章编辑与润色。先按标题分段，确认信息的有向无环依赖顺序，然后逐段重写，每段不超过 240 字符。触发词：edit article、润色文章、修改稿子。',
+  'obsidian-vault':
+    'Obsidian 笔记管理。在指定 Vault 中搜索、创建、组织笔记，使用 [[wikilinks]] 语法和索引笔记模式。触发词：obsidian、笔记管理、搜索笔记。',
+  'decision-mapping':
+    '决策地图规划。将模糊想法转化为一系列调查票据的序列化地图，按依赖顺序逐一解决（Research/Prototype/Grilling/Task），每个票据一个会话。触发词：decision map、规划决策、多步调查。',
+  'loop-me':
+    '工作流设计拷问。使用 loop lens 审视用户生活中的重复模式，产出可委托的 workflow 规格文档。核心概念：Trigger、Checkpoint、Push Right、Brief。触发词：loop、workflow、设计工作流。',
+  'wizard':
+    '交互式 Bash 向导生成器。将手动步骤（第三方配置、一次性迁移、状态转换）转化为带进度条、确认门控、URL 自动打开的 Bash 脚本，自动写入 .env 和 GitHub Secrets。触发词：wizard、生成向导、自动配置脚本。',
+  'writing-beats':
+    '节拍式写作（Exploit 模式）。从原始素材中组装节拍旅程，每个节拍必须先接地后才能被后续节拍引用，提供 2-3 个候选起始节拍和后续分支选择。',
+  'writing-fragments':
+    '写作碎片采集（Explore 模式）。无结构地采集一切可用文本碎片——金句、半成品想法、隐喻、趣闻、抱怨、包袱，以 --- 分隔保存，不施加任何结构。后续由 writing-beats 或 writing-shape 消费。',
+  'writing-shape':
+    '文章塑形（Exploit 模式）。从原始素材中逐段塑造文章结构，每次提供 2-3 个候选开头，然后逐段推进，讨论每段的展现形式（散文/列表/表格/引用/代码块）。',
 };

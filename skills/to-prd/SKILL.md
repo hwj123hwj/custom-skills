@@ -3,11 +3,12 @@ name: to-prd
 author: mattpocock
 upstream: mattpocock/skills
 upstreamPath: skills/engineering/to-prd
-upstreamSha: 6eeb81b5fcfeeb5bd531dd47ab2f9f2bbea27461
-lastUpdated: "2026-05-30T00:00:00.000Z"
+upstreamSha: b38badf7091afc614dedffc03ea8c8ad2b643cb4
+lastUpdated: "2026-06-25T17:00:00.000Z"
 tags:
   - Planning
   - Product
+  - Matt Pocock
 description: "Turn the current conversation context into a PRD (Product Requirements Document). Use when user wants to create a PRD, write product requirements, or formalize a feature specification."
 disable-model-invocation: true
 ---

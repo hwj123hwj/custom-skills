@@ -2,12 +2,13 @@
 name: review
 author: mattpocock
 upstream: mattpocock/skills
-upstreamPath: skills/in-progress/review
-upstreamSha: 6eeb81b5fcfeeb5bd531dd47ab2f9f2bbea27461
-lastUpdated: "2026-05-30T00:00:00.000Z"
+upstreamPath: skills/engineering/code-review
+upstreamSha: b38badf7091afc614dedffc03ea8c8ad2b643cb4
+lastUpdated: "2026-06-25T17:00:00.000Z"
 tags:
   - Coding
   - Analysis
+  - Matt Pocock
 description: "Two-axis code review — Standards (does code follow documented standards?) and Spec (does code match the originating issue/PRD?). Runs both reviews in parallel and reports side by side. Use when reviewing a branch, a PR, work-in-progress changes, or asking to 'review since X'."
 ---
 

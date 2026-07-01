@@ -67,6 +67,8 @@ const ALLOWED_TAGS = new Set([
   'Video',
   'Web',
   'Writing',
+  // Sources
+  'Matt Pocock',
   // Platforms
   'Bilibili',
   'Douyin',
