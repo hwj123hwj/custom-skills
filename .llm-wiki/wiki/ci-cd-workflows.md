@@ -61,8 +61,43 @@ tags: [ci, cd, github-actions, workflow, conflict-handling]
 - `upstreamSha` 更新条件从 `always` 改为 `only when no conflicts`
 - 冲突报告逻辑移出 `SKILL_CHANGED > 0` 条件
 
+## CI/CD 修复记录（2026-06-25）
+
+### frontend-design 中文描述缺失
+
+**问题**：新增 `frontend-design` 技能后，`web/src/i18n/skill-descriptions.ts` 中缺少对应的中文描述条目，导致 `validate:registry` 步骤失败。
+
+**错误信息**：
+```
+i18n 覆盖检查失败，缺少以下技能的中文描述:
+  - frontend-design
+```
+
+**修复**：在 `skillDescriptionsZh` 对象中添加：
+```typescript
+'frontend-design':
+  'Anthropic 官方前端设计指导技能。为新 UI 或现有界面提供独特的视觉设计方案，覆盖调色板、字体排版、布局、动效和文案写作。采用头脑风暴→规划→评审→构建→自评的结构化流程，避免千篇一律的模板化 AI 设计。触发词：UI设计、前端设计、视觉设计、网页设计。',
+```
+
+**验证**：本地 `npm run validate:registry` 通过，CI build 成功。
+
+### 提交历史恢复
+
+**背景**：`chore/sync-upstream-skills` 分支之前是主开发分支，包含 319 个提交。由于分支管理问题，main 分支只有 132 个提交。
+
+**操作**：
+1. 备份 main 分支
+2. 将 main 重置到 `chore/sync-upstream-skills`
+3. 从备份中恢复 `frontend-design` 技能
+4. 更新 registry 和所有生成文件
+5. 删除远程 `chore/sync-upstream-skills` 分支
+
+**结果**：
+- 提交数: 132 → 320
+- 技能数: 26 → 48
+
 ## 已知问题
 
 - Node.js 20 deprecated 警告：Actions 使用 Node.js 20 但被强制运行在 Node.js 24 上（不影响功能）
 
-相关：[[registry-system]], [[upstream-sync]], [[release-process]], [[source-readme-2026-06-23]]
+相关：[[registry-system]], [[upstream-sync]], [[release-process]], [[source-readme-2026-06-23]], [[source-custom-skills-overview]]

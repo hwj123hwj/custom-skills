@@ -6,7 +6,7 @@ tags: [web, react, vite, skill-plaza, i18n]
 
 # Web App
 
-> 技能与 Agent 广场前端，基于 React 19 + Vite 7。
+> 技能与 Agent 广场前端，基于 React 19 + Vite 7。当前展示 48 个技能和 6 个 Agent。
 
 ## 技术栈
 

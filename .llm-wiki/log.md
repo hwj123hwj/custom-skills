@@ -50,3 +50,22 @@ Updated pages:
 1. 技能分类体系从 5 组扩展为 6 组
 2. 上游同步脚本冲突处理逻辑改进（防止冲突标记污染、防止级联问题）
 3. 完整的贡献指南（tag 注册流程、中文描述要求）
+
+## 2026-06-25 ingest | source-custom-skills-overview
+
+**Source**: 项目根目录 `.`（全仓概览）
+
+Created pages:
+- [[source-custom-skills-overview]] — 全仓概览源摘要（48 技能、CI/CD 修复、提交历史恢复）
+
+Updated pages:
+- [[ci-cd-workflows]] — 新增 CI/CD 修复记录章节（2026-06-25）：frontend-design 中文描述缺失问题及修复、提交历史恢复操作
+- [[web-app]] — 更新技能数量描述（48 个技能、6 个 Agent）
+- [[index.md]] — 新增 source 条目
+
+**Key changes documented**:
+1. 技能总数达到 48 个，Agent 6 个
+2. 新增 `frontend-design` 技能（Anthropic 官方前端设计指导）
+3. CI/CD 修复：`frontend-design` 缺少中文描述导致验证失败，已在 `skill-descriptions.ts` 中补充
+4. 提交历史恢复：从 `chore/sync-upstream-skills` 分支恢复 320 个提交到 main
+5. 删除远程 `chore/sync-upstream-skills` 分支（内容已合入 main）

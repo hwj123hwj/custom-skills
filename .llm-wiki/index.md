@@ -7,6 +7,7 @@
 - [[source-project-overview]] — 2026-06-14 全仓库摄取
 - [[source-easycode-skill-integration]] — 2026-06-16 Easy Code 集成方案摄取
 - [[source-readme-2026-06-23]] — 2026-06-23 README 重写摄取（6 组分类、贡献指南、冲突处理改进）
+- [[source-custom-skills-overview]] — 2026-06-25 全仓概览摄取（48 技能、CI/CD 修复、提交历史恢复）
 
 ## Pages
 
