@@ -207,6 +207,7 @@ CI 会在每天 UTC 02:00 自动检查上游更新，如有变更会创建 PR。
 | [paddleocr-doc-parsing](./skills/paddleocr-doc-parsing) | Use this skill to extract structured Markdown/JSON from PDFs and document images—tables with cell... |
 | [paddleocr-text-recognition](./skills/paddleocr-text-recognition) | Use this skill whenever the user wants text extracted from images, photos, scans, screenshots, or... |
 | [prototype](./skills/prototype) | Build a throwaway prototype to flesh out a design before committing to it. |
+| [react-native-best-practices](./skills/react-native-best-practices) | Provides React Native performance optimization guidelines for FPS, TTI, bundle size, memory leaks... |
 | [resolving-merge-conflicts](./skills/resolving-merge-conflicts) | Use when you need to resolve an in-progress git merge/rebase conflict. |
 | [review](./skills/review) | Two-axis code review — Standards (does code follow documented standards?) and Spec (does code mat... |
 | [scaffold-exercises](./skills/scaffold-exercises) | Create exercise directory structures with sections, problems, solutions, and explainers that pass... |

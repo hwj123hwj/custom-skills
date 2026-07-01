@@ -354,6 +354,14 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/prototype?lng=en" />
   </url>
   <url>
+    <loc>https://hwj123hwj.asia/skill/react-native-best-practices</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/react-native-best-practices" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/react-native-best-practices?lng=en" />
+  </url>
+  <url>
     <loc>https://hwj123hwj.asia/skill/resolving-merge-conflicts</loc>
     <lastmod>2026-07-02</lastmod>
     <changefreq>weekly</changefreq>

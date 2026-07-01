@@ -106,7 +106,7 @@
     "author": "obra",
     "upstream": "obra/superpowers",
     "upstreamPath": "skills/brainstorming",
-    "upstreamSha": "896224c4b1879920ab573417e68fd51d2ccc9072"
+    "upstreamSha": "f268f7c953744036f0fa7e9d4b73535c04e57cb8"
   },
   {
     "id": "butler",
@@ -909,7 +909,7 @@
     "author": "iOfficeAI",
     "upstream": "iOfficeAI/OfficeCLI",
     "upstreamPath": "skills/officecli-docx",
-    "upstreamSha": "247fc51ddaf7fb480367b305a2aad09b2fd2084d"
+    "upstreamSha": "efddeba1d47d931e722d212d1dec157baeffc328"
   },
   {
     "id": "paddleocr-doc-parsing",
@@ -969,6 +969,29 @@
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/prototype",
     "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
+  },
+  {
+    "id": "react-native-best-practices",
+    "name": "react-native-best-practices",
+    "displayName": "React Native Best Practices",
+    "description": "Provides React Native performance optimization guidelines for FPS, TTI, bundle size, memory leaks, re-renders, and animations. Applies to tasks involving Hermes optimization, JS thread blocking, bridge overhead, FlashList, native modules, or debugging jank and frame drops.",
+    "detailedDescription": "Performance optimization guide for React Native applications, covering JavaScript/React, Native (iOS/Android), and bundling optimizations. Based on Callstack's \"Ultimate Guide to React Native Optimization\".",
+    "emoji": "📦",
+    "tags": [
+      "Mobile",
+      "Coding",
+      "Debugging"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill react-native-best-practices",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/react-native-best-practices",
+    "sourcePath": "skills/react-native-best-practices",
+    "lastUpdated": "2026-07-01T06:39:56.000Z",
+    "author": "Callstack",
+    "upstream": "callstackincubator/agent-skills",
+    "upstreamPath": "skills/react-native-best-practices",
+    "upstreamSha": "553dccbe87ba678b14e33aedd4dc274f5b92c85a"
   },
   {
     "id": "resolving-merge-conflicts",
@@ -1399,7 +1422,7 @@
     "author": "nextlevelbuilder",
     "upstream": "nextlevelbuilder/ui-ux-pro-max-skill",
     "upstreamPath": "src/ui-ux-pro-max",
-    "upstreamSha": "a13b2a02fd58d8ad325fefd9d146f62708be8456"
+    "upstreamSha": "3effe971c07a20658952e304099557523bdf9e44"
   },
   {
     "id": "vertex-video-reader",
