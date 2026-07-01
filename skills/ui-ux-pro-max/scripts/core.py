@@ -90,6 +90,11 @@ STACK_CONFIG = {
     "angular":          {"file": "stacks/angular.csv"},
     "laravel":          {"file": "stacks/laravel.csv"},
     "javafx":           {"file": "stacks/javafx.csv"},
+    "wpf":              {"file": "stacks/wpf.csv"},
+    "winui":            {"file": "stacks/winui.csv"},
+    "avalonia":         {"file": "stacks/avalonia.csv"},
+    "uno":              {"file": "stacks/uno.csv"},
+    "uwp":              {"file": "stacks/uwp.csv"},
 }
 
 # Common columns for all stacks
