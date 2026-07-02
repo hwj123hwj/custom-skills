@@ -249,6 +249,19 @@ function main(): void {
     console.log(`✅ i18n coverage check passed (${registryIds.length} skills)`);
   }
 
+  // ── skill-desc-zh.json 覆盖率检查 ──────────────────────────────────────
+  const ZH_JSON_PATH = path.resolve(ROOT_DIR, 'web/src/i18n/locales/skill-desc-zh.json');
+  if (fs.existsSync(ZH_JSON_PATH)) {
+    const zhData = readJsonFile<Record<string, string>>(ZH_JSON_PATH);
+    const missingZh = registryIds.filter((id) => !zhData[id]);
+    if (missingZh.length > 0) {
+      fail(
+        `以下技能缺少中文描述（web/src/i18n/locales/skill-desc-zh.json）：\n  ${missingZh.join(', ')}\n请运行 'python3 scripts/sync_zh_descs.py' 同步。`
+      );
+    }
+    console.log(`✅ skill-desc-zh.json coverage check passed (${registryIds.length} skills)`);
+  }
+
   // ── Agent 校验（agents-data.json 存在时才校验）────────────────────────────
   const AGENTS_DATA_PATH = path.resolve(ROOT_DIR, 'web/src/data/agents-data.json');
   if (fs.existsSync(AGENTS_DATA_PATH)) {
