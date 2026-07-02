@@ -8,7 +8,7 @@
  * so that the filter bar is useful for narrowing down results.
  */
 
-export type SkillGroupId = 'coding' | 'content' | 'platform' | 'knowledge' | 'product';
+export type SkillGroupId = 'coding' | 'content' | 'platform' | 'knowledge' | 'product' | 'engineering';
 
 export interface SkillCategoryDef {
   id: SkillGroupId;
@@ -37,6 +37,11 @@ export const SKILL_CATEGORIES: SkillCategoryDef[] = [
     // Excludes generic tags (Productivity, Automation, CLI, Utility) to avoid becoming a catch-all
     id: 'product',
     tags: ['Product', 'Planning', 'LocalData', 'Forensics', 'Marketplace', 'Installer', 'Monitoring', 'Recruitment', 'Summary'],
+  },
+  {
+    // Matt Pocock's engineering skills: TDD, code review, debugging, planning, writing
+    id: 'engineering',
+    tags: ['Matt Pocock'],
   },
 ];
 

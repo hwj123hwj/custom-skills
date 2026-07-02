@@ -336,6 +336,12 @@ function HomePage() {
                     active={activeSkillCategory === 'product' && !showFavorites}
                     onClick={() => { setActiveSkillCategory('product'); setShowFavorites(false); }}
                   />
+                  <CategoryChip
+                    label={t('skill.category.engineering')}
+                    count={skillCategoryCounts['engineering']}
+                    active={activeSkillCategory === 'engineering' && !showFavorites}
+                    onClick={() => { setActiveSkillCategory('engineering'); setShowFavorites(false); }}
+                  />
                   <FavoritesBar
                     favoriteCount={favoriteSkillCount}
                     showFavorites={showFavorites}
