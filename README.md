@@ -22,7 +22,7 @@
 
 ### 浏览技能
 
-访问 [Web 技能广场](https://hwj123hwj.github.io/custom-skills/) 在线浏览所有技能。
+访问 [Web 技能广场](https://hwj123hwj.asia/) 在线浏览所有技能。
 
 或使用 CLI：
 
@@ -330,7 +330,7 @@ MIT License - 详见 [LICENSE](./LICENSE)
 
 ## 🔗 相关链接
 
-- [Web 技能广场](https://hwj123hwj.github.io/custom-skills/)
+- [Web 技能广场](https://hwj123hwj.asia/)
 - [GitHub 仓库](https://github.com/hwj123hwj/custom-skills)
 - [问题反馈](https://github.com/hwj123hwj/custom-skills/issues)
 
