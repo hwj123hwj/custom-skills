@@ -3,7 +3,7 @@ name: ask-matt
 author: mattpocock
 upstream: mattpocock/skills
 upstreamPath: skills/engineering/ask-matt
-upstreamSha: b38badf7091afc614dedffc03ea8c8ad2b643cb4
+upstreamSha: 7a83a3a682adf699f24dbc06613de87f4e52a0a0
 lastUpdated: '2026-07-02T01:06:55.000Z'
 tags:
 - Planning

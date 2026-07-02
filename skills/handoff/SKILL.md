@@ -3,7 +3,7 @@ name: handoff
 author: mattpocock
 upstream: mattpocock/skills
 upstreamPath: skills/productivity/handoff
-upstreamSha: b38badf7091afc614dedffc03ea8c8ad2b643cb4
+upstreamSha: 7a83a3a682adf699f24dbc06613de87f4e52a0a0
 lastUpdated: "2026-06-25T17:00:00.000Z"
 tags:
   - Productivity
