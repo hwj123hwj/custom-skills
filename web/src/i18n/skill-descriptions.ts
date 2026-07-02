@@ -228,7 +228,22 @@ export const skillDescriptionsEn: Record<string, string> = {
   'weread-skills':
     'WeChat Read (微信读书) assistant — search books, manage bookshelf, view notes & highlights, browse reviews, reading statistics, and discover personalized recommendations. Calls WeChat Read APIs via Agent API Gateway.',
   'butler':
-    '管家技能 — 项目感知、日报分析、知识库维护。自动扫描会话数据、分析每日工作、夜间维护 wiki。',
+    'Butler skill — project awareness, daily report analysis, and knowledge base maintenance. Auto-scans session data, analyzes daily work, and maintains the wiki overnight.',
+  'content-adapt':
+    'Analyze video content and generate platform-ready titles, descriptions, and tags for publishing. Pure prompt-driven, no scripts required.',
+  'content-repurposer':
+    'Markdown prompt-engineering content repurposing skill with 7 sub-skills (LinkedIn/Twitter/Medium/Substack/Newsletter/GitHub Pages + orchestrator). Supports voice profile system, emoji control, and regex blocklist. Zero dependencies, zero modifications required.',
+  'douyin-upload':
+    'Douyin (TikTok China) video upload CLI tool. Log in to Douyin, check cookies, upload videos or publish image posts. Uses `uv run douyin` — no custom scripts needed.',
+  'huashu-design':
+    'Huashu Design — an all-in-one HTML-based design capability for high-fidelity prototypes, interactive demos, slide decks, animations, design variant exploration, and expert review. HTML is the tool, not the medium; em different experts (UX designer/animator/slide designer/prototyper) depending on the task. Supports HTML animation export to MP4/GIF, and a narrated long-animation pipeline with TTS voiceover.',
+  'huashu-nuwa':
+    'Nuwa character skill distiller. Input a person\'s name, topic, or vague requirement; automatically performs deep research, extracts a thinking framework, and generates a runnable character Skill. Two entry points: (1) explicit name → direct distillation, (2) vague requirement → diagnosis → recommendation → distillation.',
+  'storage-analyzer':
+    'Read-only storage analysis assistant for macOS / Windows (auto-detects OS). Scans entire disk usage, identifies space hogs, categorizes each item as 🟢 auto-cleanable / 🟡 needs human judgment / 🔴 clean with caution, and generates an interactive HTML report with collapsible sections and one-click copy commands. Can start a local server for browser-based one-click deletion (move to trash or permanent delete). Scan is fully read-only.',
+  'video-analyze':
+    'Video content analysis tool. Auto-extracts keyframes, transcribes speech (ASR), and generates structured video summaries with content tags. Outputs structured data for agent understanding and can pair with content-adapt for publishing copy.',
+
 };
 
 /**
