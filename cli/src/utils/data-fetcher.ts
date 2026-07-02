@@ -3,14 +3,21 @@ import fs from 'fs';
 import path from 'path';
 import { Skill, NormalizedSkill } from '../types/skill.js';
 import { readCache, readCacheEtag, hasCache, writeCache } from './cache.js';
+import { SkillEmbedding, EmbeddingsFile } from './vector-search.js';
 
 const SKILLS_DATA_URL =
   'https://raw.githubusercontent.com/hwj123hwj/custom-skills/main/registry/skills.json';
 const SKILLS_DATA_MIRROR_URL =
   'https://cdn.jsdelivr.net/gh/hwj123hwj/custom-skills@main/registry/skills.json';
 
+const EMBEDDINGS_URL =
+  'https://raw.githubusercontent.com/hwj123hwj/custom-skills/main/registry/skills-embeddings.json';
+const EMBEDDINGS_MIRROR_URL =
+  'https://cdn.jsdelivr.net/gh/hwj123hwj/custom-skills@main/registry/skills-embeddings.json';
+
 const REPO_BASE = 'https://github.com/hwj123hwj/custom-skills/tree/main';
 const LOCAL_REGISTRY_PATH = path.resolve(__dirname, '../../../registry/skills.json');
+const LOCAL_EMBEDDINGS_PATH = path.resolve(__dirname, '../../../registry/skills-embeddings.json');
 
 function normalizeSkill(skill: Skill): NormalizedSkill {
   return {
@@ -24,14 +31,14 @@ function normalizeSkill(skill: Skill): NormalizedSkill {
   };
 }
 
-function fetchFromUrl(url: string, etag?: string | null): Promise<{ skills: Skill[]; etag?: string } | null> {
+function fetchFromUrl<T>(url: string, etag?: string | null): Promise<{ data: T; etag?: string } | null> {
   return new Promise((resolve, reject) => {
     const headers: Record<string, string> = {};
     if (etag) headers['If-None-Match'] = etag;
 
-    const request = (url: string) => {
+    const request = (targetUrl: string) => {
       https
-        .get(url, { headers, timeout: 8000 }, (res) => {
+        .get(targetUrl, { headers, timeout: 8000 }, (res) => {
           if (res.statusCode === 301 || res.statusCode === 302) {
             const location = res.headers.location;
             if (!location) {
@@ -54,12 +61,12 @@ function fetchFromUrl(url: string, etag?: string | null): Promise<{ skills: Skil
           }
 
           let body = '';
-          res.on('data', (chunk) => (body += chunk));
+          res.on('data', (chunk: Buffer) => (body += chunk.toString()));
           res.on('end', () => {
             try {
-              const skills = JSON.parse(body) as Skill[];
+              const data = JSON.parse(body) as T;
               const newEtag = res.headers.etag as string | undefined;
-              resolve({ skills, etag: newEtag });
+              resolve({ data, etag: newEtag });
             } catch {
               reject(new Error('数据解析失败'));
             }
@@ -99,23 +106,23 @@ export async function loadSkills(forceRefresh = false): Promise<NormalizedSkill[
 
     // 先尝试 jsdelivr CDN（国内友好）
     try {
-      const result = await fetchFromUrl(SKILLS_DATA_MIRROR_URL, cachedEtag);
+      const result = await fetchFromUrl<Skill[]>(SKILLS_DATA_MIRROR_URL, cachedEtag);
       if (result === null) {
         const cached = readCache<Skill[]>();
         if (cached) return cached.map(normalizeSkill);
       } else {
-        writeCache(result.skills, 'skills-data', result.etag);
-        return result.skills.map(normalizeSkill);
+        writeCache(result.data, 'skills-data', result.etag);
+        return result.data.map(normalizeSkill);
       }
     } catch {
       // jsdelivr 失败，fallback 到 GitHub raw
-      const result = await fetchFromUrl(SKILLS_DATA_URL, cachedEtag);
+      const result = await fetchFromUrl<Skill[]>(SKILLS_DATA_URL, cachedEtag);
       if (result === null) {
         const cached = readCache<Skill[]>();
         if (cached) return cached.map(normalizeSkill);
       } else {
-        writeCache(result.skills, 'skills-data', result.etag);
-        return result.skills.map(normalizeSkill);
+        writeCache(result.data, 'skills-data', result.etag);
+        return result.data.map(normalizeSkill);
       }
     }
   } catch (err) {
@@ -136,4 +143,54 @@ export async function loadSkills(forceRefresh = false): Promise<NormalizedSkill[
   const cached = readCache<Skill[]>();
   if (cached) return cached.map(normalizeSkill);
   throw new Error('无法获取技能数据，请检查网络连接后重试。');
+}
+
+// ─── Embeddings 数据加载 ─────────────────────────────────────────────────────
+
+function readLocalEmbeddings(): EmbeddingsFile | null {
+  if (!fs.existsSync(LOCAL_EMBEDDINGS_PATH)) return null;
+
+  try {
+    const content = fs.readFileSync(LOCAL_EMBEDDINGS_PATH, 'utf-8');
+    return JSON.parse(content) as EmbeddingsFile;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * 加载预计算的技能嵌入向量（带缓存）
+ * 返回 null 表示无嵌入数据可用（CLI 应降级为纯关键词搜索）
+ */
+export async function loadEmbeddingsData(forceRefresh = false): Promise<SkillEmbedding[] | null> {
+  // 1. 开发模式：优先使用本地文件
+  const local = readLocalEmbeddings();
+  if (local) return local.embeddings;
+
+  // 2. 远程拉取
+  try {
+    const cachedEtag = forceRefresh ? null : readCacheEtag('skills-embeddings');
+
+    try {
+      const result = await fetchFromUrl<EmbeddingsFile>(EMBEDDINGS_MIRROR_URL, cachedEtag);
+      if (result === null) {
+        const cached = readCache<EmbeddingsFile>('skills-embeddings');
+        return cached?.embeddings ?? null;
+      }
+      writeCache(result.data, 'skills-embeddings', result.etag);
+      return result.data.embeddings;
+    } catch {
+      const result = await fetchFromUrl<EmbeddingsFile>(EMBEDDINGS_URL, cachedEtag);
+      if (result === null) {
+        const cached = readCache<EmbeddingsFile>('skills-embeddings');
+        return cached?.embeddings ?? null;
+      }
+      writeCache(result.data, 'skills-embeddings', result.etag);
+      return result.data.embeddings;
+    }
+  } catch {
+    // 网络失败，降级缓存
+    const cached = readCache<EmbeddingsFile>('skills-embeddings');
+    return cached?.embeddings ?? null;
+  }
 }

@@ -81,3 +81,40 @@ export function getCacheInfo(key = 'skills-data'): { exists: boolean; age?: stri
     return { exists: true, path: file };
   }
 }
+
+// ─── Config 管理（API Key 等用户配置）────────────────────────────────────────
+
+const CONFIG_DIR = path.join(os.homedir(), '.config', 'custom-skills');
+const CONFIG_FILE = path.join(CONFIG_DIR, 'config.json');
+
+interface AppConfig {
+  apiKey?: string;
+  apiBase?: string;
+  model?: string;
+}
+
+function ensureConfigDir(): void {
+  if (!fs.existsSync(CONFIG_DIR)) {
+    fs.mkdirSync(CONFIG_DIR, { recursive: true });
+  }
+}
+
+export function readConfig(): AppConfig {
+  try {
+    if (!fs.existsSync(CONFIG_FILE)) return {};
+    return JSON.parse(fs.readFileSync(CONFIG_FILE, 'utf-8')) as AppConfig;
+  } catch {
+    return {};
+  }
+}
+
+export function writeConfig(config: AppConfig): void {
+  ensureConfigDir();
+  const existing = readConfig();
+  const merged = { ...existing, ...config };
+  fs.writeFileSync(CONFIG_FILE, JSON.stringify(merged, null, 2), 'utf-8');
+}
+
+export function getConfigPath(): string {
+  return CONFIG_FILE;
+}
