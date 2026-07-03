@@ -93,5 +93,28 @@ git push origin vx.y.z
 - 8s timeout
 - npm 1.3.1
 
+### v1.4.0 (2026-07-03)
+- 向量检索功能：[[siliconflow-api|SiliconFlow API]]（[[bge-m3|BGE-M3]]）+ RRF 混合搜索
+- 新增 `config` 子命令管理 API Key
+- 新增 `registry/skills-embeddings.json` 嵌入向量文件
+- npm 1.4.0
+
+### v1.5.0 (2026-07-03)
+- 中文跨语言匹配：ZH_EN_ALIASES 映射表 + 中文子串提取（2-6 字滑动窗口）
+- RRF fallback 修复：关键词无结果时直接返回向量结果
+- 重新生成嵌入（含 i18n 中文描述）
+- npm 1.5.0
+
+### v1.6.0 (2026-07-03)
+- 嵌入文本策略优化：用 i18n 中文描述替代原始 description
+- 嵌入文本长度从 42-1142 字符统一到 150-200 字符
+- npm 1.6.0
+
+### v1.7.0 (2026-07-03)
+- RRF 调权：keywordWeight 1.0→3.0, k 60→30
+- 向量结果上限从 20→15
+- printSkillCard 描述截断至 120 字符
+- npm 1.7.0
+
 相关：[[ci-cd-workflows]], [[registry-system]], [[cli-tool]], [[architecture]]
 

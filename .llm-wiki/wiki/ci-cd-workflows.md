@@ -112,4 +112,19 @@ i18n 覆盖检查失败，缺少以下技能的中文描述:
 
 - Node.js 20 deprecated 警告：Actions 使用 Node.js 20 但被强制运行在 Node.js 24 上（不影响功能）
 
-相关：[[registry-system]], [[upstream-sync]], [[release-process]], [[mattpocock-collection]], [[source-mattpocock-collection]]
+## 嵌入向量生成流程（2026-07-03）
+
+[[vector-search|向量检索]]功能引入了 `registry/skills-embeddings.json` 文件，需要在技能更新后重新生成。
+
+**当前流程**（手动）：
+```bash
+SILICONFLOW_API_KEY=sk-xxx npx tsx scripts/generate-embeddings.ts
+```
+
+**注意事项**：
+- 嵌入文件（~2.2MB）已纳入 git 版本管理
+- 技能新增/修改后需重新生成嵌入并 commit
+- i18n 中文描述变更也需重新生成（嵌入文本依赖 `skill-descriptions.ts`）
+- CI 目前不自动验证嵌入一致性（未来可加入）
+
+相关：[[registry-system]], [[upstream-sync]], [[release-process]], [[mattpocock-collection]], [[source-mattpocock-collection]], [[vector-search]], [[siliconflow-api]]

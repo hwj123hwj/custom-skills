@@ -33,6 +33,16 @@ skills/*/SKILL.md
   → CLI（远程拉取）/ Web（静态导入）
 ```
 
+### 向量检索数据流
+
+```
+registry/skills.json + web/src/i18n/skill-descriptions.ts
+  → scripts/generate-embeddings.ts
+  → [[siliconflow-api|SiliconFlow API]]（[[bge-m3|BGE-M3]]）
+  → registry/skills-embeddings.json（73 个 1024 维向量）
+  → CLI 运行时加载 + 用户查询向量化 + 余弦相似度 + [[vector-search|RRF 融合]]
+```
+
 ## Web 技术栈
 
 React 19 + TypeScript 5.9 + Vite 7 + Tailwind CSS + React Router + i18next
@@ -41,7 +51,7 @@ Skills tab 通过 `web/src/lib/skill-categories.ts` 的 **6 个高层分组**（
 
 ## CLI 技术栈
 
-TypeScript + Commander，远程 registry 拉取 + 本地缓存降级。
+TypeScript + Commander，远程 registry 拉取 + 本地缓存降级 + [[vector-search|向量检索]]（[[siliconflow-api|SiliconFlow]] [[bge-m3|BGE-M3]] 嵌入 + RRF 混合搜索）。
 
 ## 演进方向
 

@@ -9,6 +9,7 @@
 - [[source-readme-2026-06-23]] — 2026-06-23 README 重写摄取（6 组分类、贡献指南、冲突处理改进）
 - [[source-custom-skills-overview]] — 2026-06-25 全仓概览摄取（48 技能、CI/CD 修复、提交历史恢复）
 - [[source-mattpocock-collection]] — 2026-07-01 Matt Pocock 技能合集导入（24 新技能、4 个新标签）
+- [[source-vector-search-2026-07-03]] — 2026-07-03 向量检索功能实现（BGE-M3、RRF、跨语言匹配）
 
 ## Pages
 
@@ -27,6 +28,12 @@
 ### 集成
 
 - [[skill-hub-tool]] — Easy Code 内置 skill_hub 工具（JIT 搜索/安装）
+
+### 向量检索
+
+- [[vector-search]] — 混合搜索架构（RRF 融合、关键词 + 向量、跨语言匹配）
+- [[siliconflow-api]] — SiliconFlow API 集成（嵌入模型服务）
+- [[bge-m3]] — BGE-M3 多语言嵌入模型
 
 ### 组件
 

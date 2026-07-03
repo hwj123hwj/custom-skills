@@ -95,3 +95,29 @@ Updated pages:
 6. Merge 冲突解决：与上游同步 CI 产生的 13 个冲突文件通过 `--ours` 策略解决
 7. README 更新：新增 Matt Pocock 合集专区和 4 大领域分类
 8. 22 个配套文件从 Matt Pocock 上游复制
+
+## 2026-07-03 ingest | source-vector-search-2026-07-03
+
+**Source**: 项目根目录 `.`（CLI v1.4.0 → v1.7.0 向量检索全链路实现）
+
+Created pages:
+- [[source-vector-search-2026-07-03]] — 向量检索功能实现源摘要
+- [[vector-search]] — 混合搜索架构概念页（RRF 融合、跨语言匹配、嵌入文本策略）
+- [[siliconflow-api]] — SiliconFlow API 集成实体页
+- [[bge-m3]] — BGE-M3 多语言嵌入模型实体页
+
+Updated pages:
+- [[cli-tool]] — 新增向量检索功能、config 子命令、search 命令选项、版本历史（v1.4.0-v1.7.0）
+- [[architecture]] — 新增向量检索数据流、CLI 技术栈更新
+- [[release-process]] — 新增 v1.4.0-v1.7.0 发版记录
+- [[ci-cd-workflows]] — 新增嵌入向量生成流程说明
+- [[index.md]] — 新增 source 条目和「向量检索」分组
+
+**Key changes documented**:
+1. CLI 从纯关键词搜索升级为混合搜索（关键词 + 向量 RRF 融合）
+2. 基于 SiliconFlow BGE-M3 的语义搜索，73 个技能预计算嵌入向量（1024 维）
+3. 嵌入文本策略：用 i18n 中文描述替代原始 description，长度统一到 150-200 字符
+4. 跨语言匹配：ZH_EN_ALIASES 映射表（"幻灯片"→"PPT"）+ 中文子串提取
+5. RRF 调权：keywordWeight=3.0（关键词优先），k=30
+6. 新增 config 子命令管理 API Key（~/.config/custom-skills/config.json）
+7. CLI 版本从 1.3.3 升级到 1.7.0（4 个版本迭代）
