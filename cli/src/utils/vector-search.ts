@@ -200,6 +200,9 @@ function rrfMerge(
 
 /**
  * 混合搜索：融合关键词匹配 + 向量检索
+ *
+ * - 关键词结果为空时，直接返回向量检索结果（保留真实相似度分数）
+ * - 两路都有结果时，用 RRF 融合排序
  */
 export async function hybridSearch(
   skills: NormalizedSkill[],
@@ -216,6 +219,20 @@ export async function hybridSearch(
 
   const vecResults = vectorSearch(skills, embeddings, queryVector, limit * 2);
 
+  // 关键词无结果时，直接返回向量结果（保留真实的余弦相似度分数）
+  if (kwResults.length === 0) {
+    return vecResults.slice(0, limit).map((r) => ({
+      skill: r.skill,
+      score: r.vectorScore,
+    }));
+  }
+
+  // 向量无结果时，直接返回关键词结果
+  if (vecResults.length === 0) {
+    return kwResults.slice(0, limit);
+  }
+
+  // 两路都有结果，用 RRF 融合
   return rrfMerge(kwResults, vecResults, 1.0, 1.2, 60, limit);
 }
 

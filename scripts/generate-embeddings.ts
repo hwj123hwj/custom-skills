@@ -30,6 +30,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const REGISTRY_PATH = path.resolve(__dirname, '../registry/skills.json');
+const I18N_PATH = path.resolve(__dirname, '../web/src/i18n/skill-descriptions.ts');
 const OUTPUT_PATH = path.resolve(__dirname, '../registry/skills-embeddings.json');
 
 // ─── 解析命令行参数 ─────────────────────────────────────────────────────────
@@ -82,8 +83,31 @@ interface Skill {
   scenarios?: string[];
 }
 
-function skillToText(skill: Skill): string {
-  const parts = [`${skill.displayName ?? skill.name}: ${skill.description}`];
+/** 从 i18n/skill-descriptions.ts 提取中文描述 */
+function loadChineseDescriptions(): Record<string, string> {
+  if (!fs.existsSync(I18N_PATH)) return {};
+  const content = fs.readFileSync(I18N_PATH, 'utf-8');
+  const result: Record<string, string> = {};
+
+  // 匹配 'key': 'value' 或 "key": "value" 模式
+  const regex = /['"]([\w-]+)['"]\s*:\s*['"`]([\s\S]*?)['"`]/g;
+  let match;
+  while ((match = regex.exec(content)) !== null) {
+    const key = match[1];
+    const value = match[2].trim();
+    if (value.length > 10) { // 忽略太短的条目
+      result[key] = value;
+    }
+  }
+  return result;
+}
+
+function skillToText(skill: Skill, zhDesc?: string): string {
+  // 构建更丰富的嵌入文本，提升中英文跨语言匹配质量
+  const name = skill.displayName ?? skill.name;
+  const parts = [`${name} (${skill.name}): ${skill.description}`];
+  // 如果有中文描述，补充中文上下文（大幅提升中文查询的匹配质量）
+  if (zhDesc) parts.push(`中文说明: ${zhDesc}`);
   if (skill.tags.length > 0) parts.push(`Tags: ${skill.tags.join(', ')}`);
   if (skill.scenarios && skill.scenarios.length > 0) {
     parts.push(`Scenarios: ${skill.scenarios.join(', ')}`);
@@ -153,7 +177,8 @@ async function generateEmbeddings(
   skills: Skill[],
   apiKey: string,
   apiBase: string,
-  model: string
+  model: string,
+  zhDescs: Record<string, string>
 ): Promise<{ id: string; embedding: number[] }[]> {
   const results: { id: string; embedding: number[] }[] = [];
   const totalBatches = Math.ceil(skills.length / BATCH_SIZE);
@@ -161,7 +186,7 @@ async function generateEmbeddings(
   for (let i = 0; i < skills.length; i += BATCH_SIZE) {
     const batch = skills.slice(i, i + BATCH_SIZE);
     const batchNum = Math.floor(i / BATCH_SIZE) + 1;
-    const texts = batch.map(skillToText);
+    const texts = batch.map(s => skillToText(s, zhDescs[s.id]));
 
     process.stdout.write(`\r📦 批次 ${batchNum}/${totalBatches}（${batch.length} 个技能）...`);
 
@@ -199,9 +224,14 @@ async function main() {
   const skills: Skill[] = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf-8'));
   console.log(`📋 读取到 ${skills.length} 个技能`);
 
-  // 2. 生成嵌入
+  // 2. 加载中文描述
+  const zhDescs = loadChineseDescriptions();
+  const zhCount = Object.keys(zhDescs).filter(k => skills.some(s => s.id === k)).length;
+  console.log(`🇨🇳 加载到 ${zhCount} 个中文描述`);
+
+  // 3. 生成嵌入
   console.log(`🤖 使用模型 ${model} 生成嵌入向量...`);
-  const embeddings = await generateEmbeddings(skills, apiKey, apiBase, model);
+  const embeddings = await generateEmbeddings(skills, apiKey, apiBase, model, zhDescs);
 
   // 3. 获取维度信息
   const dimension = embeddings.length > 0 ? embeddings[0].embedding.length : 0;
