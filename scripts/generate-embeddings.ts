@@ -5,14 +5,15 @@
  * 为 registry/skills.json 中的所有技能生成嵌入向量，
  * 输出到 registry/skills-embeddings.json。
  *
- * 使用 SiliconFlow API（BGE-M3 模型），免费额度充足。
+ * 嵌入文本策略:
+ *   优先使用 i18n 中文描述（人工维护，语义聚焦），
+ *   无中文描述时回退到英文 description（截断至 200 字符）。
+ *   最终文本格式: "{name} | {描述} | 标签: {tags}"
+ *   控制在 250 字符内，保证嵌入质量。
  *
  * 用法:
  *   SILICONFLOW_API_KEY=sk-xxx npx ts-node scripts/generate-embeddings.ts
- *   # 或
  *   npx ts-node scripts/generate-embeddings.ts --api-key sk-xxx
- *   # 指定自定义 API
- *   npx ts-node scripts/generate-embeddings.ts --api-base https://your-api.com/v1 --api-key sk-xxx
  */
 
 import fs from 'fs';
@@ -24,7 +25,8 @@ import { fileURLToPath } from 'url';
 
 const DEFAULT_API_BASE = 'https://api.siliconflow.cn/v1';
 const DEFAULT_MODEL = 'BAAI/bge-m3';
-const BATCH_SIZE = 32; // 每批处理的文本数量
+const BATCH_SIZE = 32;
+const MAX_DESC_LEN = 200; // 描述最大字符数，防止长描述稀释语义
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -72,7 +74,7 @@ function parseArgs(): { apiKey: string; apiBase: string; model: string } {
   return { apiKey, apiBase, model };
 }
 
-// ─── 技能 → 嵌入文本 ───────────────────────────────────────────────────────
+// ─── 数据加载 ───────────────────────────────────────────────────────────────
 
 interface Skill {
   id: string;
@@ -89,30 +91,59 @@ function loadChineseDescriptions(): Record<string, string> {
   const content = fs.readFileSync(I18N_PATH, 'utf-8');
   const result: Record<string, string> = {};
 
-  // 匹配 'key': 'value' 或 "key": "value" 模式
+  // 匹配 'key': 'value' 或 "key": "value" 模式（支持多行）
   const regex = /['"]([\w-]+)['"]\s*:\s*['"`]([\s\S]*?)['"`]/g;
   let match;
   while ((match = regex.exec(content)) !== null) {
     const key = match[1];
     const value = match[2].trim();
-    if (value.length > 10) { // 忽略太短的条目
+    if (value.length > 10) {
       result[key] = value;
     }
   }
   return result;
 }
 
-function skillToText(skill: Skill, zhDesc?: string): string {
-  // 构建更丰富的嵌入文本，提升中英文跨语言匹配质量
+/**
+ * 生成用于嵌入的标准化文本
+ *
+ * 策略:
+ *  - 优先使用 i18n 中文描述（人工维护，语义聚焦，约 50-100 字符）
+ *  - 无中文描述时回退到英文 description（截断至 MAX_DESC_LEN 字符）
+ *  - 附加 tags 提供分类上下文
+ *  - 不包含 scenarios（避免过长）和触发词列表
+ */
+function skillToEmbeddingText(skill: Skill, zhDesc?: string): string {
   const name = skill.displayName ?? skill.name;
-  const parts = [`${name} (${skill.name}): ${skill.description}`];
-  // 如果有中文描述，补充中文上下文（大幅提升中文查询的匹配质量）
-  if (zhDesc) parts.push(`中文说明: ${zhDesc}`);
-  if (skill.tags.length > 0) parts.push(`Tags: ${skill.tags.join(', ')}`);
-  if (skill.scenarios && skill.scenarios.length > 0) {
-    parts.push(`Scenarios: ${skill.scenarios.join(', ')}`);
+
+  // 选择最佳描述文本
+  let desc: string;
+  if (zhDesc && zhDesc.length > 10) {
+    // 使用中文描述（已经是精炼的用途说明）
+    desc = zhDesc;
+  } else {
+    // 回退到英文描述，截断至 MAX_DESC_LEN
+    desc = skill.description;
+    if (desc.length > MAX_DESC_LEN) {
+      // 在句号/逗号处截断，避免截断词
+      const truncated = desc.slice(0, MAX_DESC_LEN);
+      const lastPeriod = Math.max(
+        truncated.lastIndexOf('。'),
+        truncated.lastIndexOf('. '),
+        truncated.lastIndexOf('，'),
+        truncated.lastIndexOf(', ')
+      );
+      desc = lastPeriod > 80 ? truncated.slice(0, lastPeriod + 1) : truncated + '…';
+    }
   }
-  return parts.join('\n');
+
+  // 标准化格式: name | description | tags
+  const parts = [`${name} | ${desc}`];
+  if (skill.tags.length > 0) {
+    parts.push(`标签: ${skill.tags.join('、')}`);
+  }
+
+  return parts.join(' | ');
 }
 
 // ─── API 调用 ───────────────────────────────────────────────────────────────
@@ -186,7 +217,7 @@ async function generateEmbeddings(
   for (let i = 0; i < skills.length; i += BATCH_SIZE) {
     const batch = skills.slice(i, i + BATCH_SIZE);
     const batchNum = Math.floor(i / BATCH_SIZE) + 1;
-    const texts = batch.map(s => skillToText(s, zhDescs[s.id]));
+    const texts = batch.map(s => skillToEmbeddingText(s, zhDescs[s.id]));
 
     process.stdout.write(`\r📦 批次 ${batchNum}/${totalBatches}（${batch.length} 个技能）...`);
 
@@ -206,7 +237,7 @@ async function generateEmbeddings(
     }
   }
 
-  console.log(''); // 换行
+  console.log('');
   return results;
 }
 
@@ -226,17 +257,28 @@ async function main() {
 
   // 2. 加载中文描述
   const zhDescs = loadChineseDescriptions();
-  const zhCount = Object.keys(zhDescs).filter(k => skills.some(s => s.id === k)).length;
-  console.log(`🇨🇳 加载到 ${zhCount} 个中文描述`);
+  const zhCount = skills.filter(s => zhDescs[s.id]).length;
+  const missingZh = skills.filter(s => !zhDescs[s.id]);
+  console.log(`🇨🇳 中文描述覆盖: ${zhCount}/${skills.length}`);
+  if (missingZh.length > 0) {
+    console.log(`⚠️  缺少中文描述: ${missingZh.map(s => s.id).join(', ')}`);
+  }
 
-  // 3. 生成嵌入
-  console.log(`🤖 使用模型 ${model} 生成嵌入向量...`);
+  // 3. 预览嵌入文本
+  console.log('\n📝 嵌入文本预览（前 3 个）:');
+  skills.slice(0, 3).forEach(s => {
+    const text = skillToEmbeddingText(s, zhDescs[s.id]);
+    console.log(`  [${s.id}] (${text.length} 字符) ${text.slice(0, 120)}...`);
+  });
+
+  // 4. 生成嵌入
+  console.log(`\n🤖 使用模型 ${model} 生成嵌入向量...`);
   const embeddings = await generateEmbeddings(skills, apiKey, apiBase, model, zhDescs);
 
-  // 3. 获取维度信息
+  // 5. 获取维度信息
   const dimension = embeddings.length > 0 ? embeddings[0].embedding.length : 0;
 
-  // 4. 写入输出文件
+  // 6. 写入输出文件
   const output = {
     model,
     dimension,
