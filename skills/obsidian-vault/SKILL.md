@@ -3,7 +3,7 @@ name: obsidian-vault
 author: mattpocock
 upstream: mattpocock/skills
 upstreamPath: skills/personal/obsidian-vault
-upstreamSha: 7a83a3a682adf699f24dbc06613de87f4e52a0a0
+upstreamSha: 1445797da5ee4e4054233878c0029e9276f9986a
 lastUpdated: '2026-07-02T01:06:55.000Z'
 tags:
 - Knowledge
