@@ -3,7 +3,7 @@ name: ui-ux-pro-max
 author: nextlevelbuilder
 upstream: nextlevelbuilder/ui-ux-pro-max-skill
 upstreamPath: src/ui-ux-pro-max
-upstreamSha: d7e37dd3598de748a4ec789efc42cff0409a9ac0
+upstreamSha: 9ceab49a1c6e9bf23fa9ebc49ca7d4f0c6303a99
 lastUpdated: "2026-05-30T00:00:00.000Z"
 tags:
   - Content
