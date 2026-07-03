@@ -18,11 +18,27 @@ function col(color: keyof typeof c, text: string): string {
   return `${c[color]}${text}${c.reset}`;
 }
 
+/** 截断文本，在句号/逗号处断开，避免截断词 */
+function truncate(text: string, maxLen: number): string {
+  if (text.length <= maxLen) return text;
+  const truncated = text.slice(0, maxLen);
+  // 优先在句号处断开
+  const lastPeriod = Math.max(
+    truncated.lastIndexOf('。'),
+    truncated.lastIndexOf('. '),
+    truncated.lastIndexOf('，'),
+    truncated.lastIndexOf(', ')
+  );
+  return lastPeriod > maxLen * 0.5
+    ? truncated.slice(0, lastPeriod + 1) + ' …'
+    : truncated + '…';
+}
+
 export function printSkillCard(skill: NormalizedSkill, index?: number): void {
   const prefix = index !== undefined ? `${index}. ` : '';
   console.log(`${col('bold', `${prefix}${skill.id}`)}`);
   console.log(`   ${col('gray', '名称:')} ${skill.displayName}`);
-  console.log(`   ${col('gray', '描述:')} ${skill.description}`);
+  console.log(`   ${col('gray', '描述:')} ${truncate(skill.description, 120)}`);
   if (skill.tags.length > 0) {
     console.log(`   ${col('gray', '标签:')} [${skill.tags.join(', ')}]`);
   }

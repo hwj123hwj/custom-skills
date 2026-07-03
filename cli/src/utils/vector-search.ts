@@ -167,14 +167,16 @@ export function vectorSearch(
 /**
  * Reciprocal Rank Fusion (RRF) 融合关键词和向量两路结果
  *
- * RRF score = Σ 1/(k + rank_i)，k=60 是论文推荐值
+ * RRF score = Σ weight / (k + rank_i)
+ * k=30 降低衰减速度，让前排结果拉开差距
+ * keywordWeight=3.0 让关键词匹配优先级高于向量
  */
 function rrfMerge(
   keywordResults: SearchResult[],
   vectorResults: VectorSearchResult[],
-  keywordWeight = 1.0,
+  keywordWeight = 3.0,
   vectorWeight = 1.0,
-  k = 60,
+  k = 30,
   limit = 10
 ): SearchResult[] {
   const scoreMap = new Map<string, number>();
@@ -217,7 +219,7 @@ export async function hybridSearch(
     .sort((a, b) => b.score - a.score)
     .slice(0, limit * 2);
 
-  const vecResults = vectorSearch(skills, embeddings, queryVector, limit * 2);
+  const vecResults = vectorSearch(skills, embeddings, queryVector, Math.min(limit * 2, 15));
 
   // 关键词无结果时，直接返回向量结果（保留真实的余弦相似度分数）
   if (kwResults.length === 0) {
@@ -232,8 +234,8 @@ export async function hybridSearch(
     return kwResults.slice(0, limit);
   }
 
-  // 两路都有结果，用 RRF 融合
-  return rrfMerge(kwResults, vecResults, 1.0, 1.2, 60, limit);
+  // 两路都有结果，用 RRF 融合（关键词权重 3x，让精确匹配优先）
+  return rrfMerge(kwResults, vecResults, 3.0, 1.0, 30, limit);
 }
 
 // ─── 工具函数 ───────────────────────────────────────────────────────────────
