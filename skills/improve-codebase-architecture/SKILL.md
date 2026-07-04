@@ -3,7 +3,7 @@ name: improve-codebase-architecture
 author: mattpocock
 upstream: mattpocock/skills
 upstreamPath: skills/engineering/improve-codebase-architecture
-upstreamSha: 1445797da5ee4e4054233878c0029e9276f9986a
+upstreamSha: 272f99b22574f50e4266791c86b9302682970e23
 lastUpdated: "2026-06-25T17:00:00.000Z"
 tags:
   - Architecture
