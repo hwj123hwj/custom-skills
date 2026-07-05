@@ -3,6 +3,15 @@ import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import en from './locales/en.json';
 import zh from './locales/zh.json';
+import { generateCategoryTranslations } from '../config/tags.js';
+
+// 从 tags.ts 动态生成分类翻译
+const enCategories = generateCategoryTranslations('en');
+const zhCategories = generateCategoryTranslations('zh');
+
+// 合并到翻译文件
+en.skill = { ...en.skill, category: { ...en.skill?.category, ...enCategories } };
+zh.skill = { ...zh.skill, category: { ...zh.skill?.category, ...zhCategories } };
 
 i18n
   .use(LanguageDetector)

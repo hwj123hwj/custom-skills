@@ -1,53 +1,23 @@
 /**
  * Skill category definitions for the Skills tab filter UI.
  *
- * The individual tags are too granular for a filter bar.
- * These 5 high-level groups map to sets of tags for broad categorisation.
- *
- * Design principle: each group should have a clear, distinct "why you'd pick this"
- * so that the filter bar is useful for narrowing down results.
+ * 现在从 src/config/tags.ts 统一读取，不再单独维护。
  */
 
-export type SkillGroupId = 'design' | 'coding' | 'content' | 'platform' | 'knowledge' | 'product' | 'engineering';
+import { CATEGORIES, type CategoryId } from '../config/tags.js';
+
+export type SkillGroupId = CategoryId;
 
 export interface SkillCategoryDef {
   id: SkillGroupId;
   tags: string[];
 }
 
-export const SKILL_CATEGORIES: SkillCategoryDef[] = [
-  {
-    id: 'design',
-    tags: ['设计与前端开发', 'Design', 'Frontend', 'Animation', 'UX'],
-  },
-  {
-    id: 'coding',
-    tags: ['Coding', 'Testing', 'Debugging', 'Architecture', 'Security'],
-  },
-  {
-    id: 'content',
-    tags: ['Writing', 'Content', 'Media', 'Audio', 'Video'],
-  },
-  {
-    id: 'platform',
-    tags: ['Bilibili', 'WeChat', 'Weibo', 'Xiaohongshu', 'Social'],
-  },
-  {
-    id: 'knowledge',
-    tags: ['Knowledge', 'Search', 'Research', 'Web', 'Crawler', 'Education', 'Analysis'],
-  },
-  {
-    // Product & workflow: planning, management, ops, meta-tools
-    // Excludes generic tags (Productivity, Automation, CLI, Utility) to avoid becoming a catch-all
-    id: 'product',
-    tags: ['Product', 'Planning', 'LocalData', 'Forensics', 'Marketplace', 'Installer', 'Monitoring', 'Recruitment', 'Summary'],
-  },
-  {
-    // Matt Pocock's engineering skills: TDD, code review, debugging, planning, writing
-    id: 'engineering',
-    tags: ['Matt Pocock'],
-  },
-];
+/** 从 tags.ts 自动生成分类定义 */
+export const SKILL_CATEGORIES: SkillCategoryDef[] = CATEGORIES.map((cat) => ({
+  id: cat.id,
+  tags: cat.tags,
+}));
 
 /** Set of all tags that belong to a given category. */
 const categoryTagSets = new Map<SkillGroupId, Set<string>>(

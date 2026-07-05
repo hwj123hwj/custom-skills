@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
 import matter from 'gray-matter';
 import { buildReadmeContent } from './sync-readme.js';
+import { ALLOWED_TAGS } from '../src/config/tags.js';
 
 interface SkillRegistryItem {
   id: string;
@@ -30,63 +31,6 @@ const SKILLS_DIR = path.resolve(ROOT_DIR, 'skills');
 const REGISTRY_PATH = path.resolve(ROOT_DIR, 'registry/skills.json');
 const WEB_MIRROR_PATH = path.resolve(ROOT_DIR, 'web/src/data/skills-data.json');
 const README_PATH = path.resolve(ROOT_DIR, 'README.md');
-const ALLOWED_TAGS = new Set([
-  // General
-  'Analysis',
-  'Animation',
-  'Architecture',
-  'ASR',
-  'Audio',
-  'Automation',
-  'CLI',
-  'Coding',
-  'Content',
-  'Copywriting',
-  'Crawler',
-  'Debugging',
-  'Design',
-  'DevOps',
-  'Education',
-  'Forensics',
-  'Frontend',
-  'Installer',
-  'Knowledge',
-  'LocalData',
-  'Marketplace',
-  'Media',
-  'Mobile',
-  'Monitoring',
-  'Performance',
-  'Planning',
-  'Product',
-  'Productivity',
-  'Recruitment',
-  'Finance',
-  'Research',
-  'Reading',
-  'Search',
-  'Security',
-  'Social',
-  'Summary',
-  'Testing',
-  'Tools',
-  'UX',
-  'Utility',
-  'Video',
-  'Web',
-  'Workflow',
-  'Writing',
-  // Categories
-  '设计与前端开发',
-  // Sources
-  'Matt Pocock',
-  // Platforms
-  'Bilibili',
-  'Douyin',
-  'WeChat',
-  'Weibo',
-  'Xiaohongshu',
-]);
 
 function fail(message: string): never {
   console.error(`❌ ${message}`);
