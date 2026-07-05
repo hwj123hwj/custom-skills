@@ -33,6 +33,7 @@ const README_PATH = path.resolve(ROOT_DIR, 'README.md');
 const ALLOWED_TAGS = new Set([
   // General
   'Analysis',
+  'Animation',
   'Architecture',
   'ASR',
   'Audio',
@@ -43,9 +44,11 @@ const ALLOWED_TAGS = new Set([
   'Copywriting',
   'Crawler',
   'Debugging',
+  'Design',
   'DevOps',
   'Education',
   'Forensics',
+  'Frontend',
   'Installer',
   'Knowledge',
   'LocalData',
@@ -67,6 +70,7 @@ const ALLOWED_TAGS = new Set([
   'Summary',
   'Testing',
   'Tools',
+  'UX',
   'Utility',
   'Video',
   'Web',
