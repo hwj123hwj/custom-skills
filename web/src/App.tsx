@@ -307,6 +307,12 @@ function HomePage() {
                     onClick={() => { setActiveSkillCategory('all'); setShowFavorites(false); }}
                   />
                   <CategoryChip
+                    label={t('skill.category.design')}
+                    count={skillCategoryCounts['design']}
+                    active={activeSkillCategory === 'design' && !showFavorites}
+                    onClick={() => { setActiveSkillCategory('design'); setShowFavorites(false); }}
+                  />
+                  <CategoryChip
                     label={t('skill.category.coding')}
                     count={skillCategoryCounts['coding']}
                     active={activeSkillCategory === 'coding' && !showFavorites}

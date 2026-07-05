@@ -28,6 +28,7 @@
   "skill": {
     "category": {
       "all": "全部",
+      "design": "设计与前端开发",
       "coding": "编程开发",
       "content": "内容创作",
       "platform": "平台工具",

@@ -8,7 +8,7 @@
  * so that the filter bar is useful for narrowing down results.
  */
 
-export type SkillGroupId = 'coding' | 'content' | 'platform' | 'knowledge' | 'product' | 'engineering';
+export type SkillGroupId = 'design' | 'coding' | 'content' | 'platform' | 'knowledge' | 'product' | 'engineering';
 
 export interface SkillCategoryDef {
   id: SkillGroupId;
@@ -16,6 +16,10 @@ export interface SkillCategoryDef {
 }
 
 export const SKILL_CATEGORIES: SkillCategoryDef[] = [
+  {
+    id: 'design',
+    tags: ['设计与前端开发', 'Design', 'Frontend', 'Animation', 'UX'],
+  },
   {
     id: 'coding',
     tags: ['Coding', 'Testing', 'Debugging', 'Architecture', 'Security'],

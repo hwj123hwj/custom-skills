@@ -28,6 +28,7 @@
   "skill": {
     "category": {
       "all": "All",
+      "design": "Design & Frontend",
       "coding": "Coding",
       "content": "Content Creation",
       "platform": "Platforms",
