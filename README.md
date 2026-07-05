@@ -182,6 +182,7 @@ CI 会在每天 UTC 02:00 自动检查上游更新，如有变更会创建 PR。
 | [douyin-upload](./skills/douyin-upload) | 当你需要登录抖音账号、检查 Cookie、上传视频或发布图文时使用本技能。 |
 | [drawio-skill](./skills/drawio-skill) | Use when user requests diagrams, flowcharts, architecture charts, or visualizations. |
 | [edit-article](./skills/edit-article) | Edit and improve articles by restructuring sections, improving clarity, and tightening prose. |
+| [emil-design-eng](./skills/emil-design-eng) | This skill encodes Emil Kowalski's philosophy on UI polish, component design, animation decisions... |
 | [feishu-md-exporter](./skills/feishu-md-exporter) | Export Feishu/Lark docs or entire Drive folders to local Markdown using the official Open Platfor... |
 | [frontend-design](./skills/frontend-design) | Guidance for distinctive, intentional visual design when building new UI or reshaping an existing... |
 | [frontend-slides](./skills/frontend-slides) | Create stunning, animation-rich HTML presentations from scratch or by converting PowerPoint files. |
@@ -194,6 +195,7 @@ CI 会在每天 UTC 02:00 自动检查上游更新，如有变更会创建 PR。
 | [huashu-design](./skills/huashu-design) | 花叔Design（Huashu-Design）——用HTML做高保真原型、交互Demo、幻灯片、动画、设计变体探索+设计方向顾问+专家评审的一体化设计能力。 |
 | [huashu-nuwa](./skills/huashu-nuwa) | 女娲造人：输入人名/主题/甚至只是模糊需求，自动深度调研→思维框架提炼→生成可运行的人物Skill。 |
 | [image-provider](./skills/image-provider) | Unified image generation skill with pluggable providers (strategy pattern). |
+| [impeccable](./skills/impeccable) | Designs and iterates production-grade frontend interfaces. |
 | [implement](./skills/implement) | Implement a piece of work based on a PRD or set of issues. |
 | [improve-codebase-architecture](./skills/improve-codebase-architecture) | Find deepening opportunities in a codebase, informed by the domain language in CONTEXT.md and the... |
 | [knowledge-skill](./skills/knowledge-skill) | 个人知识流水线技能。 |
@@ -217,6 +219,7 @@ CI 会在每天 UTC 02:00 自动检查上游更新，如有变更会创建 PR。
 | [short-video-replicator](./skills/short-video-replicator) | 短视频爆款复刻一站式工具。 |
 | [stock-analysis](./skills/stock-analysis) | 股票智能分析技能。 |
 | [storage-analyzer](./skills/storage-analyzer) | macOS / Windows 只读存储分析助手（自动识别系统）。 |
+| [taste-skill](./skills/taste-skill) | Anti-slop frontend skill for landing pages, portfolios, and redesigns. |
 | [tavily](./skills/tavily) | Unified Tavily CLI skill — web search, URL extraction, and deep research via `tvly`. |
 | [tdd](./skills/tdd) | Test-driven development with red-green-refactor loop. |
 | [teach](./skills/teach) | Teach the user a new skill or concept, within this workspace. |
@@ -229,6 +232,7 @@ CI 会在每天 UTC 02:00 自动检查上游更新，如有变更会创建 PR。
 | [vertex-video-reader](./skills/vertex-video-reader) | Use this skill to read, analyze, and understand video files using Google Cloud Vertex AI's lightw... |
 | [video-analyze](./skills/video-analyze) | 当你需要分析视频内容（抽取关键帧、识别语音）时使用本技能。 |
 | [videocut](./skills/videocut) | 口播视频一站式剪辑 Skill。 |
+| [web-design-guidelines](./skills/web-design-guidelines) | Review UI code for Web Interface Guidelines compliance. |
 | [weibo-skill](./skills/weibo-skill) | 微博内容搜索、热搜查看、用户动态及评论读取。 |
 | [weread-skills](./skills/weread-skills) | 微信读书助手 — 搜索书籍、管理书架、查看笔记划线、浏览书评、阅读统计、发现推荐好书 |
 | [wizard](./skills/wizard) | Generate an interactive bash wizard that walks a human through a manual procedure — third-party s... |
