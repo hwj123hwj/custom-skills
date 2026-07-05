@@ -6,8 +6,7 @@ upstreamPath: skills/taste-skill
 upstreamSha: 06d6028b5c623016c59ce8536f578e5a1127b499
 lastUpdated: "2026-07-04T00:00:00.000Z"
 tags:
-  - Design
-  - Frontend
+  - 设计与前端开发
   - UX
 description: Anti-slop frontend skill for landing pages, portfolios, and redesigns. The agent reads the brief, infers the right design direction, and ships interfaces that do not look templated. Real design systems when applicable, audit-first on redesigns, strict pre-flight check.
 ---

@@ -6,8 +6,7 @@ upstreamPath: skills/emil-design-eng
 upstreamSha: 1274a0584c4fe9e94304a4e29094cefe5eb51dbe
 lastUpdated: "2026-07-04T00:00:00.000Z"
 tags:
-  - Design
-  - Frontend
+  - 设计与前端开发
   - Animation
 description: This skill encodes Emil Kowalski's philosophy on UI polish, component design, animation decisions, and the invisible details that make software feel great.
 ---

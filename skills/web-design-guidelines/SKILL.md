@@ -6,8 +6,7 @@ upstreamPath: skills/web-design-guidelines
 upstreamSha: f8a72b9603728bb92a217a879b7e62e43ad76c81
 lastUpdated: "2026-07-04T00:00:00.000Z"
 tags:
-  - Design
-  - Frontend
+  - 设计与前端开发
   - UX
 description: Review UI code for Web Interface Guidelines compliance. Use when asked to "review my UI", "check accessibility", "audit design", "review UX", or "check my site against best practices".
 metadata:

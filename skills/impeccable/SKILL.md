@@ -6,8 +6,7 @@ upstreamPath: skill
 upstreamSha: 582f23eae3c9ef4db71366e944b0555d65b7aacc
 lastUpdated: "2026-07-04T00:00:00.000Z"
 tags:
-  - Design
-  - Frontend
+  - 设计与前端开发
   - UX
 description: "Designs and iterates production-grade frontend interfaces. Real working code, committed design choices, exceptional craft. Covers websites, landing pages, dashboards, product UI, components, forms, and design systems."
 argument-hint: "[{{command_hint}}] [target]"

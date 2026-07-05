@@ -76,6 +76,8 @@ const ALLOWED_TAGS = new Set([
   'Web',
   'Workflow',
   'Writing',
+  // Categories
+  '设计与前端开发',
   // Sources
   'Matt Pocock',
   // Platforms

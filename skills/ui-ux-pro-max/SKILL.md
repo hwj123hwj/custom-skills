@@ -6,8 +6,8 @@ upstreamPath: src/ui-ux-pro-max
 upstreamSha: 4baa399d00da806f83ed93652172f66943205153
 lastUpdated: "2026-05-30T00:00:00.000Z"
 tags:
+  - 设计与前端开发
   - Content
-  - Utility
 description: "UI/UX design intelligence for web and mobile. Includes 50+ styles, 161 color palettes, 57 font pairings, 161 product types, 99 UX guidelines, and 25 chart types across 10 stacks (React, Next.js, Vue, Svelte, SwiftUI, React Native, Flutter, Tailwind, shadcn/ui, and HTML/CSS)."
 ---
 
