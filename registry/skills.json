@@ -1675,5 +1675,77 @@
     "sourcePath": "skills/xiaohongshu-cli",
     "lastUpdated": "2026-05-06T08:13:58.000Z",
     "author": "jackwener"
+  },
+  {
+    "id": "emil-design-eng",
+    "name": "emil-design-eng",
+    "displayName": "Design Engineering — Emil Kowalski",
+    "description": "Emil Kowalski's design engineering philosophy on UI polish, component design, animation decisions, and the invisible details that make software feel great.",
+    "emoji": "🎨",
+    "tags": [
+      "Design",
+      "Frontend",
+      "Animation"
+    ],
+    "sourcePath": "skills/emil-design-eng",
+    "lastUpdated": "2026-07-04T00:00:00.000Z",
+    "author": "emilkowalski",
+    "upstream": "emilkowalski/skills",
+    "upstreamPath": "skills/emil-design-eng",
+    "upstreamSha": "1274a0584c4fe9e94304a4e29094cefe5eb51dbe"
+  },
+  {
+    "id": "impeccable",
+    "name": "impeccable",
+    "displayName": "Impeccable — Production-Grade Frontend Design",
+    "description": "Designs and iterates production-grade frontend interfaces. Real working code, committed design choices, exceptional craft.",
+    "emoji": "🎨",
+    "tags": [
+      "Design",
+      "Frontend",
+      "UX"
+    ],
+    "sourcePath": "skills/impeccable",
+    "lastUpdated": "2026-07-04T00:00:00.000Z",
+    "author": "pbakaus",
+    "upstream": "pbakaus/impeccable",
+    "upstreamPath": "skill",
+    "upstreamSha": "582f23eae3c9ef4db71366e944b0555d65b7aacc"
+  },
+  {
+    "id": "taste-skill",
+    "name": "taste-skill",
+    "displayName": "Taste Skill — Anti-Slop Frontend Design",
+    "description": "Anti-slop frontend skill for landing pages, portfolios, and redesigns. Ships interfaces that do not look templated.",
+    "emoji": "🎨",
+    "tags": [
+      "Design",
+      "Frontend",
+      "UX"
+    ],
+    "sourcePath": "skills/taste-skill",
+    "lastUpdated": "2026-07-04T00:00:00.000Z",
+    "author": "Leonxlnx",
+    "upstream": "Leonxlnx/taste-skill",
+    "upstreamPath": "skills/taste-skill",
+    "upstreamSha": "06d6028b5c623016c59ce8536f578e5a1127b499"
+  },
+  {
+    "id": "web-design-guidelines",
+    "name": "web-design-guidelines",
+    "displayName": "Web Design Guidelines — Vercel",
+    "description": "Review UI code for Web Interface Guidelines compliance. Use when asked to 'review my UI', 'check accessibility', 'audit design', or 'review UX'.",
+    "emoji": "🎨",
+    "tags": [
+      "Design",
+      "Frontend",
+      "UX"
+    ],
+    "sourcePath": "skills/web-design-guidelines",
+    "lastUpdated": "2026-07-04T00:00:00.000Z",
+    "author": "vercel",
+    "upstream": "vercel-labs/agent-skills",
+    "upstreamPath": "skills/web-design-guidelines",
+    "upstreamSha": "f8a72b9603728bb92a217a879b7e62e43ad76c81"
   }
 ]
