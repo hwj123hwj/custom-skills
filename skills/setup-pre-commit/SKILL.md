@@ -3,7 +3,7 @@ name: setup-pre-commit
 author: mattpocock
 upstream: mattpocock/skills
 upstreamPath: skills/misc/setup-pre-commit
-upstreamSha: 8515a080a74dbcf5019a1a78efc24b5fcafb36b8
+upstreamSha: d574778f94cf620fcc8ce741584093bc650a61d3
 lastUpdated: '2026-07-02T01:06:55.000Z'
 tags:
 - DevOps

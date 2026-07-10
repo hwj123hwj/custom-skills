@@ -3,7 +3,7 @@ name: impeccable
 author: pbakaus
 upstream: pbakaus/impeccable
 upstreamPath: skill
-upstreamSha: a5310c9cdae4df011ad9b56de807484250977e9a
+upstreamSha: da99645a58400ed7acb201e6904f9413efd89c6e
 lastUpdated: "2026-07-04T00:00:00.000Z"
 tags:
   - 设计与前端开发
