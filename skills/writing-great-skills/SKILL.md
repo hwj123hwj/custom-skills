@@ -3,7 +3,7 @@ name: writing-great-skills
 author: mattpocock
 upstream: mattpocock/skills
 upstreamPath: skills/productivity/writing-great-skills
-upstreamSha: d574778f94cf620fcc8ce741584093bc650a61d3
+upstreamSha: 391a2701dd948f94f56a39f7533f8eea9a859c87
 lastUpdated: '2026-07-02T01:06:55.000Z'
 tags:
 - Writing

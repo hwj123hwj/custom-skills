@@ -5,7 +5,7 @@ license: MIT
 author: Callstack
 upstream: callstackincubator/agent-skills
 upstreamPath: skills/react-native-best-practices
-upstreamSha: 41879f383b615642fa0f9332d6446778135065c1
+upstreamSha: f6b87e35a35cc300c71331b89af2ac3d9b48a193
 tags:
   - Mobile
   - Coding
