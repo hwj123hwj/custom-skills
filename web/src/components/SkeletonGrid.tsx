@@ -140,12 +140,13 @@ export function DeckCardSkeleton() {
   );
 }
 
-export function SkeletonGrid({ type }: { type: 'skills' | 'agents' | 'stories' | 'decks' }) {
+export function SkeletonGrid({ type }: { type: 'skills' | 'agents' | 'stories' | 'decks' | 'prompts' }) {
   const SkeletonCard = {
     skills: SkillCardSkeleton,
     agents: AgentCardSkeleton,
     stories: StoryCardSkeleton,
     decks: DeckCardSkeleton,
+    prompts: SkillCardSkeleton,  // Prompts use similar card layout to skills
   }[type];
 
   return (

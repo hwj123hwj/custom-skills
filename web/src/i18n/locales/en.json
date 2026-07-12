@@ -13,17 +13,29 @@
     "placeholder_agents": "Search agents...",
     "placeholder_stories": "Search stories, problems, or evolution notes...",
     "placeholder_decks": "Search decks, themes, or tags...",
+    "placeholder_prompts": "Search prompts...",
     "no_results_skills": "No skills found matching \"{{query}}\"",
     "no_results_agents": "No agents found matching \"{{query}}\"",
     "no_results_stories": "No stories found matching \"{{query}}\"",
     "no_results_decks": "No decks found matching \"{{query}}\"",
+    "no_results_prompts": "No prompts found matching \"{{query}}\"",
     "clear": "Clear search"
   },
   "tab": {
     "skills": "Skills",
     "agents": "Agents",
     "stories": "Stories",
-    "decks": "Decks"
+    "decks": "Decks",
+    "prompts": "Prompts"
+  },
+  "prompt": {
+    "banner_title": "Prompt Library",
+    "banner_description": "Curated high-quality prompts, ready to copy with one click. Covers coding, writing, design, and more.",
+    "copy": "Copy",
+    "copy_all": "Copy Prompt",
+    "copied": "Copied!",
+    "prompt_content": "Prompt Content",
+    "author": "Author"
   },
   "skill": {
     "category": {

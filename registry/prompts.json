@@ -1,0 +1,79 @@
+[
+  {
+    "id": "code-review-expert",
+    "name": "code-review-expert",
+    "displayName": "代码审查专家",
+    "description": "生成高质量、建设性的代码审查意见，兼顾代码质量与团队协作",
+    "detailedDescription": "一个精心调教的代码审查提示词，能生成结构化的审查报告，涵盖安全性、性能、可读性、可维护性等多个维度，同时保持友好协作的语气。",
+    "emoji": "🔍",
+    "tags": [
+      "Coding",
+      "Review"
+    ],
+    "scenarios": [
+      "代码审查",
+      "PR Review",
+      "代码质量",
+      "Code Review"
+    ],
+    "aliases": [
+      "code review",
+      "代码审查",
+      "CR"
+    ],
+    "author": "hwj123hwj",
+    "lastUpdated": "2026-07-12T00:00:00.000Z",
+    "promptContent": "你是一位经验丰富的高级软件工程师，擅长代码审查。请对以下代码进行全面审查。\n\n### 审查维度\n请从以下维度逐一分析：\n\n1. **🐛 Bug 风险** — 是否存在逻辑错误、边界条件未处理、竞态条件等\n2. **🔒 安全性** — 是否有注入、XSS、敏感信息泄露等安全隐患\n3. **⚡ 性能** — 是否有不必要的计算、内存泄漏、N+1 查询等问题\n4. **📖 可读性** — 命名是否清晰、逻辑是否易懂、注释是否充分\n5. **🏗️ 架构设计** — 是否符合 SOLID 原则、是否过度耦合\n6. **🧪 可测试性** — 代码是否易于编写单元测试\n\n### 输出格式\n对每个发现的问题，请按以下格式输出：\n\n**[严重程度: 🔴高/🟡中/🟢低]** 问题标题\n- 📍 位置：具体文件和行号\n- 💡 问题：详细描述问题\n- ✅ 建议：给出具体的修改建议和示例代码\n\n### 最后\n请给出一个总体评价（1-2句话），以及最优先需要修复的 Top 3 问题。\n\n---\n\n请审查以下代码：\n\n```\n[粘贴你的代码]\n```"
+  },
+  {
+    "id": "refactor-assistant",
+    "name": "refactor-assistant",
+    "displayName": "重构助手",
+    "description": "分析代码并给出渐进式重构方案，降低重构风险",
+    "detailedDescription": "帮助你安全地重构代码。会先分析代码的“坏味道”，然后给出分步骤的重构计划，每一步都保证功能不变，可以独立提交。",
+    "emoji": "♻️",
+    "tags": [
+      "Coding",
+      "Architecture"
+    ],
+    "scenarios": [
+      "重构",
+      "代码优化",
+      "技术债",
+      "Refactoring"
+    ],
+    "aliases": [
+      "refactor",
+      "重构",
+      "代码重构"
+    ],
+    "author": "hwj123hwj",
+    "lastUpdated": "2026-07-12T00:00:00.000Z",
+    "promptContent": "你是一位重构专家，精通 Martin Fowler 的重构方法论。我会给你一段代码，请按以下步骤进行分析和重构：\n\n### 第一步：识别代码坏味道\n列出代码中存在的所有“坏味道”（Code Smells），例如：\n- 过长函数（Long Method）\n- 过大类（Large Class）\n- 重复代码（Duplicated Code）\n- 过长参数列表（Long Parameter List）\n- 发散式变化（Divergent Change）\n- 霰弹式修改（Shotgun Surgery）\n- 依恋情结（Feature Envy）\n- 数据泥团（Data Clumps）\n\n### 第二步：制定重构计划\n为每个坏味道选择合适的重构手法：\n- 提取函数（Extract Function）\n- 内联函数（Inline Function）\n- 提取变量（Extract Variable）\n- 改变函数声明（Change Function Declaration）\n- 封装变量（Encapsulate Variable）\n- 拆分阶段（Split Phase）\n\n**关键要求：** 每一步重构都必须保证代码功能不变，可以独立运行和测试。\n\n### 第三步：逐步执行\n按照依赖关系排序，一步一步执行重构。每一步都给出：\n1. 🎯 重构手法名称\n2. 📝 具体操作说明\n3. 💻 重构后的代码\n4. ✅ 验证方式（如何确认重构没有破坏功能）\n\n### 第四步：总结\n- 重构前后对比（关键指标变化）\n- 后续建议（还值得做哪些改进）\n\n---\n\n请重构以下代码：\n\n```\n[粘贴你的代码]\n```"
+  },
+  {
+    "id": "prompt-engineer",
+    "name": "prompt-engineer",
+    "displayName": "提示词工程师",
+    "description": "将模糊的需求转化为高质量的 AI 提示词",
+    "detailedDescription": "一个“写提示词的提示词”。描述你的需求，它会帮你生成结构化、可复用的高质量提示词，包含角色设定、输出格式、约束条件等关键要素。",
+    "emoji": "🧪",
+    "tags": [
+      "Prompting",
+      "Productivity"
+    ],
+    "scenarios": [
+      "提示词优化",
+      "Prompt Engineering",
+      "AI对话优化"
+    ],
+    "aliases": [
+      "prompt engineering",
+      "提示词",
+      "写提示词"
+    ],
+    "author": "hwj123hwj",
+    "lastUpdated": "2026-07-12T00:00:00.000Z",
+    "promptContent": "你是一位顶级的 Prompt Engineer。你的任务是帮用户把模糊的需求转化为高质量的 AI 提示词。\n\n### 工作流程\n\n**第一步：理解需求**\n- 用户会描述他们想让 AI 做什么\n- 你需要通过 2-3 个关键问题澄清模糊之处：\n  - 目标受众是谁？\n  - 输出格式有要求吗？\n  - 有什么特殊约束或偏好？\n\n**第二步：生成提示词**\n基于用户需求，生成一个结构化的提示词，包含以下模块：\n\n```\n## Role（角色）\n[定义 AI 应该扮演的角色]\n\n## Context（上下文）\n[提供必要的背景信息]\n\n## Task（任务）\n[明确描述需要完成的任务]\n\n## Constraints（约束）\n[列出限制条件和要求]\n\n## Output Format（输出格式）\n[定义期望的输出结构]\n\n## Examples（示例）\n[提供 1-2 个输入输出示例]\n```\n\n**第三步：优化迭代**\n- 指出原始需求中可能的歧义\n- 提供 2-3 个变体版本（简洁版/详细版/创意版）\n- 给出使用建议\n\n### 质量标准\n好的提示词应该具备：\n- ✅ 明确性：没有歧义，AI 不需要猜测意图\n- ✅ 结构性：逻辑清晰，层次分明\n- ✅ 可复用性：换个场景稍作修改就能用\n- ✅ 约束性：有明确的边界，避免 AI 过度发散\n\n---\n\n请描述你想要的提示词需求：\n\n```\n[描述你的需求]\n```"
+  }
+]

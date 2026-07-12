@@ -6,6 +6,7 @@ import { SkillCard } from './components/SkillCard'
 import { AgentCard } from './components/AgentCard'
 import { StoryCard } from './components/StoryCard'
 import { DeckCard } from './components/DeckCard'
+import { PromptCard } from './components/PromptCard'
 import { TabBar } from './components/TabBar'
 import { SkeletonGrid } from './components/SkeletonGrid'
 import { FavoritesBar } from './components/FavoritesBar'
@@ -13,6 +14,7 @@ import { SkillModal } from './components/SkillModal'
 import { AgentModal } from './components/AgentModal'
 import { StoryModal } from './components/StoryModal'
 import { DeckModal } from './components/DeckModal'
+import { PromptModal } from './components/PromptModal'
 import { useTheme } from './components/useTheme'
 import { useFavorites, useRecentViews } from './hooks/useFavorites'
 
@@ -25,15 +27,18 @@ import type { Skill } from './types/skill'
 import type { Agent } from './types/agent'
 import type { Story } from './types/story'
 import type { Deck } from './types/deck'
+import type { Prompt } from './types/prompt'
 import skillsData from './data/skills-data.json'
 import agentsData from './data/agents-data.json'
 import storiesData from './data/stories-data.json'
 import decksData from './data/decks-data.json'
+import promptsData from './data/prompts-data.json'
 import { Search, Copy, Check } from 'lucide-react'
 import { searchSkills } from './lib/search'
 import { searchAgents } from './lib/agent-search'
 import { searchStories } from './lib/story-search'
 import { searchDecks } from './lib/deck-search'
+import { searchPrompts } from './lib/prompt-search'
 import { generateOnboardingSnippet } from './lib/generate-snippet'
 import { CategoryChip } from './components/CategoryChip'
 import { countSkillsByCategory, filterSkillsByCategory } from './lib/skill-categories'
@@ -43,13 +48,15 @@ const skills = skillsData as Skill[]
 const agents = agentsData as Agent[]
 const stories = storiesData as Story[]
 const decks = decksData as Deck[]
+const prompts = promptsData as Prompt[]
 
 function HomePage() {
   const { t, i18n } = useTranslation()
   const navigate = useNavigate()
   type DeckCategory = Deck['category']
 
-  const [activeTab, setActiveTab] = useState<'skills' | 'agents' | 'stories' | 'decks'>('skills')
+  type TabType = 'skills' | 'agents' | 'stories' | 'decks' | 'prompts'
+  const [activeTab, setActiveTab] = useState<TabType>('skills')
   const [searchQuery, setSearchQuery] = useState('')
   const [activeSkillCategory, setActiveSkillCategory] = useState<'all' | SkillGroupId>('all')
   const [activeDeckCategory, setActiveDeckCategory] = useState<'all' | DeckCategory>('all')
@@ -62,6 +69,7 @@ function HomePage() {
   const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null)
   const [selectedStory, setSelectedStory] = useState<Story | null>(null)
   const [selectedDeck, setSelectedDeck] = useState<Deck | null>(null)
+  const [selectedPrompt, setSelectedPrompt] = useState<Prompt | null>(null)
 
   const { isFavorite, toggleFavorite } = useFavorites()
   const { addRecent } = useRecentViews()
@@ -133,6 +141,19 @@ function HomePage() {
     return searchDecks(result, searchQuery).map((r) => r.deck)
   }, [searchQuery, activeDeckCategory, showFavorites, isFavorite])
 
+  const filteredPrompts = useMemo(() => {
+    let result = [...prompts] as Prompt[]
+    if (showFavorites) {
+      result = result.filter((p) => isFavorite(p.id))
+    }
+    if (!searchQuery.trim()) {
+      return result.sort(
+        (a, b) => new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime()
+      )
+    }
+    return searchPrompts(result, searchQuery).map((r) => r.prompt)
+  }, [searchQuery, showFavorites, isFavorite])
+
   const deckCategoryCounts = useMemo(() => {
     const counts = {
       'knowledge-cards': 0,
@@ -147,7 +168,7 @@ function HomePage() {
     return counts
   }, [])
 
-  const handleTabChange = (tab: 'skills' | 'agents' | 'stories' | 'decks') => {
+  const handleTabChange = (tab: 'skills' | 'agents' | 'stories' | 'decks' | 'prompts') => {
     setActiveTab(tab)
     setSearchQuery('')
     setShowFavorites(false)
@@ -183,6 +204,11 @@ function HomePage() {
     setSelectedDeck(deck)
   }
 
+  const handlePromptClick = (prompt: Prompt) => {
+    addRecent(prompt.id)
+    setSelectedPrompt(prompt)
+  }
+
   const placeholder = t(
     activeTab === 'skills'
       ? 'search.placeholder_skills'
@@ -190,7 +216,9 @@ function HomePage() {
         ? 'search.placeholder_agents'
         : activeTab === 'stories'
           ? 'search.placeholder_stories'
-          : 'search.placeholder_decks'
+          : activeTab === 'decks'
+            ? 'search.placeholder_decks'
+            : 'search.placeholder_prompts'
   )
 
   return (
@@ -288,6 +316,7 @@ function HomePage() {
         agentCount={agents.length}
         storyCount={stories.length}
         deckCount={decks.length}
+        promptCount={prompts.length}
         onTabChange={handleTabChange}
       />
 
@@ -444,6 +473,76 @@ function HomePage() {
             </>
           )}
 
+          {activeTab === 'prompts' && (
+            <>
+              <div className="max-w-3xl mx-auto mb-6 sm:mb-8">
+                <div
+                  className="rounded-2xl p-4 sm:p-5"
+                  style={{ background: 'var(--bg-card)', border: '1px solid var(--border-default)' }}
+                >
+                  <h3
+                    className="text-sm font-semibold mb-2"
+                    style={{ color: 'var(--text-primary)' }}
+                  >
+                    {t('prompt.banner_title', { defaultValue: '提示词库' })}
+                  </h3>
+                  <p
+                    className="text-sm leading-relaxed"
+                    style={{ color: 'var(--text-secondary)' }}
+                  >
+                    {t('prompt.banner_description', {
+                      defaultValue:
+                        '精心收集的高质量提示词，一键复制即可使用。涵盖编程、写作、设计等多种场景。',
+                    })}
+                  </p>
+                </div>
+              </div>
+
+              <div className="max-w-4xl mx-auto mb-6 sm:mb-8 flex justify-center">
+                <FavoritesBar
+                  favoriteCount={prompts.filter((p) => isFavorite(p.id)).length}
+                  showFavorites={showFavorites}
+                  onToggleFavorites={() => setShowFavorites(!showFavorites)}
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 justify-items-center">
+                {filteredPrompts.map((prompt) => (
+                  <PromptCard
+                    key={prompt.id}
+                    prompt={prompt}
+                    onClick={handlePromptClick}
+                    isFavorite={isFavorite(prompt.id)}
+                    onToggleFavorite={toggleFavorite}
+                  />
+                ))}
+              </div>
+              {filteredPrompts.length === 0 && (
+                <div className="text-center py-20">
+                  <p className="text-lg" style={{ color: 'var(--text-muted)' }}>
+                    {showFavorites
+                      ? t('favorites.empty_prompts', {
+                          defaultValue: 'No favorite prompts yet.',
+                        })
+                      : t('search.no_results_prompts', {
+                          defaultValue: 'No prompts found for "{query}"',
+                          query: searchQuery,
+                        })}
+                  </p>
+                  {!showFavorites && (
+                    <button
+                      onClick={() => setSearchQuery('')}
+                      className="mt-4 font-medium transition-colors"
+                      style={{ color: 'var(--accent)' }}
+                    >
+                      {t('search.clear')}
+                    </button>
+                  )}
+                </div>
+              )}
+            </>
+          )}
+
           {activeTab === 'decks' && (
             <>
               <div className="max-w-4xl mx-auto mb-6 sm:mb-8">
@@ -533,6 +632,11 @@ function HomePage() {
         isOpen={!!selectedDeck}
         onClose={() => setSelectedDeck(null)}
         onViewDetail={selectedDeck ? () => navigate(`/deck/${selectedDeck.id}`) : undefined}
+      />
+      <PromptModal
+        prompt={selectedPrompt}
+        isOpen={!!selectedPrompt}
+        onClose={() => setSelectedPrompt(null)}
       />
     </>
   )
