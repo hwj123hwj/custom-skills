@@ -3,7 +3,7 @@ name: diagnose
 author: mattpocock
 upstream: mattpocock/skills
 upstreamPath: skills/engineering/diagnosing-bugs
-upstreamSha: 391a2701dd948f94f56a39f7533f8eea9a859c87
+upstreamSha: 66898f60e8c744e269f8ce06c2b2b99ce7660d5f
 lastUpdated: "2026-06-25T17:00:00.000Z"
 tags:
   - Debugging
