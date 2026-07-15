@@ -3,7 +3,7 @@ name: scaffold-exercises
 author: mattpocock
 upstream: mattpocock/skills
 upstreamPath: skills/misc/scaffold-exercises
-upstreamSha: 66898f60e8c744e269f8ce06c2b2b99ce7660d5f
+upstreamSha: e9fcdf95b402d360f90f1db8d776d5dd450f9234
 lastUpdated: '2026-07-02T01:06:55.000Z'
 tags:
 - Coding

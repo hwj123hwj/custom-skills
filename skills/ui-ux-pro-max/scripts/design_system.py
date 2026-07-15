@@ -7,10 +7,12 @@ to generate comprehensive design system recommendations.
 Usage:
     from design_system import generate_design_system
     result = generate_design_system("SaaS dashboard", "My Project")
-    
+    print(result["text"])
+
     # With persistence (Master + Overrides pattern)
-    result = generate_design_system("SaaS dashboard", "My Project", persist=True)
-    result = generate_design_system("SaaS dashboard", "My Project", persist=True, page="dashboard")
+    result = generate_design_system("SaaS dashboard", "My Project", persist=True, output_dir="/path/to/project")
+    result["persistence"]  # {"status": "success"|"skipped_exists", "created_files": [...], ...}
+    result = generate_design_system("SaaS dashboard", "My Project", persist=True, page="dashboard", output_dir="/path/to/project")
 """
 
 import csv
@@ -665,7 +667,8 @@ def format_markdown(design_system: dict) -> str:
 # ============ MAIN ENTRY POINT ============
 def generate_design_system(query: str, project_name: str = None, output_format: str = "ascii",
                            persist: bool = False, page: str = None, output_dir: str = None,
-                           variance: int = None, motion: int = None, density: int = None) -> str:
+                           variance: int = None, motion: int = None, density: int = None,
+                           force: bool = False) -> dict:
     """
     Main entry point for design system generation.
 
@@ -679,20 +682,28 @@ def generate_design_system(query: str, project_name: str = None, output_format: 
         variance: Optional 1-10 DESIGN_VARIANCE dial (1=centered/minimal, 10=bold/asymmetric)
         motion: Optional 1-10 MOTION_INTENSITY dial, pulls a matching GSAP snippet from motion.csv
         density: Optional 1-10 VISUAL_DENSITY dial, overrides the spacing scale (1=spacious, 10=dense)
+        force: If True, overwrite an existing MASTER.md; otherwise persistence
+               is skipped (with a status message) when one already exists
 
     Returns:
-        Formatted design system string
+        dict with keys: "text" (formatted design system string), "design_system"
+        (raw dict, useful for --json callers), and "persistence" (result of
+        persist_design_system(), or None if persist=False)
     """
     generator = DesignSystemGenerator()
     design_system = generator.generate(query, project_name, variance=variance, motion=motion, density=density)
 
-    # Persist to files if requested
+    persistence_result = None
     if persist:
-        persist_design_system(design_system, page, output_dir, query)
+        persistence_result = persist_design_system(design_system, page, output_dir, query, force=force)
 
-    if output_format == "markdown":
-        return format_markdown(design_system)
-    return format_ascii_box(design_system)
+    text = format_markdown(design_system) if output_format == "markdown" else format_ascii_box(design_system)
+
+    return {
+        "text": text,
+        "design_system": design_system,
+        "persistence": persistence_result,
+    }
 
 
 # ============ PERSISTENCE FUNCTIONS ============
@@ -707,42 +718,61 @@ def safe_slug(name, fallback: str = "default") -> str:
     return slug or fallback
 
 
-def persist_design_system(design_system: dict, page: str = None, output_dir: str = None, page_query: str = None) -> dict:
+def persist_design_system(design_system: dict, page: str = None, output_dir: str = None,
+                           page_query: str = None, force: bool = False) -> dict:
     """
     Persist design system to design-system/<project>/ folder using Master + Overrides pattern.
-    
+
     Args:
         design_system: The generated design system dictionary
         page: Optional page name for page-specific override file
         output_dir: Optional output directory (defaults to current working directory)
         page_query: Optional query string for intelligent page override generation
-    
+        force: If True, overwrite an existing MASTER.md. If False (default) and
+               MASTER.md already exists, persistence is skipped so prior design
+               decisions aren't silently discarded.
+
     Returns:
-        dict with created file paths and status
+        dict with created file paths and status. status is "skipped_exists" if
+        MASTER.md already existed and force was not set.
     """
     base_dir = Path(output_dir) if output_dir else Path.cwd()
-    
+
     # Use project name for project-specific folder. Coalesce falsy values
-    # (missing key, explicit None, or "") so slugification can't crash.
-    project_slug = safe_slug(design_system.get("project_name") or "default")
-    
+    # (missing key, explicit None, or "") so the .lower() below can't crash.
+    project_name = design_system.get("project_name") or "default"
+    project_slug = safe_slug(project_name)
+
     design_system_dir = base_dir / "design-system" / project_slug
     pages_dir = design_system_dir / "pages"
-    
+
+    master_file = design_system_dir / "MASTER.md"
+
+    if master_file.exists() and not force:
+        return {
+            "status": "skipped_exists",
+            "design_system_dir": str(design_system_dir),
+            "master_file": str(master_file),
+            "created_files": [],
+            "message": (
+                f"{master_file} already exists and was not modified. "
+                "Read it first to check for prior design decisions, then "
+                "re-run with force=True / --force to overwrite."
+            ),
+        }
+
     created_files = []
-    
+
     # Create directories
     design_system_dir.mkdir(parents=True, exist_ok=True)
     pages_dir.mkdir(parents=True, exist_ok=True)
-    
-    master_file = design_system_dir / "MASTER.md"
-    
+
     # Generate and write MASTER.md
     master_content = format_master_md(design_system)
     with open(master_file, 'w', encoding='utf-8') as f:
         f.write(master_content)
     created_files.append(str(master_file))
-    
+
     # If page is specified, create page override file with intelligent content
     if page:
         page_file = pages_dir / f"{safe_slug(page, 'page')}.md"
@@ -750,10 +780,11 @@ def persist_design_system(design_system: dict, page: str = None, output_dir: str
         with open(page_file, 'w', encoding='utf-8') as f:
             f.write(page_content)
         created_files.append(str(page_file))
-    
+
     return {
         "status": "success",
         "design_system_dir": str(design_system_dir),
+        "master_file": str(master_file),
         "created_files": created_files
     }
 
@@ -1337,4 +1368,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     result = generate_design_system(args.query, args.project_name, args.format)
-    print(result)
+    print(result["text"])
