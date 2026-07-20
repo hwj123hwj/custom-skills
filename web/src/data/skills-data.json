@@ -709,7 +709,7 @@
     "author": "pbakaus",
     "upstream": "pbakaus/impeccable",
     "upstreamPath": "skill",
-    "upstreamSha": "e4ab5e24bdf5321b72163d2fbcbe6fa985c848ba"
+    "upstreamSha": "0a1e1f5ee35e58b2f4c39abfe18e331354119c92"
   },
   {
     "id": "implement",
@@ -1252,7 +1252,7 @@
     "author": "KKKHazix",
     "upstream": "KKKKhazix/khazix-skills",
     "upstreamPath": "storage-analyzer",
-    "upstreamSha": "5a963d91f772e0d4f6659c43a36876a74c468143"
+    "upstreamSha": "2b4a645cfdc894156ae347d897723562f719ce95"
   },
   {
     "id": "taste-skill",
@@ -1489,7 +1489,7 @@
     "author": "nextlevelbuilder",
     "upstream": "nextlevelbuilder/ui-ux-pro-max-skill",
     "upstreamPath": "src/ui-ux-pro-max",
-    "upstreamSha": "f8ac5e1266dba8354ea96e19994d9f4345e7ec31"
+    "upstreamSha": "b484e8338c25b9cea3a25981a992d2817188971a"
   },
   {
     "id": "vertex-video-reader",
