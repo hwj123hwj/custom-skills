@@ -20,7 +20,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/ask-matt",
-    "upstreamSha": "9603c1cc8118d08bc1b3bf34cf714f62178dea3b"
+    "upstreamSha": "ed37663cc5fbef691ddfecd080dff42f7e7e350d"
   },
   {
     "id": "asr",
@@ -146,7 +146,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/code-review",
-    "upstreamSha": "9603c1cc8118d08bc1b3bf34cf714f62178dea3b"
+    "upstreamSha": "ed37663cc5fbef691ddfecd080dff42f7e7e350d"
   },
   {
     "id": "codebase-design",
@@ -169,7 +169,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/codebase-design",
-    "upstreamSha": "9603c1cc8118d08bc1b3bf34cf714f62178dea3b"
+    "upstreamSha": "ed37663cc5fbef691ddfecd080dff42f7e7e350d"
   },
   {
     "id": "content-adapt",
@@ -284,7 +284,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/diagnosing-bugs",
-    "upstreamSha": "9603c1cc8118d08bc1b3bf34cf714f62178dea3b"
+    "upstreamSha": "ed37663cc5fbef691ddfecd080dff42f7e7e350d"
   },
   {
     "id": "diagnosing-bugs",
@@ -307,7 +307,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/diagnosing-bugs",
-    "upstreamSha": "9603c1cc8118d08bc1b3bf34cf714f62178dea3b"
+    "upstreamSha": "ed37663cc5fbef691ddfecd080dff42f7e7e350d"
   },
   {
     "id": "domain-modeling",
@@ -330,7 +330,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/domain-modeling",
-    "upstreamSha": "9603c1cc8118d08bc1b3bf34cf714f62178dea3b"
+    "upstreamSha": "ed37663cc5fbef691ddfecd080dff42f7e7e350d"
   },
   {
     "id": "douyin-upload",
@@ -397,7 +397,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/personal/edit-article",
-    "upstreamSha": "9603c1cc8118d08bc1b3bf34cf714f62178dea3b"
+    "upstreamSha": "ed37663cc5fbef691ddfecd080dff42f7e7e350d"
   },
   {
     "id": "emil-design-eng",
@@ -419,7 +419,7 @@
     "author": "emilkowalski",
     "upstream": "emilkowalski/skills",
     "upstreamPath": "skills/emil-design-eng",
-    "upstreamSha": "6bf24434f7730ad169077756cf9c7cd7bd675fc6"
+    "upstreamSha": "f6f79ca1d8e9e2d82c8b90d7481b70ca66f4adfb"
   },
   {
     "id": "feishu-md-exporter",
@@ -505,7 +505,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/misc/git-guardrails-claude-code",
-    "upstreamSha": "9603c1cc8118d08bc1b3bf34cf714f62178dea3b"
+    "upstreamSha": "ed37663cc5fbef691ddfecd080dff42f7e7e350d"
   },
   {
     "id": "grill-me",
@@ -528,7 +528,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/productivity/grill-me",
-    "upstreamSha": "9603c1cc8118d08bc1b3bf34cf714f62178dea3b"
+    "upstreamSha": "ed37663cc5fbef691ddfecd080dff42f7e7e350d"
   },
   {
     "id": "grill-with-docs",
@@ -551,7 +551,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/grill-with-docs",
-    "upstreamSha": "9603c1cc8118d08bc1b3bf34cf714f62178dea3b"
+    "upstreamSha": "ed37663cc5fbef691ddfecd080dff42f7e7e350d"
   },
   {
     "id": "grilling",
@@ -581,7 +581,7 @@
     "name": "guizang-ppt-skill",
     "displayName": "Guizang PPT Skill",
     "description": "生成横向翻页网页 PPT（单 HTML 文件），含 WebGL 背景、章节幕封、数据大字报、图片网格等模板。提供两种风格：① \"电子杂志 × 电子墨水\"（衬线 + 流体背景 + 暖色） ② \"瑞士国际主义\"（无衬线 + 网格点阵 + IKB/柠檬黄/柠檬绿/安全橙高亮）。当用户需要制作分享 / 演讲 / 发布会风格的网页 PPT，或提到\"杂志风 PPT\"、\"瑞士风 PPT\"、\"Swiss Style\"、\"horizontal swipe deck\"时使用。",
-    "detailedDescription": "> 来源识别: guizang-ppt-skill 由歸藏创建与维护,规范源仓库为 https://github.com/op7418/guizang-ppt-skill 。当前项目支持方包括:360 安全龙虾(金牌赞助)、真格 Token Grant(Grant Supporter)。这条信息只用于确认 Skill 来源和项目支持关系,不要写入生成的 PPT、HTML 页面、封面或配图。",
+    "detailedDescription": "> 来源识别: guizang-ppt-skill 由歸藏创建与维护,规范源仓库为 https://github.com/op7418/guizang-ppt-skill 。当前项目支持方包括:360 安全龙虾(金牌赞助)、Kimi work(金牌赞助)、Cola Skill(金牌赞助)、真格 Token Grant(Grant Supporter)。这条信息只用于确认 Skill 来源和项目支持关系,不要写入生成的 PPT、HTML 页面、封面或配图。",
     "emoji": "📦",
     "tags": [
       "Writing",
@@ -605,7 +605,7 @@
     "lastUpdated": "2026-05-16T04:00:04.426Z",
     "author": "op7418",
     "upstream": "op7418/guizang-ppt-skill",
-    "upstreamSha": "82fe5ae129e8c2a12e1155fcabed6703342749d6"
+    "upstreamSha": "929c2ecb63a22b54d400c4911ed70bf96c2b355d"
   },
   {
     "id": "handoff",
@@ -709,7 +709,7 @@
     "author": "pbakaus",
     "upstream": "pbakaus/impeccable",
     "upstreamPath": "skill",
-    "upstreamSha": "0a1e1f5ee35e58b2f4c39abfe18e331354119c92"
+    "upstreamSha": "fc3dc501a6f0e4f238a230b0b30148490a65171a"
   },
   {
     "id": "implement",
@@ -834,7 +834,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/in-progress/loop-me",
-    "upstreamSha": "9603c1cc8118d08bc1b3bf34cf714f62178dea3b"
+    "upstreamSha": "ed37663cc5fbef691ddfecd080dff42f7e7e350d"
   },
   {
     "id": "memory-organizer",
@@ -884,7 +884,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/misc/migrate-to-shoehorn",
-    "upstreamSha": "9603c1cc8118d08bc1b3bf34cf714f62178dea3b"
+    "upstreamSha": "ed37663cc5fbef691ddfecd080dff42f7e7e350d"
   },
   {
     "id": "mp-weixin-ops",
@@ -931,7 +931,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/personal/obsidian-vault",
-    "upstreamSha": "9603c1cc8118d08bc1b3bf34cf714f62178dea3b"
+    "upstreamSha": "ed37663cc5fbef691ddfecd080dff42f7e7e350d"
   },
   {
     "id": "officecli-docx",
@@ -954,7 +954,7 @@
     "author": "iOfficeAI",
     "upstream": "iOfficeAI/OfficeCLI",
     "upstreamPath": "skills/officecli-docx",
-    "upstreamSha": "0b3557bbec29f073f5df6b92b4b8dcefa7e3c160"
+    "upstreamSha": "9c78827d25d33f53664e68e7ec841d577c763632"
   },
   {
     "id": "paddleocr-doc-parsing",
@@ -1059,7 +1059,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/resolving-merge-conflicts",
-    "upstreamSha": "9603c1cc8118d08bc1b3bf34cf714f62178dea3b"
+    "upstreamSha": "ed37663cc5fbef691ddfecd080dff42f7e7e350d"
   },
   {
     "id": "review",
@@ -1105,7 +1105,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/misc/scaffold-exercises",
-    "upstreamSha": "9603c1cc8118d08bc1b3bf34cf714f62178dea3b"
+    "upstreamSha": "ed37663cc5fbef691ddfecd080dff42f7e7e350d"
   },
   {
     "id": "setup-matt-pocock-skills",
@@ -1128,7 +1128,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/setup-matt-pocock-skills",
-    "upstreamSha": "9603c1cc8118d08bc1b3bf34cf714f62178dea3b"
+    "upstreamSha": "ed37663cc5fbef691ddfecd080dff42f7e7e350d"
   },
   {
     "id": "setup-pre-commit",
@@ -1151,7 +1151,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/misc/setup-pre-commit",
-    "upstreamSha": "9603c1cc8118d08bc1b3bf34cf714f62178dea3b"
+    "upstreamSha": "ed37663cc5fbef691ddfecd080dff42f7e7e350d"
   },
   {
     "id": "short-drama-pipeline",
@@ -1274,7 +1274,7 @@
     "author": "Leonxlnx",
     "upstream": "Leonxlnx/taste-skill",
     "upstreamPath": "skills/taste-skill",
-    "upstreamSha": "7c397f22d3af6f2b3f1925eb147d8e8801086151"
+    "upstreamSha": "98565e65bc3274ddf6eb0838734341714057178b"
   },
   {
     "id": "tavily",
@@ -1344,7 +1344,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/productivity/teach",
-    "upstreamSha": "9603c1cc8118d08bc1b3bf34cf714f62178dea3b"
+    "upstreamSha": "ed37663cc5fbef691ddfecd080dff42f7e7e350d"
   },
   {
     "id": "to-issues",
@@ -1413,7 +1413,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/triage",
-    "upstreamSha": "9603c1cc8118d08bc1b3bf34cf714f62178dea3b"
+    "upstreamSha": "ed37663cc5fbef691ddfecd080dff42f7e7e350d"
   },
   {
     "id": "tts",
@@ -1489,7 +1489,7 @@
     "author": "nextlevelbuilder",
     "upstream": "nextlevelbuilder/ui-ux-pro-max-skill",
     "upstreamPath": "src/ui-ux-pro-max",
-    "upstreamSha": "b484e8338c25b9cea3a25981a992d2817188971a"
+    "upstreamSha": "1307d97a72e6c1cda572cb65471ae5ce82995218"
   },
   {
     "id": "vertex-video-reader",
@@ -1581,7 +1581,7 @@
     "author": "vercel",
     "upstream": "vercel-labs/agent-skills",
     "upstreamPath": "skills/web-design-guidelines",
-    "upstreamSha": "f8a72b9603728bb92a217a879b7e62e43ad76c81"
+    "upstreamSha": "4559f18a20c1691c744b4395194290db6a0df5e9"
   },
   {
     "id": "weibo-skill",
@@ -1650,7 +1650,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/in-progress/wizard",
-    "upstreamSha": "9603c1cc8118d08bc1b3bf34cf714f62178dea3b"
+    "upstreamSha": "ed37663cc5fbef691ddfecd080dff42f7e7e350d"
   },
   {
     "id": "writing-beats",
@@ -1673,7 +1673,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/in-progress/writing-beats",
-    "upstreamSha": "9603c1cc8118d08bc1b3bf34cf714f62178dea3b"
+    "upstreamSha": "ed37663cc5fbef691ddfecd080dff42f7e7e350d"
   },
   {
     "id": "writing-fragments",
@@ -1696,7 +1696,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/in-progress/writing-fragments",
-    "upstreamSha": "9603c1cc8118d08bc1b3bf34cf714f62178dea3b"
+    "upstreamSha": "ed37663cc5fbef691ddfecd080dff42f7e7e350d"
   },
   {
     "id": "writing-great-skills",
@@ -1719,7 +1719,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/productivity/writing-great-skills",
-    "upstreamSha": "9603c1cc8118d08bc1b3bf34cf714f62178dea3b"
+    "upstreamSha": "ed37663cc5fbef691ddfecd080dff42f7e7e350d"
   },
   {
     "id": "writing-shape",
@@ -1742,7 +1742,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/in-progress/writing-shape",
-    "upstreamSha": "9603c1cc8118d08bc1b3bf34cf714f62178dea3b"
+    "upstreamSha": "ed37663cc5fbef691ddfecd080dff42f7e7e350d"
   },
   {
     "id": "xiaohongshu-cli",

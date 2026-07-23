@@ -374,50 +374,6 @@
     padding:0 .05em
   }
 
-  /* ============ Pipeline / Step ============ */
-  .pipeline-section{margin-top:3.2vh;padding-top:2.2vh;border-top:1px solid rgba(127,127,127,.3)}
-  .pipeline-section:first-of-type{border-top:0;padding-top:0;margin-top:2.4vh}
-  .pipeline-label{
-    font-family:var(--mono);
-    font-size:max(14px,.84vw);
-    letter-spacing:.24em;text-transform:uppercase;
-    opacity:.6;margin-bottom:1.8vh;
-  }
-  .pipeline{
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    gap:1vw;
-  }
-  .pipeline[data-cols="3"]{grid-template-columns:repeat(3,1fr)}
-  .pipeline[data-cols="4"]{grid-template-columns:repeat(4,1fr)}
-  .pipeline[data-cols="6"]{grid-template-columns:repeat(6,1fr)}
-  .step{
-    display:flex;flex-direction:column;gap:.6vh;
-    padding-top:1.2vh;
-    border-top:2px solid currentColor;
-  }
-  .step.accent-top{border-top-color:var(--accent);border-top-width:3px}
-  .step-nb{
-    font-family:var(--mono);
-    font-weight:500;
-    font-size:max(14px,1vw);
-    opacity:.5;letter-spacing:.04em
-  }
-  .step-title{
-    font-family:var(--sans),var(--sans-zh);
-    font-weight:700;
-    font-size:1.4vw;
-    letter-spacing:-.01em;
-    line-height:1.2;
-  }
-  .step-desc{
-    font-family:var(--sans),var(--sans-zh);
-    font-weight:400;
-    font-size:max(16px,.94vw);
-    line-height:1.45;
-    opacity:.7;
-  }
-
   /* ============ 网格系统 (模块化网格) ============ */
   .frame{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden}
   .frame.grid-2-7-5,
@@ -594,7 +550,7 @@
   body.dark-bg #nav .dot{background:rgba(255,255,255,.32)}
   body.dark-bg #nav .dot.active{background:var(--accent)}
 
-  #hint{position:fixed;bottom:2.4vh;right:2.5vw;z-index:30;font-family:var(--mono);font-size:14px;letter-spacing:.14em;text-transform:uppercase;opacity:.4;color:var(--ink-tint, currentColor)}
+  #hint{position:fixed;bottom:2.4vh;right:2.5vw;z-index:30;font-family:var(--mono);font-size:14px;letter-spacing:.14em;text-transform:uppercase;opacity:.4}
   body.dark-bg #hint{color:var(--paper);opacity:.4}
   body.low-power #hint{color:var(--accent);opacity:.72}
   body.dark-bg.low-power #hint{color:var(--paper);opacity:.72}
@@ -616,7 +572,6 @@
   body.motion-ready [data-anim="left"]{transform:translateX(-24px)}
   body.motion-ready [data-anim="right"]{transform:translateX(24px)}
   body.motion-ready [data-anim="line"]{opacity:0;transform:translateY(10px)}
-  body.motion-ready [data-animate="pipeline"] [data-anim]{opacity:.15}
   body.low-power #deck{transition:none!important}
   body.low-power *,
   body.low-power *::before,
@@ -1176,7 +1131,6 @@
     .h-xl-zh{font-size:8vw}
     .kpi-hero{font-size:32vw}
     .kpi-big{font-size:16vw}
-    .pipeline{grid-template-columns:repeat(2,1fr)}
     .grid-2-7-5,.grid-2-6-6,.grid-2-8-4,.grid-2-4-8{grid-template-columns:1fr}
     .grid-12{grid-template-columns:repeat(6,1fr)}
   }
@@ -1560,7 +1514,6 @@ addEventListener('keydown',e=>{
   }
   if(overviewOn)return;
   if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '||e.key==='ArrowDown'){
-    if(window.__pipeAdvance && window.__pipeAdvance()) return;
     go(idx+1);
     return;
   }
@@ -1573,11 +1526,7 @@ let wheelTO=null,wheelAcc=0;
 addEventListener('wheel',e=>{
   wheelAcc+=e.deltaY+e.deltaX;
   if(Math.abs(wheelAcc)>50){
-    if(wheelAcc>0 && window.__pipeAdvance && window.__pipeAdvance()){
-      wheelAcc=0;
-    }else{
-      go(idx+(wheelAcc>0?1:-1));wheelAcc=0;
-    }
+    go(idx+(wheelAcc>0?1:-1));wheelAcc=0;
   }
   clearTimeout(wheelTO);wheelTO=setTimeout(()=>wheelAcc=0,150);
 },{passive:true});
@@ -1588,7 +1537,6 @@ addEventListener('touchend',e=>{
   const dx=(e.changedTouches[0].clientX-tx);
   const dy=(e.changedTouches[0].clientY-ty);
   if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)){
-    if(dx<0 && window.__pipeAdvance && window.__pipeAdvance()) return;
     go(idx+(dx<0?1:-1));
   }
 },{passive:true});
@@ -1611,7 +1559,6 @@ try {
   } catch(e2) {
     console.warn('[motion] local + CDN both failed, disabling animations', e1, e2);
     document.querySelectorAll('[data-anim]').forEach(el=>{el.style.opacity='1';el.style.transform='none'});
-    document.querySelectorAll('[data-animate="pipeline"] [data-anim]').forEach(el=>el.style.opacity='1');
   }
 }
 
@@ -1623,8 +1570,15 @@ if(motion){
      IBM Carbon Motion · 每个 recipe 服务一种表达
      不是一刀切的 stagger,而是把动效绑在内容语义上
      ============================================================ */
-  const EASE_PROD       = [.2, 0, .38, .9];
-  const EASE_ENTRY_EXP  = [0, 0, .3, 1];
+  /* 缓动从 :root 的 Carbon motion token 读取,CSS 是唯一事实源(硬编码仅作解析失败兜底) */
+  const cssEase = (name, fallback) => {
+    const v = getComputedStyle(document.documentElement).getPropertyValue(name);
+    const m = v && v.match(/cubic-bezier\(([^)]+)\)/);
+    const nums = m ? m[1].split(',').map(Number) : [];
+    return (nums.length === 4 && nums.every(Number.isFinite)) ? nums : fallback;
+  };
+  const EASE_PROD       = cssEase('--ease-prod',      [.2, 0, .38, .9]);
+  const EASE_ENTRY_EXP  = cssEase('--ease-entry-exp', [0, 0, .3, 1]);
 
   const slides = [...document.querySelectorAll('.slide')];
   let lastIdx = -1;
@@ -2305,7 +2259,6 @@ if(motion){
   }
 
   window.__playSlide = playSlide;
-  window.__pipeAdvance = ()=>false;  /* 当前 deck 不用 pipeline recipe */
 
   playSlide(window.__currentSlideIndex || 0);
 }

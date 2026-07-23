@@ -173,6 +173,13 @@ node <SKILL_ROOT>/scripts/validate-swiss-deck.mjs path/to/index.html
 
 **根因**:瑞士风的图片不是装饰,而是 grid 里的证据块。没有先选原始版式和图片槽位,就会把任意图片硬塞进页面。
 
+**先判断图像角色**:
+- 证据截图、UI、代码、dashboard:保真优先,关键文字和数据不能裁;需要统一比例时先做截图背景画布和 `.fit-contain`。
+- 已按槽位生成的信息图/插图:按 S22/S15/S16 的目标比例铺满,不要再缩成短小图片。
+- 照片/产品图/人物图:必须写清 `object-position`,主体不能被裁切、标题块或 caption 压住。
+- 文字压图:必须先判断是否有足够 quiet zone;没有低细节留白就不要把标题压在图上。
+- 多图组:统一比例、高度、容器样式和 caption 密度;视觉角色不同的图不要硬放同一组。
+
 **做法**:
 - 先选版式:单张大图 + KPI 用 `S22`;多图用 `S15/S16` 的原始网格骨架改造
 - S22 生成图比例固定 `21:9`,并在 `<img>` 上写 `data-image-slot="s22-hero-21x9"`
@@ -183,6 +190,8 @@ node <SKILL_ROOT>/scripts/validate-swiss-deck.mjs path/to/index.html
 - 用户原始截图要先读 `references/screenshot-framing.md`:优先用 `assets/screenshot-backgrounds/` 内置主题背景 + 程序化缩放/留边/对齐,不要为了比例统一就重画截图内容
 - 截图背景必须跟随当前主题色,且可裁成 `21:9` / `16:10` / `4:3` / `1:1`;背景里不能有标题、页脚、边框、logo、人物或明显主体
 - GPT-M 2.0 提示词必须写明:Swiss Style、单一 accent、直角、无渐变/阴影/圆角、无页眉页脚标题角标
+
+- 文字压图 / 全屏主视觉必须先做 quiet-zone 判断:至少约 30% 低细节区域可承载标题;不通过就换图、换裁切或改成图文分栏,不要整页套黑色/白色遮罩
 
 **自检命令**:
 - `grep -E "frame-img.*border-radius|box-shadow" index.html`——命中就删
@@ -206,6 +215,29 @@ node <SKILL_ROOT>/scripts/validate-swiss-deck.mjs path/to/index.html
 - 视觉:翻到该页,看最后一行 caption/label 是否明显高于分页组件
 - 代码:`grep -E "align-items:end|align-self:end|bottom:0|bottom:2vh|margin-top:auto" index.html`,命中后逐个确认是否有 nav safe zone
 
+### 0-D-3. 后验测量:先量超出和空白,再改版式
+
+**现象**:一页只超出 20-30px,但修的时候删掉大块内容,结果下方多出一大片空白;或者标题与正文贴在一起,肉眼检查时容易漏。
+
+**做法**:
+- 生成后运行 `node <SKILL_ROOT>/scripts/validate-swiss-deck.mjs path/to/index.html`
+- 如果环境里能解析到 Playwright,校验器会额外执行真实渲染测量:
+  - `M1 DOM/visual overflow`:量出超出多少 px,并指出最低/最高的问题元素
+  - `M1 bottom whitespace`:量出底部空白和 active content height,防止从"超出"修成"巨空"
+  - `M1 nav-safe`:量出最低内容是否进入底部分页安全线
+  - `M2 title gap`:量出标题到下一块内容的距离,防止标题和正文贴住
+
+**Overflow 修正阶梯**:
+- `1-40px` over:只做微调,上移内容组或收紧一个 gap/padding;不要删内容。
+- `40-90px` over:局部压缩 gap/padding 或降低一个模块高度;仍然优先保留内容。
+- `90-160px` over:轻微压标题或压缩一段正文,再考虑拆页。
+- `160px+` over:才考虑换更高容量版式、合并模块或删内容。
+
+**修完反查**:
+- 如果 `M1 bottom whitespace` 变大,说明修过头了;恢复部分间距、放大最后一块或把内容组向下回调。
+- 每轮只做一个档位的调整,重渲染后再跑 validator。
+- 不要靠多模态肉眼先猜;超出、底部空白和标题间距先看测量值。
+
 ---
 
 ### 0-E. Swiss 模板还原度守卫:原始 PPT 是 golden source
@@ -215,7 +247,7 @@ node <SKILL_ROOT>/scripts/validate-swiss-deck.mjs path/to/index.html
 **根因**:把新增图片版式或实验结构写成了全局样式修改,或无意改动了原始基座类,例如 `.h-hero` / `.h-xl` 字重、`.tl-node` 列宽、`.duo-compare` 间距。
 
 **做法**:
-- 原始参考文件 `/Users/guohao/Documents/op7418的仓库/项目/Thin-Harness-Fat-Skills/ppt/index.html` 是 Swiss 主题的 golden source,但要以**实际页面用法**为准,不要只看未使用的 CSS helper
+- 仓库内的 `assets/template-swiss.html` 是 Swiss 主题的 golden source 快照,但要以**实际页面用法**为准,不要只看未使用的 CSS helper
 - 原始页面的大标题大量使用 `font-weight:200`,强调词/数字用 `300`;`.h-hero` / `.h-xl` / `.h-hero-zh` / `.h-xl-zh` 在本模板里必须保持轻字重,不要恢复成 800/900
 - 除新增封面/封底 ASCII 机制、S22 图片槽位修复、横向时间线 label 居中修复、以及把标题 helper 校正为实际轻字重外,不要改动原始基座 CSS/JS recipe
 - 新增图片能力必须绑定到 S22/S15/S16 原始槽位,不要发明新正文结构

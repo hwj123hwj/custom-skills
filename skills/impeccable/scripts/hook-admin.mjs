@@ -47,6 +47,26 @@ const IMPECCABLE_HOOK_COMMAND_MARKERS = [
 ];
 const TIMEOUT_SECONDS = 5;
 const STATUS_MESSAGE = 'Checking UI changes';
+// The Stop deep pass scans every UI file touched in the session with the full
+// rule set, so it gets a longer budget than the per-edit pass. Only Claude
+// Code and Codex dispatch a native Stop hook event, so only those manifests
+// carry the entry. Keep these shapes in sync with
+// scripts/lib/transformers/hooks.js in the repo.
+const STOP_TIMEOUT_SECONDS = 30;
+const STOP_STATUS_MESSAGE = 'Design deep pass';
+
+function stopManifestEntry(command) {
+  return {
+    hooks: [
+      {
+        type: 'command',
+        command,
+        timeout: STOP_TIMEOUT_SECONDS,
+        statusMessage: STOP_STATUS_MESSAGE,
+      },
+    ],
+  };
+}
 
 const HOOK_MANIFEST_TARGETS = [
   {
@@ -55,7 +75,7 @@ const HOOK_MANIFEST_TARGETS = [
     destRel: '.claude/settings.local.json',
     sharedDestRel: '.claude/settings.json',
     manifest: () => ({
-      description: 'Impeccable design detector: runs after Edit/Write/MultiEdit on UI files and surfaces findings as system reminders.',
+      description: 'Impeccable design detector: immediate-tier checks after Edit/Write/MultiEdit on UI files, full-rule deep pass on Stop.',
       hooks: {
         PostToolUse: [
           {
@@ -70,6 +90,7 @@ const HOOK_MANIFEST_TARGETS = [
             ],
           },
         ],
+        Stop: [stopManifestEntry('node "${CLAUDE_PROJECT_DIR}/.claude/skills/impeccable/scripts/hook.mjs"')],
       },
     }),
   },
@@ -92,6 +113,7 @@ const HOOK_MANIFEST_TARGETS = [
             ],
           },
         ],
+        Stop: [stopManifestEntry('node ".agents/skills/impeccable/scripts/hook.mjs"')],
       },
     }),
   },
