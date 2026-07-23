@@ -4,9 +4,7 @@
 
 ## Golden Source
 
-原始参考文件:
-
-`/Users/guohao/Documents/op7418的仓库/项目/Thin-Harness-Fat-Skills/ppt/index.html`
+版式基准是仓库内的 `assets/template-swiss.html`(由作者原始参考 PPT 派生;原始文件不随仓库分发,本文件登记的 S01-S22 即其版式快照)。
 
 瑞士主题生成时,除用户明确要求实验版式外,只能从下面登记的 22 个版式中选择。新增首页/尾页可以使用 Skill 里的 IKB ASCII 版本,但正文页必须来自这 22 个版式。
 

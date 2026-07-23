@@ -230,12 +230,12 @@ layouts.md 使用的所有类（`h-hero` / `h-xl` / `h-sub` / `h-md` / `lead` / 
     <div>过去 64 天 · 开发篇</div>
     <div>Act I / Dev · 02 / 25</div>
   </div>
-  <div class="frame" style="padding-top:6vh">
+  <div class="frame" style="padding-top:3vh">
     <div class="kicker" data-anim>一个人，做了什么。</div>
     <h2 class="h-xl" data-anim>过去 64 天</h2>
-    <p class="lead" style="margin-bottom:5vh" data-anim>从 0 到开源 CodePilot。</p>
+    <p class="lead" style="margin-bottom:2vh" data-anim>从 0 到开源 CodePilot。</p>
 
-    <div class="grid-6" style="margin-top:6vh">
+    <div class="grid-6" style="margin-top:2vh">
       <div class="stat-card" data-anim>
         <div class="stat-label">Duration</div>
         <div class="stat-nb">64 <span class="stat-unit">天</span></div>
@@ -279,7 +279,7 @@ layouts.md 使用的所有类（`h-hero` / `h-xl` / `h-sub` / `h-md` / `lead` / 
 - 3×2 或 4×2 网格最稳（见 `.grid-6`）
 - 每个 `stat-card` 结构固定：label（英文小字）→ nb（大字数字）→ note（注释）
 - 数字建议 2-3 位字符（太长会溢出），用 K / M 简写
-- 留 5vh 以上的上方缓冲，让标题区先抢眼球
+- **间距不要再加大**：骨架默认 `padding-top:3vh` + lead `margin-bottom:2vh` + grid `margin-top:2vh` 是 3×2 网格在 16:9 屏不压 foot 的实测上限;内容更多时先删卡片,不要压缩 foot 空间
 
 ---
 
@@ -338,11 +338,11 @@ layouts.md 使用的所有类（`h-hero` / `h-xl` / `h-sub` / `h-md` / `lead` / 
     <div>平台粉丝实证</div>
     <div>Act I / Ops · 05 / 27</div>
   </div>
-  <div class="frame" style="padding-top:5vh">
+  <div class="frame" style="padding-top:3vh">
     <div class="kicker" data-anim>Proof · 粉丝实证</div>
     <h2 class="h-xl" data-anim>10 个平台 · 6 张截图</h2>
 
-    <div class="grid-3-3" style="margin-top:4vh">
+    <div class="grid-3-3" style="margin-top:3vh">
       <figure class="frame-img" style="height:26vh" data-anim>
         <img src="images/weibo.png" alt="微博 289K">
         <figcaption class="img-cap">微博 · 289K</figcaption>
@@ -379,7 +379,9 @@ layouts.md 使用的所有类（`h-hero` / `h-xl` / `h-sub` / `h-md` / `lead` / 
 **要点**：
 - 关键：每个 `frame-img` 必须写死 `height:NNvh`（不要用 `aspect-ratio`），否则网格会撑破
 - 图片会自动 `object-fit:cover + object-position:top`，只裁底部
+- **图注在框内**:`figcaption.img-cap` 会显示在固定高度框的内部底边(模板已处理弹性收缩),不额外占外部高度;有图注时图片实际展示高度 ≈ NNvh − 4vh
 - 用 `.grid-3-3`（3×2）或 `.grid-3`（3×1）承载
+- 3×2 双行 + 图注时,`height:26vh` 是不压 foot 的上限;标题更长或加说明行时降到 `22vh`
 
 ---
 

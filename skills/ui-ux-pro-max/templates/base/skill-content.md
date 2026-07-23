@@ -42,7 +42,12 @@ Extract key information from user request:
 - **Product type**: Entertainment (social, video, music, gaming), Tool (scanner, editor, converter), Productivity (task manager, notes, calendar), or hybrid
 - **Target audience**: C-end consumer users; consider age group, usage context (commute, leisure, work)
 - **Style keywords**: playful, vibrant, minimal, dark mode, content-first, immersive, etc.
-- **Stack**: React Native (this project's only tech stack)
+- **Stack**: whatever the user is actually building with — infer it from the project
+  (package.json, existing files, explicit request) or ask. Then load its rules with
+  `--stack <name>` (see "Available Stacks"). Do not assume React Native.
+- **Platform**: web or native app. Several sections below are scoped to App UI
+  (iOS/Android/React Native/Flutter) and do not apply to desktop-web work —
+  safe areas, haptics, bottom nav and Dynamic Type are mobile-only concerns.
 
 ### Step 2: Generate Design System (REQUIRED)
 
