@@ -3,7 +3,7 @@ name: emil-design-eng
 author: emilkowalski
 upstream: emilkowalski/skills
 upstreamPath: skills/emil-design-eng
-upstreamSha: f6f79ca1d8e9e2d82c8b90d7481b70ca66f4adfb
+upstreamSha: e695d13cb298db0f46d5ef05be2ad13fa12908a6
 lastUpdated: "2026-07-04T00:00:00.000Z"
 tags:
   - 设计与前端开发
