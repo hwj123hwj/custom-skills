@@ -106,7 +106,7 @@
     "author": "obra",
     "upstream": "obra/superpowers",
     "upstreamPath": "skills/brainstorming",
-    "upstreamSha": "d884ae04edebef577e82ff7c4e143debd0bbec99"
+    "upstreamSha": "3dcbd5c4b48e02263fbf4a3c01e3fe4f81d584d9"
   },
   {
     "id": "butler",
@@ -419,7 +419,7 @@
     "author": "emilkowalski",
     "upstream": "emilkowalski/skills",
     "upstreamPath": "skills/emil-design-eng",
-    "upstreamSha": "f6f79ca1d8e9e2d82c8b90d7481b70ca66f4adfb"
+    "upstreamSha": "e695d13cb298db0f46d5ef05be2ad13fa12908a6"
   },
   {
     "id": "feishu-md-exporter",
@@ -709,7 +709,7 @@
     "author": "pbakaus",
     "upstream": "pbakaus/impeccable",
     "upstreamPath": "skill",
-    "upstreamSha": "fc3dc501a6f0e4f238a230b0b30148490a65171a"
+    "upstreamSha": "08676d575721a2f3f9c30fc4807d1f61e1462b3b"
   },
   {
     "id": "implement",
@@ -954,7 +954,7 @@
     "author": "iOfficeAI",
     "upstream": "iOfficeAI/OfficeCLI",
     "upstreamPath": "skills/officecli-docx",
-    "upstreamSha": "9c78827d25d33f53664e68e7ec841d577c763632"
+    "upstreamSha": "79515527091fab74821ffb6647e73b29bc78d548"
   },
   {
     "id": "paddleocr-doc-parsing",
@@ -1252,7 +1252,7 @@
     "author": "KKKHazix",
     "upstream": "KKKKhazix/khazix-skills",
     "upstreamPath": "storage-analyzer",
-    "upstreamSha": "2b4a645cfdc894156ae347d897723562f719ce95"
+    "upstreamSha": "5e702fe8fa3345b417589973b7ee119a99742bb2"
   },
   {
     "id": "taste-skill",
@@ -1274,7 +1274,7 @@
     "author": "Leonxlnx",
     "upstream": "Leonxlnx/taste-skill",
     "upstreamPath": "skills/taste-skill",
-    "upstreamSha": "98565e65bc3274ddf6eb0838734341714057178b"
+    "upstreamSha": "e988add20dab0fa97d7a76781c48961c8184288e"
   },
   {
     "id": "tavily",
@@ -1581,7 +1581,7 @@
     "author": "vercel",
     "upstream": "vercel-labs/agent-skills",
     "upstreamPath": "skills/web-design-guidelines",
-    "upstreamSha": "4559f18a20c1691c744b4395194290db6a0df5e9"
+    "upstreamSha": "fb0282c76b8bbd709e1a5dadb32bb4aa463cdd9b"
   },
   {
     "id": "weibo-skill",
