@@ -68,6 +68,13 @@ The agent should insert variant HTML at insertLine.`);
   const filePath = argVal(args, '--file');
   const text = argVal(args, '--text');
   const pageUrl = argVal(args, '--page-url');
+  // Preflight passes this for source-preview targets. It computes the scaffold
+  // (element location + wrapper text) but does NOT write it into source. The
+  // agent then writes the wrapper + all variants in one atomic edit. The
+  // premature server-side write full-reloaded the framework mid-generate and
+  // stranded the browser at 0/N (live-server.mjs missed-completion note). It is
+  // a no-op on the svelte-component path, which never writes the route source.
+  const deferSourceWrite = args.includes('--defer-source-write');
 
   if (!id) { console.error('Missing --id'); process.exit(1); }
   if (!elementId && !classes && !query) {
@@ -334,6 +341,7 @@ The agent should insert variant HTML at insertLine.`);
   let outputEndLine = startLine + wrapperLines.length + (originalLines.length - 1);
   let insertLine;
   let svelteSession = null;
+  let deferredWrapper = null;
 
   if (useSvelteComponent) {
     // Svelte/SvelteKit resets component-local state on markup HMR updates.
@@ -353,6 +361,20 @@ The agent should insert variant HTML at insertLine.`);
     outputStartLine = 1;
     outputEndLine = 1;
     insertLine = 1;
+  } else if (deferSourceWrite) {
+    // Deferred source write: compute the scaffold text but leave source
+    // untouched. The agent replaces the picked element's source range with
+    // `wrapperBlock` (variants spliced at the marker) in one edit. Writing the
+    // scaffold here first would reload the framework before the agent's write
+    // lands, and a browser caught mid-reload misses the `done` and sits at 0/N.
+    deferredWrapper = {
+      block: wrapperLines.join('\n'),
+      replaceStartLine: startLine + 1, // 1-indexed picked-element range the
+      replaceEndLine: endLine + 1,     // agent's wrapper block replaces
+    };
+    // insertLine matches the final file position the wrapper occupies once the
+    // agent replaces the picked range, so downstream consumers stay consistent.
+    insertLine = startLine + 6 + (originalLines.length - 1) + 1;
   } else {
     // Replace the original element with the wrapper
     const newLines = [
@@ -383,6 +405,13 @@ The agent should insert variant HTML at insertLine.`);
     file: outputRelFile,
     sourceFile: useFrameworkComponent ? relTargetFile : undefined,
     previewMode,
+    // Deferred source write: the wrapper is NOT yet in source. The agent
+    // replaces [replaceStartLine, replaceEndLine] with `wrapperBlock` (variants
+    // spliced at the "insert below this line" marker) in one atomic edit.
+    sourceWritten: deferredWrapper ? false : undefined,
+    wrapperBlock: deferredWrapper ? deferredWrapper.block : undefined,
+    replaceStartLine: deferredWrapper ? deferredWrapper.replaceStartLine : undefined,
+    replaceEndLine: deferredWrapper ? deferredWrapper.replaceEndLine : undefined,
     componentDir: componentSession?.componentDir,
     propContract: componentSession?.propContract,
     sourceStartLine: useFrameworkComponent ? startLine + 1 : undefined,

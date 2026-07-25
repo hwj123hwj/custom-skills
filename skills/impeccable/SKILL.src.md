@@ -14,7 +14,7 @@ This skill gives you the tools and permission to create design that earns to be 
 Core principles:
 - Go all out. No hedging, no shortcuts. The deliverable must be complete (except assets the user must provide).
 - Dream big and bold. Distinct, beautiful, outstanding and highly inspiring work.
-- Iterate with tools available to you (e.g. visual understanding, browser screenshots) until you think this meets the bar.
+- Verify in bounded passes, not a loop: build fully, then inspect with one batched screenshot round (desktop and mobile together), fix everything it shows, and confirm with at most one more round. Per-tweak screenshot cycles burn the user's money without raising the bar; live mode is the channel for tweak-by-tweak iteration.
 
 ## Setup
 

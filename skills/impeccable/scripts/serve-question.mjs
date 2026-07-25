@@ -105,7 +105,7 @@ function printAnswer(raw) {
   try {
     const a = JSON.parse(raw);
     if (a.hero || a.board) {
-      console.log("CHOSEN CARD: open the chosen world's board and hero images now, before any code (download local copies first when your harness only reads files); they set the craft bar the build must reach.");
+      console.log("CHOSEN CARD: open the chosen world's board and hero images now, before any code. When your harness only reads files, or runs sandboxed, download them INTO the workspace and open the relative path; a sandboxed viewer rejects absolute paths outside it. They set the craft bar the build must reach.");
     }
     if (a.optionId === 'canon') {
       console.log('CANON CHOSEN: the user picked the category standard on purpose. Ask once for two or three products this should sit alongside; their craft level becomes the quality bar. Execute the canon at full commitment, conventions embraced without irony or smuggled quirk.');

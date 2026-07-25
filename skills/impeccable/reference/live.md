@@ -17,10 +17,10 @@ Execute in order. No step skipped, no step reordered.
 3. Poll loop with the default long timeout (600000 ms). Run `live-poll.mjs` again immediately after every event or `--reply`; Codex runs this one-shot poll in the foreground. Never pass a short `--timeout=`.
 
 The global bar **Impeccable mark** dims and shows a pulsing amber dot when no agent is long-polling `/poll`. Hover the mark for the hint; restart `live-poll.mjs` to reconnect.
-4. On `generate`: reuse `event.scaffold` when present; read the screenshot if present; load the action's reference; deliver variants using the delivery policy below; `--reply done`; poll again. Generate in this thread. You already hold the project's tokens, conventions, and file layout; that context is the job, not overhead.
+4. On `generate`: reuse `event.scaffold` when present; read the screenshot if present; load the action's reference; deliver variants using the delivery policy below; `--reply done`; poll again. Generate in this thread. You already hold the project's tokens, conventions, and file layout; that context is the job, not overhead. During a live cycle the overlay's preview IS the verification channel: the user sees every variant rendered in their real page and picks. Do not screenshot, re-render, or QA variants between generate and accept; apply craft-floor's contrast, spacing, and type floors by construction as you write, not as a post-write inspection pass. Full verification, computed contrast, breakpoints, real-copy overflow, runs once at accept on the chosen variant during carbonize cleanup.
 5. On `steer`: read the message and `pageUrl`; do the work (page edits, navigation help, or a short reply in the `--reply` message); `--reply steer_done`; poll again. No pickup ack. The Steer bar unlocks when `steer_done` arrives over SSE.
 6. On `accept` / `discard`: the poll script runs `live-accept.mjs`, acknowledges the delivered event, and prints `_completionAck`. Plain accepts/discards are terminal immediately. Carbonize accepts remain recoverable until the foreground task runs `live-complete.mjs --id EVENT_ID`; finish that cleanup before polling again.
-7. If interrupted, run `live-status.mjs` or `live-resume.mjs` before guessing. The durable journal replays unacknowledged work after helper restart.
+7. If interrupted, run `live-status.mjs` or `live-resume.mjs` before guessing. The durable journal replays unacknowledged work after helper restart. A dropped SSE connection or a closed tab does not end the session: the journal under `.impeccable/live/sessions/` is canonical, the injected `live.js` re-attaches when the page reopens, and `live-resume.mjs` replays the active snapshot. Tell the user to reopen the app URL (or restart `live-poll.mjs`) and continue; fall back to the direct-edit loop only when `live-resume.mjs` reports no active session, never because disconnects felt frequent.
 8. On `exit`: run the cleanup at the bottom.
 
 Harness policy:
@@ -116,7 +116,7 @@ node {{scripts_path}}/live-insert.mjs --id EVENT_ID --count EVENT_COUNT --positi
 - `--position` ← `event.insert.position` (`before` | `after`)
 - Anchor flags ← `event.insert.anchor` (same mapping as wrap: id, classes, tag, text)
 
-The scaffold has **no** `data-impeccable-variant="original"`. Variants are net-new HTML+CSS inserted at `insertLine`. Decide the visitor mode from the surface and load [craft-floor.md](craft-floor.md) before writing net-new markup (freeform only, no action sub-command). Deliver using the harness policy, then `--reply done`.
+The scaffold has **no** `data-impeccable-variant="original"`. Variants are net-new HTML+CSS inserted at `insertLine`. On source-preview targets the scaffold carries `sourceWritten: false` with `wrapperBlock`, `replaceStartLine`, and `replaceEndLine` (here `replaceEndLine < replaceStartLine`, an insertion): splice your variants into `wrapperBlock` at the marker and insert the result at `replaceStartLine` in one edit, exactly as the wrap section describes, so the framework reloads once. Decide the visitor mode from the surface and load [craft-floor.md](craft-floor.md) before writing net-new markup (freeform only, no action sub-command). Deliver using the harness policy, then `--reply done`.
 
 For Svelte/SvelteKit targets, `live-insert.mjs` returns `previewMode: "svelte-component"` with `mode: "insert"`, `file` pointing at a temporary `node_modules/.impeccable-live/<id>/manifest.json`, `componentDir` pointing at the variant component files, and `sourceFile` pointing at the real `.svelte` route. Write each inserted variant as a real Svelte component (`v1.svelte`, `v2.svelte`, …) under `componentDir`. Insert variants must be non-empty net-new content with a single top-level root, no `data-impeccable-*` attributes, and CSS in each component's `<style>` block. Do **not** edit the route source during generation; the browser mounts the temporary component before/after the live anchor while the user cycles variants. On Accept, `live-accept.mjs` inserts the selected component markup into `sourceFile` immediately and deletes the temp session after the source write succeeds.
 
@@ -141,7 +141,9 @@ Reading annotations precisely:
 
 ### 2. Wrap the element
 
-When `event.scaffold` is present, the local helper already found and wrapped the source before the poll returned. Treat `event.scaffold` as the successful helper output and skip this command entirely. `event.scaffoldAttempted` with `scaffoldError` means local preflight could not finish; use the command/fallback path below. This optimization removes a deterministic tool round trip without changing the generated design.
+When `event.scaffold` is present, the local helper already found the source and computed the wrapper before the poll returned. Treat `event.scaffold` as the successful helper output and skip this command entirely. `event.scaffoldAttempted` with `scaffoldError` means local preflight could not finish; use the command/fallback path below. This optimization removes a deterministic tool round trip without changing the generated design.
+
+**On source-preview targets `event.scaffold` carries `sourceWritten: false`.** The helper did NOT write the wrapper into source; it hands you the wrapper as `scaffold.wrapperBlock` plus the picked element's source range (`scaffold.replaceStartLine`, `scaffold.replaceEndLine`, 1-indexed). Write the wrapper **and** all variants in ONE edit: splice your variants into `wrapperBlock` at the "Variants: insert below this line" marker, then replace source lines `[replaceStartLine, replaceEndLine]` with the result. A separate scaffold write reloads the framework before your variant write lands, and a browser caught mid-reload misses the `done` and sits at 0/N; the single edit avoids it. (`replaceEndLine < replaceStartLine` means insert mode: insert `wrapperBlock`, remove nothing.) The `svelte-component` path never sets `sourceWritten`; it follows the component-preview flow below unchanged.
 
 ```bash
 node {{scripts_path}}/live-wrap.mjs --id EVENT_ID --count EVENT_COUNT --element-id "ELEMENT_ID" --classes "class1,class2" --tag "div" --text "TEXT_SNIPPET"
@@ -158,7 +160,7 @@ The helper searches ID first, then classes, then tag + class combo. If `event.pa
 
 If `--text` matches multiple candidates equally well, wrap exits with `{ error: "element_ambiguous", candidates: [...] }` and `fallback: "agent-driven"`: read the candidate line ranges, decide which one matches the picked element from page context, and write the wrapper manually per the fallback flow.
 
-Output on success: `{ file, insertLine, commentSyntax, styleMode, styleTag, cssSelectorPrefixExamples, cssAuthoring }`.
+Output on success: `{ file, insertLine, commentSyntax, styleMode, styleTag, cssSelectorPrefixExamples, cssAuthoring }`. On source-preview targets it also returns `sourceWritten: false`, `wrapperBlock`, `replaceStartLine`, and `replaceEndLine` (write it yourself per the `event.scaffold` note above). When you run this command directly (no preflight scaffold), it writes the wrapper into source itself, so there is no `wrapperBlock` and you splice variants at `insertLine`.
 
 For Svelte/SvelteKit targets, `live-wrap.mjs` returns `previewMode: "svelte-component"` with `file` pointing at a temporary `node_modules/.impeccable-live/<id>/manifest.json`, `componentDir` pointing at the variant component files, and `sourceFile` pointing at the real `.svelte` route. Write each variant as a real Svelte component (`v1.svelte`, `v2.svelte`, …) under `componentDir`; use the `propContract` prop names for dynamic text (`{propName}`), not literal snapshot strings. Put variant CSS in each component's `<style>` block with semantic class selectors (no `@scope`, no `data-impeccable-*`). Reply with `--file` set to the manifest path; the browser dynamically imports and mounts the compiled components so Svelte HMR does not reset page state while the user cycles variants. On Accept, `live-accept.mjs` inlines the accepted component back into `sourceFile` immediately after source promotion succeeds.
 
@@ -598,10 +600,14 @@ Schema:
 | Next.js (Pages) | `["pages/_document.tsx"]` | `</body>` | `jsx` |
 | Nuxt | `["app.vue"]` | `</body>` | `html` |
 | Svelte / SvelteKit | `["src/app.html"]` | `</body>` | `html` |
+| TanStack Router (SPA, Vite) | `["index.html"]` | `</body>` | `html` |
+| TanStack Start (SSR) | `["src/routes/__root.tsx"]` | `<Scripts` | `jsx` |
 | Astro | `[" <root layout .astro>"]` | `</body>` | `html` |
 | Multi-page (separate HTML per route) | `["public/**/*.html"]`: a glob covering the served directory | `</body>` | `html` |
 
 Pick an anchor that exists in every file (`</body>` almost always works). Use `insertAfter` if the anchor should match **after** a specific line.
+
+**Framework adapters (auto-detected at inject time).** SvelteKit, Nuxt, and TanStack Start server-render their document shell, so a raw `<script>` in the entry template will not execute reliably. `live-inject.mjs` detects these from the project and routes to a dedicated adapter instead of the literal `files` patch: SvelteKit mounts a dev-only root component from `+layout.svelte`; Nuxt writes a dev-only `.client.ts` plugin; TanStack Start (detected by `@tanstack/react-start` plus `src/routes/__root.tsx`) patches the `__root` document to render a generated dev-only `src/impeccable/ImpeccableLiveRoot` component that appends the bundle on mount. The `files` value stays a valid detection/CSP hint but is not the literal insertion site. A plain TanStack Router SPA (no `@tanstack/react-start`) has a static `index.html` and takes the baseline Vite path with no adapter.
 
 For multi-page sites, **prefer a glob over a literal file list**. New pages added later are picked up automatically on the next `live-inject.mjs` run; no config maintenance needed.
 
