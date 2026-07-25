@@ -3,7 +3,7 @@ name: web-design-guidelines
 author: vercel
 upstream: vercel-labs/agent-skills
 upstreamPath: skills/web-design-guidelines
-upstreamSha: 4559f18a20c1691c744b4395194290db6a0df5e9
+upstreamSha: 7c180d9044c9ae2b442b567aad4e42a28dd5ed62
 lastUpdated: "2026-07-04T00:00:00.000Z"
 tags:
   - 设计与前端开发

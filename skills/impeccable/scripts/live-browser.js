@@ -127,6 +127,41 @@
   let arrivedVariants = 0;
   let visibleVariant = 0;
   let generationPhase = null;
+  // Ascending order of the agent-generation lifecycle. The visible progress bar
+  // must never regress: a `browser_resumed`/behind checkpoint re-broadcasts an
+  // earlier phase (the server regresses the snapshot phase to `generating` on a
+  // behind checkpoint), and without this the bar jumps backward mid-generation.
+  // Unranked phases (params sidecar flow, unknown values) always pass so we
+  // never block a phase we do not model.
+  const PHASE_RANK = {
+    queued: 0,
+    picked_up: 1,
+    scaffolding: 2,
+    scaffold_fallback: 3,
+    source_ready: 4,
+    generation_ready: 5,
+    generating: 5,
+    variants_progress: 5,
+    first_variant_generating: 6,
+    first_variant_validating: 7,
+    first_reviewable: 8,
+    remaining_variants_generating: 9,
+    remaining_variants_validating: 10,
+    second_reviewable: 11,
+    all_variants_ready: 12,
+    variants_ready: 12,
+    variant_parameters_generating: 13,
+    variant_parameters_validating: 14,
+    parameters_ready: 15,
+  };
+  function shouldAdvancePhase(current, next) {
+    if (!next || next === current) return false;
+    const nextRank = PHASE_RANK[next];
+    const currentRank = PHASE_RANK[current];
+    // Only block a known-lower phase from overwriting a known-higher one.
+    if (nextRank === undefined || currentRank === undefined) return true;
+    return nextRank >= currentRank;
+  }
   let parameterGenerationState = 'idle';
   let parameterReadyAnnouncedSession = null;
   let svelteComponentSession = null;
@@ -6347,7 +6382,10 @@
           break;
         case 'agent_phase':
           if (msg.id === currentSessionId && (state === 'GENERATING' || state === 'CYCLING')) {
-            generationPhase = msg.phase || generationPhase;
+            // Advance the visible phase monotonically. A behind/resumed
+            // checkpoint may carry an earlier phase for internal bookkeeping,
+            // but the bar must not move backward.
+            if (shouldAdvancePhase(generationPhase, msg.phase)) generationPhase = msg.phase;
             if (msg.phase === 'variant_parameters_generating' || msg.phase === 'variant_parameters_validating') {
               parameterGenerationState = 'loading';
             }
@@ -6363,22 +6401,19 @@
             if (msg.publicationKind === 'params') parameterGenerationState = 'loading';
             rememberSessionFileMeta(msg);
             if (isFrameworkComponentPreviewMode(msg.previewMode) && msg.previewFile) {
+              // Component-preview (Svelte/Vue) progressive delivery: the browser
+              // mounts compiled components, so there is no framework-owned DOM
+              // to race. Keep streaming each checkpoint into the preview.
               injectSvelteComponentsFromManifest(msg.previewFile, msg.id);
-            } else if ((msg.previewMode === 'source' || !msg.previewMode) && (msg.previewFile || msg.file)) {
-              // Give normal framework HMR the first chance to reconcile its
-              // own managed tree. Nuxt route-module HMR can skip intermediate
-              // revisions, so fall back to source injection only when the
-              // advertised progress still has not appeared after a short
-              // settle. Immediate injection races React/Vue ownership and can
-              // trigger removeChild errors on the next HMR commit.
-              const targetArrived = Number(msg.arrivedVariants) || 1;
-              setTimeout(() => {
-                if (msg.id !== currentSessionId) return;
-                if (state !== 'GENERATING' && state !== 'CYCLING') return;
-                if (msg.publicationKind !== 'params' && arrivedVariants >= targetArrived) return;
-                injectVariantsFromSource(msg.previewFile || msg.file, msg.id);
-              }, 150);
             }
+            // Source-preview targets: do NOT source-inject per checkpoint.
+            // Immediate injection races framework (React/Vue) ownership mid-
+            // generation and triggers removeChild errors on the next HMR
+            // commit. Let HMR own reconciliation while variants stream in;
+            // source injection runs only on the final `done` (which keeps its
+            // 750ms settle + retry ladder for non-HMR harnesses like Cursor).
+            // The visible progress count still advances from the variant
+            // MutationObserver as HMR lands each variant.
           }
           break;
         case 'steer_done':
@@ -6489,7 +6524,7 @@
   function handleServerLost() {
     const recoveryState = currentSessionId ? state : 'IDLE';
     if (state === 'GENERATING' || state === 'CYCLING' || state === 'SAVING') {
-      showToast('Live server disconnected. Session ended.', 5000);
+      showToast('Live server connection lost. Your session is saved; reopen this page or restart live-poll.mjs to continue.', 6000);
     }
     hideBar();
     hideHighlight();

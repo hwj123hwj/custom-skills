@@ -27,6 +27,11 @@ import {
   detectSvelteKitProject,
   removeSvelteKitLiveAdapter,
 } from './live/sveltekit-adapter.mjs';
+import {
+  applyTanStackLiveAdapter,
+  detectTanStackStartProject,
+  removeTanStackLiveAdapter,
+} from './live/tanstack-adapter.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const CONFIG_PATH = resolveLiveConfigPath({ cwd: process.cwd(), scriptsDir: __dirname });
@@ -129,11 +134,18 @@ Output (JSON):
   const resolvedFiles = resolveFiles(process.cwd(), config);
   const svelteKit = detectSvelteKitProject(process.cwd(), config);
   const nuxt = detectNuxtProject(process.cwd());
+  const tanstack = svelteKit || nuxt ? null : detectTanStackStartProject(process.cwd());
 
   if (args.includes('--remove')) {
     if (svelteKit) {
       const adapterResult = removeSvelteKitLiveAdapter({ cwd: process.cwd(), config });
       console.log(JSON.stringify({ ok: true, adapter: 'sveltekit', results: [adapterResult] }));
+      return;
+    }
+    if (tanstack) {
+      const adapterResult = removeTanStackLiveAdapter({ cwd: process.cwd(), project: tanstack });
+      console.log(JSON.stringify({ ok: !adapterResult.error, adapter: 'tanstack-start', results: [adapterResult] }));
+      if (adapterResult.error) process.exitCode = 1;
       return;
     }
     if (nuxt) {
@@ -173,12 +185,24 @@ Output (JSON):
   const token = tokenIdx !== -1 ? args[tokenIdx + 1] : undefined;
   const gitIgnore = ensureLiveGitIgnores(
     process.cwd(),
-    nuxt ? [nuxt.pluginFile] : [],
+    nuxt ? [nuxt.pluginFile] : tanstack ? [tanstack.componentFile] : [],
   );
 
   if (svelteKit) {
     const adapterResult = applySvelteKitLiveAdapter({ cwd: process.cwd(), port, token, config });
     console.log(JSON.stringify({ ok: true, port, adapter: 'sveltekit', gitIgnore, results: [adapterResult] }));
+    return;
+  }
+  if (tanstack) {
+    const adapterResult = applyTanStackLiveAdapter({ cwd: process.cwd(), port, token, project: tanstack });
+    console.log(JSON.stringify({
+      ok: !adapterResult.error,
+      port,
+      adapter: 'tanstack-start',
+      gitIgnore,
+      results: [adapterResult],
+    }));
+    if (adapterResult.error) process.exitCode = 1;
     return;
   }
   if (nuxt) {

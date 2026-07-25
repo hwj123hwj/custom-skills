@@ -235,11 +235,12 @@ function recordAgentPhase(id, phase, details = {}) {
 /**
  * Detect a browser that missed the generation `done` broadcast.
  *
- * The preflight scaffold write triggers a framework full-reload (Astro reloads
- * the page for any .astro edit). If the agent's variant write + `done` land
- * while the browser is mid-reload, the new page misses both the second HMR
- * reload and the SSE `done` — it resumes from the scaffold-only source and
- * sits in GENERATING at 0/N forever. That resumed page always checkpoints
+ * The preflight no longer writes the scaffold into source for source-preview
+ * targets (the agent writes wrapper + variants in one atomic edit), so the old
+ * scaffold-write full-reload that opened the "stranded at 0/N" race is gone.
+ * This recovery stays as defense in depth: any framework reload that drops the
+ * agent's variant write + `done` while the browser is mid-reload leaves the new
+ * page in GENERATING at 0/N. That resumed page always checkpoints
  * (`browser_resumed`), so a checkpoint claiming "still generating, variants
  * missing" for a session whose generation already completed is direct
  * evidence of the miss. Rebuild the `done` payload from the snapshot so the

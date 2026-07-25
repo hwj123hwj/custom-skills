@@ -6,7 +6,7 @@ The purpose of a probe is to test composition, narrative, hierarchy, density, fo
 
 ## Generate three compositional options
 
-Render three distinct high-fidelity north-star comps of the requested surface, with whatever generation capability exists. Base them on the real content and the surface concepts already developed with the user. Three is the number: one comp invites rubber-stamping, and the spread between three is what surfaces the composition worth building.
+Render three distinct high-fidelity north-star comps of the requested surface, with whatever generation capability exists, saved under `.impeccable/mocks/` so they survive the session; record the approved comp's path in the surface brief. Base them on the real content and the surface concepts already developed with the user. Three is the number: one comp invites rubber-stamping, and the spread between three is what surfaces the composition worth building.
 
 - When the user shortlisted multiple concepts, spread the three across them.
 - When one direction is committed, vary the structural uncertainty an image can resolve: topology, sequence, density, hierarchy, focal composition, or interaction framing.
@@ -25,7 +25,7 @@ After approval, summarize the composition and the parts of the comp that must no
 
 ## Inventory implementation fidelity
 
-Before building, inventory the approved comp's major visible ingredients and choose an implementation medium for each: semantic HTML/CSS/SVG, existing project asset, generated raster, sourced raster, icon library, canvas/WebGL, or accepted omission.
+Before building, inventory the approved comp's major visible ingredients in writing (a short table in the surface brief or working notes; the finish reviewer audits shipped assets against it) and choose an implementation medium for each: semantic HTML/CSS/SVG, existing project asset, generated raster, sourced raster, icon library, canvas/WebGL, or accepted omission. Textures, portraits, and scenes are raster-by-default; a CSS gradient is not a texture medium. Every `produce` entry is produced before the build ships, through the asset producer or in the current thread; an inventory with unproduced entries is an unfinished build, and this gate is where imagery-free pages come from when it is skipped.
 
 Pay special attention to the dominant composition, signature use, image-native content, second-fold system, and any interaction the still image only implies. If the concept depends on a photograph, architectural scene, product object, portrait, or other raster-native material, do not silently replace it with generic CSS scenery.
 
