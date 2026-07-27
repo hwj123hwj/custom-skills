@@ -156,8 +156,22 @@ const SCANNABLE_EXT = new Set([
   '.jsx', '.tsx', '.js', '.ts', '.vue', '.svelte', '.astro',
 ]);
 // Where UI source typically lives. The detector walks these and skips
-// node_modules / dist / build / .next / .nuxt automatically.
+// node_modules / dist / build and all hidden dirs automatically.
 const SOURCE_DIRS = ['src', 'app', 'components', 'pages', 'public'];
+
+// A changed file under a hidden or dependency/build directory is not app
+// source — it's a vendored AI-harness install (.claude/skills/..., .cursor/,
+// .impeccable/, issue #303), a build artifact, or a dependency. Mirrors the
+// engine walkDir's skip rule so git-changes targeting can't resurface paths
+// the walker would never visit.
+function isVendoredPath(rel) {
+  const dirSegments = rel.split(/[\\/]/).slice(0, -1);
+  return dirSegments.some(
+    (seg) =>
+      (seg.startsWith('.') && seg !== '.vitepress' && seg !== '.vuepress' && seg !== '.storybook') ||
+      seg === 'node_modules' || seg === 'dist' || seg === 'build' || seg === '__pycache__',
+  );
+}
 
 /**
  * Local paths the agent should point the bundled detector at — never a URL.
@@ -173,6 +187,7 @@ function scanTargets(cwd, git) {
   if (git.isRepo && git.changedFiles.length) {
     const changed = git.changedFiles
       .filter((f) => SCANNABLE_EXT.has(path.extname(f).toLowerCase()))
+      .filter((f) => !isVendoredPath(f))
       .filter((f) => fs.existsSync(path.join(cwd, f)));
     if (changed.length) return { targets: changed.slice(0, 50), via: 'git-changes' };
   }
