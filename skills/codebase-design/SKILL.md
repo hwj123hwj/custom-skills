@@ -3,7 +3,7 @@ name: codebase-design
 author: mattpocock
 upstream: mattpocock/skills
 upstreamPath: skills/engineering/codebase-design
-upstreamSha: ed37663cc5fbef691ddfecd080dff42f7e7e350d
+upstreamSha: 2ab958093e83e0ec752e6c1c5932da465bf23e0c
 lastUpdated: '2026-07-02T01:06:55.000Z'
 tags:
 - Architecture

@@ -3,7 +3,7 @@ name: ui-ux-pro-max
 author: nextlevelbuilder
 upstream: nextlevelbuilder/ui-ux-pro-max-skill
 upstreamPath: src/ui-ux-pro-max
-upstreamSha: 43e8d4a5b0f0cd1fd5ef2c1fe05eefd0de3a256e
+upstreamSha: 4857a2c5ef989794751a0f66b8545a4a49566286
 lastUpdated: "2026-05-30T00:00:00.000Z"
 tags:
   - 设计与前端开发
