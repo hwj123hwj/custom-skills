@@ -9,7 +9,7 @@
 
 ## ✨ 核心特性
 
-- 📦 **73 技能**：覆盖编程开发、内容创作、平台工具、效率工具等多个领域，含全量 [Matt Pocock](https://github.com/mattpocock/skills) 技能合集
+- 📦 **69 技能**：覆盖编程开发、内容创作、平台工具、效率工具等多个领域，含全量 [Matt Pocock](https://github.com/mattpocock/skills) 技能合集
 - 🌐 **Web 技能广场**：基于 React 19 + Vite 的现代化界面，支持中英文双语
 - 🔧 **CLI 安装工具**：一键安装技能到 Claude Code 或其他 AI Agent
 - 🔄 **上游同步**：CI 自动同步第三方技能仓库，保持技能最新
@@ -185,14 +185,12 @@ CI 会在每天 UTC 02:00 自动检查上游更新，如有变更会创建 PR。
 | [emil-design-eng](./skills/emil-design-eng) | This skill encodes Emil Kowalski's philosophy on UI polish, component design, animation decisions... |
 | [feishu-md-exporter](./skills/feishu-md-exporter) | Export Feishu/Lark docs or entire Drive folders to local Markdown using the official Open Platfor... |
 | [frontend-design](./skills/frontend-design) | Guidance for distinctive, intentional visual design when building new UI or reshaping an existing... |
-| [frontend-slides](./skills/frontend-slides) | Create stunning, animation-rich HTML presentations from scratch or by converting PowerPoint files. |
 | [git-guardrails-claude-code](./skills/git-guardrails-claude-code) | Set up Claude Code hooks to block dangerous git commands (push, reset --hard, clean, branch -D, e... |
 | [grill-me](./skills/grill-me) | Interview the user relentlessly about a plan or design until reaching shared understanding, resol... |
 | [grill-with-docs](./skills/grill-with-docs) | A relentless interview to sharpen a plan or design, which also creates docs (ADR's and glossary)... |
 | [grilling](./skills/grilling) | Interview the user relentlessly about a plan or design. |
 | [guizang-ppt-skill](./skills/guizang-ppt-skill) | 生成横向翻页网页 PPT（单 HTML 文件），含 WebGL 背景、章节幕封、数据大字报、图片网格等模板。 |
 | [handoff](./skills/handoff) | Compact the current conversation into a handoff document for another agent to pick up. |
-| [huashu-design](./skills/huashu-design) | 花叔Design（Huashu-Design）——用HTML做高保真原型、交互Demo、幻灯片、动画、设计变体探索+设计方向顾问+专家评审的一体化设计能力。 |
 | [huashu-nuwa](./skills/huashu-nuwa) | 女娲造人：输入人名/主题/甚至只是模糊需求，自动深度调研→思维框架提炼→生成可运行的人物Skill。 |
 | [image-provider](./skills/image-provider) | Unified image generation skill with pluggable providers (strategy pattern). |
 | [impeccable](./skills/impeccable) | Designs and iterates production-grade frontend interfaces. |
@@ -228,11 +226,9 @@ CI 会在每天 UTC 02:00 自动检查上游更新，如有变更会创建 PR。
 | [triage](./skills/triage) | Move issues and external PRs through a state machine of triage roles — categorise, verify, grill... |
 | [tts](./skills/tts) | Unified TTS (Text-to-Speech) skill with pluggable providers (strategy pattern). |
 | [twitter-cli](./skills/twitter-cli) | Use twitter-cli for ALL Twitter/X operations — reading tweets, posting, replying, quoting, liking... |
-| [ui-ux-pro-max](./skills/ui-ux-pro-max) | UI/UX design intelligence for web and mobile. |
 | [vertex-video-reader](./skills/vertex-video-reader) | Use this skill to read, analyze, and understand video files using Google Cloud Vertex AI's lightw... |
 | [video-analyze](./skills/video-analyze) | 当你需要分析视频内容（抽取关键帧、识别语音）时使用本技能。 |
 | [videocut](./skills/videocut) | 口播视频一站式剪辑 Skill。 |
-| [web-design-guidelines](./skills/web-design-guidelines) | Review UI code for Web Interface Guidelines compliance. |
 | [weibo-skill](./skills/weibo-skill) | 微博内容搜索、热搜查看、用户动态及评论读取。 |
 | [weread-skills](./skills/weread-skills) | 微信读书助手 — 搜索书籍、管理书架、查看笔记划线、浏览书评、阅读统计、发现推荐好书 |
 | [wizard](./skills/wizard) | Generate an interactive bash wizard that walks a human through a manual procedure — third-party s... |
@@ -346,4 +342,3 @@ MIT License - 详见 [LICENSE](./LICENSE)
 
 特别感谢：
 - [mattpocock/skills](https://github.com/mattpocock/skills) - 提供多个工程类技能
-- [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) - 提供 UI/UX 设计技能

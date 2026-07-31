@@ -31,8 +31,6 @@ export const skillDescriptionsZh: Record<string, string> = {
     '统一生图技能，基于策略模式，支持多个后端 Provider 自由切换（Vertex AI Imagen、dvcode）。适用于文章配图、封面图、通用图片生成等场景。触发词：生成图片、配图、封面图。',
   'frontend-design':
     'Anthropic 官方前端设计指导技能。为新 UI 或现有界面提供独特的视觉设计方案，覆盖调色板、字体排版、布局、动效和文案写作。采用头脑风暴→规划→评审→构建→自评的结构化流程，避免千篇一律的模板化 AI 设计。触发词：UI设计、前端设计、视觉设计、网页设计。',
-  'frontend-slides':
-    '前端幻灯片与网页演示生成技能。将 PPT/PPTX 转成高质量 HTML Slides，或从零创建适合演讲、分享、路演和产品展示的动画化网页演示稿，帮助非设计背景用户通过视觉探索确定审美方向。',
   'feishu-md-exporter':
     '飞书/Lark Markdown 导出技能。通过飞书开放平台官方 API，把单个飞书文档或整个 Drive 文件夹递归导出为本地 Markdown，保留目录结构。适合个人备份有查看权限但禁用复制/导出的文档。',
   'huashu-nuwa':
@@ -103,10 +101,6 @@ export const skillDescriptionsZh: Record<string, string> = {
     '为 Claude Code 设置 Git 安全钩子，拦截危险命令（push、reset --hard、clean、branch -D 等）。当用户想防止破坏性 Git 操作、添加安全钩子时使用。',
 
   // ── 设计能力 ──
-  'ui-ux-pro-max':
-    'UI/UX 设计智能技能。50+ 设计风格、161 套配色方案、57 种字体搭配、161 种产品类型、99 条 UX 准则、25 种图表类型，覆盖 React/Next.js/Vue/Svelte/SwiftUI 等 10 大技术栈。触发词：设计 UI、美化页面、配色、字体、组件设计。',
-  'huashu-design':
-    '花叔Design —— 用 HTML 做高保真原型、交互 Demo、幻灯片、动画、设计变体探索和专家评审的一体化设计能力。支持 HTML 动画导出 MP4/GIF、带解说的长动画 pipeline。触发词：做原型、设计Demo、交互原型、动画Demo、设计变体、UI mockup。',
   'react-native-best-practices':
     'React Native 性能优化指南，覆盖 FPS、TTI、Bundle 体积、内存泄漏、重渲染和动画优化。基于 Callstack 的优化最佳实践，适用于 Hermes 优化、JS 线程阻塞、Bridge 开销、FlashList、原生模块调试等场景。触发词：React Native 性能、RN 优化、Hermes、FlashList、原生模块。',
 
@@ -235,8 +229,6 @@ export const skillDescriptionsEn: Record<string, string> = {
     'Markdown prompt-engineering content repurposing skill with 7 sub-skills (LinkedIn/Twitter/Medium/Substack/Newsletter/GitHub Pages + orchestrator). Supports voice profile system, emoji control, and regex blocklist. Zero dependencies, zero modifications required.',
   'douyin-upload':
     'Douyin (TikTok China) video upload CLI tool. Log in to Douyin, check cookies, upload videos or publish image posts. Uses `uv run douyin` — no custom scripts needed.',
-  'huashu-design':
-    'Huashu Design — an all-in-one HTML-based design capability for high-fidelity prototypes, interactive demos, slide decks, animations, design variant exploration, and expert review. HTML is the tool, not the medium; em different experts (UX designer/animator/slide designer/prototyper) depending on the task. Supports HTML animation export to MP4/GIF, and a narrated long-animation pipeline with TTS voiceover.',
   'huashu-nuwa':
     'Nuwa character skill distiller. Input a person\'s name, topic, or vague requirement; automatically performs deep research, extracts a thinking framework, and generates a runnable character Skill. Two entry points: (1) explicit name → direct distillation, (2) vague requirement → diagnosis → recommendation → distillation.',
   'storage-analyzer':
@@ -249,8 +241,6 @@ export const skillDescriptionsEn: Record<string, string> = {
     '生产级前端界面设计与迭代工具。真实可运行的代码、坚定的设计选择、极致的工艺。覆盖网站、落地页、仪表盘、产品 UI、组件、表单和设计系统。',
   'taste-skill':
     '反模板化前端设计技能。适用于落地页、作品集和改版项目。自动推断设计方向，输出不千篇一律的界面。',
-  'web-design-guidelines':
-    '基于 Vercel Web Interface Guidelines 的 UI 代码审查工具。用于检查可访问性、审计设计质量、验证 UX 最佳实践。',
 
 };
 

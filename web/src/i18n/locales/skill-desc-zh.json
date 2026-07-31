@@ -19,14 +19,12 @@
   "edit-article": "文章编辑与润色。先按标题分段，确认信息的有向无环依赖顺序，然后逐段重写，每段不超过 240 字符。触发词：edit article、润色文章、修改稿子。",
   "feishu-md-exporter": "飞书/Lark Markdown 导出技能。通过飞书开放平台官方 API，把单个飞书文档或整个 Drive 文件夹递归导出为本地 Markdown，保留目录结构。适合个人备份有查看权限但禁用复制/导出的文档。",
   "frontend-design": "Anthropic 官方前端设计指导技能。为新 UI 或现有界面提供独特的视觉设计方案，覆盖调色板、字体排版、布局、动效和文案写作。采用头脑风暴→规划→评审→构建→自评的结构化流程，避免千篇一律的模板化 AI 设计。触发词：UI设计、前端设计、视觉设计、网页设计。",
-  "frontend-slides": "前端幻灯片与网页演示生成技能。将 PPT/PPTX 转成高质量 HTML Slides，或从零创建适合演讲、分享、路演和产品展示的动画化网页演示稿，帮助非设计背景用户通过视觉探索确定审美方向。",
   "git-guardrails-claude-code": "为 Claude Code 设置 Git 安全钩子，拦截危险命令（push、reset --hard、clean、branch -D 等）。当用户想防止破坏性 Git 操作、添加安全钩子时使用。",
   "grill-me": "对计划/设计进行无情追问，逐条决策分支验证直到达成共识。当用户想压力测试方案、被拷问设计、或提到\"grill me\"时使用。",
   "grill-with-docs": "带文档输出的需求拷问。在 grilling 基础上同时运行 domain-modeling，将访谈结论实时写入 CONTEXT.md 和 ADR。适用于已有代码库的需求梳理。",
   "grilling": "需求拷问原语（grill-me 和 grill-with-docs 的底层基座）。一次一个问题，逐一穷尽决策树的每个分支，每个问题附带推荐答案。触发词：grill、拷问、反复追问。",
   "guizang-ppt-skill": "Design-focused skill for building horizontal swipe web PPTs as a single HTML file. Includes both editorial magazine and Swiss-style visual systems, suitable for talks, launch decks, analytical presentations, supporting images, covers, and screenshot redesign.",
   "handoff": "将会话压缩成交接文档，供下一个 Agent 继续。保存到系统临时目录，包含建议技能列表，自动脱敏敏感信息。适用于会话切换、工作交接。",
-  "huashu-design": "花叔Design —— 用 HTML 做高保真原型、交互 Demo、幻灯片、动画、设计变体探索和专家评审的一体化设计能力。支持 HTML 动画导出 MP4/GIF、带解说的长动画 pipeline。触发词：做原型、设计Demo、交互原型、动画Demo、设计变体、UI mockup。",
   "huashu-nuwa": "女娲造人式人物 Skill 蒸馏器。输入人物姓名、主题或模糊需求，自动完成深度调研、思维框架提炼与可运行人物 Skill 生成。适用于“做一个某某视角的 Skill”“蒸馏某人思维方式”这类任务。",
   "image-provider": "统一生图技能，基于策略模式，支持多个后端 Provider 自由切换（Vertex AI Imagen、dvcode）。适用于文章配图、封面图、通用图片生成等场景。触发词：生成图片、配图、封面图。",
   "implement": "基于 PRD 或 Issue 的实现工作流。内部驱动 TDD 红绿重构循环，完成后运行 code-review，提交到当前分支。",
@@ -60,7 +58,6 @@
   "triage": "Issue 分类状态机。将 Issue 和外链 PR 按 bug/enhancement 分类，在 needs-triage→needs-info→ready-for-agent/ready-for-human/wontfix 间流转，核实问题后根据情况撰写 Agent 简报或关闭。",
   "tts": "统一语音合成（TTS）技能，基于策略模式，支持多个 Provider 切换（Edge TTS 免费无需 Key、Vertex AI Gemini TTS）。用于配音、旁白、解说生成。触发词：配音、生成语音、TTS、语音合成。",
   "twitter-cli": "Twitter/X 一站式 CLI 工具。支持读取时间线、书签、搜索结果、用户主页、推文详情，以及发帖、回复、引用、点赞、转推、关注等操作。凡涉及 Twitter/X 的交互，均通过此技能完成。",
-  "ui-ux-pro-max": "UI/UX 设计智能技能。50+ 设计风格、161 套配色方案、57 种字体搭配、161 种产品类型、99 条 UX 准则、25 种图表类型，覆盖 React/Next.js/Vue/Svelte/SwiftUI 等 10 大技术栈。触发词：设计 UI、美化页面、配色、字体、组件设计。",
   "vertex-video-reader": "使用 Google Cloud Vertex AI 轻量级视频模型（gemini-3.1-flash-lite-preview）读取、分析和理解视频文件。当用户需要视频摘要、提取字幕/动作、描述 mp4/mov 内容或对视频片段提问时使用。",
   "video-analyze": "视频内容分析工具。自动抽帧、语音转录（ASR），生成结构化视频摘要与内容标签。触发词：分析视频、视频摘要、抽帧分析。",
   "videocut": "All-in-one voiceover video editing skill. Full workflow covering transcription, filler-word detection, subtitle generation, and high-quality export. Trigger words: edit voiceover, process video, cut video, generate subtitles, export HD.",
@@ -74,6 +71,5 @@
   "xiaohongshu-cli": "小红书一站式 CLI 工具。支持搜索笔记、阅读内容、浏览用户主页、点赞、收藏、评论、关注及发布。凡涉及小红书的操作，均通过此技能完成。",
   "emil-design-eng": "Emil Kowalski 的设计工程哲学。涵盖 UI 打磨、组件设计、动画决策和让软件体验出众的隐形细节。",
   "impeccable": "生产级前端界面设计与迭代工具。真实可运行的代码、坚定的设计选择、极致的工艺。覆盖网站、落地页、仪表盘、产品 UI、组件、表单和设计系统。",
-  "taste-skill": "反模板化前端设计技能。适用于落地页、作品集和改版项目。自动推断设计方向，输出不千篇一律的界面。",
-  "web-design-guidelines": "基于 Vercel Web Interface Guidelines 的 UI 代码审查工具。用于检查可访问性、审计设计质量、验证 UX 最佳实践。"
+  "taste-skill": "反模板化前端设计技能。适用于落地页、作品集和改版项目。自动推断设计方向，输出不千篇一律的界面。"
 }
