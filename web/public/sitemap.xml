@@ -178,14 +178,6 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/frontend-design?lng=en" />
   </url>
   <url>
-    <loc>https://hwj123hwj.asia/skill/frontend-slides</loc>
-    <lastmod>2026-05-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/frontend-slides" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/frontend-slides?lng=en" />
-  </url>
-  <url>
     <loc>https://hwj123hwj.asia/skill/git-guardrails-claude-code</loc>
     <lastmod>2026-06-25</lastmod>
     <changefreq>weekly</changefreq>
@@ -232,14 +224,6 @@
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/handoff" />
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/handoff?lng=en" />
-  </url>
-  <url>
-    <loc>https://hwj123hwj.asia/skill/huashu-design</loc>
-    <lastmod>2026-05-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/huashu-design" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/huashu-design?lng=en" />
   </url>
   <url>
     <loc>https://hwj123hwj.asia/skill/huashu-nuwa</loc>
@@ -522,14 +506,6 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/twitter-cli?lng=en" />
   </url>
   <url>
-    <loc>https://hwj123hwj.asia/skill/ui-ux-pro-max</loc>
-    <lastmod>2026-05-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/ui-ux-pro-max" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/ui-ux-pro-max?lng=en" />
-  </url>
-  <url>
     <loc>https://hwj123hwj.asia/skill/vertex-video-reader</loc>
     <lastmod>2026-05-02</lastmod>
     <changefreq>weekly</changefreq>
@@ -552,14 +528,6 @@
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/videocut" />
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/videocut?lng=en" />
-  </url>
-  <url>
-    <loc>https://hwj123hwj.asia/skill/web-design-guidelines</loc>
-    <lastmod>2026-07-04</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/web-design-guidelines" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/web-design-guidelines?lng=en" />
   </url>
   <url>
     <loc>https://hwj123hwj.asia/skill/weibo-skill</loc>
