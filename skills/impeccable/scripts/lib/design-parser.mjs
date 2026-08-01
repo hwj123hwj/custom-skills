@@ -330,17 +330,16 @@ function extractOverview(section) {
   if (!section) return null;
   const text = section.lines.join('\n');
   const northStar = text.match(/\*\*Creative North Star:\s*"([^"]+)"\*\*/);
-  const keyChars = [];
   const keyCharMatch = text.match(/\*\*Key Characteristics:\*\*\s*\n([\s\S]+?)(?:\n##|\n###|$)/);
-  if (keyCharMatch) {
-    for (const line of keyCharMatch[1].split('\n')) {
-      const m = line.match(/^\s*[-*]\s+(.+)$/);
-      if (m) keyChars.push(stripBold(m[1].trim()));
-    }
-  }
+  const keyChars = keyCharMatch
+    ? collectBullets(keyCharMatch[1].split('\n')).map((bullet) => stripBold(bullet.trim()))
+    : [];
+  const prose = keyCharMatch
+    ? text.slice(0, keyCharMatch.index) + text.slice(keyCharMatch.index + keyCharMatch[0].length)
+    : text;
 
   // Philosophy paragraphs: everything that isn't a rule header or key-char block
-  const paragraphs = collectParagraphs(section.lines).filter(
+  const paragraphs = collectParagraphs(prose.split('\n')).filter(
     (p) =>
       !p.startsWith('**Creative North Star') &&
       !p.startsWith('**Key Characteristics')
