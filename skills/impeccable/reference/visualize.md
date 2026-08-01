@@ -44,4 +44,6 @@ Generation context is part of the asset: a build composed by a thread that never
 
 When the harness runs subagents, spawn the shipped asset producer every time, even when the inventory's produce bucket looks empty: its manifest is the independent second opinion on your media, and runs that skipped the spawn are the runs whose cotton became CSS. An honestly empty manifest costs one cheap spawn; a wrongly empty produce bucket costs the build its materials. Use the producer, `impeccable-asset-producer` (`impeccable_asset_producer` in codex; `/impeccable-asset-producer` in Cursor; on GitHub Copilot say "Use the impeccable-asset-producer agent"): give it the approved comp, output paths, required dimensions and formats, transparency needs, crop notes, and what must remain semantic code. Otherwise produce the minimum required assets in the current thread by the book: load [degraded/asset-producer.md](degraded/asset-producer.md) and follow it inline, with whatever generation exists, the native tool or generate-image.mjs.
 
+Convert images with a converter context.mjs reported at boot (the IMAGE_TOOLS line); probe only when it reported none, at most once per session, never per image.
+
 Return to [new-work.md](new-work.md) for the direction contract, implementation, and the finishing pass.

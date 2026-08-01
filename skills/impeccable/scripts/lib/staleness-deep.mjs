@@ -129,6 +129,11 @@ function hasCoverageValue(value) {
   return false;
 }
 
+const SEED_DESIGN_MARKERS = ['/', '$'].map((prefix) =>
+  '<!-- SEED: established with the user before implementation; '
+    + `re-run ${prefix}impeccable document once there's code to capture the actual tokens and components. -->`
+);
+
 export function checkDesignCoverage({ design, designPath, parseDesignMd }) {
   if (!design || typeof parseDesignMd !== 'function') return [];
   let model;
@@ -137,7 +142,11 @@ export function checkDesignCoverage({ design, designPath, parseDesignMd }) {
   } catch {
     return [];
   }
-  const missing = ['colors', 'typography', 'components']
+  const isSeed = SEED_DESIGN_MARKERS.some((marker) => design.includes(marker));
+  const requiredSections = isSeed
+    ? ['colors', 'typography']
+    : ['colors', 'typography', 'components'];
+  const missing = requiredSections
     .filter((section) => !model[section] && !hasCoverageValue(model.frontmatter?.[section]));
   if (!missing.length) return [];
   return [finding({
