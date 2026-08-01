@@ -298,6 +298,24 @@ Sitemap: https://hwj123hwj.asia/sitemap.xml
     <link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/?lng=en" />
     <script type="application/ld+json">
       ${JSON.stringify(jsonLd, null, 2).replace(/\n/g, '\n      ')}
+    </script>
+    <!-- Baidu Tongji (国内访客覆盖) -->
+    <script>
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?801e9a78a9812d0d379cb59b514d02e3";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+    <!-- Google Analytics gtag.js (海外访客覆盖) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VBQC9CCY05"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'G-VBQC9CCY05');
     </script>`;
 
     // Remove existing OG and twitter tags to prevent duplicates during multiple runs
