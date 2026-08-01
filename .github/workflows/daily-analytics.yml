@@ -1,0 +1,34 @@
+name: Daily Analytics Report
+
+on:
+  schedule:
+    # 每天 UTC 01:00 = 北京时间 09:00 推送昨日数据
+    - cron: '0 1 * * *'
+  workflow_dispatch: # 支持手动触发测试
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Dependencies
+        run: |
+          cd scripts/analytics
+          if [ ! -f package.json ]; then
+            npm init -y
+          fi
+          npm install googleapis google-auth-library
+
+      - name: Run Analytics Report
+        env:
+          GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
+          GA4_CREDENTIALS: ${{ secrets.GA4_CREDENTIALS }}
+          FEISHU_WEBHOOK: ${{ secrets.FEISHU_WEBHOOK }}
+        run: node scripts/analytics/ga4-to-feishu.mjs
