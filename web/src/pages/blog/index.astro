@@ -1,0 +1,70 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const title = '博客 | Custom Skills Hub';
+const description = '分享 AI Agent 技能的设计思路、使用技巧和个人技术随笔。';
+---
+
+<AppLayout title={title} description={description}>
+  <div class="max-w-3xl mx-auto">
+    <header class="mb-10 text-center animate-slide-up">
+      <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-gradient mb-3">博客</h1>
+      <p class="text-base" style="color: var(--text-secondary);">
+        技能背后的故事 · 实战心得 · 技术随笔
+      </p>
+    </header>
+
+    <div class="space-y-4">
+      {posts.map((post) => (
+        <a
+          href={`/blog/${post.id}/`}
+          class="block rounded-2xl p-5 sm:p-6 transition-all duration-200 no-underline group"
+          style={{
+            background: 'var(--bg-card)',
+            border: '1px solid var(--border-default)',
+          }}
+        >
+          <div class="flex items-center gap-2 text-xs mb-2" style="color: var(--text-muted);">
+            <time datetime={post.data.pubDate.toISOString()}>
+              {post.data.pubDate.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })}
+            </time>
+            <span>·</span>
+            <span>{post.data.author}</span>
+          </div>
+          <h2 class="text-lg font-semibold mb-2 transition-colors group-hover:text-[var(--accent)]" style="color: var(--text-primary);">
+            {post.data.title}
+          </h2>
+          <p class="text-sm leading-relaxed mb-3" style="color: var(--text-secondary);">
+            {post.data.description}
+          </p>
+          {post.data.tags.length > 0 && (
+            <div class="flex flex-wrap gap-1.5">
+              {post.data.tags.map((tag) => (
+                <span
+                  class="text-[10px] px-2 py-0.5 rounded-full font-medium tracking-wide"
+                  style={{
+                    background: 'var(--accent-muted)',
+                    color: 'var(--accent)',
+                    border: '1px solid var(--border-accent)',
+                  }}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+        </a>
+      ))}
+
+      {posts.length === 0 && (
+        <div class="text-center py-20">
+          <p class="text-lg" style="color: var(--text-muted);">暂无文章，敬请期待。</p>
+        </div>
+      )}
+    </div>
+  </div>
+</AppLayout>

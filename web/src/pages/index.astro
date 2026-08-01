@@ -1,0 +1,11 @@
+---
+import AppLayout from '../layouts/AppLayout.astro';
+import HomePageApp from '../components/HomePageApp.tsx';
+
+const title = 'Custom Skills Hub - AI 技能市场 | 一键管理 Agent 技能';
+const description = 'Custom Skills Hub 是一个为大语言模型 Agent 打造的一站式技能市场。收录 69+ 个高质量技能，覆盖编程开发、内容创作、平台工具、知识管理等领域，一键安装即用。';
+---
+
+<AppLayout title={title} description={description}>
+  <HomePageApp client:load />
+</AppLayout>

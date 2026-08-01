@@ -1,0 +1,113 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import LangSwitch from '../components/LangSwitch.tsx';
+import ThemeToggle from '../components/ThemeToggle.tsx';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  canonical?: string;
+}
+
+const { title, description, image = '/og-image.png', canonical } = Astro.props;
+const siteUrl = Astro.site ?? 'https://hwj123hwj.asia';
+const canonicalUrl = canonical ?? new URL(Astro.url.pathname, siteUrl).href;
+const ogImageUrl = new URL(image, siteUrl).href;
+---
+
+<BaseLayout>
+  <slot name="head" slot="head">
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:site_name" content="Custom Skills Hub" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <link rel="alternate" hreflang="zh" href={canonicalUrl} />
+    <link rel="alternate" hreflang="en" href={`${canonicalUrl}?lng=en`} />
+  </slot>
+
+  <div class="min-h-screen" style="color: var(--text-primary);">
+    <!-- Background -->
+    <div class="fixed inset-0 pointer-events-none" style="background-color: var(--bg-primary);">
+      <div
+        class="absolute inset-0 opacity-[0.02]"
+        style={{
+          backgroundImage:
+            'linear-gradient(to right, var(--text-muted) 1px, transparent 1px), linear-gradient(to bottom, var(--text-muted) 1px, transparent 1px)',
+          backgroundSize: '64px 64px',
+        }}
+      />
+      <div
+        class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] rounded-full opacity-[0.06]"
+        style={{ background: 'radial-gradient(ellipse, var(--accent-soft) 0%, transparent 70%)' }}
+      />
+    </div>
+
+    <!-- Header -->
+    <header class="fixed top-0 w-full z-50 glass border-b" style="border-color: var(--border-default);">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <a href="/" class="flex items-center gap-3 no-underline">
+            <div
+              class="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold"
+              style={{
+                background: 'linear-gradient(135deg, var(--accent-hover) 0%, var(--accent) 100%)',
+                color: '#fff',
+              }}
+            >
+              CS
+            </div>
+            <h1 class="font-semibold text-base tracking-tight" style="color: var(--text-primary);">
+              Custom Skills Hub
+            </h1>
+          </a>
+          <!-- 博客导航入口 -->
+          <a
+            href="/blog"
+            class="ml-2 text-sm transition-colors px-3 py-1 rounded-lg"
+            style="color: var(--text-muted);"
+          >
+            博客
+          </a>
+        </div>
+        <div class="flex items-center gap-2 sm:gap-4">
+          <ThemeToggle client:load />
+          <LangSwitch client:load />
+          <a
+            href="https://github.com/hwj123hwj/custom-skills"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center gap-2 text-sm transition-colors no-underline"
+            style="color: var(--text-muted);"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+            <span class="hidden sm:inline">GitHub</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main -->
+    <main class="relative pt-24 sm:pt-28 pb-16 max-w-6xl mx-auto px-4 sm:px-6">
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer
+      class="relative py-10 text-center text-sm"
+      style="color: var(--text-muted); border-top: 1px solid var(--border-default);"
+    >
+      <p>© {new Date().getFullYear()} Custom Skills Hub · Powered by Astro</p>
+    </footer>
+  </div>
+</BaseLayout>

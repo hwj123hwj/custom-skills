@@ -1,0 +1,43 @@
+---
+// 防止 Astro 默认的 React hydration 错误（详情页里用到）
+---
+<!doctype html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <slot name="head" />
+    <!-- Baidu Tongji -->
+    <script is:inline>
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement('script');
+        hm.src = 'https://hm.baidu.com/hm.js?801e9a78a9812d0d379cb59b514d02e3';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+    <!-- Google Analytics gtag.js -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-VBQC9CCY05"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'G-VBQC9CCY05');
+    </script>
+    <!-- 主题初始化脚本：在 HTML 解析阶段读取 localStorage，避免主题闪烁(FOUC) -->
+    <script is:inline>
+      (function () {
+        const stored = localStorage.getItem('custom-skills-theme');
+        if (stored === 'light') {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
