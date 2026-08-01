@@ -21,14 +21,17 @@ jobs:
       - name: Install Dependencies
         run: |
           cd scripts/analytics
-          if [ ! -f package.json ]; then
-            npm init -y
-          fi
           npm install googleapis google-auth-library
 
-      - name: Run Analytics Report
+      - name: Run GA4 Analytics Report
         env:
           GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
           GA4_CREDENTIALS: ${{ secrets.GA4_CREDENTIALS }}
           FEISHU_WEBHOOK: ${{ secrets.FEISHU_WEBHOOK }}
         run: node scripts/analytics/ga4-to-feishu.mjs
+
+      - name: Push URLs to Baidu
+        env:
+          BAIDU_API_URL: ${{ secrets.BAIDU_API_URL }}
+        run: |
+          cd web && npm install && npm run build && node ../scripts/analytics/push-to-baidu.mjs
