@@ -4,8 +4,10 @@ const STORAGE_KEY = 'custom-skills-favorites';
 const RECENT_KEY = 'custom-skills-recent';
 const MAX_RECENT = 20;
 
+// SSR 安全：服务端渲染时 localStorage 不存在
 function readSet(key: string): Set<string> {
   try {
+    if (typeof localStorage === 'undefined') return new Set();
     const raw = localStorage.getItem(key);
     if (!raw) return new Set();
     return new Set(JSON.parse(raw) as string[]);
@@ -15,7 +17,12 @@ function readSet(key: string): Set<string> {
 }
 
 function writeSet(key: string, set: Set<string>) {
-  localStorage.setItem(key, JSON.stringify([...set]));
+  try {
+    if (typeof localStorage === 'undefined') return;
+    localStorage.setItem(key, JSON.stringify([...set]));
+  } catch {
+    /* ignore */
+  }
 }
 
 export function useFavorites() {
@@ -45,6 +52,7 @@ export function useFavorites() {
 export function useRecentViews() {
   const [recentIds, setRecentIds] = useState<string[]>(() => {
     try {
+      if (typeof localStorage === 'undefined') return [];
       const raw = localStorage.getItem(RECENT_KEY);
       return raw ? JSON.parse(raw) as string[] : [];
     } catch {
@@ -53,7 +61,12 @@ export function useRecentViews() {
   });
 
   useEffect(() => {
-    localStorage.setItem(RECENT_KEY, JSON.stringify(recentIds));
+    try {
+      if (typeof localStorage === 'undefined') return;
+      localStorage.setItem(RECENT_KEY, JSON.stringify(recentIds));
+    } catch {
+      /* ignore */
+    }
   }, [recentIds]);
 
   const addRecent = useCallback((id: string) => {

@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+web/.astro/
+
+# Astro generated types
+.astro/
+# Vite/old config
+postcss.config.js
+web/index.html
+web/public/sitemap.xml
