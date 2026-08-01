@@ -80,7 +80,7 @@ const [yesterdayRes, realtimeRes, trendRes, topPagesRes, topSourcesRes] = await 
       dateRanges: [{ startDate: dayLabels.length ? `${new Date(today.getTime() - 7 * 86400000).toISOString().slice(0, 10)}` : todayStr, endDate: yesterdayStr }],
       metrics: [{ name: 'activeUsers' }, { name: 'screenPageViews' }],
       dimensions: [{ name: 'date' }],
-      orderBys: [{ dimension: { dimensionName: 'date' }, orderType: 'DIMENSION_AS_INTEGER' }],
+      orderBys: [{ dimension: { orderType: 'DIMENSION_AS_INTEGER', dimensionName: 'date' } }],
     },
   }),
   // TOP 受访页面
