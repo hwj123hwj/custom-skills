@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect, lazy, Suspense } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { useAnalytics } from './hooks/useAnalytics'
 import { Layout } from './components/Layout'
 import { SkillCard } from './components/SkillCard'
 import { AgentCard } from './components/AgentCard'
@@ -646,6 +647,9 @@ function App() {
   const { theme, toggleTheme } = useTheme()
   const { isFavorite, toggleFavorite } = useFavorites()
   const { addRecent } = useRecentViews()
+
+  // 路由变化时上报 PV 到百度统计 + GA4（SPA 手动埋点）
+  useAnalytics()
 
   return (
     <Layout theme={theme} toggleTheme={toggleTheme}>
