@@ -78,12 +78,8 @@ export default function HomePageApp() {
   const { isFavorite, toggleFavorite } = useFavorites();
   const { addRecent } = useRecentViews();
 
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 600);
-    return () => clearTimeout(timer);
-  }, []);
+  // 数据是静态 import，SSR 时直接可用，不需要加载延迟
+  const [isLoading] = useState(false);
 
   const skillCategoryCounts = useMemo(() => countSkillsByCategory(skills), []);
 
