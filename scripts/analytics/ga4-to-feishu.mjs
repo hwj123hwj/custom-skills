@@ -174,8 +174,10 @@ function fmtDuration(sec) {
 
 // TOP 页面格式化（清理路径）
 function cleanPath(p) {
-  const cleaned = p.replace(/^\/skill\//, '').replace(/^\/+/, '');
-  return cleaned.length > 20 ? cleaned.slice(0, 20) + '…' : cleaned;
+  // 首页特殊处理，避免显示为空
+  if (p === '/' || p === '') return '🏠 首页';
+  const cleaned = p.replace(/^\/skill\//, '🔧 ').replace(/^\/agent\//, '🤖 ').replace(/^\/blog\//, '📝 ').replace(/^\/deck\//, '🎴 ').replace(/^\/story\//, '📖 ').replace(/^\/+/, '');
+  return cleaned.length > 22 ? cleaned.slice(0, 22) + '…' : cleaned;
 }
 
 let topPagesText = '暂无数据';
