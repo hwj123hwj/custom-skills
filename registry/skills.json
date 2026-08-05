@@ -673,7 +673,7 @@
     "author": "pbakaus",
     "upstream": "pbakaus/impeccable",
     "upstreamPath": "skill",
-    "upstreamSha": "33b9a3752b8852c7adb7f4935a3f6c160bf3fefc"
+    "upstreamSha": "ae5e95101a6979e7f7973a4ff57680b3c7adc1ec"
   },
   {
     "id": "implement",
@@ -918,7 +918,7 @@
     "author": "iOfficeAI",
     "upstream": "iOfficeAI/OfficeCLI",
     "upstreamPath": "skills/officecli-docx",
-    "upstreamSha": "b2f30dd9eaa7459b4d5b5ecc2387402f8e01d412"
+    "upstreamSha": "459b1a473faf33f2f52e697ac6d265a3f67b176a"
   },
   {
     "id": "paddleocr-doc-parsing",
