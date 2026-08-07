@@ -1,7 +1,7 @@
 # 多主题统一管理整合方案
 
 > 基于对 template.html / template-swiss.html 两份模板与全部 references 的逐行对比分析(2026-07)。
-> 本文档是**方案建议**,尚未实施;按阶段推进,每个阶段独立可交付、可回滚。
+> 本文档是**方案建议**,尚未整体实施;按阶段推进,每个阶段独立可交付、可回滚。2026-08-07 已先为演讲者 CSS / JS 加入边界标记、字节级同步脚本和 GitHub Actions,但尚未提取共享源文件。
 
 ## 现状诊断
 
@@ -51,6 +51,10 @@
 实施方式二选一:
 - **a. 构建脚本**(推荐):`scripts/build-templates.mjs` 把 `src/runtime.js` + 各主题 `src/style-*.css` + 皮肤 HTML 组装成各 template*.html。模板仍是完整单文件,但源头唯一。
 - **b. 文档约定**:不引入构建,把 runtime 段落用 `<!-- SHARED-RUNTIME v3 -->` 注释标记,改动时用脚本校验各份一致。成本低但漂移风险仍在。
+
+当前演讲者模式已先落地 Phase 1b 的防漂移护栏:`scripts/check-presenter-runtime-sync.mjs` 与 `.github/workflows/presenter-runtime-sync.yml`。它不替代长期的共享源提取,但可以防止修改只落到其中一份模板。
+
+如果未来合并 Bento 分支,以 `main` 上的演讲者运行时为上游,采用 `main → bento` 的合并方向;不要用旧 Bento 模板反向覆盖 `main`。
 
 ### Phase 2 · 公共 Token 契约
 
