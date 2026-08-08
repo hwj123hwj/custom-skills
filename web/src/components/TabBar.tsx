@@ -1,15 +1,14 @@
 import { useTranslation } from 'react-i18next';
 
 interface TabBarProps {
-  activeTab: 'skills' | 'stories' | 'decks' | 'prompts';
+  activeTab: 'skills' | 'decks' | 'prompts';
   skillCount: number;
-  storyCount: number;
   deckCount: number;
   promptCount: number;
-  onTabChange: (tab: 'skills' | 'stories' | 'decks' | 'prompts') => void;
+  onTabChange: (tab: 'skills' | 'decks' | 'prompts') => void;
 }
 
-export function TabBar({ activeTab, skillCount, storyCount, deckCount, promptCount, onTabChange }: TabBarProps) {
+export function TabBar({ activeTab, skillCount, deckCount, promptCount, onTabChange }: TabBarProps) {
   const { t } = useTranslation();
 
   return (
@@ -26,12 +25,6 @@ export function TabBar({ activeTab, skillCount, storyCount, deckCount, promptCou
           count={skillCount}
           active={activeTab === 'skills'}
           onClick={() => onTabChange('skills')}
-        />
-        <TabButton
-          label={t('tab.stories')}
-          count={storyCount}
-          active={activeTab === 'stories'}
-          onClick={() => onTabChange('stories')}
         />
         <TabButton
           label={t('tab.decks')}

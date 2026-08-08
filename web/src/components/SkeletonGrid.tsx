@@ -46,35 +46,6 @@ export function SkillCardSkeleton() {
   );
 }
 
-export function StoryCardSkeleton() {
-  return (
-    <div
-      className="w-full rounded-xl p-6"
-      style={{
-        background: 'var(--bg-card)',
-        border: '1px solid var(--border-default)',
-      }}
-    >
-      <div className="flex gap-1.5 mb-3">
-        <SkeletonLine width="48px" height="18px" />
-        <SkeletonLine width="56px" height="18px" />
-      </div>
-      <SkeletonLine width="70%" height="20px" />
-      <SkeletonLine width="100px" height="12px" />
-
-      <div className="space-y-2 my-4" style={{ minHeight: '60px' }}>
-        <SkeletonLine width="100%" height="14px" />
-        <SkeletonLine width="90%" height="14px" />
-        <SkeletonLine width="75%" height="14px" />
-      </div>
-
-      <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: '12px' }}>
-        <SkeletonLine width="100px" height="12px" />
-      </div>
-    </div>
-  );
-}
-
 export function DeckCardSkeleton() {
   return (
     <div
@@ -102,10 +73,9 @@ export function DeckCardSkeleton() {
   );
 }
 
-export function SkeletonGrid({ type }: { type: 'skills' | 'stories' | 'decks' | 'prompts' }) {
+export function SkeletonGrid({ type }: { type: 'skills' | 'decks' | 'prompts' }) {
   const SkeletonCard = {
     skills: SkillCardSkeleton,
-    stories: StoryCardSkeleton,
     decks: DeckCardSkeleton,
     prompts: SkillCardSkeleton,  // Prompts use similar card layout to skills
   }[type];

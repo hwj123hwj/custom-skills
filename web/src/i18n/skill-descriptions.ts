@@ -171,6 +171,12 @@ export const skillDescriptionsZh: Record<string, string> = {
     '智能股票分析技能。输入股票代码（A股/港股/美股），自动获取实时行情和历史 K 线数据，计算技术指标（MA/MACD/RSI/成交量/BIAS），生成综合评分（百分制）及买卖信号，搜索最新资讯，输出 AI 驱动的决策仪表盘。Python 脚本支持多源回退（akshare → yfinance → Alpha Vantage），6 维技术评分。',
   'weread-skills':
     '微信读书助手 — 搜索书籍、管理书架、查看笔记和划线、浏览书评、阅读统计以及个性化推荐。通过 Agent API Gateway 调用微信读书 API。',
+  'emil-design-eng':
+    'Emil Kowalski 的设计工程哲学。涵盖 UI 打磨、组件设计、动画决策和让软件体验出众的隐形细节。',
+  'impeccable':
+    '生产级前端界面设计与迭代工具。真实可运行的代码、坚定的设计选择、极致的工艺。覆盖网站、落地页、仪表盘、产品 UI、组件、表单和设计系统。',
+  'taste-skill':
+    '反模板化前端设计技能。适用于落地页、作品集和改版项目。自动推断设计方向，输出不千篇一律的界面。',
 
 };
 
@@ -223,11 +229,5 @@ export const skillDescriptionsEn: Record<string, string> = {
     'Read-only storage analysis assistant for macOS / Windows (auto-detects OS). Scans entire disk usage, identifies space hogs, categorizes each item as 🟢 auto-cleanable / 🟡 needs human judgment / 🔴 clean with caution, and generates an interactive HTML report with collapsible sections and one-click copy commands. Can start a local server for browser-based one-click deletion (move to trash or permanent delete). Scan is fully read-only.',
   'video-analyze':
     'Video content analysis tool. Auto-extracts keyframes, transcribes speech (ASR), and generates structured video summaries with content tags. Outputs structured data for agent understanding and can pair with content-adapt for publishing copy.',
-  'emil-design-eng':
-    'Emil Kowalski 的设计工程哲学。涵盖 UI 打磨、组件设计、动画决策和让软件体验出众的隐形细节。',
-  'impeccable':
-    '生产级前端界面设计与迭代工具。真实可运行的代码、坚定的设计选择、极致的工艺。覆盖网站、落地页、仪表盘、产品 UI、组件、表单和设计系统。',
-  'taste-skill':
-    '反模板化前端设计技能。适用于落地页、作品集和改版项目。自动推断设计方向，输出不千篇一律的界面。',
 
 };

@@ -162,7 +162,7 @@ Sitemap: https://hwj123hwj.asia/sitemap.xml
   fs.writeFileSync(path.join(publicDir, 'robots.txt'), robotsTxt);
   console.log(`🎉 Generated robots.txt`);
 
-  // 2. Generate sitemap.xml — includes skills, agents, stories, and decks
+  // 2. Generate sitemap.xml — includes skills and decks
   const currentDate = new Date().toISOString().split('T')[0];
   let sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
@@ -188,25 +188,6 @@ Sitemap: https://hwj123hwj.asia/sitemap.xml
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/${skill.id}" />
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/${skill.id}?lng=en" />
   </url>\n`;
-  }
-
-  // Stories
-  const storiesDataPath = path.resolve(__dirname, '../src/data/stories-data.json');
-  if (fs.existsSync(storiesDataPath)) {
-    try {
-      const stories: { id: string; lastUpdated?: string }[] = JSON.parse(fs.readFileSync(storiesDataPath, 'utf-8'));
-      for (const story of stories) {
-        const lastModDate = story.lastUpdated ? story.lastUpdated.split('T')[0] : currentDate;
-        sitemapXml += `  <url>
-    <loc>https://hwj123hwj.asia/story/${story.id}</loc>
-    <lastmod>${lastModDate}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/story/${story.id}" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/story/${story.id}?lng=en" />
-  </url>\n`;
-      }
-    } catch { /* ignore */ }
   }
 
   // Decks

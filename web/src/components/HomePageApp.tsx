@@ -14,30 +14,25 @@ ensureI18n();
 import { Search, Copy, Check } from 'lucide-react';
 
 import type { Skill } from '../types/skill';
-import type { Story } from '../types/story';
 import type { Deck } from '../types/deck';
 import type { Prompt } from '../types/prompt';
 
 import skillsData from '../data/skills-data.json';
-import storiesData from '../data/stories-data.json';
 import decksData from '../data/decks-data.json';
 import promptsData from '../data/prompts-data.json';
 
 import { SkillCard } from './SkillCard';
-import { StoryCard } from './StoryCard';
 import { DeckCard } from './DeckCard';
 import { PromptCard } from './PromptCard';
 import { TabBar } from './TabBar';
 import { SkeletonGrid } from './SkeletonGrid';
 import { FavoritesBar } from './FavoritesBar';
 import { SkillModal } from './SkillModal';
-import { StoryModal } from './StoryModal';
 import { DeckModal } from './DeckModal';
 import { PromptModal } from './PromptModal';
 import { useFavorites, useRecentViews } from '../hooks/useFavorites';
 
 import { searchSkills } from '../lib/search';
-import { searchStories } from '../lib/story-search';
 import { searchDecks } from '../lib/deck-search';
 import { searchPrompts } from '../lib/prompt-search';
 import { generateOnboardingSnippet } from '../lib/generate-snippet';
@@ -46,7 +41,6 @@ import { countSkillsByCategory, filterSkillsByCategory } from '../lib/skill-cate
 import type { SkillGroupId } from '../lib/skill-categories';
 
 const skills = skillsData as Skill[];
-const stories = storiesData as Story[];
 const decks = decksData as Deck[];
 const prompts = promptsData as Prompt[];
 
@@ -54,7 +48,7 @@ export default function HomePageApp() {
   const { t, i18n } = useTranslation();
   type DeckCategory = Deck['category'];
 
-  type TabType = 'skills' | 'stories' | 'decks' | 'prompts';
+  type TabType = 'skills' | 'decks' | 'prompts';
   const [activeTab, setActiveTab] = useState<TabType>('skills');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeSkillCategory, setActiveSkillCategory] = useState<'all' | SkillGroupId>('all');
@@ -64,7 +58,6 @@ export default function HomePageApp() {
   const [showFavorites, setShowFavorites] = useState(false);
 
   const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null);
-  const [selectedStory, setSelectedStory] = useState<Story | null>(null);
   const [selectedDeck, setSelectedDeck] = useState<Deck | null>(null);
   const [selectedPrompt, setSelectedPrompt] = useState<Prompt | null>(null);
 
@@ -91,19 +84,6 @@ export default function HomePageApp() {
     }
     return result;
   }, [searchQuery, i18n.language, activeSkillCategory, showFavorites, isFavorite]);
-
-  const filteredStories = useMemo(() => {
-    let result = [...stories] as Story[];
-    if (showFavorites) {
-      result = result.filter((s) => isFavorite(s.id));
-    }
-    if (!searchQuery.trim()) {
-      return result.sort(
-        (a, b) => new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime()
-      );
-    }
-    return searchStories(result, searchQuery).map((r) => r.story);
-  }, [searchQuery, showFavorites, isFavorite]);
 
   const filteredDecks = useMemo(() => {
     let result = activeDeckCategory === 'all'
@@ -168,10 +148,6 @@ export default function HomePageApp() {
     addRecent(skill.id);
     setSelectedSkill(skill);
   };
-  const handleStoryClick = (story: Story) => {
-    addRecent(story.id);
-    setSelectedStory(story);
-  };
   const handleDeckClick = (deck: Deck) => {
     addRecent(deck.id);
     setSelectedDeck(deck);
@@ -184,11 +160,9 @@ export default function HomePageApp() {
   const placeholder = t(
     activeTab === 'skills'
       ? 'search.placeholder_skills'
-      : activeTab === 'stories'
-          ? 'search.placeholder_stories'
-          : activeTab === 'decks'
-            ? 'search.placeholder_decks'
-            : 'search.placeholder_prompts'
+      : activeTab === 'decks'
+        ? 'search.placeholder_decks'
+        : 'search.placeholder_prompts'
   );
 
   return (
@@ -278,7 +252,6 @@ export default function HomePageApp() {
       <TabBar
         activeTab={activeTab}
         skillCount={skills.length}
-        storyCount={stories.length}
         deckCount={decks.length}
         promptCount={prompts.length}
         onTabChange={handleTabChange}
@@ -321,28 +294,6 @@ export default function HomePageApp() {
                       {t('search.clear')}
                     </button>
                   )}
-                </div>
-              )}
-            </>
-          )}
-
-          {activeTab === 'stories' && (
-            <>
-              <div className="max-w-3xl mx-auto mb-6 sm:mb-8">
-                <div className="rounded-2xl p-4 sm:p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-default)' }}>
-                  <h3 className="text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>{t('story.banner_title')}</h3>
-                  <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{t('story.banner_description')}</p>
-                </div>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 justify-items-center">
-                {filteredStories.map((story) => (
-                  <StoryCard key={story.id} story={story} onClick={handleStoryClick} />
-                ))}
-              </div>
-              {filteredStories.length === 0 && (
-                <div className="text-center py-20">
-                  <p className="text-lg" style={{ color: 'var(--text-muted)' }}>{t('search.no_results_stories', { query: searchQuery })}</p>
-                  <button onClick={() => setSearchQuery('')} className="mt-4 font-medium transition-colors" style={{ color: 'var(--accent)' }}>{t('search.clear')}</button>
                 </div>
               )}
             </>
@@ -407,12 +358,6 @@ export default function HomePageApp() {
         isOpen={!!selectedSkill}
         onClose={() => setSelectedSkill(null)}
         onViewDetail={selectedSkill ? () => navigateTo(`/skill/${selectedSkill.id}`) : undefined}
-      />
-      <StoryModal
-        story={selectedStory}
-        isOpen={!!selectedStory}
-        onClose={() => setSelectedStory(null)}
-        onViewDetail={selectedStory ? () => navigateTo(`/story/${selectedStory.id}`) : undefined}
       />
       <DeckModal
         deck={selectedDeck}
