@@ -173,6 +173,8 @@ export const skillDescriptionsZh: Record<string, string> = {
     '生产级前端界面设计与迭代工具。真实可运行的代码、坚定的设计选择、极致的工艺。覆盖网站、落地页、仪表盘、产品 UI、组件、表单和设计系统。',
   'taste-skill':
     '反模板化前端设计技能。适用于落地页、作品集和改版项目。自动推断设计方向，输出不千篇一律的界面。',
+  'open-kimi-ppt':
+    'PPT 创建、编辑、复制、读取与导出技能。基于 Moonshot AI 的 PPTD 格式与浏览器端 PPTX 写入器，默认同时输出可编辑的 PPTD 项目目录和带字体嵌入的 .pptx 文件。适用于演示文稿、幻灯片、信息图、海报等任务。',
 
 };
 
@@ -225,5 +227,7 @@ export const skillDescriptionsEn: Record<string, string> = {
     'Read-only storage analysis assistant for macOS / Windows (auto-detects OS). Scans entire disk usage, identifies space hogs, categorizes each item as 🟢 auto-cleanable / 🟡 needs human judgment / 🔴 clean with caution, and generates an interactive HTML report with collapsible sections and one-click copy commands. Can start a local server for browser-based one-click deletion (move to trash or permanent delete). Scan is fully read-only.',
   'video-analyze':
     'Video content analysis tool. Auto-extracts keyframes, transcribes speech (ASR), and generates structured video summaries with content tags. Outputs structured data for agent understanding and can pair with content-adapt for publishing copy.',
+  'open-kimi-ppt':
+    'PPT creation, editing, replication, reading, and export skill. Built on Moonshot AI PPTD format and browser-side PPTX writer. Defaults to delivering both a PPTD project folder and a locally generated .pptx with embedded fonts and fade transitions. Use for any presentation, slide deck, infographic, or poster task.',
 
 };
