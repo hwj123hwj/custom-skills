@@ -33,6 +33,9 @@ skills/short-drama-pipeline/output/
 .trae/
 tests/
 
+# Easy Code 运行时目录（仅排除 inbound，保留其余 .easycode 配置）
+.easycode/inbound/
+
 # 内嵌 git 仓库的技能（有独立 .git，不应提交其内部对象）
 skills/frontend-slides/.git/
 skills/frontend-slides/node_modules/
