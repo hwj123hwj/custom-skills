@@ -71,6 +71,7 @@
   "favorites": {
     "label": "收藏",
     "empty": "还没有收藏。点击任意项目的心形图标添加收藏。",
+    "empty_prompts": "还没有收藏的提示词。",
     "recent": "最近浏览"
   },
   "onboarding": {

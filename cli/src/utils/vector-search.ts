@@ -237,17 +237,3 @@ export async function hybridSearch(
   // 两路都有结果，用 RRF 融合（关键词权重 3x，让精确匹配优先）
   return rrfMerge(kwResults, vecResults, 3.0, 1.0, 30, limit);
 }
-
-// ─── 工具函数 ───────────────────────────────────────────────────────────────
-
-/**
- * 将技能转化为用于生成嵌入的文本
- */
-export function skillToText(skill: { name: string; description: string; tags: string[]; scenarios?: string[] }): string {
-  const parts = [`${skill.name}: ${skill.description}`];
-  if (skill.tags.length > 0) parts.push(`Tags: ${skill.tags.join(', ')}`);
-  if (skill.scenarios && skill.scenarios.length > 0) {
-    parts.push(`Scenarios: ${skill.scenarios.join(', ')}`);
-  }
-  return parts.join('\n');
-}

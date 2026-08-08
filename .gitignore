@@ -6,7 +6,6 @@ secrets.json
 *.log
 .env
 auth_state.json
-*.png
 .vscode/
 skills/knowledge-skill/.venv
 
@@ -16,14 +15,15 @@ skills/knowledge-skill/.venv
 **/uv.lock
 **/package-lock.json
 
-# 二进制输出产物
-*.mp4
-*.mp3
-*.jpg
-*.jpeg
-*.gif
-*.webp
-*.srt
+# 二进制输出产物（限技能运行时输出目录）
+skills/*/output/*.mp4
+skills/*/output/*.mp3
+skills/*/output/*.jpg
+skills/*/output/*.jpeg
+skills/*/output/*.gif
+skills/*/output/*.webp
+skills/*/output/*.png
+skills/*/output/*.srt
 
 # 运行时输出目录
 skills/short-drama-pipeline/output/
@@ -33,8 +33,9 @@ skills/short-drama-pipeline/output/
 .trae/
 tests/
 
-# Easy Code 运行时目录（仅排除 inbound，保留其余 .easycode 配置）
+# Easy Code 运行时目录（仅排除 inbound 和 clipboard，保留其余 .easycode 配置）
 .easycode/inbound/
+.easycode/clipboard/
 
 # 内嵌 git 仓库的技能（有独立 .git，不应提交其内部对象）
 skills/frontend-slides/.git/

@@ -71,6 +71,7 @@
   "favorites": {
     "label": "Favorites",
     "empty": "No favorites yet. Click the heart icon on any item to add it.",
+    "empty_prompts": "No favorite prompts yet.",
     "recent": "Recently viewed"
   },
   "onboarding": {

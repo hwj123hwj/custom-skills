@@ -21,7 +21,6 @@
     "@astrojs/sitemap": "^3.3.0",
     "@tailwindcss/vite": "^4.1.4",
     "astro": "^5.7.0",
-    "astro-redirect-from": "^1.2.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "i18next": "^26.0.8",

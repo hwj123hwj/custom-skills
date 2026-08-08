@@ -585,36 +585,4 @@
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/xiaohongshu-cli" />
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/xiaohongshu-cli?lng=en" />
   </url>
-  <url>
-    <loc>https://hwj123hwj.asia/deck/knowledge-to-deck-pipeline-notes</loc>
-    <lastmod>2026-05-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/deck/knowledge-to-deck-pipeline-notes" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/deck/knowledge-to-deck-pipeline-notes?lng=en" />
-  </url>
-  <url>
-    <loc>https://hwj123hwj.asia/deck/programmer-workflow-shift-notes</loc>
-    <lastmod>2026-05-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/deck/programmer-workflow-shift-notes" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/deck/programmer-workflow-shift-notes?lng=en" />
-  </url>
-  <url>
-    <loc>https://hwj123hwj.asia/deck/vector-database-decision-cards</loc>
-    <lastmod>2026-05-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/deck/vector-database-decision-cards" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/deck/vector-database-decision-cards?lng=en" />
-  </url>
-  <url>
-    <loc>https://hwj123hwj.asia/deck/autoresearch-knowledge-cards</loc>
-    <lastmod>2026-05-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/deck/autoresearch-knowledge-cards" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/deck/autoresearch-knowledge-cards?lng=en" />
-  </url>
 </urlset>

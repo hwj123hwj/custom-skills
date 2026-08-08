@@ -163,10 +163,6 @@ export function registerInstall(program: Command): void {
     .action(async (keyword: string, opts) => {
       const jsonMode: boolean = opts.json ?? false;
 
-      if (opts.targetDir) {
-        process.env.CUSTOM_SKILLS_TARGET = opts.targetDir as string;
-      }
-
       try {
         // ── Skill 搜索与选择 ──────────────────────────────────────────────
         const skills = await loadSkills(opts.refresh ?? false);

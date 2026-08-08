@@ -91,10 +91,16 @@ function loadChineseDescriptions(): Record<string, string> {
   const content = fs.readFileSync(I18N_PATH, 'utf-8');
   const result: Record<string, string> = {};
 
-  // 匹配 'key': 'value' 或 "key": "value" 模式（支持多行）
-  const regex = /['"]([\w-]+)['"]\s*:\s*['"`]([\s\S]*?)['"`]/g;
+  // 只解析 skillDescriptionsZh 块，避免捕获英文 map
+  const zhBlockMatch = content.match(
+    /export\s+const\s+skillDescriptionsZh[^{]*\{([\s\S]*?)\n\};/
+  );
+  if (!zhBlockMatch) return result;
+
+  const zhBlock = zhBlockMatch[1];
+  const regex = /['"]([\w-]+)['"]\s*:\s*\n?\s*['"]([^']*?)['"]/g;
   let match;
-  while ((match = regex.exec(content)) !== null) {
+  while ((match = regex.exec(zhBlock)) !== null) {
     const key = match[1];
     const value = match[2].trim();
     if (value.length > 10) {
