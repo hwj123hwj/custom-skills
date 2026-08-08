@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Custom Skills Hub — 一个以 `skills/*/SKILL.md` 为数据源的 AI Agent 技能注册表，同时服务人类用户（Web 技能广场）和 AI Agent（CLI 安装工具）。
+Custom Skills Hub — 一个以 `skills/*/SKILL.md` 为数据源的技能注册表，同时服务人类用户（Web 技能广场）和 AI Agent（CLI 安装工具）。
 
 ## Commands
 
@@ -33,9 +33,8 @@ skills/*/SKILL.md (唯一数据源)
   → CLI (远程拉取) / Web (静态导入)
 ```
 
-**四大模块：**
+**三大模块：**
 - `skills/` — 技能目录，每个必须有 `SKILL.md`（YAML frontmatter + 使用说明），含自研技能和第三方同步技能
-- `agents/` — Agent 定义（`.md`），分为通用型（弱关联 Skill）和垂直型（强关联，frontmatter 声明 `skills`）
 - `web/` — React 19 + Vite + Tailwind 技能广场，支持 i18n（zh/en）和分类筛选
 - `cli/` — TypeScript + Commander CLI，`npx custom-skills install/search/list/info`
 
@@ -44,7 +43,7 @@ skills/*/SKILL.md (唯一数据源)
 ## Critical Rules
 
 - **永远不要手动编辑** `registry/skills.json` 或 `web/src/data/skills-data.json`，它们由 `generate:registry` 自动生成
-- 修改任何 `SKILL.md` 或 `agents/*.md` 后，提交前**必须**运行 `cd web && npm run generate:registry`，否则 CI 失败
+- 修改任何 `SKILL.md` 后，提交前**必须**运行 `cd web && npm run generate:registry`，否则 CI 失败
 - 新增 tag 必须先在 `web/scripts/validate-registry.ts` 的 `ALLOWED_TAGS` 中注册
 - 技能 `name` 字段必须 kebab-case 且与目录名一致
 - Python 脚本使用 PEP 723 内联元数据，用 `uv run` 执行

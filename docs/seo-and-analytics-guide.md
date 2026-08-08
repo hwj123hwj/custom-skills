@@ -25,7 +25,7 @@
 
 | 组件 | 技术方案 | 说明 |
 |------|---------|------|
-| 前端框架 | **Astro 5** (SSG) | 87 页全预渲染，SEO 友好 |
+| 前端框架 | **Astro 5** (SSG) | 全预渲染，SEO 友好 |
 | UI 交互层 | React 19 Islands | 搜索/筛选/模态/收藏等交互功能 |
 | 样式 | Tailwind CSS 4 + 自定义 CSS 变量 | 深色/浅色双主题 |
 | 多语言 | i18next | 中英文动态切换 |
@@ -43,9 +43,7 @@ web/
 │   │   └── AppLayout.astro    # 导航/页脚/主题/语言切换
 │   ├── pages/                  # Astro 页面（SSG 预渲染）
 │   │   ├── index.astro         # 首页（技能市场）
-│   │   ├── skill/[id].astro    # 技能详情页 (73页)
-│   │   ├── agent/[id].astro    # Agent 详情页 (6页)
-│   │   ├── story/[id].astro    # Story 详情页 (1页)
+│   │   ├── skill/[id].astro    # 技能详情页 (71页)
 │   │   ├── deck/[id].astro     # Deck 详情页 (4页)
 │   │   ├── blog/               # 博客页面
 │   │   │   ├── index.astro     # 博客列表
@@ -78,7 +76,7 @@ web/
 
 - **方案**: Astro SSG（静态站点生成）
 - **URL 格式**: 干净 URL，如 `https://hwj123hwj.asia/skill/impeccable`
-- **预渲染页面数**: 87 页（首页 + 73 技能 + 6 Agent + 1 Story + 4 Deck + 博客）
+- **预渲染页面数**: 首页 + 71 技能 + 4 Deck + 博客（约 80 页）
 - **构建耗时**: ~4 秒
 
 ### 每页 SEO 元素
@@ -147,14 +145,7 @@ const [isLoading] = useState(false);
 
 ### SPA 路由 PV 上报
 
-**问题**: 网站是单页应用，用户切换页面时不会触发新的页面浏览统计。
-
-**解决**: `src/hooks/useAnalytics.ts` 监听路由变化，手动上报 PV。
-
-```ts
-// 在 App.tsx / HomePageApp.tsx 中调用
-useAnalytics();  // 路由变化时自动推送 PV 到 _hmt 和 gtag
-```
+Astro SSG 模式下页面均为独立静态页，浏览器原生 navigation 即触发统计代码，无需额外 SPA 路由监听。
 
 ### 查看数据
 
@@ -354,9 +345,8 @@ tags: ["AI", "教程"]
 
 | 文件 | 作用 |
 |------|------|
-| `web/src/hooks/useAnalytics.ts` | SPA 路由 PV 上报 |
 | `scripts/analytics/ga4-to-feishu.mjs` | GA4 数据 → 飞书播报 |
-| `scripts/analytics/push-to-baidu.mjs | 百度 URL 推送 |
+| `scripts/analytics/push-to-baidu.mjs` | 百度 URL 推送 |
 | `.github/workflows/daily-analytics.yml` | 每日定时任务 |
 | `scripts/analytics/SETUP.md` | 飞书播报配置指南 |
 
