@@ -187,6 +187,7 @@ CI 会在每天 UTC 02:00 自动检查上游更新，如有变更会创建 PR。
 | [mp-weixin-ops](./skills/mp-weixin-ops) | 微信公众号一站式运营 Skill。 |
 | [obsidian-vault](./skills/obsidian-vault) | Search, create, and manage notes in the Obsidian vault with wikilinks and index notes. |
 | [officecli-docx](./skills/officecli-docx) | Use this skill any time a .docx file is involved -- as input, output, or both. |
+| [open-kimi-ppt](./skills/open-kimi-ppt) | Create, edit, replicate, read, and export presentations. |
 | [paddleocr-doc-parsing](./skills/paddleocr-doc-parsing) | Use this skill to extract structured Markdown/JSON from PDFs and document images—tables with cell... |
 | [paddleocr-text-recognition](./skills/paddleocr-text-recognition) | Use this skill whenever the user wants text extracted from images, photos, scans, screenshots, or... |
 | [prototype](./skills/prototype) | Build a throwaway prototype to flesh out a design before committing to it. |

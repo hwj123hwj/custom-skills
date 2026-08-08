@@ -322,6 +322,14 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/officecli-docx?lng=en" />
   </url>
   <url>
+    <loc>https://hwj123hwj.asia/skill/open-kimi-ppt</loc>
+    <lastmod>2026-08-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/open-kimi-ppt" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/open-kimi-ppt?lng=en" />
+  </url>
+  <url>
     <loc>https://hwj123hwj.asia/skill/paddleocr-doc-parsing</loc>
     <lastmod>2026-05-09</lastmod>
     <changefreq>weekly</changefreq>
