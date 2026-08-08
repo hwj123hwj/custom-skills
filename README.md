@@ -160,7 +160,6 @@ CI 会在每天 UTC 02:00 自动检查上游更新，如有变更会创建 PR。
 | [content-repurposer](./skills/content-repurposer) | Markdown 提示工程驱动的内容复用技能，含 7 个子技能（LinkedIn/Twitter/Medium/Substack/Newsletter/GitHub Pages + 编排器）。 |
 | [darwin-skill](./skills/darwin-skill) | Darwin Skill (达尔文.skill): autonomous skill optimizer inspired by Karpathy's autoresearch. |
 | [decision-mapping](./skills/decision-mapping) | Turn a loose idea into a sequenced map of investigation tickets, then drive them to resolution on... |
-| [diagnose](./skills/diagnose) | Disciplined diagnosis loop for hard bugs and performance regressions. |
 | [diagnosing-bugs](./skills/diagnosing-bugs) | Diagnosis loop for hard bugs and performance regressions. |
 | [domain-modeling](./skills/domain-modeling) | Build and sharpen a project's domain model. |
 | [douyin-upload](./skills/douyin-upload) | 当你需要登录抖音账号、检查 Cookie、上传视频或发布图文时使用本技能。 |
@@ -193,7 +192,6 @@ CI 会在每天 UTC 02:00 自动检查上游更新，如有变更会创建 PR。
 | [prototype](./skills/prototype) | Build a throwaway prototype to flesh out a design before committing to it. |
 | [react-native-best-practices](./skills/react-native-best-practices) | Provides React Native performance optimization guidelines for FPS, TTI, bundle size, memory leaks... |
 | [resolving-merge-conflicts](./skills/resolving-merge-conflicts) | Use when you need to resolve an in-progress git merge/rebase conflict. |
-| [review](./skills/review) | Two-axis code review — Standards (does code follow documented standards?) and Spec (does code mat... |
 | [scaffold-exercises](./skills/scaffold-exercises) | Create exercise directory structures with sections, problems, solutions, and explainers that pass... |
 | [setup-matt-pocock-skills](./skills/setup-matt-pocock-skills) | Configure this repo for the engineering skills — set up its issue tracker, triage label vocabular... |
 | [setup-pre-commit](./skills/setup-pre-commit) | Set up Husky pre-commit hooks with lint-staged (Prettier), type checking, and tests in the curren... |

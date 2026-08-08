@@ -264,29 +264,6 @@
     "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
   },
   {
-    "id": "diagnose",
-    "name": "diagnose",
-    "displayName": "Diagnose",
-    "description": "Disciplined diagnosis loop for hard bugs and performance regressions. Reproduce → minimise → hypothesise → instrument → fix → regression-test. Use when user says 'diagnose this' / 'debug this', reports a bug, says something is broken/throwing/failing, or describes a performance regression.",
-    "detailedDescription": "A discipline for hard bugs. Skip phases only when explicitly justified.",
-    "emoji": "📦",
-    "tags": [
-      "Debugging",
-      "Coding",
-      "Matt Pocock"
-    ],
-    "scenarios": [],
-    "aliases": [],
-    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill diagnose",
-    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/diagnose",
-    "sourcePath": "skills/diagnose",
-    "lastUpdated": "2026-06-25T17:00:00.000Z",
-    "author": "mattpocock",
-    "upstream": "mattpocock/skills",
-    "upstreamPath": "skills/engineering/diagnosing-bugs",
-    "upstreamSha": "8b36d4fb2635b3c21998dcd8144439c9e5ba7302"
-  },
-  {
     "id": "diagnosing-bugs",
     "name": "diagnosing-bugs",
     "displayName": "Diagnosing Bugs",
@@ -1024,29 +1001,6 @@
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/resolving-merge-conflicts",
     "upstreamSha": "84fdeffd12f2ee307994d1eb6feb48173b6e0502"
-  },
-  {
-    "id": "review",
-    "name": "review",
-    "displayName": "review",
-    "description": "Two-axis code review — Standards (does code follow documented standards?) and Spec (does code match the originating issue/PRD?). Runs both reviews in parallel and reports side by side. Use when reviewing a branch, a PR, work-in-progress changes, or asking to 'review since X'.",
-    "detailedDescription": "Two-axis code review — Standards (does code follow documented standards?) and Spec (does code match the originating issue/PRD?). Runs both reviews in parallel and reports side by side. Use when reviewing a branch, a PR, work-in-progress changes, or asking to 'review since X'.",
-    "emoji": "📦",
-    "tags": [
-      "Coding",
-      "Analysis",
-      "Matt Pocock"
-    ],
-    "scenarios": [],
-    "aliases": [],
-    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill review",
-    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/review",
-    "sourcePath": "skills/review",
-    "lastUpdated": "2026-06-25T17:00:00.000Z",
-    "author": "mattpocock",
-    "upstream": "mattpocock/skills",
-    "upstreamPath": "skills/engineering/code-review",
-    "upstreamSha": "b38badf7091afc614dedffc03ea8c8ad2b643cb4"
   },
   {
     "id": "scaffold-exercises",

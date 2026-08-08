@@ -106,14 +106,6 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/decision-mapping?lng=en" />
   </url>
   <url>
-    <loc>https://hwj123hwj.asia/skill/diagnose</loc>
-    <lastmod>2026-06-25</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/diagnose" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/diagnose?lng=en" />
-  </url>
-  <url>
     <loc>https://hwj123hwj.asia/skill/diagnosing-bugs</loc>
     <lastmod>2026-07-02</lastmod>
     <changefreq>weekly</changefreq>
@@ -368,14 +360,6 @@
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/resolving-merge-conflicts" />
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/resolving-merge-conflicts?lng=en" />
-  </url>
-  <url>
-    <loc>https://hwj123hwj.asia/skill/review</loc>
-    <lastmod>2026-06-25</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/review" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/review?lng=en" />
   </url>
   <url>
     <loc>https://hwj123hwj.asia/skill/scaffold-exercises</loc>
