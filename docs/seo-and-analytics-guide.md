@@ -357,7 +357,7 @@ tags: ["AI", "教程"]
 | `web/src/content.config.ts` | 博客 Content Collections schema |
 | `web/src/content/blog/*.md` | 博客文章源文件 |
 | `web/src/pages/blog/index.astro` | 博客列表页 |
-| ` weblog/src/pages/blog/[...id].astro` | 博客详情页 |
+| `web/src/pages/blog/[...id].astro` | 博客详情页 |
 | `web/src/pages/rss.xml.ts` | RSS Feed 生成 |
 
 ---
@@ -368,7 +368,7 @@ tags: ["AI", "教程"]
 
 - [x] `GA4_PROPERTY_ID` — `548082134`
 - [x] `GA4_CREDENTIALS` — Google 服务账号 JSON
-- [x] `FE shakyU_WEBHOOK` — 飞书群 webhook
+- [x] `FEISHU_WEBHOOK` — 飞书群 webhook
 - [x] `BAIDU_API_URL` — 百度推送 API
 
 ### 搜索引擎收录

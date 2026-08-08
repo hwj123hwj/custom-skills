@@ -27,7 +27,7 @@ cd cli && npm run build
 
 ### Step 2: 重新生成 registry 文件（必须！）
 
-每次修改 skills/agents/stories/decks 内容后，必须重新生成 registry，否则 CI 会失败：
+每次修改 skills/ 内容后，必须重新生成 registry，否则 CI 会失败：
 
 ```bash
 cd web && npm run generate:registry
@@ -35,7 +35,7 @@ cd web && npm run generate:registry
 
 然后 commit 生成的文件：
 ```bash
-git add registry/ web/src/data/ web/public/ web/index.html README.md
+git add registry/ web/src/data/ web/public/ README.md
 git commit -m "chore: regenerate registry"
 ```
 
@@ -106,26 +106,6 @@ git push origin vx.y.z
 | breaking change | major (+1.0.0) | 1.2.0 → 2.0.0 |
 
 ## 发版记录
-
-### v1.2.0 (2026-06-12)
-
-**变更内容：**
-- 重写 `knowledge_export.py` 为自包含的 agent 导出层
-  - 移除对 `knowledge_search.py` 函数的依赖
-  - 搜索 + 补字段合在单一 `export_for_agent()` 函数
-  - 关键词搜索新增 `ai_summary` 匹配
-  - 输出 `content_preview`（截断 1000 字）替代原始 `content`
-  - 默认 limit 从 10 改为 8
-
-**仓库 tag：** v1.5.0
-**npm 包版本：** 1.2.0
-
-### v1.2.1 (2026-06-12)
-
-**变更内容：**
-- 更新 `SKILL.md` 中 `knowledge_export.py` 的描述和用法示例
-
-**npm 包版本：** 1.2.1
 
 ### v1.2.2 (2026-06-12)
 
