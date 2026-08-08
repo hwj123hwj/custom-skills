@@ -176,7 +176,7 @@ function fmtDuration(sec) {
 function cleanPath(p) {
   // 首页特殊处理，避免显示为空
   if (p === '/' || p === '') return '🏠 首页';
-  const cleaned = p.replace(/^\/skill\//, '🔧 ').replace(/^\/agent\//, '🤖 ').replace(/^\/blog\//, '📝 ').replace(/^\/deck\//, '🎴 ').replace(/^\/story\//, '📖 ').replace(/^\/+/, '');
+  const cleaned = p.replace(/^\/skill\//, '🔧 ').replace(/^\/blog\//, '📝 ').replace(/^\/deck\//, '🎴 ').replace(/^\/story\//, '📖 ').replace(/^\/+/, '');
   return cleaned.length > 22 ? cleaned.slice(0, 22) + '…' : cleaned;
 }
 

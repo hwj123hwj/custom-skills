@@ -1,6 +1,6 @@
 # Custom Skills Hub
 
-> 一个以 `SKILL.md` 为唯一事实来源的 AI Agent 技能注册表，同时服务人类用户（Web 技能广场）和 AI Agent（CLI 安装工具）。
+> 一个以 `SKILL.md` 为唯一事实来源的 AI 技能注册表，同时服务人类用户（Web 技能广场）和 AI Agent（CLI 安装工具）。
 
 [![CI](https://github.com/hwj123hwj/custom-skills/actions/workflows/ci.yml/badge.svg)](https://github.com/hwj123hwj/custom-skills/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
@@ -11,7 +11,7 @@
 
 - 📦 **69 技能**：覆盖编程开发、内容创作、平台工具、效率工具等多个领域，含全量 [Matt Pocock](https://github.com/mattpocock/skills) 技能合集
 - 🌐 **Web 技能广场**：基于 React 19 + Vite 的现代化界面，支持中英文双语
-- 🔧 **CLI 安装工具**：一键安装技能到 Claude Code 或其他 AI Agent
+- 🔧 **CLI 安装工具**：一键安装技能到 `.agents/skills/` 目录，兼容任意 AI Agent 工具
 - 🔄 **上游同步**：CI 自动同步第三方技能仓库，保持技能最新
 - 📋 **标准化规范**：统一的 SKILL.md 格式，支持 frontmatter 元数据
 - 🏷️ **智能分类**：基于标签的技能分类与筛选系统
@@ -39,25 +39,12 @@ npx custom-skills info <skill-id>
 
 ### 安装技能
 
-#### Claude Code
-
 ```bash
-# 安装到当前项目 (.claude/skills/<id>/)
-npx custom-skills install <skill-id> --claude
-
-# 安装到全局 (~/.claude/skills/<id>/)
-npx custom-skills install <skill-id> --claude --global
-
-# 安装 Agent 及其依赖的所有技能
-npx custom-skills install <agent-id> --agent
-npx custom-skills install <agent-id> --agent --global
-```
-
-#### OpenClaw
-
-```bash
-# 安装到 ~/.openclaw/workspace/skills/
+# 安装到当前项目 (.agents/skills/<id>/)
 npx custom-skills install <skill-id>
+
+# 安装到全局 (~/.agents/skills/<id>/)
+npx custom-skills install <skill-id> --global
 
 # 或使用标准 skills CLI
 npx skills add https://github.com/hwj123hwj/custom-skills --skill <skill-id>
@@ -74,11 +61,8 @@ custom-skills/
 │   │   ├── SKILL.md     # 技能定义（YAML frontmatter + 使用说明）
 │   │   └── scripts/     # 可选：技能脚本
 │   └── ...
-├── agents/              # Agent 定义
-│   └── <agent-id>.md
 ├── registry/            # 自动生成的注册表
 │   ├── skills.json
-│   ├── agents.json
 │   └── ...
 ├── web/                 # React 技能广场
 │   ├── src/
@@ -241,24 +225,10 @@ CI 会在每天 UTC 02:00 自动检查上游更新，如有变更会创建 PR。
 
 ---
 
-## 🤖 Agent 定义
-
-除了单个技能，本项目还支持 Agent 定义，用于组合多个技能：
-
-```bash
-# 安装 Agent 及其依赖的所有技能
-npx custom-skills install <agent-id> --agent
-```
-
-Agent 定义位于 `agents/` 目录，详见 [Agent 规范](./docs/agent-spec.md)。
-
----
-
 ## 📚 文档
 
 - [项目架构](./docs/architecture.md) — 模块划分、数据流、技术栈
 - [Skill 规范](./docs/skill-spec.md) — SKILL.md frontmatter、tag 白名单、命名规则
-- [Agent 规范](./docs/agent-spec.md) — Agent 定义、类型、frontmatter
 - [Registry 生成与校验](./docs/registry-workflow.md) — generate/validate 命令与提交流程
 - [上游同步机制](./docs/upstream-sync.md) — CI 自动同步第三方技能
 - [文档索引](./docs/README.md) — 所有文档的完整列表
@@ -297,7 +267,7 @@ Agent 定义位于 `agents/` 目录，详见 [Agent 规范](./docs/agent-spec.md
 
 本项目使用 GitHub Actions 进行自动化：
 
-- **Registry Check**：每次 PR 验证 registry 一致性（72 技能 + i18n 覆盖 + Agent 校验）
+- **Registry Check**：每次 PR 验证 registry 一致性（技能数 + i18n 覆盖）
 - **Upstream Sync**：每日 UTC 02:00 检查上游技能更新（当前覆盖：Matt Pocock 34 个技能）
 - **Web Build**：自动构建并部署到 GitHub Pages
 

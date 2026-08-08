@@ -594,54 +594,6 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/xiaohongshu-cli?lng=en" />
   </url>
   <url>
-    <loc>https://hwj123hwj.asia/agent/architect</loc>
-    <lastmod>2026-08-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/agent/architect" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/agent/architect?lng=en" />
-  </url>
-  <url>
-    <loc>https://hwj123hwj.asia/agent/coding-agent</loc>
-    <lastmod>2026-08-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/agent/coding-agent" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/agent/coding-agent?lng=en" />
-  </url>
-  <url>
-    <loc>https://hwj123hwj.asia/agent/intel-agent</loc>
-    <lastmod>2026-08-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/agent/intel-agent" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/agent/intel-agent?lng=en" />
-  </url>
-  <url>
-    <loc>https://hwj123hwj.asia/agent/knowledge-to-deck-agent</loc>
-    <lastmod>2026-08-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/agent/knowledge-to-deck-agent" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/agent/knowledge-to-deck-agent?lng=en" />
-  </url>
-  <url>
-    <loc>https://hwj123hwj.asia/agent/tdd-guide</loc>
-    <lastmod>2026-08-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/agent/tdd-guide" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/agent/tdd-guide?lng=en" />
-  </url>
-  <url>
-    <loc>https://hwj123hwj.asia/agent/vid-publisher-agent</loc>
-    <lastmod>2026-08-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/agent/vid-publisher-agent" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/agent/vid-publisher-agent?lng=en" />
-  </url>
-  <url>
     <loc>https://hwj123hwj.asia/story/intel-agent</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>weekly</changefreq>
