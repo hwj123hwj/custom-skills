@@ -87,6 +87,10 @@ jobs:
               SRC_NEW="$TMP_NEW/$UPSTREAM_PATH"
             elif [ -d "$TMP_NEW/.claude/skills/$SKILL_ID" ]; then
               SRC_NEW="$TMP_NEW/.claude/skills/$SKILL_ID"
+            elif [ -d "$TMP_NEW/.agents/skills/$SKILL_ID" ]; then
+              SRC_NEW="$TMP_NEW/.agents/skills/$SKILL_ID"
+            elif [ -d "$TMP_NEW/skills/$SKILL_ID" ]; then
+              SRC_NEW="$TMP_NEW/skills/$SKILL_ID"
             elif [ -f "$TMP_NEW/SKILL.md" ]; then
               SRC_NEW="$TMP_NEW"
             else
@@ -117,6 +121,10 @@ jobs:
                 SRC_BASE="$TMP_BASE/$UPSTREAM_PATH"
               elif [ -d "$TMP_BASE/.claude/skills/$SKILL_ID" ]; then
                 SRC_BASE="$TMP_BASE/.claude/skills/$SKILL_ID"
+              elif [ -d "$TMP_BASE/.agents/skills/$SKILL_ID" ]; then
+                SRC_BASE="$TMP_BASE/.agents/skills/$SKILL_ID"
+              elif [ -d "$TMP_BASE/skills/$SKILL_ID" ]; then
+                SRC_BASE="$TMP_BASE/skills/$SKILL_ID"
               elif [ -f "$TMP_BASE/SKILL.md" ]; then
                 SRC_BASE="$TMP_BASE"
               fi

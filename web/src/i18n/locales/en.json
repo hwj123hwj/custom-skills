@@ -75,8 +75,8 @@
     "recent": "Recently viewed"
   },
   "onboarding": {
-    "title": "Add to your CLAUDE.md",
-    "description": "Copy this snippet and paste it into your project's CLAUDE.md to let Claude know about your skills.",
+    "title": "Add to your AGENTS.md",
+    "description": "Copy this snippet and paste it into your project's AGENTS.md to let your AI agent know about your skills.",
     "copy_button": "Copy Snippet",
     "copied": "Copied!"
   },
