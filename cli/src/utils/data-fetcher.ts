@@ -24,8 +24,8 @@ function normalizeSkill(skill: Skill): NormalizedSkill {
     ...skill,
     displayName: skill.displayName ?? skill.name,
     aliases: skill.aliases ?? [],
-    // For CLI usage by agents (OpenClaw), force the silent install command,
-    // overriding the TUI-based "npx skills add" command stored in registry.
+    // Force the silent install command, overriding the TUI-based
+    // "npx skills add" command stored in registry.
     installCommand: `npx custom-skills install ${skill.id}`,
     githubUrl: skill.githubUrl ?? `${REPO_BASE}/skills/${skill.id}`,
   };
