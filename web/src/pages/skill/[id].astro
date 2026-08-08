@@ -3,7 +3,6 @@ import AppLayout from '../../layouts/AppLayout.astro';
 import { SkillDetailView } from '../../components/SkillDetailView';
 import type { Skill } from '../../types/skill';
 import skillsData from '../../data/skills-data.json';
-import agentsData from '../../data/agents-data.json';
 import { pickDescription } from '../../lib/i18n-utils';
 
 // 为每个技能生成静态页面
@@ -20,8 +19,6 @@ interface Props {
 }
 
 const { skill } = Astro.props;
-const agents = agentsData as any[];
-const usedByAgents = agents.filter((a) => a.skills?.includes(skill.id));
 
 const shortDesc = pickDescription(skill.id, skill.description, 'zh');
 const detailedDesc = pickDescription(skill.id, skill.detailedDescription || skill.description, 'zh');

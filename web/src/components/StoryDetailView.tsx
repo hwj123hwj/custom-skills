@@ -9,14 +9,11 @@ ensureI18n()
 
 import { ArrowLeft, ExternalLink, FileText, Heart, Share2, Check } from 'lucide-react'
 import type { Story } from '../types/story'
-import type { Agent } from '../types/agent'
 import { useFavorites, useRecentViews } from '../hooks/useFavorites'
 
 import storiesData from '../data/stories-data.json'
-import agentsData from '../data/agents-data.json'
 
 const stories = storiesData as Story[]
-const agents = agentsData as Agent[]
 
 const STATUS_STYLES: Record<Story['status'], { bg: string; color: string; border: string }> = {
   active: { bg: 'var(--accent-soft)', color: 'var(--accent)', border: 'var(--border-accent)' },
@@ -79,7 +76,6 @@ export function StoryDetailView({ id }: { id: string }) {
 
   const statusStyle = STATUS_STYLES[story.status]
   const stageStyle = STAGE_STYLES[story.stage]
-  const linkedAgent = agents.find((a) => a.id === story.agent)
 
   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href)
@@ -129,7 +125,7 @@ export function StoryDetailView({ id }: { id: string }) {
         {[
           { label: t('story.meta.updated'), value: new Date(story.lastUpdated).toLocaleDateString() },
           { label: t('story.meta.owner'), value: story.owner || t('story.unknown_owner') },
-          { label: t('story.meta.linked_agent'), value: linkedAgent?.name || story.agent },
+          { label: t('story.meta.origin'), value: story.agent || '-' },
         ].map((item) => (
           <div key={item.label} className="rounded-xl p-3 sm:p-4" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-default)' }}>
             <div className="text-[10px] sm:text-xs uppercase tracking-widest mb-1.5 sm:mb-2" style={{ color: 'var(--text-muted)' }}>{item.label}</div>
@@ -155,11 +151,6 @@ export function StoryDetailView({ id }: { id: string }) {
           {t('story.view_source')}
           <ExternalLink className="w-4 h-4" />
         </a>
-        {linkedAgent && (
-          <a href={`/agent/${linkedAgent.id}`} className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 no-underline" style={{ background: 'var(--accent-soft)', color: 'var(--accent)', border: '1px solid var(--border-accent)' }}>
-            {linkedAgent.name}
-          </a>
-        )}
       </div>
     </div>
   )

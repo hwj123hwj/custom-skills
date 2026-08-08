@@ -10,12 +10,10 @@
   },
   "search": {
     "placeholder_skills": "搜索技能...",
-    "placeholder_agents": "搜索 Agent...",
     "placeholder_stories": "搜索 Story、问题、演进记录...",
     "placeholder_decks": "搜索 Deck、主题或标签...",
     "placeholder_prompts": "搜索提示词...",
     "no_results_skills": "未找到与「{{query}}」匹配的技能",
-    "no_results_agents": "未找到与「{{query}}」匹配的 Agent",
     "no_results_stories": "未找到与「{{query}}」匹配的 Story",
     "no_results_decks": "未找到与「{{query}}」匹配的 Deck",
     "no_results_prompts": "未找到与「{{query}}」匹配的提示词",
@@ -23,7 +21,6 @@
   },
   "tab": {
     "skills": "技能",
-    "agents": "Agent",
     "stories": "Stories",
     "decks": "Decks",
     "prompts": "提示词"
@@ -60,17 +57,11 @@
     "description": "描述",
     "installation": "安装",
     "usage_scenarios": "使用场景",
-    "used_by_agents": "被以下 Agent 使用",
     "tools": "工具",
     "capabilities": "能力组合 — {{count}} 个技能",
     "view_source": "查看源码",
-    "agent_install_hint": "该命令会通过 custom-skills CLI 将 Agent 定义及其依赖技能安装到 Claude Code 的 .claude 目录。",
     "no_description": "暂无描述。",
     "no_description_skill": "该技能暂无描述。"
-  },
-  "agent_type": {
-    "vertical": "垂直型",
-    "general": "通用型"
   },
   "detail": {
     "back": "返回",
@@ -83,7 +74,6 @@
   "favorites": {
     "label": "收藏",
     "empty": "还没有收藏。点击任意项目的心形图标添加收藏。",
-    "empty_agents": "还没有收藏的 Agent。",
     "recent": "最近浏览"
   },
   "onboarding": {
@@ -104,7 +94,7 @@
     "meta": {
       "updated": "最后更新",
       "owner": "维护者",
-      "linked_agent": "关联 Agent",
+      "origin": "来源",
       "source_doc": "来源文档"
     },
     "status": {

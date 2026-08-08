@@ -190,24 +190,6 @@ Sitemap: https://hwj123hwj.asia/sitemap.xml
   </url>\n`;
   }
 
-  // Agents
-  const agentsDataPath = path.resolve(__dirname, '../src/data/agents-data.json');
-  if (fs.existsSync(agentsDataPath)) {
-    try {
-      const agents: { id: string }[] = JSON.parse(fs.readFileSync(agentsDataPath, 'utf-8'));
-      for (const agent of agents) {
-        sitemapXml += `  <url>
-    <loc>https://hwj123hwj.asia/agent/${agent.id}</loc>
-    <lastmod>${currentDate}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/agent/${agent.id}" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/agent/${agent.id}?lng=en" />
-  </url>\n`;
-      }
-    } catch { /* ignore */ }
-  }
-
   // Stories
   const storiesDataPath = path.resolve(__dirname, '../src/data/stories-data.json');
   if (fs.existsSync(storiesDataPath)) {

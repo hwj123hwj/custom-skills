@@ -174,18 +174,6 @@ export const skillDescriptionsZh: Record<string, string> = {
 
 };
 
-export const agentDescriptionsZh: Record<string, string> = {
-  'architect':
-    '软件架构专家，专注系统设计、可扩展性与技术决策。在规划新功能、重构大型系统或做架构决策时主动使用。',
-  'intel-agent':
-    '面向程序员与产品经理的关注流优先信息情报 Agent。当用户需要做高密度日常信息整理、个人关注流去噪、洞察提炼，或同时产出日报与长期知识候选时主动使用。',
-  'knowledge-to-deck-agent':
-    '知识到展示 Deck 的编排 Agent。当用户希望把知识库中的高价值内容整理成知识卡片集、专题网页 PPT，或生成可挂到网站展示的精华演示稿时主动使用。',
-  'tdd-guide':
-    '测试驱动开发（TDD）专家，严格执行先写测试的方法论。在新增功能、修复 Bug 或重构代码时主动使用，确保测试覆盖率 80% 以上。',
-  'coding-agent':
-    '全栈编程编排 Agent，覆盖需求分析、架构设计、TDD 编码、调试、代码审查和任务拆解全生命周期。当用户需要端到端编程支持、从零构建功能、调试顽固 Bug、审查代码质量或将工作拆解为可执行 Issue 时主动使用。',
-};
 
 /**
  * English translations for skills whose SKILL.md description is in Chinese.
@@ -242,19 +230,4 @@ export const skillDescriptionsEn: Record<string, string> = {
   'taste-skill':
     '反模板化前端设计技能。适用于落地页、作品集和改版项目。自动推断设计方向，输出不千篇一律的界面。',
 
-};
-
-/**
- * English translations for agents whose agent.md description is in Chinese.
- * All three current agents have Chinese descriptions, so all are listed here.
- */
-export const agentDescriptionsEn: Record<string, string> = {
-  'architect':
-    'Software architecture expert focused on system design, scalability, and technology decisions. Use proactively when planning new features, refactoring large systems, or making architectural decisions.',
-  'intel-agent':
-    'Following-first information intelligence agent for programmers and product managers. Use when handling high-density daily intelligence, personal following-feed synthesis, signal denoising, or a combined output of daily brief plus long-lived knowledge candidates.',
-  'knowledge-to-deck-agent':
-    'Knowledge-to-deck orchestration agent. Use proactively when turning knowledge-base entries into curated card decks, showcase-ready web presentations, or themed presentation assets.',
-  'tdd-guide':
-    'Test-Driven Development (TDD) expert who strictly follows a test-first methodology. Use proactively when adding features, fixing bugs, or refactoring code to ensure ≥80% test coverage.',
 };

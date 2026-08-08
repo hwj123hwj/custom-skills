@@ -14,19 +14,16 @@ ensureI18n();
 import { Search, Copy, Check } from 'lucide-react';
 
 import type { Skill } from '../types/skill';
-import type { Agent } from '../types/agent';
 import type { Story } from '../types/story';
 import type { Deck } from '../types/deck';
 import type { Prompt } from '../types/prompt';
 
 import skillsData from '../data/skills-data.json';
-import agentsData from '../data/agents-data.json';
 import storiesData from '../data/stories-data.json';
 import decksData from '../data/decks-data.json';
 import promptsData from '../data/prompts-data.json';
 
 import { SkillCard } from './SkillCard';
-import { AgentCard } from './AgentCard';
 import { StoryCard } from './StoryCard';
 import { DeckCard } from './DeckCard';
 import { PromptCard } from './PromptCard';
@@ -34,14 +31,12 @@ import { TabBar } from './TabBar';
 import { SkeletonGrid } from './SkeletonGrid';
 import { FavoritesBar } from './FavoritesBar';
 import { SkillModal } from './SkillModal';
-import { AgentModal } from './AgentModal';
 import { StoryModal } from './StoryModal';
 import { DeckModal } from './DeckModal';
 import { PromptModal } from './PromptModal';
 import { useFavorites, useRecentViews } from '../hooks/useFavorites';
 
 import { searchSkills } from '../lib/search';
-import { searchAgents } from '../lib/agent-search';
 import { searchStories } from '../lib/story-search';
 import { searchDecks } from '../lib/deck-search';
 import { searchPrompts } from '../lib/prompt-search';
@@ -51,7 +46,6 @@ import { countSkillsByCategory, filterSkillsByCategory } from '../lib/skill-cate
 import type { SkillGroupId } from '../lib/skill-categories';
 
 const skills = skillsData as Skill[];
-const agents = agentsData as Agent[];
 const stories = storiesData as Story[];
 const decks = decksData as Deck[];
 const prompts = promptsData as Prompt[];
@@ -60,7 +54,7 @@ export default function HomePageApp() {
   const { t, i18n } = useTranslation();
   type DeckCategory = Deck['category'];
 
-  type TabType = 'skills' | 'agents' | 'stories' | 'decks' | 'prompts';
+  type TabType = 'skills' | 'stories' | 'decks' | 'prompts';
   const [activeTab, setActiveTab] = useState<TabType>('skills');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeSkillCategory, setActiveSkillCategory] = useState<'all' | SkillGroupId>('all');
@@ -70,7 +64,6 @@ export default function HomePageApp() {
   const [showFavorites, setShowFavorites] = useState(false);
 
   const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null);
-  const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null);
   const [selectedStory, setSelectedStory] = useState<Story | null>(null);
   const [selectedDeck, setSelectedDeck] = useState<Deck | null>(null);
   const [selectedPrompt, setSelectedPrompt] = useState<Prompt | null>(null);
@@ -98,15 +91,6 @@ export default function HomePageApp() {
     }
     return result;
   }, [searchQuery, i18n.language, activeSkillCategory, showFavorites, isFavorite]);
-
-  const filteredAgents = useMemo(() => {
-    let result = agents as Agent[];
-    if (showFavorites) {
-      result = result.filter((a) => isFavorite(a.id));
-    }
-    if (!searchQuery.trim()) return result;
-    return searchAgents(result, searchQuery, i18n.language).map((r) => r.agent);
-  }, [searchQuery, i18n.language, showFavorites, isFavorite]);
 
   const filteredStories = useMemo(() => {
     let result = [...stories] as Story[];
@@ -184,10 +168,6 @@ export default function HomePageApp() {
     addRecent(skill.id);
     setSelectedSkill(skill);
   };
-  const handleAgentClick = (agent: Agent) => {
-    addRecent(agent.id);
-    setSelectedAgent(agent);
-  };
   const handleStoryClick = (story: Story) => {
     addRecent(story.id);
     setSelectedStory(story);
@@ -204,9 +184,7 @@ export default function HomePageApp() {
   const placeholder = t(
     activeTab === 'skills'
       ? 'search.placeholder_skills'
-      : activeTab === 'agents'
-        ? 'search.placeholder_agents'
-        : activeTab === 'stories'
+      : activeTab === 'stories'
           ? 'search.placeholder_stories'
           : activeTab === 'decks'
             ? 'search.placeholder_decks'
@@ -300,7 +278,6 @@ export default function HomePageApp() {
       <TabBar
         activeTab={activeTab}
         skillCount={skills.length}
-        agentCount={agents.length}
         storyCount={stories.length}
         deckCount={decks.length}
         promptCount={prompts.length}
@@ -344,27 +321,6 @@ export default function HomePageApp() {
                       {t('search.clear')}
                     </button>
                   )}
-                </div>
-              )}
-            </>
-          )}
-
-          {activeTab === 'agents' && (
-            <>
-              <div className="max-w-4xl mx-auto mb-6 sm:mb-8 flex justify-center">
-                <FavoritesBar favoriteCount={agents.filter((a) => isFavorite(a.id)).length} showFavorites={showFavorites} onToggleFavorites={() => setShowFavorites(!showFavorites)} />
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 justify-items-center">
-                {filteredAgents.map((agent) => (
-                  <AgentCard key={agent.id} agent={agent} onClick={handleAgentClick} isFavorite={isFavorite(agent.id)} onToggleFavorite={toggleFavorite} />
-                ))}
-              </div>
-              {filteredAgents.length === 0 && (
-                <div className="text-center py-20">
-                  <p className="text-lg" style={{ color: 'var(--text-muted)' }}>
-                    {showFavorites ? t('favorites.empty_agents', { defaultValue: 'No favorite agents yet.' }) : t('search.no_results_agents', { query: searchQuery })}
-                  </p>
-                  {!showFavorites && (<button onClick={() => setSearchQuery('')} className="mt-4 font-medium transition-colors" style={{ color: 'var(--accent)' }}>{t('search.clear')}</button>)}
                 </div>
               )}
             </>
@@ -450,25 +406,12 @@ export default function HomePageApp() {
         skill={selectedSkill}
         isOpen={!!selectedSkill}
         onClose={() => setSelectedSkill(null)}
-        agents={agents}
-        onOpenAgent={(agentId) => {
-          const agent = agents.find((a) => a.id === agentId);
-          if (agent) { setSelectedSkill(null); setSelectedAgent(agent); }
-        }}
         onViewDetail={selectedSkill ? () => navigateTo(`/skill/${selectedSkill.id}`) : undefined}
-      />
-      <AgentModal
-        agent={selectedAgent}
-        isOpen={!!selectedAgent}
-        onClose={() => setSelectedAgent(null)}
-        allSkills={skills}
-        onViewDetail={selectedAgent ? () => navigateTo(`/agent/${selectedAgent.id}`) : undefined}
       />
       <StoryModal
         story={selectedStory}
         isOpen={!!selectedStory}
         onClose={() => setSelectedStory(null)}
-        linkedAgent={selectedStory ? agents.find((a) => a.id === selectedStory.agent) : null}
         onViewDetail={selectedStory ? () => navigateTo(`/story/${selectedStory.id}`) : undefined}
       />
       <DeckModal

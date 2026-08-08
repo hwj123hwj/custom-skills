@@ -46,44 +46,6 @@ export function SkillCardSkeleton() {
   );
 }
 
-export function AgentCardSkeleton() {
-  return (
-    <div
-      className="w-full rounded-xl p-6"
-      style={{
-        background: 'var(--bg-card)',
-        border: '1px solid var(--border-default)',
-      }}
-    >
-      {/* Header */}
-      <div className="flex items-start gap-3 mb-4">
-        <div className="flex flex-col gap-1.5 shrink-0">
-          <SkeletonLine width="40px" height="18px" />
-          <SkeletonLine width="52px" height="18px" />
-        </div>
-        <div className="flex-1 min-w-0">
-          <SkeletonLine width="50%" height="20px" />
-          <div className="flex gap-1.5 mt-2">
-            <SkeletonLine width="40px" height="18px" />
-            <SkeletonLine width="52px" height="18px" />
-          </div>
-        </div>
-      </div>
-
-      {/* Description */}
-      <div className="space-y-2 mb-4" style={{ minHeight: '40px' }}>
-        <SkeletonLine width="100%" height="14px" />
-        <SkeletonLine width="70%" height="14px" />
-      </div>
-
-      {/* Footer */}
-      <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: '12px' }}>
-        <SkeletonLine width="80px" height="12px" />
-      </div>
-    </div>
-  );
-}
-
 export function StoryCardSkeleton() {
   return (
     <div
@@ -140,10 +102,9 @@ export function DeckCardSkeleton() {
   );
 }
 
-export function SkeletonGrid({ type }: { type: 'skills' | 'agents' | 'stories' | 'decks' | 'prompts' }) {
+export function SkeletonGrid({ type }: { type: 'skills' | 'stories' | 'decks' | 'prompts' }) {
   const SkeletonCard = {
     skills: SkillCardSkeleton,
-    agents: AgentCardSkeleton,
     stories: StoryCardSkeleton,
     decks: DeckCardSkeleton,
     prompts: SkillCardSkeleton,  // Prompts use similar card layout to skills

@@ -10,12 +10,10 @@
   },
   "search": {
     "placeholder_skills": "Search skills...",
-    "placeholder_agents": "Search agents...",
     "placeholder_stories": "Search stories, problems, or evolution notes...",
     "placeholder_decks": "Search decks, themes, or tags...",
     "placeholder_prompts": "Search prompts...",
     "no_results_skills": "No skills found matching \"{{query}}\"",
-    "no_results_agents": "No agents found matching \"{{query}}\"",
     "no_results_stories": "No stories found matching \"{{query}}\"",
     "no_results_decks": "No decks found matching \"{{query}}\"",
     "no_results_prompts": "No prompts found matching \"{{query}}\"",
@@ -23,7 +21,6 @@
   },
   "tab": {
     "skills": "Skills",
-    "agents": "Agents",
     "stories": "Stories",
     "decks": "Decks",
     "prompts": "Prompts"
@@ -60,17 +57,11 @@
     "description": "Description",
     "installation": "Installation",
     "usage_scenarios": "Usage Scenarios",
-    "used_by_agents": "Used by Agents",
     "tools": "Tools",
     "capabilities": "Capabilities — {{count}} Skills",
     "view_source": "View Source",
-    "agent_install_hint": "This command installs the agent definition and its dependent skills into Claude Code's .claude directory via the custom-skills CLI.",
     "no_description": "No description provided.",
     "no_description_skill": "No description provided for this skill."
-  },
-  "agent_type": {
-    "vertical": "Vertical",
-    "general": "General"
   },
   "detail": {
     "back": "Back",
@@ -83,7 +74,6 @@
   "favorites": {
     "label": "Favorites",
     "empty": "No favorites yet. Click the heart icon on any item to add it.",
-    "empty_agents": "No favorite agents yet.",
     "recent": "Recently viewed"
   },
   "onboarding": {
@@ -104,7 +94,7 @@
     "meta": {
       "updated": "Last updated",
       "owner": "Owner",
-      "linked_agent": "Linked agent",
+      "origin": "Origin",
       "source_doc": "Source document"
     },
     "status": {

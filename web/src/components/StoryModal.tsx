@@ -1,13 +1,11 @@
 import { useTranslation } from 'react-i18next';
 import { X, ExternalLink, FileText, Share2 } from 'lucide-react';
 import type { Story } from '../types/story';
-import type { Agent } from '../types/agent';
 
 interface StoryModalProps {
   story: Story | null;
   isOpen: boolean;
   onClose: () => void;
-  linkedAgent?: Agent | null;
   onViewDetail?: () => void;
 }
 
@@ -61,7 +59,7 @@ const STAGE_STYLES: Record<Story['stage'], { bg: string; color: string; border: 
   stable: { bg: 'rgba(52, 211, 153, 0.12)', color: '#34d399', border: 'rgba(52, 211, 153, 0.25)' },
 };
 
-export function StoryModal({ story, isOpen, onClose, linkedAgent, onViewDetail }: StoryModalProps) {
+export function StoryModal({ story, isOpen, onClose, onViewDetail }: StoryModalProps) {
   const { t } = useTranslation();
 
   if (!isOpen || !story) return null;
@@ -137,7 +135,7 @@ export function StoryModal({ story, isOpen, onClose, linkedAgent, onViewDetail }
             {[
               { label: t('story.meta.updated'), value: new Date(story.lastUpdated).toLocaleDateString() },
               { label: t('story.meta.owner'), value: story.owner || t('story.unknown_owner') },
-              { label: t('story.meta.linked_agent'), value: linkedAgent?.name || story.agent },
+              { label: t('story.meta.origin'), value: story.agent || '-' },
             ].map((item) => (
               <div key={item.label} className="rounded-xl p-3 sm:p-4" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-default)' }}>
                 <div className="text-[10px] sm:text-xs uppercase tracking-widest mb-1.5 sm:mb-2" style={{ color: 'var(--text-muted)' }}>{item.label}</div>

@@ -14,15 +14,12 @@ ensureI18n()
 
 import { ArrowLeft, Copy, Check, ExternalLink, Heart, Share2 } from 'lucide-react'
 import type { Skill } from '../types/skill'
-import type { Agent } from '../types/agent'
 import { pickDescription } from '../lib/i18n-utils'
 import { useFavorites, useRecentViews } from '../hooks/useFavorites'
 
 import skillsData from '../data/skills-data.json'
-import agentsData from '../data/agents-data.json'
 
 const skills = skillsData as Skill[]
-const agents = agentsData as Agent[]
 
 export function SkillDetailView({ id }: { id: string }) {
   const { t, i18n } = useTranslation()
@@ -51,7 +48,6 @@ export function SkillDetailView({ id }: { id: string }) {
   const handleCopy = (text: string) => { navigator.clipboard.writeText(text); setCopied(true); setTimeout(() => setCopied(false), 2000) }
   const handleShare = () => { navigator.clipboard.writeText(window.location.href); setShareCopied(true); setTimeout(() => setShareCopied(false), 2000) }
 
-  const usedByAgents = agents.filter((a) => a.skills.includes(skill.id))
   const detailedDesc = pickDescription(skill.id, skill.detailedDescription || skill.description, i18n.language)
   const shortDesc = pickDescription(skill.id, skill.description, i18n.language)
 
@@ -140,20 +136,6 @@ export function SkillDetailView({ id }: { id: string }) {
           <div className="flex flex-wrap gap-2">
             {skill.aliases.map((alias) => (
               <span key={alias} className="text-xs px-3 py-1 rounded-full" style={{ background: 'var(--bg-elevated)', color: 'var(--text-secondary)', border: '1px solid var(--border-default)' }}>{alias}</span>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Used by Agents */}
-      {usedByAgents.length > 0 && (
-        <div className="rounded-2xl p-5 sm:p-6 mb-6" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-default)' }}>
-          <h2 className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--accent)' }}>{t('modal.used_by_agents')}</h2>
-          <div className="flex flex-wrap gap-2">
-            {usedByAgents.map((agent) => (
-              <a key={agent.id} href={`/agent/${agent.id}`} className="text-xs px-3 py-1.5 rounded-full font-medium transition-all duration-200 no-underline" style={{ background: 'var(--accent-soft)', color: 'var(--accent)', border: '1px solid var(--border-accent)' }}>
-                {agent.name}
-              </a>
             ))}
           </div>
         </div>

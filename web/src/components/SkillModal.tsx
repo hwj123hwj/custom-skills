@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Skill } from '../types/skill';
-import type { Agent } from '../types/agent';
 import { X, Copy, Check, ExternalLink, Share2 } from 'lucide-react';
 import { pickDescription } from '../lib/i18n-utils';
 
@@ -9,13 +8,11 @@ interface SkillModalProps {
   skill: Skill | null;
   isOpen: boolean;
   onClose: () => void;
-  agents?: Agent[];
-  onOpenAgent?: (agentId: string) => void;
   onViewDetail?: () => void;
   zIndex?: string;
 }
 
-export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, onViewDetail, zIndex = 'z-[100]' }: SkillModalProps) {
+export function SkillModal({ skill, isOpen, onClose, onViewDetail, zIndex = 'z-[100]' }: SkillModalProps) {
   const { t, i18n } = useTranslation();
   const [copied, setCopied] = useState(false);
 
@@ -25,13 +22,6 @@ export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, o
     navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
-  };
-
-  const usedByAgents = agents.filter((a) => a.skills.includes(skill.id));
-
-  const handleAgentClick = (agentId: string) => {
-    onClose();
-    onOpenAgent?.(agentId);
   };
 
   const detailedDesc = pickDescription(
@@ -138,27 +128,6 @@ export function SkillModal({ skill, isOpen, onClose, agents = [], onOpenAgent, o
                   </li>
                 ))}
               </ul>
-            </div>
-          )}
-
-          {/* Used by Agents */}
-          {usedByAgents.length > 0 && (
-            <div>
-              <h3 className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'var(--accent)' }}>
-                {t('modal.used_by_agents')}
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {usedByAgents.map((agent) => (
-                  <button
-                    key={agent.id}
-                    onClick={() => handleAgentClick(agent.id)}
-                    className="text-xs px-3 py-1.5 rounded-full font-medium transition-all duration-200"
-                    style={{ background: 'var(--accent-soft)', color: 'var(--accent)', border: '1px solid var(--border-accent)' }}
-                  >
-                    {agent.name}
-                  </button>
-                ))}
-              </div>
             </div>
           )}
         </div>
