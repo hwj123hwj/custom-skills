@@ -650,7 +650,7 @@
     "author": "pbakaus",
     "upstream": "pbakaus/impeccable",
     "upstreamPath": "skill",
-    "upstreamSha": "aee6ce9352b842217b3f57c78296a7a4fa35a7f3"
+    "upstreamSha": "1cbee026c319af4b8afc95bbf3cd2f736aeab484"
   },
   {
     "id": "implement",
@@ -1188,7 +1188,7 @@
     "author": "KKKHazix",
     "upstream": "KKKKhazix/khazix-skills",
     "upstreamPath": "storage-analyzer",
-    "upstreamSha": "17573491cf2ff70582d2ae0018ca39e571d35f53"
+    "upstreamSha": "651a45affc65919c0e3facc6124f1656d43c4ad2"
   },
   {
     "id": "taste-skill",
