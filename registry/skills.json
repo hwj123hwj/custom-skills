@@ -396,7 +396,7 @@
     "author": "emilkowalski",
     "upstream": "emilkowalski/skills",
     "upstreamPath": "skills/emil-design-eng",
-    "upstreamSha": "de33dbed000212b54400a33767d1e4d03654db2a"
+    "upstreamSha": "9075d1724a831411ab5cf138dd9b5cd406ffc2e2"
   },
   {
     "id": "feishu-md-exporter",
@@ -650,7 +650,7 @@
     "author": "pbakaus",
     "upstream": "pbakaus/impeccable",
     "upstreamPath": "skill",
-    "upstreamSha": "1cbee026c319af4b8afc95bbf3cd2f736aeab484"
+    "upstreamSha": "2ab054d1f400c5ec085133352232ffc2617f0d54"
   },
   {
     "id": "implement",
