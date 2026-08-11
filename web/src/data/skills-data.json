@@ -396,7 +396,7 @@
     "author": "emilkowalski",
     "upstream": "emilkowalski/skills",
     "upstreamPath": "skills/emil-design-eng",
-    "upstreamSha": "9075d1724a831411ab5cf138dd9b5cd406ffc2e2"
+    "upstreamSha": "78761e1b57f97dce65b983d640c70a68f39e8163"
   },
   {
     "id": "feishu-md-exporter",
@@ -650,7 +650,7 @@
     "author": "pbakaus",
     "upstream": "pbakaus/impeccable",
     "upstreamPath": "skill",
-    "upstreamSha": "2ab054d1f400c5ec085133352232ffc2617f0d54"
+    "upstreamSha": "251135e1900662ed048dda391211f1895ab42d7e"
   },
   {
     "id": "implement",
@@ -1188,7 +1188,7 @@
     "author": "KKKHazix",
     "upstream": "KKKKhazix/khazix-skills",
     "upstreamPath": "storage-analyzer",
-    "upstreamSha": "651a45affc65919c0e3facc6124f1656d43c4ad2"
+    "upstreamSha": "741eb55ba5acf2050b0e209723c2985e956e4f7c"
   },
   {
     "id": "taste-skill",
