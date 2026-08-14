@@ -3,7 +3,7 @@ name: grill-me
 author: mattpocock
 upstream: mattpocock/skills
 upstreamPath: skills/productivity/grill-me
-upstreamSha: 84fdeffd12f2ee307994d1eb6feb48173b6e0502
+upstreamSha: 8b78b531ab965735c5dc74f6f7a219e1e37326df
 lastUpdated: "2026-06-25T17:00:00.000Z"
 tags:
   - Planning
