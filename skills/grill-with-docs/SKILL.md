@@ -3,7 +3,7 @@ name: grill-with-docs
 author: mattpocock
 upstream: mattpocock/skills
 upstreamPath: skills/engineering/grill-with-docs
-upstreamSha: 8b78b531ab965735c5dc74f6f7a219e1e37326df
+upstreamSha: 068b6e0c62393147daf03530149cdce209c93da8
 lastUpdated: '2026-07-02T01:06:55.000Z'
 tags:
 - Planning
@@ -13,4 +13,4 @@ description: A relentless interview to sharpen a plan or design, which also crea
 disable-model-invocation: true
 ---
 
-Run a `/grilling` session, using the `/domain-modeling` skill.
+Call the Skill tool twice, for "grilling" and "domain-modeling".
