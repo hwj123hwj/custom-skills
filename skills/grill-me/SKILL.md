@@ -3,7 +3,7 @@ name: grill-me
 author: mattpocock
 upstream: mattpocock/skills
 upstreamPath: skills/productivity/grill-me
-upstreamSha: 8b78b531ab965735c5dc74f6f7a219e1e37326df
+upstreamSha: 068b6e0c62393147daf03530149cdce209c93da8
 lastUpdated: "2026-06-25T17:00:00.000Z"
 tags:
   - Planning
@@ -13,4 +13,4 @@ description: "Interview the user relentlessly about a plan or design until reach
 disable-model-invocation: true
 ---
 
-Run a `/grilling` session.
+Call the Skill tool with "grilling".
