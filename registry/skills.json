@@ -20,7 +20,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/ask-matt",
-    "upstreamSha": "068b6e0c62393147daf03530149cdce209c93da8"
+    "upstreamSha": "9c9f36ccd3995266cd675468af71639c8dde1ec5"
   },
   {
     "id": "asr",
@@ -169,7 +169,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/codebase-design",
-    "upstreamSha": "068b6e0c62393147daf03530149cdce209c93da8"
+    "upstreamSha": "9c9f36ccd3995266cd675468af71639c8dde1ec5"
   },
   {
     "id": "content-adapt",
@@ -284,7 +284,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/diagnosing-bugs",
-    "upstreamSha": "068b6e0c62393147daf03530149cdce209c93da8"
+    "upstreamSha": "9c9f36ccd3995266cd675468af71639c8dde1ec5"
   },
   {
     "id": "domain-modeling",
@@ -464,7 +464,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/misc/git-guardrails-claude-code",
-    "upstreamSha": "068b6e0c62393147daf03530149cdce209c93da8"
+    "upstreamSha": "9c9f36ccd3995266cd675468af71639c8dde1ec5"
   },
   {
     "id": "grill-me",
@@ -487,7 +487,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/productivity/grill-me",
-    "upstreamSha": "068b6e0c62393147daf03530149cdce209c93da8"
+    "upstreamSha": "9c9f36ccd3995266cd675468af71639c8dde1ec5"
   },
   {
     "id": "grill-with-docs",
@@ -510,7 +510,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/grill-with-docs",
-    "upstreamSha": "068b6e0c62393147daf03530149cdce209c93da8"
+    "upstreamSha": "9c9f36ccd3995266cd675468af71639c8dde1ec5"
   },
   {
     "id": "grilling",
@@ -650,7 +650,7 @@
     "author": "pbakaus",
     "upstream": "pbakaus/impeccable",
     "upstreamPath": "skill",
-    "upstreamSha": "36457e191ffbfaefd8f31c70318d048e3881cd6b"
+    "upstreamSha": "f88b2837a7d7c3182e46307bbbb091a1ed547571"
   },
   {
     "id": "implement",
@@ -775,7 +775,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/in-progress/loop-me",
-    "upstreamSha": "068b6e0c62393147daf03530149cdce209c93da8"
+    "upstreamSha": "9c9f36ccd3995266cd675468af71639c8dde1ec5"
   },
   {
     "id": "memory-organizer",
@@ -825,7 +825,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/misc/migrate-to-shoehorn",
-    "upstreamSha": "068b6e0c62393147daf03530149cdce209c93da8"
+    "upstreamSha": "9c9f36ccd3995266cd675468af71639c8dde1ec5"
   },
   {
     "id": "mp-weixin-ops",
@@ -1018,7 +1018,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/resolving-merge-conflicts",
-    "upstreamSha": "068b6e0c62393147daf03530149cdce209c93da8"
+    "upstreamSha": "9c9f36ccd3995266cd675468af71639c8dde1ec5"
   },
   {
     "id": "scaffold-exercises",
@@ -1041,7 +1041,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/misc/scaffold-exercises",
-    "upstreamSha": "068b6e0c62393147daf03530149cdce209c93da8"
+    "upstreamSha": "9c9f36ccd3995266cd675468af71639c8dde1ec5"
   },
   {
     "id": "setup-matt-pocock-skills",
@@ -1064,7 +1064,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/setup-matt-pocock-skills",
-    "upstreamSha": "068b6e0c62393147daf03530149cdce209c93da8"
+    "upstreamSha": "9c9f36ccd3995266cd675468af71639c8dde1ec5"
   },
   {
     "id": "setup-pre-commit",
@@ -1087,7 +1087,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/misc/setup-pre-commit",
-    "upstreamSha": "068b6e0c62393147daf03530149cdce209c93da8"
+    "upstreamSha": "9c9f36ccd3995266cd675468af71639c8dde1ec5"
   },
   {
     "id": "short-drama-pipeline",
@@ -1188,7 +1188,7 @@
     "author": "KKKHazix",
     "upstream": "KKKKhazix/khazix-skills",
     "upstreamPath": "storage-analyzer",
-    "upstreamSha": "299e201bbe8133f70da085fc1940a4ddc4197d67"
+    "upstreamSha": "7a5c4934be4106ac740ffdb95280bb81b3f4b83c"
   },
   {
     "id": "taste-skill",
@@ -1210,7 +1210,7 @@
     "author": "Leonxlnx",
     "upstream": "Leonxlnx/taste-skill",
     "upstreamPath": "skills/taste-skill",
-    "upstreamSha": "e988add20dab0fa97d7a76781c48961c8184288e"
+    "upstreamSha": "dfb6f9f9e93a39f673b1827c0889cc28326d1800"
   },
   {
     "id": "tavily",
@@ -1280,7 +1280,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/productivity/teach",
-    "upstreamSha": "068b6e0c62393147daf03530149cdce209c93da8"
+    "upstreamSha": "9c9f36ccd3995266cd675468af71639c8dde1ec5"
   },
   {
     "id": "to-issues",
@@ -1349,7 +1349,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/engineering/triage",
-    "upstreamSha": "068b6e0c62393147daf03530149cdce209c93da8"
+    "upstreamSha": "9c9f36ccd3995266cd675468af71639c8dde1ec5"
   },
   {
     "id": "tts",
@@ -1565,7 +1565,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/in-progress/writing-beats",
-    "upstreamSha": "068b6e0c62393147daf03530149cdce209c93da8"
+    "upstreamSha": "9c9f36ccd3995266cd675468af71639c8dde1ec5"
   },
   {
     "id": "writing-fragments",
@@ -1588,7 +1588,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/in-progress/writing-fragments",
-    "upstreamSha": "068b6e0c62393147daf03530149cdce209c93da8"
+    "upstreamSha": "9c9f36ccd3995266cd675468af71639c8dde1ec5"
   },
   {
     "id": "writing-great-skills",
@@ -1634,7 +1634,7 @@
     "author": "mattpocock",
     "upstream": "mattpocock/skills",
     "upstreamPath": "skills/in-progress/writing-shape",
-    "upstreamSha": "068b6e0c62393147daf03530149cdce209c93da8"
+    "upstreamSha": "9c9f36ccd3995266cd675468af71639c8dde1ec5"
   },
   {
     "id": "xiaohongshu-cli",

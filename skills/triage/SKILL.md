@@ -3,7 +3,7 @@ name: triage
 author: mattpocock
 upstream: mattpocock/skills
 upstreamPath: skills/engineering/triage
-upstreamSha: 068b6e0c62393147daf03530149cdce209c93da8
+upstreamSha: 9c9f36ccd3995266cd675468af71639c8dde1ec5
 lastUpdated: '2026-07-02T01:06:55.000Z'
 tags:
 - Planning
