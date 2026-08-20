@@ -2,8 +2,7 @@
 name: tts
 description: |
   Unified TTS (Text-to-Speech) skill with pluggable providers (strategy pattern).
-  Supports: Edge TTS (free, no API key), Vertex AI Gemini TTS (Google),
-  and Atlas Cloud TTS (optional, asynchronous API).
+  Supports: Edge TTS (free, no API key), Vertex AI Gemini TTS (Google).
   Use for generating voiceovers, narration, dubbing.
   Trigger: "配音", "生成语音", "TTS", "text-to-speech", "合成语音", "语音合成".
 allowed-tools: Bash(python3 */scripts/tts.py *)
@@ -39,9 +38,6 @@ python3 ${SKILL_DIR}/scripts/tts.py "你好" --provider vertex-tts
 # 指定 voice
 python3 ${SKILL_DIR}/scripts/tts.py "旁白" --provider vertex-tts --voice Aoede
 
-# 通过 Atlas Cloud 生成 MP3（默认 xai/tts-v1）
-python3 ${SKILL_DIR}/scripts/tts.py "统一语音接口" --provider atlascloud --voice eve
-
 # 使用中文预设 voice（edge-tts）
 python3 ${SKILL_DIR}/scripts/tts.py "测试旁白" --preset yunjian
 
@@ -59,7 +55,7 @@ python3 ${SKILL_DIR}/scripts/tts.py "你好" --json
 | `text` | 要转换的文本（必填） | - |
 | `--output`, `-o` | 输出音频路径 | `outputs/output.mp3` |
 | `--provider`, `-p` | TTS 后端 | 从 .env 读取 |
-| `--voice`, `-v` | 音色名称 | edge-tts: zh-CN-XiaoxiaoNeural / vertex-tts: Zephyr / atlascloud: eve |
+| `--voice`, `-v` | 音色名称 | edge-tts: zh-CN-XiaoxiaoNeural / vertex-tts: Zephyr |
 | `--preset` | 中文预设（edge-tts） | - |
 | `--language`, `-l` | 语言代码 | - |
 | `--rate`, `-r` | 语速调整 | 0% |
@@ -87,15 +83,12 @@ python3 ${SKILL_DIR}/scripts/tts.py "你好" --json
 DEFAULT_TTS_PROVIDER=edge-tts
 # 或
 DEFAULT_TTS_PROVIDER=vertex-tts
-# 或
-DEFAULT_TTS_PROVIDER=atlascloud
 ```
 
 ### 方式 2：命令行参数（单次覆盖）
 
 ```bash
 python3 tts.py "text" --provider vertex-tts
-python3 tts.py "text" --provider atlascloud
 ```
 
 ### 方式 3：新增 Provider
@@ -106,14 +99,14 @@ python3 tts.py "text" --provider atlascloud
 
 ## Provider 对比
 
-| 维度 | edge-tts | vertex-tts | atlascloud |
-|------|---------|------------|------------|
-| 费用 | 免费 | 需要 API Key | 需要 API Key |
-| 音质 | 好 | 更好 | 取决于所选模型 |
-| 中文支持 | 400+ 音色 | 30 音色 | 多语言音色 |
-| 速度 | 快 | 较慢 | 异步任务 |
-| 语速控制 | 支持 | 暂不支持 | 支持（0.7-1.5） |
-| 依赖 | edge-tts CLI | ffmpeg | Python 标准库 |
+| 维度 | edge-tts | vertex-tts |
+|------|---------|------------|
+| 费用 | 免费 | 需要 API Key |
+| 音质 | 好 | 更好 |
+| 中文支持 | 400+ 音色 | 30 音色 |
+| 速度 | 快 | 较慢 |
+| 语速控制 | 支持 | 暂不支持 |
+| 依赖 | edge-tts CLI | ffmpeg |
 
 ## API Key 配置
 
@@ -127,17 +120,6 @@ python3 tts.py "text" --provider atlascloud
 1. 环境变量 `VERTEX_API_KEY` / `GEMINI_API_KEY`
 2. `${SKILL_DIR}/.env` 中的 `VERTEX_API_KEY=...`
 3. 项目根目录 `.env`
-
-### Atlas Cloud
-
-读取优先级：
-1. 环境变量 `ATLASCLOUD_API_KEY`
-2. `${SKILL_DIR}/.env` 中的 `ATLASCLOUD_API_KEY=...`
-3. 项目根目录 `.env`
-
-当前使用 `xai/tts-v1` 的实时请求 schema。可用 `ATLASCLOUD_BASE_URL`
-指向兼容部署。提交生成请求后，provider 只轮询 prediction GET 接口，
-轮询次数有上限，不会自动重试生成 POST。
 
 ## 依赖
 

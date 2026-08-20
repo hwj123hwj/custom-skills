@@ -6,7 +6,6 @@ Usage:
   python tts.py "你好世界" -o hello.mp3
   python tts.py "Hello" --provider edge-tts
   python tts.py "你好" --provider vertex-tts --voice Aoede
-  python tts.py "Hello" --provider atlascloud --voice eve
 
 Provider is read from .env (DEFAULT_TTS_PROVIDER=edge-tts).
 Override per-call with --provider.
@@ -44,7 +43,6 @@ Examples:
   python tts.py "你好世界" -o hello.mp3
   python tts.py "Hello" --provider edge-tts
   python tts.py "测试" --provider vertex-tts --voice Aoede
-  python tts.py "Atlas Cloud" --provider atlascloud --voice eve
   python tts.py "旁白" --preset xiaoxiao --rate -5%
         """,
     )
@@ -62,7 +60,7 @@ Examples:
         help="Voice preset (edge-tts only)")
     parser.add_argument("--language", "-l", default="", help="Language code")
     parser.add_argument("--rate", "-r", default=None,
-        help="Speech rate (e.g. +20%% or -10%%, edge-tts and atlascloud)")
+        help="Speech rate (e.g. +20%% or -10%%, edge-tts only)")
     parser.add_argument("--json", "-j", action="store_true", help="JSON output")
 
     args = parser.parse_args()
@@ -86,7 +84,7 @@ Examples:
 
     if args.preset and provider_name == "edge-tts":
         voice = EDGE_PRESETS[args.preset]
-    if args.rate and provider_name in {"edge-tts", "atlascloud"}:
+    if args.rate and provider_name == "edge-tts":
         rate_str = args.rate.strip().replace("%", "")
         try:
             speed = 1.0 + int(rate_str) / 100.0
@@ -95,8 +93,6 @@ Examples:
 
     if provider_name == "vertex-tts" and not voice:
         voice = "Zephyr"
-    elif provider_name == "atlascloud" and not voice:
-        voice = "eve"
     elif provider_name == "edge-tts" and not voice:
         voice = "zh-CN-XiaoxiaoNeural"
 
