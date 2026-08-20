@@ -3,7 +3,7 @@ name: grill-with-docs
 author: mattpocock
 upstream: mattpocock/skills
 upstreamPath: skills/engineering/grill-with-docs
-upstreamSha: 9c9f36ccd3995266cd675468af71639c8dde1ec5
+upstreamSha: 885e2ca4d842d139e9aef4e48d366c63cb1b8013
 lastUpdated: '2026-07-02T01:06:55.000Z'
 tags:
 - Planning
