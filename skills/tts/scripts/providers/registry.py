@@ -12,12 +12,14 @@ import os
 from typing import Optional
 
 from .base import TTSProvider
+from .atlascloud_provider import AtlasCloudTTSProvider
 from .edge_provider import EdgeTTSProvider
 from .vertex_provider import VertexTTSProvider
 
 PROVIDERS: dict[str, type[TTSProvider]] = {
     "edge-tts": EdgeTTSProvider,
     "vertex-tts": VertexTTSProvider,
+    "atlascloud": AtlasCloudTTSProvider,
 }
 
 CONFIG_PATH = os.path.expanduser("~/.config/tts/config.json")

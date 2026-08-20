@@ -1355,7 +1355,7 @@
     "id": "tts",
     "name": "tts",
     "displayName": "TTS — 语音合成技能",
-    "description": "Unified TTS (Text-to-Speech) skill with pluggable providers (strategy pattern).\nSupports: Edge TTS (free, no API key), Vertex AI Gemini TTS (Google).\nUse for generating voiceovers, narration, dubbing.\nTrigger: \"配音\", \"生成语音\", \"TTS\", \"text-to-speech\", \"合成语音\", \"语音合成\".",
+    "description": "Unified TTS (Text-to-Speech) skill with pluggable providers (strategy pattern).\nSupports: Edge TTS (free, no API key), Vertex AI Gemini TTS (Google),\nand Atlas Cloud TTS (optional, asynchronous API).\nUse for generating voiceovers, narration, dubbing.\nTrigger: \"配音\", \"生成语音\", \"TTS\", \"text-to-speech\", \"合成语音\", \"语音合成\".",
     "detailedDescription": "统一语音合成技能，基于策略模式，支持多个 TTS 后端切换。",
     "emoji": "📦",
     "tags": [
