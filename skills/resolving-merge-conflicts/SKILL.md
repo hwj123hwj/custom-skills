@@ -3,7 +3,7 @@ name: resolving-merge-conflicts
 author: mattpocock
 upstream: mattpocock/skills
 upstreamPath: skills/engineering/resolving-merge-conflicts
-upstreamSha: 9c9f36ccd3995266cd675468af71639c8dde1ec5
+upstreamSha: 885e2ca4d842d139e9aef4e48d366c63cb1b8013
 lastUpdated: '2026-07-02T01:06:55.000Z'
 tags:
 - Coding
@@ -18,6 +18,6 @@ description: Use when you need to resolve an in-progress git merge/rebase confli
 
 3. **Resolve each hunk.** Preserve both intents where possible. Where incompatible, pick the one matching the merge's stated goal and note the trade-off. Do **not** invent new behaviour. Always resolve; never `--abort`.
 
-4. Discover the project's **automated checks** and run them — typically typecheck, then tests, then format. Fix anything the merge broke.
+4. Discover the project's **automated checks** and run them, typically typecheck, then tests, then format. Fix anything the merge broke.
 
 5. **Finish the merge/rebase.** Stage everything and commit. If rebasing, continue the rebase process until all commits are rebased.

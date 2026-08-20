@@ -3,7 +3,7 @@ name: git-guardrails-claude-code
 author: mattpocock
 upstream: mattpocock/skills
 upstreamPath: skills/misc/git-guardrails-claude-code
-upstreamSha: 9c9f36ccd3995266cd675468af71639c8dde1ec5
+upstreamSha: 885e2ca4d842d139e9aef4e48d366c63cb1b8013
 lastUpdated: "2026-06-25T17:00:00.000Z"
 tags:
   - Security
@@ -87,7 +87,7 @@ Add to the appropriate settings file:
 }
 ```
 
-If the settings file already exists, merge the hook into existing `hooks.PreToolUse` array — don't overwrite other settings.
+If the settings file already exists, merge the hook into the existing `hooks.PreToolUse` array. Don't overwrite other settings.
 
 ### 4. Ask about customization
 
