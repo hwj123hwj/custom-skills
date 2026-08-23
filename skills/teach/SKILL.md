@@ -3,7 +3,7 @@ name: teach
 author: mattpocock
 upstream: mattpocock/skills
 upstreamPath: skills/productivity/teach
-upstreamSha: 885e2ca4d842d139e9aef4e48d366c63cb1b8013
+upstreamSha: 5b15a47f2d7150f545fbcacbfe381787fc0230dc
 lastUpdated: '2026-07-02T01:06:55.000Z'
 tags:
 - Productivity
