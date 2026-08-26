@@ -3,7 +3,7 @@ name: git-guardrails-claude-code
 author: mattpocock
 upstream: mattpocock/skills
 upstreamPath: skills/misc/git-guardrails-claude-code
-upstreamSha: 5b15a47f2d7150f545fbcacbfe381787fc0230dc
+upstreamSha: 6654f6b60cd9d5be8b54c6fafe44346dabeb3b76
 lastUpdated: "2026-06-25T17:00:00.000Z"
 tags:
   - Security
