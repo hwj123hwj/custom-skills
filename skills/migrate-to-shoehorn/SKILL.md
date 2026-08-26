@@ -3,7 +3,7 @@ name: migrate-to-shoehorn
 author: mattpocock
 upstream: mattpocock/skills
 upstreamPath: skills/misc/migrate-to-shoehorn
-upstreamSha: 5b15a47f2d7150f545fbcacbfe381787fc0230dc
+upstreamSha: 6654f6b60cd9d5be8b54c6fafe44346dabeb3b76
 lastUpdated: '2026-07-02T01:06:55.000Z'
 tags:
 - Coding

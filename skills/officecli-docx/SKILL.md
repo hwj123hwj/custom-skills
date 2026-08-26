@@ -3,7 +3,7 @@ name: officecli-docx
 author: iOfficeAI
 upstream: iOfficeAI/OfficeCLI
 upstreamPath: skills/officecli-docx
-upstreamSha: 1ced45e900782c5083ed550ddf328ee974e425e7
+upstreamSha: e402d2853259177aba05ee6f79d38b7e1ff067ae
 lastUpdated: "2026-05-06T08:34:08.000Z"
 tags:
   - Product
