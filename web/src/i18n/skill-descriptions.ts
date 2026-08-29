@@ -211,5 +211,7 @@ export const skillDescriptionsEn: Record<string, string> = {
     'Video content analysis tool. Auto-extracts keyframes, transcribes speech (ASR), and generates structured video summaries with content tags. Outputs structured data for agent understanding and can pair with content-adapt for publishing copy.',
   'open-kimi-ppt':
     'PPT creation, editing, replication, reading, and export skill. Built on Moonshot AI PPTD format and browser-side PPTX writer. Defaults to delivering both a PPTD project folder and a locally generated .pptx with embedded fonts and fade transitions. Use for any presentation, slide deck, infographic, or poster task.',
+  'archify':
+    'Architecture diagram generation skill. Creates validated, interactive standalone-HTML system diagrams (architecture / workflow / sequence / data-flow / lifecycle) from plain-language descriptions or Mermaid input, with dark/light themes, trace motion, and PNG/SVG/WebM export. Use for visualizing system architecture, API call chains, data pipelines, or state machines.',
 
 };
