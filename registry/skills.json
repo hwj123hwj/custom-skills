@@ -1,5 +1,28 @@
 [
   {
+    "id": "archify",
+    "name": "archify",
+    "displayName": "Archify",
+    "description": "Create polished, validated architecture, workflow, sequence, data-flow, and lifecycle/state diagrams as explorable standalone HTML with inline SVG, dark/light themes, optional trace motion, and PNG/JPEG/WebP/SVG/WebM export. Accept plain-language requirements or pasted Mermaid flowchart, sequenceDiagram, and stateDiagram input; inspect repository evidence when the diagram must reflect real code. Use when the user asks to visualize system architecture, infrastructure, cloud/security/network topology, technical workflows, API call sequences, request lifecycles, data pipelines, ETL/ELT, data lineage, state machines, or to convert/beautify Mermaid.",
+    "detailedDescription": "Create a self-contained, interactive HTML diagram from a small typed JSON specification. Static output is the default; enable motion only when the user asks for a demo or presentation.",
+    "emoji": "📦",
+    "tags": [
+      "Architecture",
+      "Design",
+      "Coding"
+    ],
+    "scenarios": [],
+    "aliases": [],
+    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill archify",
+    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/archify",
+    "sourcePath": "skills/archify",
+    "lastUpdated": "2026-08-28T00:00:00.000Z",
+    "author": "tt-a1i",
+    "upstream": "tt-a1i/archify",
+    "upstreamPath": "archify",
+    "upstreamSha": "0853a805003514776bef3593ecca091409828902"
+  },
+  {
     "id": "ask-matt",
     "name": "ask-matt",
     "displayName": "Ask Matt",

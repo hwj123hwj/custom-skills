@@ -148,6 +148,7 @@ CI 会在每天 UTC 02:00 自动检查上游更新，如有变更会创建 PR。
 <!-- SKILL_TABLE:START -->
 | 技能 | 说明 |
 |------|------|
+| [archify](./skills/archify) | Create polished, validated architecture, workflow, sequence, data-flow, and lifecycle/state diagr... |
 | [ask-matt](./skills/ask-matt) | Ask which skill or flow fits your situation. |
 | [asr](./skills/asr) | Unified ASR (Speech Recognition) skill with pluggable providers (strategy pattern). |
 | [bilibili-cli](./skills/bilibili-cli) | CLI skill for Bilibili (哔哩哔哩, B站) with token-efficient YAML output for AI agents to browse videos... |
