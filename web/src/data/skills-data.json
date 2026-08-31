@@ -20,7 +20,7 @@
     "author": "tt-a1i",
     "upstream": "tt-a1i/archify",
     "upstreamPath": "archify",
-    "upstreamSha": "0853a805003514776bef3593ecca091409828902"
+    "upstreamSha": "5de7275fe87a66a19d52a4d9b0b3a4f2a5a90115"
   },
   {
     "id": "ask-matt",
@@ -918,7 +918,7 @@
     "author": "iOfficeAI",
     "upstream": "iOfficeAI/OfficeCLI",
     "upstreamPath": "skills/officecli-docx",
-    "upstreamSha": "e402d2853259177aba05ee6f79d38b7e1ff067ae"
+    "upstreamSha": "6948ea816651ce7f706bb62f12ed13d400faded2"
   },
   {
     "id": "open-kimi-ppt",
