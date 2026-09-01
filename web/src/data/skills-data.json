@@ -20,7 +20,7 @@
     "author": "tt-a1i",
     "upstream": "tt-a1i/archify",
     "upstreamPath": "archify",
-    "upstreamSha": "5de7275fe87a66a19d52a4d9b0b3a4f2a5a90115"
+    "upstreamSha": "199360cc6687a7857b54dd188d4922b09e466a4b"
   },
   {
     "id": "ask-matt",
@@ -673,7 +673,7 @@
     "author": "pbakaus",
     "upstream": "pbakaus/impeccable",
     "upstreamPath": "skill",
-    "upstreamSha": "b0594c72d18006b5865c70eb3a97e8b04064e600"
+    "upstreamSha": "94b7f34f6e27b95bc32d8284a671601ed6ac1b2a"
   },
   {
     "id": "implement",
@@ -918,7 +918,7 @@
     "author": "iOfficeAI",
     "upstream": "iOfficeAI/OfficeCLI",
     "upstreamPath": "skills/officecli-docx",
-    "upstreamSha": "6948ea816651ce7f706bb62f12ed13d400faded2"
+    "upstreamSha": "77e3a5a64d1c79f0921e7ae09446971953bd0450"
   },
   {
     "id": "open-kimi-ppt",
