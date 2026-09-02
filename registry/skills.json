@@ -20,7 +20,7 @@
     "author": "tt-a1i",
     "upstream": "tt-a1i/archify",
     "upstreamPath": "archify",
-    "upstreamSha": "199360cc6687a7857b54dd188d4922b09e466a4b"
+    "upstreamSha": "06dd052602dd9a369e4d034e24faef0917b5a60c"
   },
   {
     "id": "ask-matt",
@@ -673,7 +673,7 @@
     "author": "pbakaus",
     "upstream": "pbakaus/impeccable",
     "upstreamPath": "skill",
-    "upstreamSha": "94b7f34f6e27b95bc32d8284a671601ed6ac1b2a"
+    "upstreamSha": "c0f495212236129c2e92aaf7714a3a9914569d13"
   },
   {
     "id": "implement",
