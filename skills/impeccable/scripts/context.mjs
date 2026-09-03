@@ -200,7 +200,20 @@ export function resolveTargetSelection(cwd = process.cwd(), options = {}) {
 function resolveProject(cwd = process.cwd(), options = {}) {
   const absCwd = path.resolve(cwd);
   const targetDir = resolveTargetDir(absCwd, options);
+  const hasExplicitTarget = hasTargetOption(options) && targetDir !== absCwd;
+  const targetGitRoot = hasExplicitTarget ? findGitBoundaryRoot(targetDir) : null;
   let repoRoot = findMonorepoRoot(targetDir);
+  if (!repoRoot && targetGitRoot) {
+    const cwdGitRoot = findGitBoundaryRoot(absCwd);
+    if (targetGitRoot !== cwdGitRoot) {
+      return {
+        targetDir,
+        projectRoot: nearestTargetContextRoot(targetGitRoot, targetDir) || targetGitRoot,
+        repoRoot: targetGitRoot,
+        isMonorepo: false,
+      };
+    }
+  }
   if (!repoRoot && targetDir !== absCwd) {
     const cwdRepoRoot = findMonorepoRoot(absCwd);
     if (cwdRepoRoot && isPathInside(targetDir, cwdRepoRoot)) {
@@ -208,6 +221,18 @@ function resolveProject(cwd = process.cwd(), options = {}) {
     }
   }
   if (!repoRoot) {
+    const targetIsExternal = hasTargetOption(options)
+      && targetDir !== absCwd
+      && !isPathInside(targetDir, absCwd);
+    if (targetIsExternal) {
+      const targetRepoRoot = targetGitRoot || targetDir;
+      return {
+        targetDir,
+        projectRoot: nearestTargetContextRoot(targetRepoRoot, targetDir) || targetRepoRoot,
+        repoRoot: targetRepoRoot,
+        isMonorepo: false,
+      };
+    }
     return {
       targetDir,
       projectRoot: nearestTargetContextRoot(absCwd, targetDir) || absCwd,
@@ -221,6 +246,18 @@ function resolveProject(cwd = process.cwd(), options = {}) {
     repoRoot,
     isMonorepo: true,
   };
+}
+
+function findGitBoundaryRoot(startDir) {
+  let dir = path.resolve(startDir);
+  const homeDir = path.resolve(os.homedir());
+  while (true) {
+    if (dir === homeDir) return null;
+    if (hasGitBoundary(dir)) return dir;
+    const parent = path.dirname(dir);
+    if (parent === dir) return null;
+    dir = parent;
+  }
 }
 
 function isPathInside(candidate, root) {
@@ -248,10 +285,31 @@ function resolveEnvContextDir(cwd) {
   return path.isAbsolute(trimmed) ? trimmed : path.resolve(cwd, trimmed);
 }
 
+function resolveTargetPath(cwd, targetPath) {
+  const abs = path.isAbsolute(targetPath) ? targetPath : path.resolve(cwd, targetPath);
+  if (fs.existsSync(abs)) return abs;
+  return findUniqueBareTarget(cwd, targetPath) || abs;
+}
+
+function findUniqueBareTarget(cwd, targetPath) {
+  const absCwd = path.resolve(cwd);
+  const abs = path.isAbsolute(targetPath) ? targetPath : path.resolve(absCwd, targetPath);
+  const rel = path.relative(absCwd, abs);
+  if (!rel || rel.startsWith('..') || path.isAbsolute(rel)) return null;
+  const segments = rel.split(path.sep).filter(Boolean);
+  if (segments.length !== 1) return null;
+  const name = segments[0];
+  const repoRoot = findMonorepoRoot(absCwd);
+  if (!repoRoot) return null;
+  const matches = discoverTargetCandidates(repoRoot).filter((candidate) => candidate.name === name);
+  if (matches.length !== 1) return null;
+  return path.resolve(repoRoot, matches[0].path);
+}
+
 function resolveTargetDir(cwd, options = {}) {
   const targetPath = options && typeof options === 'object' ? options.targetPath : null;
   if (!targetPath || !String(targetPath).trim()) return cwd;
-  const abs = path.isAbsolute(targetPath) ? targetPath : path.resolve(cwd, targetPath);
+  const abs = resolveTargetPath(cwd, targetPath);
   try {
     const stat = fs.statSync(abs);
     return stat.isDirectory() ? abs : path.dirname(abs);
@@ -1151,13 +1209,19 @@ async function cli() {
     throw err;
   }
   const targetProvided = hasTargetOption(cliOptions);
-  const targetExists = targetProvided ? pathExistsForTarget(process.cwd(), cliOptions.targetPath) : null;
+  const resolvedTargetPath = targetProvided
+    ? resolveTargetPath(process.cwd(), cliOptions.targetPath)
+    : null;
+  const targetExists = targetProvided ? fs.existsSync(resolvedTargetPath) : null;
   const selection = resolveTargetSelection(process.cwd(), cliOptions);
   if (selection) {
     process.stdout.write(buildTargetSelectionDirective(selection) + '\n');
     process.exit(0);
   }
-  const ctx = loadContext(process.cwd(), cliOptions);
+  const ctx = loadContext(
+    process.cwd(),
+    resolvedTargetPath ? { targetPath: resolvedTargetPath } : cliOptions,
+  );
   const updateDirective = await computeUpdateDirective();
 
   if (!ctx.hasProduct) {
@@ -1271,11 +1335,6 @@ function hasTargetOption(options) {
   return !!(options && typeof options.targetPath === 'string' && options.targetPath.trim());
 }
 
-function pathExistsForTarget(cwd, targetPath) {
-  const abs = path.isAbsolute(targetPath) ? targetPath : path.resolve(cwd, targetPath);
-  return fs.existsSync(abs);
-}
-
 const HOOK_MANIFESTS_BY_PROVIDER = Object.freeze({
   'claude-code': ['.claude/settings.local.json', '.claude/settings.json'],
   codex: ['.codex/hooks.json'],
@@ -1313,6 +1372,39 @@ function hookEnabledAt(root) {
 
 const STOP_REVIEW_PROVIDERS = new Set(['claude-code', 'codex', 'agents', 'grok']);
 
+// Harness project settings are discovered by walking up from the resolved
+// project root. Its hook manifest can live at an enclosing git root, so
+// checking only projectRoot produces a false MANUAL_DETECTOR_REQUIRED
+// directive. Starting from projectRoot also prevents an explicit target from
+// borrowing an unrelated manifest near the caller. The walk itself is the
+// authority: do not append repoRoot afterward, because resolveProject can
+// retain an outer workspace root for a target inside an independent nested
+// Git repository.
+function hookManifestSearchRoots(ctx) {
+  const roots = [];
+  const seen = new Set();
+  const add = (root) => {
+    if (!root) return;
+    const resolved = path.resolve(root);
+    if (seen.has(resolved)) return;
+    seen.add(resolved);
+    roots.push(resolved);
+  };
+
+  let current = path.resolve(ctx.projectRoot || process.cwd());
+  const home = path.resolve(os.homedir());
+  while (true) {
+    if (current === home) break;
+    add(current);
+    if (hasGitBoundary(current)) break;
+    const parent = path.dirname(current);
+    if (parent === current) break;
+    current = parent;
+  }
+
+  return roots;
+}
+
 function automaticHookMode(ctx) {
   if (ctx.platform === 'ios' || ctx.platform === 'android' || ctx.platform === 'adaptive') {
     return 'none';
@@ -1320,8 +1412,10 @@ function automaticHookMode(ctx) {
   const activeRoot = path.resolve(ctx.projectRoot || process.cwd());
   if (!hookEnabledAt(activeRoot)) return 'none';
   const manifests = HOOK_MANIFESTS_BY_PROVIDER[IMPECCABLE_PROVIDER_ID] || [];
-  const roots = [...new Set([process.cwd(), ctx.projectRoot, ctx.repoRoot].filter(Boolean).map((root) => path.resolve(root)))];
-  for (const root of roots) {
+  for (const root of hookManifestSearchRoots(ctx)) {
+    // A manifest can live above the resolved product. Honor the hook lifecycle
+    // config beside that manifest before treating it as active coverage.
+    if (!hookEnabledAt(root)) continue;
     for (const rel of manifests) {
       const raw = readJson(path.join(root, rel));
       if (raw?.hooks && valueHasHookMarker(raw.hooks)) {
