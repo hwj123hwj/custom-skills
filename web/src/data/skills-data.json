@@ -673,7 +673,7 @@
     "author": "pbakaus",
     "upstream": "pbakaus/impeccable",
     "upstreamPath": "skill",
-    "upstreamSha": "c0f495212236129c2e92aaf7714a3a9914569d13"
+    "upstreamSha": "5a7e2837d2036b2ea8386031c2cd9a539b0dab13"
   },
   {
     "id": "implement",
@@ -918,7 +918,7 @@
     "author": "iOfficeAI",
     "upstream": "iOfficeAI/OfficeCLI",
     "upstreamPath": "skills/officecli-docx",
-    "upstreamSha": "77e3a5a64d1c79f0921e7ae09446971953bd0450"
+    "upstreamSha": "3364cf5ef9f7cbbe72328e687848fbef780b5c1a"
   },
   {
     "id": "open-kimi-ppt",
