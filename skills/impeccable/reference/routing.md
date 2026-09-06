@@ -1,4 +1,10 @@
-# No-argument routing: the context-aware menu
+# Command guidance
+
+## Workflow questions
+
+Give advice without executing commands; the menu below is only for bare invocations. Consult relevant command references as needed for prerequisites and scope. Link to the [docs](https://impeccable.style/docs/) for the broader workflow guide. If the user also requests execution, follow that request.
+
+## No-argument routing: the context-aware menu
 
 Read this when the user invokes `{{command_prefix}}impeccable` with no argument. They are asking "what should I do?" Make the menu context-aware instead of static.
 
