@@ -20,7 +20,7 @@
     "author": "tt-a1i",
     "upstream": "tt-a1i/archify",
     "upstreamPath": "archify",
-    "upstreamSha": "c6519401f7b91b9d43011657880893b0a8955548"
+    "upstreamSha": "bb71ccdd64cd3a74ba7cbd25bbacc7382da34410"
   },
   {
     "id": "ask-matt",
@@ -673,7 +673,7 @@
     "author": "pbakaus",
     "upstream": "pbakaus/impeccable",
     "upstreamPath": "skill",
-    "upstreamSha": "dbdc470e70dbbda69f9b78ee38bc38ea1d3560b9"
+    "upstreamSha": "cb56ed6c19a07329a9fa0cd4e657bee040156593"
   },
   {
     "id": "implement",
@@ -918,7 +918,7 @@
     "author": "iOfficeAI",
     "upstream": "iOfficeAI/OfficeCLI",
     "upstreamPath": "skills/officecli-docx",
-    "upstreamSha": "b94f3906fd52d450c64f8e40370e376b9e15079e"
+    "upstreamSha": "1f0fd1930d14653b9a041f325a952cd23d336c51"
   },
   {
     "id": "open-kimi-ppt",
@@ -1211,7 +1211,7 @@
     "author": "KKKHazix",
     "upstream": "KKKKhazix/khazix-skills",
     "upstreamPath": "storage-analyzer",
-    "upstreamSha": "7a5c4934be4106ac740ffdb95280bb81b3f4b83c"
+    "upstreamSha": "3fa874169134f65b14e8a27164386510bc867037"
   },
   {
     "id": "taste-skill",
