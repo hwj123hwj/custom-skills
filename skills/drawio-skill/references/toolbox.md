@@ -121,6 +121,7 @@ The skill runs both directions — these turn a `.drawio` back into something el
 
 - **`relabel.py`** — swap every label via a JSON map, layout untouched — `--extract` dumps an identity map of all labels (vertices, edges, UserObjects, page names), translate the values, `--map` applies them. Built for bilingual (EN/CN) variants of one diagram.
 - **`restyle.py`** — apply a style preset (user or built-in, e.g. `dark`) to an existing `.drawio`: palette remap by hue, font, dark-theme extras, page background. Layout, shapes, and edge routing stay put.
+- **`edgeports.py`** — pin `exitX/exitY`/`entryX/entryY` ports when several edges stack at the same side of one node (typical on swimlane handoffs); spreads each (node, side) group evenly, keeps already-pinned and hand-tuned geometry, idempotent. Port assignment, not routing; node positions untouched. `SKILL.md` "Editing and identity" says when to reach for it.
 - **`validate.py`** — deterministic structural lint (dangling edges, dup/reserved ids, overlaps; `--score` for layout readability). Findings render as `error: [E-DANGLING-END] ... (fix: ...)` — stable codes + fix hints; `--json` for structured output. Run before exporting.
 - **`repair_png.py`** — fix draw.io's truncated IEND chunk after every `-e` PNG export (issue #8).
 - **`encode_drawio_url.py`** — encode a `.drawio` into a diagrams.net browser URL when the CLI is unavailable (`--edit` for an editable editor URL).
