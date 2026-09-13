@@ -20,7 +20,7 @@
     "author": "tt-a1i",
     "upstream": "tt-a1i/archify",
     "upstreamPath": "archify",
-    "upstreamSha": "bb71ccdd64cd3a74ba7cbd25bbacc7382da34410"
+    "upstreamSha": "a07fa1d5b2a10cbea110c5a2be2817397a301cdc"
   },
   {
     "id": "ask-matt",
@@ -1211,7 +1211,7 @@
     "author": "KKKHazix",
     "upstream": "KKKKhazix/khazix-skills",
     "upstreamPath": "storage-analyzer",
-    "upstreamSha": "3fa874169134f65b14e8a27164386510bc867037"
+    "upstreamSha": "48e8ba527f0be55f77772debb979c92f06acf5c0"
   },
   {
     "id": "taste-skill",
