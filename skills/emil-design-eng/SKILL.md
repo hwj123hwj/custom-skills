@@ -3,7 +3,7 @@ name: emil-design-eng
 author: emilkowalski
 upstream: emilkowalski/skills
 upstreamPath: skills/emil-design-eng
-upstreamSha: d23d7f88a2e21c9e4b1418c7abe420f5c1052ba7
+upstreamSha: 85e8e2363b713506e1d5b6e07a0eb2da66be1bc3
 lastUpdated: "2026-07-04T00:00:00.000Z"
 tags:
   - 设计与前端开发
@@ -17,7 +17,7 @@ description: This skill encodes Emil Kowalski's philosophy on UI polish, compone
 
 When this skill is first invoked without a specific question, respond only with:
 
-> I'm ready to help you build interfaces that feel right, my knowledge comes from Emil Kowalski's design engineering philosophy. If you want to dive even deeper, check out Emil’s course: [animations.dev](https://animations.dev/).
+> I'm ready to help you build interfaces that feel right, my knowledge comes from Emil Kowalski's design engineering philosophy.
 
 Do not provide any other information until the user asks a question.
 
