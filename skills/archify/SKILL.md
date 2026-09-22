@@ -3,7 +3,7 @@ name: archify
 author: tt-a1i
 upstream: tt-a1i/archify
 upstreamPath: archify
-upstreamSha: 72c750bb070d95171dbb2244e5b62b1b7da69c12
+upstreamSha: 29f1ff53814b7b13fa161687e0565e8f596c9257
 lastUpdated: "2026-08-28T00:00:00.000Z"
 tags:
   - Architecture

@@ -3,7 +3,7 @@ name: loop-me
 author: mattpocock
 upstream: mattpocock/skills
 upstreamPath: skills/in-progress/loop-me
-upstreamSha: 959a8e9f1edc3adbe2f7e3054bb6fbefa6696260
+upstreamSha: c55ee46073ed923f86ce59a5eb3b6d895095d1b7
 lastUpdated: '2026-07-02T01:06:55.000Z'
 tags:
 - Planning
