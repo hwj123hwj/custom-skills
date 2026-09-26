@@ -3,7 +3,7 @@ name: taste-skill
 author: Leonxlnx
 upstream: Leonxlnx/taste-skill
 upstreamPath: skills/taste-skill
-upstreamSha: 5217fb45be2c0b302f29c9cd31cbd3237501c684
+upstreamSha: c184364c58658b2f131b4ae8bd3d206cabb3deee
 lastUpdated: "2026-07-04T00:00:00.000Z"
 tags:
   - 设计与前端开发
