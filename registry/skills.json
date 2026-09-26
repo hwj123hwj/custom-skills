@@ -20,7 +20,7 @@
     "author": "tt-a1i",
     "upstream": "tt-a1i/archify",
     "upstreamPath": "archify",
-    "upstreamSha": "29f1ff53814b7b13fa161687e0565e8f596c9257"
+    "upstreamSha": "9e35d2b0b39b155553ba9fcfe0b4f2a5198dd993"
   },
   {
     "id": "ask-matt",
@@ -129,7 +129,7 @@
     "author": "obra",
     "upstream": "obra/superpowers",
     "upstreamPath": "skills/brainstorming",
-    "upstreamSha": "5bf4e78011075bcfc0dc295f0724994cd123ee71"
+    "upstreamSha": "8ca22dba9a94f28898bbce59f2537ff4d87c747d"
   },
   {
     "id": "butler",
@@ -419,7 +419,7 @@
     "author": "emilkowalski",
     "upstream": "emilkowalski/skills",
     "upstreamPath": "skills/emil-design-eng",
-    "upstreamSha": "85e8e2363b713506e1d5b6e07a0eb2da66be1bc3"
+    "upstreamSha": "d16ebe60d09a5ba2afcb7054ede9d0a10c9f6128"
   },
   {
     "id": "feishu-md-exporter",
@@ -673,7 +673,7 @@
     "author": "pbakaus",
     "upstream": "pbakaus/impeccable",
     "upstreamPath": "skill",
-    "upstreamSha": "f2c7051853848826aac2f4646581d62a732155ad"
+    "upstreamSha": "9d715cc4f5564a990ca8345abfdd5df6dc9b41c8"
   },
   {
     "id": "implement",
@@ -918,7 +918,7 @@
     "author": "iOfficeAI",
     "upstream": "iOfficeAI/OfficeCLI",
     "upstreamPath": "skills/officecli-docx",
-    "upstreamSha": "dced0d74ff85b1fef0b777efcdb637c2c4ef8a6e"
+    "upstreamSha": "e43aebd7f4cff79a8027d13f54dbafe2f550199e"
   },
   {
     "id": "open-kimi-ppt",
@@ -1211,7 +1211,7 @@
     "author": "KKKHazix",
     "upstream": "KKKKhazix/khazix-skills",
     "upstreamPath": "storage-analyzer",
-    "upstreamSha": "4f2db09802736ac8130ddf8dd6121435b5a41b55"
+    "upstreamSha": "b81ad3b442e778bb7bf27047034c1d0d9f0637ff"
   },
   {
     "id": "taste-skill",
@@ -1233,7 +1233,7 @@
     "author": "Leonxlnx",
     "upstream": "Leonxlnx/taste-skill",
     "upstreamPath": "skills/taste-skill",
-    "upstreamSha": "5217fb45be2c0b302f29c9cd31cbd3237501c684"
+    "upstreamSha": "c184364c58658b2f131b4ae8bd3d206cabb3deee"
   },
   {
     "id": "tavily",
