@@ -86,29 +86,6 @@
     "author": "jackwener"
   },
   {
-    "id": "brainstorming",
-    "name": "brainstorming",
-    "displayName": "Brainstorming Ideas Into Designs",
-    "description": "You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before implementation.",
-    "detailedDescription": "Help turn ideas into fully formed designs and specs through natural collaborative dialogue.",
-    "emoji": "📦",
-    "tags": [
-      "Planning",
-      "Product",
-      "Productivity"
-    ],
-    "scenarios": [],
-    "aliases": [],
-    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill brainstorming",
-    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/brainstorming",
-    "sourcePath": "skills/brainstorming",
-    "lastUpdated": "2026-05-06T09:00:00.000Z",
-    "author": "obra",
-    "upstream": "obra/superpowers",
-    "upstreamPath": "skills/brainstorming",
-    "upstreamSha": "5bf4e78011075bcfc0dc295f0724994cd123ee71"
-  },
-  {
     "id": "butler",
     "name": "butler",
     "displayName": "Butler — Easy Code 管家技能",
@@ -775,37 +752,6 @@
     "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/tts",
     "sourcePath": "skills/tts",
     "lastUpdated": "2026-05-02T15:49:31.000Z"
-  },
-  {
-    "id": "twitter-cli",
-    "name": "twitter-cli",
-    "displayName": "Twitter CLI",
-    "description": "Use twitter-cli for ALL Twitter/X operations — reading tweets, posting, replying, quoting, liking, retweeting, following, searching, and user lookups. Invoke whenever the user requests any Twitter/X interaction.",
-    "detailedDescription": "**Binary:** `twitter` **Credentials:** browser cookies (auto-extracted) or env vars",
-    "emoji": "📦",
-    "tags": [
-      "Social",
-      "Search",
-      "CLI"
-    ],
-    "scenarios": [
-      "搜索 Twitter/X 推文或话题",
-      "查看时间线、书签或用户动态",
-      "对推文执行点赞、转推、回复、引用等操作"
-    ],
-    "aliases": [
-      "Twitter",
-      "X",
-      "推特",
-      "推文"
-    ],
-    "installCommand": "npx skills add https://github.com/hwj123hwj/custom-skills --skill twitter-cli",
-    "githubUrl": "https://github.com/hwj123hwj/custom-skills/tree/main/skills/twitter-cli",
-    "sourcePath": "skills/twitter-cli",
-    "lastUpdated": "2026-05-15T12:43:39.697Z",
-    "author": "jackwener",
-    "upstream": "public-clis/twitter-cli",
-    "upstreamSha": "7c634e0d396b1e7af9f63315b414925fe4f29ae7"
   },
   {
     "id": "vertex-video-reader",

@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "targets": [
+    "/tmp/gw-smoke-target"
+  ],
+  "enabled": [
+    "feishu-md-exporter",
+    "tavily"
+  ]
+}

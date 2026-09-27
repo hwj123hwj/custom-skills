@@ -42,14 +42,6 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/boss-cli?lng=en" />
   </url>
   <url>
-    <loc>https://hwj123hwj.asia/skill/brainstorming</loc>
-    <lastmod>2026-05-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/brainstorming" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/brainstorming?lng=en" />
-  </url>
-  <url>
     <loc>https://hwj123hwj.asia/skill/butler</loc>
     <lastmod>2026-06-16</lastmod>
     <changefreq>weekly</changefreq>
@@ -280,14 +272,6 @@
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/tts" />
     <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/tts?lng=en" />
-  </url>
-  <url>
-    <loc>https://hwj123hwj.asia/skill/twitter-cli</loc>
-    <lastmod>2026-05-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="zh" href="https://hwj123hwj.asia/skill/twitter-cli" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://hwj123hwj.asia/skill/twitter-cli?lng=en" />
   </url>
   <url>
     <loc>https://hwj123hwj.asia/skill/vertex-video-reader</loc>
