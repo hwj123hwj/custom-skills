@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "targets": [
+    "~/.agents/skills"
+  ],
+  "enabled": [
+    "feishu-md-exporter"
+  ]
+}
