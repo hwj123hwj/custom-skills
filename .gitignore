@@ -50,3 +50,4 @@ skills/knowledge-skill/.tune-params.env
 skills/knowledge-skill/tune-results.tsv
 output/
 outputs/
+*.pre-sync.bak
